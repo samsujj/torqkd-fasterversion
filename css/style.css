@@ -1057,6 +1057,7 @@ div#item-actions img {
 
 	height:40px!important;
 	 display:block!important;
+	 cursor:pointer;
 }
 
 .nav-tabs > li:hover{background:#eeeeee!important;}
@@ -1467,7 +1468,6 @@ div#item-actions img {
 }
 
 
-
 .stats-body table {
 	width:98%;
 }
@@ -1583,7 +1583,7 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 	padding-bottom:11px;
 }
 .login-body .login-top .login-wrapper {
-	width:1000px;
+	width:70%!important;
 	margin:0 auto;
 }
 .login-box {
@@ -2232,7 +2232,7 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 }
 
 
-.spot-search-contain .search-right ul{ display:block; padding-top:40px;}
+.spot-search-contain .search-right ul{ display:block; width:100%; background: #dfe2e2; padding-top: 10px;}
 
 .spot-search-contain .search-right ul li{ display:inline-block; float:left; color:#333!important; margin-right:30px;}
 
@@ -3160,6 +3160,7 @@ object,.SWFUpload_0{ color:#F7931E!important; }*/
 	font-family: 'veneerregular'!important;
 	font-size:26px!important;
 	line-height:30px;
+
 	color:#f39221!important;
 	padding:0;
 	margin:0;
@@ -4127,6 +4128,7 @@ object,.SWFUpload_0{ color:#F7931E!important; }*/
 	font-size:16px;
 	padding:2px 0;
 	display:block;
+
 	line-height:22px;
 	margin:0!important;
 }
@@ -4938,6 +4940,7 @@ width:84%;
 	font-weight: bold;
 }
 .block-table .block-right {
+
 	width:180px;
 	float:right;
 	text-align:right;
@@ -5129,6 +5132,8 @@ width:84%;
 	font-family: "veneerregular" !important;
 	margin-left:20px;
 }
+
+
 .redio-text #ytGroup_type {
 	display:block;
 	width:25px;
@@ -6476,6 +6481,7 @@ width:84%;
 	padding-top: 3px;
 	margin-right: -3px;
 }
+
 .status-wrapper .right-text .top-name-contain span a {
 	font-family: 'veneerregular';
 	color:#333;
@@ -7402,8 +7408,10 @@ height:80px;
     padding: 10px 0 10px 1%;
     position: relative;
     width: 99%;
+
 	background:#f6f9fa;
 }
+
 
 
 .popupbox_social_box .comment-area .commendboxpro .profile-img2 {
@@ -7460,3 +7468,15 @@ height:80px;
 	.ngdialog.ngdialog-theme-default .ngdialog-content{ width:40%!important;} 
 	
 a:active, a:focus{outline:none!important;}
+
+
+.modal-bodytable {
+	width: 100%;
+	padding:8px;
+	border: solid 1px #CCCCCC!important;
+	font-family: 'veneerregular';
+	font-size: 22px;
+	text-transform: uppercase;
+}
+
+.modal-bodytable span{ padding:5px 0;}

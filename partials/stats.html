@@ -2,7 +2,15 @@
 
 
 
+
+
+
+
 <tr>
+
+
+
+
 
 
 
@@ -10,7 +18,15 @@
 
 
 
+
+
+
+
     <h4 style="color:#f79213">{{chartdata[key].sport_name}}</h4>
+
+
+
+
 
 
 
@@ -18,15 +34,31 @@
 
 
 
+
+
+
+
     <td>{{chartdata[key].activity_no}} <br />
+
+
 
     <span>Activities</span></td>
 
 
 
+
+
+
+
     <td >{{chartdata[key].total_dis}} <br />
 
+
+
     <span>Distance</span></td>
+
+
+
+
 
 
 
@@ -34,47 +66,95 @@
 
 
 
+
+
+
+
 <span style="text-align:left">Time</span></td>
 
+
+
+
+ <td class="stat-table1" style="padding:10px 0;" data-original-title=""><a class="stat-view-btn1" ng-click="viewStatDet(key)" href="javascript:void(0);" data-original-title="">View Details</a></td>
 
 
   </tr>
 
 
-    <td class="stat-table1" style="padding:10px 0;" data-original-title=""><a class="stat-view-btn1" ng-click="viewStatDet(key)" href="javascript:void(0);" data-original-title="">View Details</a></td>
+
+
+
+   
+
+
+
 
 
   <tr>
+
+
+
+
 
 
 
   <td  valign="top" align="left" width="100%"  colspan="5">
 
+
+
   
+
+
 
   <highchart id="chart1" config="item"></highchart>
 
+
+
   
+
+
+
+
 
 
 
   </td>
 
+
+
   
+
+
 
   <tr>
 
 
 
+
+
+
+
   <td  valign="bottom" colspan="5" style="padding:0; border-top: solid 1px #555555; padding:15px 0 0 0; margin-bottom:10px;">
 
+
+
   
+
+
 
  </tr>
 
 
 
+
+
+
+
 </table>
+
+
+
+
 
 
 
@@ -84,25 +164,53 @@
 
 
 
+
+
+
+
+
+
 <script type="text/ng-template" id="statdet12">
 
-    <div class="ngdialog-message viewdetailpopup">
+
+
+    <div class="ngdialog-message viewdetailpopup" style="padding:0;">
 
 
 
-        <div style="width: 100%; height:200px; overflow: auto;">
 
-            <div style="width: 100%;">
 
-                <span style="width: 20%; display:block; float: left; ">Sr. No.</span><span style="width: 25%; display:block; float: left; text-align: center;">Distance</span><span style="width: 25%; display:block; float: left; text-align: center;">Time</span><span style="width: 25%; display:block; float: left; text-align: center;">Date</span>
+
+
+        <div style="width: 98%; height:auto; overflow: auto;" class="modal-bodytable">
+
+
+
+            <div style="width: 100%;" >
+
+
+
+                <span style="width: 20%; display:block; float: left; ">Sr. No.</span><span style="width: 25%; display:block; float: left; text-align: center;">Distance</span><span style="width: 25%; display:block; float: left; text-align: center;">Time</span><span style="width: 25%; display:block; float: left; text-align: center;">Date</span><span style="width: 25%; display:block; float: left; text-align: center;">User Name</span>
+
+
 
             </div>
+
+
 
             <div style="width: 100%;" ng-repeat="sitem in statDet1 track by sitem.id">
 
-                <span style="width: 20%; display:block; float: left; ">{{$index+1}}</span><span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.distance}}</span><span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.duration}}</span><span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.date}}</span>
+
+
+                <span style="width: 20%; display:block; float: left; ">{{$index+1}}</span><span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.distance}}</span><span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.duration}}</span><span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.date}}</span><span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.user_name}}</span>
+
+
+              <div class="clear"></div>
+
 
             </div>
+
+
 
         </div>
 
@@ -110,9 +218,27 @@
 
 
 
+
+
+
+
+
+
     </div>
 
+
+
 </script>
+
+
+
+
+
+
+
+
+
+
 
 
 

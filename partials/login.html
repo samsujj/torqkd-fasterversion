@@ -31,6 +31,27 @@ label.has-error{
     body{background-image: url("../images/base_camp.jpg");  background-size: cover; background-position: center; background-attachment: fixed; }
 	
 	.control-label {width:80%; display:block; margin:0 auto; }
+	
+	.form-horizontal .control-group {
+    margin-bottom: 10px!important;
+}
+
+.UserManager_inputl{ width:78%!important; height: 38px!important;}
+
+
+.login-box .loginbtnmain{ width:84%!important; font-size:24px!important;}
+
+.form-horizontal .control-label {
+  
+    padding-top: 4px;
+	width:78%; margin:0 auto; padding-bottom:5px;
+}
+
+.form-group {
+    margin-bottom: 0!important;
+    height: 64px!important;
+    overflow: hidden!important;
+}
 
 </style>
 
@@ -56,7 +77,7 @@ label.has-error{
 		</div>
         <div class="form-group">
 			<div class="col-sm-12" style="width:100%; padding:0;">
-				<input type="password" style="height: 36px!important; width:80%!important; margin:0 auto!important; background-color: #fff!important;" id="UserManager_password" class="UserManager_input2" name="UserManager[password]" placeholder="PASSWORD"
+				<input type="password" style="height: 37px!important; width:78%!important; margin:0 auto!important; background-color: #fff!important;" id="UserManager_password" class="UserManager_input2" name="UserManager[password]" placeholder="PASSWORD"
 						validate-on="dirty"
                         class = "form-control UserLogIn_password"
                         ng-model = "form.password"
@@ -65,7 +86,7 @@ label.has-error{
 			</div>
 		</div>
 
-   <div class="remember-div" style="margin-top:25px;">
+   <div class="remember-div" style="margin-top:0; margin-left:32px">
 <input id="remember_me" type="checkbox" value="1" name="remember" ng-model="form.remember" >
 <span data-original-title="">Remember Me</span>
 <div class="clear"></div>

@@ -1,14 +1,33 @@
 <style>
-
+.ngdialog.ngdialog-theme-default .ngdialog-content{width:52%!important;}
     .ngdialog-content{
-        border: 5px solid #f7941e !important;
+        border: none!important;
         border-radius: 0 !important;
-        padding:25px 15px!important;
+        padding:15px!important;
+		
+		background:#fff;
+	
     }
 
     .ngdialog-content p{
         font:13px/18px Arial,Helvetica,sans-serif;
     }
+	
+	.video-container {
+	position:relative;
+	padding-bottom:56.25%;
+	padding-top:30px;
+	height:0;
+	overflow:hidden;
+}
+
+.video-container iframe, .video-container object, .video-container embed {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
 
 </style>
 <div class="intro-body">
@@ -30,6 +49,6 @@
 
 <script type="text/ng-template" id="firstDialogId">
     <div class="ngdialog-message">
-        <div class="video-container"><iframe src="https://www.youtube.com/embed/kkUZRGrF9Ig?rel=0&autoplay=0" frameborder="0" allowfullscreen></iframe></div>
+        <div class="video-container"><iframe src="https://www.youtube.com/embed/kkUZRGrF9Ig?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe></div>
     </div>
 </script>
