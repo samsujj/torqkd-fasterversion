@@ -1,121 +1,1047 @@
 <style>
+
+
+
+
+
+
+
 .embed-responsive {
+
+
+
+
+
+
+
   position: relative;
+
+
+
+
+
+
+
   display: block;
+
+
+
+
+
+
+
   height: 0;
+
+
+
+
+
+
+
   padding: 0;
+
+
+
+
+
+
+
   overflow: hidden;
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .embed-responsive.embed-responsive-16by9 {
+
+
+
+
+
+
+
   padding-bottom: 56.25%;
+
+
+
+
+
+
+
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .embed-responsive-item {
+
+
+
+
+
+
+
   position: absolute;
+
+
+
+
+
+
+
   top: 0;
+
+
+
+
+
+
+
   bottom: 0;
+
+
+
+
+
+
+
   left: 0;
+
+
+
+
+
+
+
   width: 100%;
+
+
+
+
+
+
+
   height: 100%;
+
+
+
+
+
+
+
   border: 0;
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#mapconmain{ padding:0px 0 0 30px;}
+
+
+
+
+
+
+
+#mapconmain img{ display:block; margin:5px auto;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#mapconmain h2.ng-binding{  color: #f79213;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    font-family: "veneerregular";
+
+
+
+
+
+
+
+    font-size: 20px;
+
+
+
+
+
+
+
+    line-height: 22px; padding:5px 0 0 0;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#mapconmain .date-contain{ padding:5px 0;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#mapconmain .date-contain h5 {
+
+
+
+
+
+
+
+    color: #616564;
+
+
+
+
+
+
+
+    font-family: "veneerregular";
+
+
+
+
+
+
+
+    font-size: 16px;
+
+
+
+
+
+
+
+    font-weight: normal;
+
+
+
+
+
+
+
+    line-height:18px;
+
+
+
+
+
+
+
+    margin: 0 !important;
+
+
+
+
+
+
+
+    padding-bottom: 2px;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+#mapconmain .date-contain h5 span {
+
+
+
+
+
+
+
+    color: #929497;
+
+
+
+
+
+
+
+    font-family: reservation;
+
+
+
+
+
+
+
+    font-size: 12px;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.angular-google-map-container img{
+
+
+
+
+
+
+
+    background: none !important;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+.angular-google-map-container{
+
+
+
+
+
+
+
+        height: 400px;
+
+
+
+
+
+
+
+        width: 400px;
+
+
+
+
+
+
+
+    }
+
+.modal-lg{ width:100%!important;}
+
+
+
+
+
 </style>
 
 
 
-<div ng-class-odd="'blog1'" ng-class-even="'blog2'" ng-repeat="item in statusList track by item.id" >
-    <div class="left-img" data-original-title="">
-         <img style=" max-width:50px; max-height:50px;" alt="" src="{{item.user_image}}">
-        <div class="mobile-name-view">
-        <strong>{{item.user_name}}</strong>
-        <br>
-       <span>{{item.timespan}}</span>
-       </div>
-    <div class="clear"></div>
-	
-	<img class="closeBtn" src="images/deletebutton.png" ng-show="item.user_id==sessUser" ng-click="delStatus($index)" />
-	
-       </div>
-        
-        
-        <div class="text-contain">{{item.msg}}</div>
-<img style="position:absolute; margin-top:-2px;" alt="" src="images/arrow.png" ng-if="item.type">
-
-<div class="blogimg">
-<img src="{{baseUrl}}/uploads/status_img/{{item.value}}?version={{item.time}}" ng-if="item.type=='image'" style="cursor: pointer;" ng-click="showPhoto(item)" alt="">
-
-<videogular ng-if="item.type=='mp4'" ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+item.value), type: 'video/mp4'}]">
-        <vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
-  </videogular>
-  
-  
-  <div class="embed-responsive embed-responsive-16by9 video-wrapper" ng-if="item.type=='youtube'">
-		<youtube-video class="embed-responsive-item" video-id="item.value"></youtube-video>
-  </div>
-</div>
-
-<div class="bottom-like-contain">
-
-<div class="linknew-box">
-<ul>
-<li class="commend-div" ng-click="showDetails = !showDetails"><img src="images/n1.png" alt="" width="26px"/></li>
-
-<li><a href="javascript:void(0);" ng-click="(item.c_user) ?  statusLike(item) :'';"><img src="images/n2.png" alt="" width="26px"/></a></li>
-
-<li><a href="javascript:void(0);" ng-click="shareStaus(item)"><img src="images/n3.png" alt="" width="26px" style="margin-top:2px;"/></a></li>
-
-</ul>
-
-<div class="clear"></div>
 
 
 
 
-</div>
-
-<div class="like-con2">
-
-{{item.like_no}} LIKE - {{item.comment.length}} <a href="javascript:void(0);">Comment</a>
-</div>
 
 
-<div class="clear"></div>
 
-<div class="commend-box-pro" ng-show="showDetails" style="display:block;">
-<div class="commend-box" ng-repeat="comment in item.comment track by comment.id">
-    <div class="date-link">
-        <a href="javascript:void(0)">{{comment.time}}</a>
-		<img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="comment.user_id==sessUser" ng-click="delComment($parent.$index,$index)" />
-    </div>
-    <div style="width:44px; float:left; height:auto; margin-left:2px;" class="com-img">
-        <img src="{{comment.user_image}}"  alt="" style=" margin-top:2px; max-width:35px; max-height:35px;" />
+
+
+
+
+
+<div ng-class-odd="'blog1'" ng-class-even="'blog2'" ng-repeat="item in statusList track by item.id" style="clear: both;" ng-mouseenter="showStatusDel = true" ng-mouseleave="showStatusDel = false">
+
+
+
+
+
+
+
+    <div class="left-img">
+
+
+
+
+
+
+
+        <img src="{{item.user_image}}"  alt="#" style=" max-width:50px; max-height:50px;" />
+
+
+
+
+
+
+
+        <div class="clear"></div>
+
+
+
+
+
+
+
     </div>
 
-    <div style=" float:left; padding-left:11px;" class="comm-width"><strong><a href="#" class="name_a" style="font-weight:bold;">{{comment.user_name}}</a></strong><br />{{comment.body}}</div>
-	
-	
-
-    <div class="clear"></div>
-
-</div>
 
 
 
-<div ng-show="item.c_user">
-<div style="width:35px; float:left; height:auto;">
-<img style=" max-width:35px; max-height:35px;" alt="" src="{{item.c_user_image}}" >
-</div>
 
-<textarea class="cmnt_textarea" placeholder="Write a comment..." ng-model="item.pstval" data-original-title=""></textarea>
-<a class=" cmnt_textarea_btn" href="javascript:void(0);" ng-click="postComment(item)">POST</a>
-</div>
+
+
+
+
+
+
+
+
+
+
+    <div class="right-text">
+
+
+
+
+
+
+
+        <div class="top-name-contain" >
+
+
+
+
+
+
+
+            <div class="name-div"><strong>{{item.user_name}}</strong></div>
+
+
+
+
+
+
+
+            <span style="padding-right:10px;">
+
+
+
+
+
+
+
+                <a href="javascript:void(0)">Comments </a>[<a>{{item.comment_no}}</a>] - <a href="javascript:void(0)" ng-click="(item.c_user) ?  statusLike(item) :'';">{{(item.is_like==0)?'Like':'Unlike'}}</a> [<a >{{item.like_no}}</a>]
+
+
+
+
+
+
+
+                <b style="font-weight:bold;display:inline-block; ">•</b>
+
+
+
+
+
+
+
+                <a style="display: inline-block; position: relative;" href="javascript:void(0)" class="myParent2 stat_share" ng-mouseenter="showShareDiv = true" ng-mouseleave="showShareDiv = false">Share
+
+
+
+
+
+
+
+                    <div class="hover_img3" style="display: block;" ng-show="showShareDiv">
+
+
+
+
+
+
+
+                        <img src="images/f1.png" ng-click="fbShare(item)"  alt="#" />
+
+
+
+
+
+
+
+                        <img src="images/ti.png" ng-click="twShare(item)"  alt="#" />
+
+
+
+
+
+
+
+                        <img src="images/pi.png" ng-click="prShare(item)" alt="#" />
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </a>
+
+
+
+
+
+
+
+                <b class="time-div">&nbsp;&nbsp;&nbsp;&nbsp;{{item.timespan}}</b>
+
+
+
+
+
+
+
+            </span>
+
+
+
+
+
+
+
+            <img src="images/deletebutton.png" style="display: block" class="deletebutton" ng-show="showStatusDel" ng-click="delStatus($index)" />
+
+
+
+
+
+
+
+            <div class="clear"></div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="text-contain" style="{{(item.msg != '')?'padding:15px 0;':''}}" >{{item.msg}}</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <img ng-if="item.type" src="images/arrow.png"  alt="#" style=" margin-top: -2px;
+
+    position: absolute;" />
+
+
+
+
+
+
+
+        <div class="blogimg">
+
+
+
+
+
+
+
+            <img src="{{baseUrl}}/uploads/status_img/{{item.value}}?version={{item.time}}" ng-if="item.type=='image'" ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%;" alt="">
+
+
+
+
+
+
+
+            <div ng-if="item.type=='mp4'">
+
+
+
+
+
+
+
+                <videogular ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+item.value), type: 'video/mp4'}]" >
+
+
+
+
+
+
+
+                    <vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
+
+
+
+
+
+
+
+                </videogular>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="embed-responsive embed-responsive-16by9 video-wrapper" ng-if="item.type=='youtube'">
+
+
+
+
+
+
+
+                <youtube-video class="embed-responsive-item" video-id="item.value"></youtube-video>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="rowthree" id="map{{item.id}}" ng-if="item.type=='route'">
+
+
+
+
+
+
+
+                <ui-gmap-google-map center="item.routes.map.center" zoom="item.routes.map.zoom" pan="true" draggable="true">
+
+
+
+
+
+
+
+                    <ui-gmap-markers models="item.routes.marker" coords="'self'" icon="'icon'" idkey='id' >
+
+
+
+
+
+
+
+                        <ui-gmap-polyline ng-if="item.routes.location.length" path="item.routes.location" draggable="false" geodesic="true" stroke="item.routes.map.lineStyle" fit="true"></ui-gmap-polyline>
+
+
+
+
+
+
+
+                </ui-gmap-google-map>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="mobcomment">
+
+
+
+
+
+
+
+            <div class="commend-box" ng-repeat="comment in item.comment track by comment.id">
+
+
+
+
+
+
+
+                <div class="date-link">
+
+
+
+
+
+
+
+                    <a href="javascript:void(0)">{{comment.time}}</a>
+
+
+
+
+
+
+
+                    <br/>
+
+
+
+
+
+
+
+                    <a href="javascript:void(0)" ng-click="delComment($parent.$index,$index)" ng-show="comment.user_id==rootsessUser" style="color:#999; float:right;" ><img src="images/deletebutton1.png" style="width:11px;" /></a>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div style="width:44px; float:left; height:auto; margin-left:2px;" class="com-img">
+
+
+
+
+
+
+
+                    <img src="{{comment.user_image}}"  alt="#" style=" margin-top:2px; max-width:35px; max-height:35px;" />
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div style=" float:left; padding-left:11px;" class="comm-width"><strong><a ui-sref="profile({userId:comment.user_id})" class="name_a" style="font-weight:bold;">{{comment.user_name}}</a></strong><br />{{comment.body}}</div>
+
+
+
+
+
+
+
+                <div class="clear"></div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="commend-box-pro" ng-show="item.c_user">
+
+
+
+
+
+
+
+                <div style="width:35px; float:left; height:auto;"><img src="{{item.c_user_image}}"  alt="#" style=" max-width:35px; max-height:35px;" /></div>
+
+
+
+
+
+
+
+                <div  class="text2">
+
+
+
+
+
+
+
+                    <textarea class="cmnt_textarea" placeholder="Write a comment..." ng-keypress="postComment($event,item)"></textarea>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="clear"></div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
 <div class="clear"></div>
-</div>
-<div class="clear"></div>
 
-<div class="clear"></div>
-</div>
 
 
 
@@ -123,49 +1049,372 @@
 
 
 </div>
-		
-<span class="empty" ng-hide="statusList.length">No results found.</span>
-<div ng-show="viewMore" class="viewMore"><a href="javascript:void(0);" ng-click="viewMoreStatus()">View More</a></div>
-<div ng-show="viewMoreLoad" class="viewMore"><img src="images/loading_list.gif" /></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="clear: both;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="empty" ng-show="statusList.length == 0">No results found.</span>
+
+
+
+
+
+
+
+<div ng-show="viewMore==1" class="view_more_link"><a href="javascript:void(0);" ng-click="viewMoreStatus()">View More</a></div>
+
+
+
+
+
+
+
+<div ng-show="viewMoreLoad" class="viewMore" style="width:100%; text-align:center; padding:5px 0;"><img src="images/loading_list.gif" /></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
 <script type="text/ng-template" id="photoComment">
-    <div class="ngdialog-message">
 
-        <div class="photo-popup" style="mmargin: 0 auto; width:100%;text-align:center;overflow: inherit;height: auto; padding:0; margin-top:-25px; ">
-           
-                        <img alt="" style="max-width:100%; max-height:75%;" src="{{photoDet.imgSrc}}" />
-                  
+
+
+
+
+
+
+    <div class="popupbox_social_box">
+
+
+
+
+
+
+
+        <a href="javascript:void(0)" class="cancelbtn1" ng-click="modalClose()"><img src="images/gtk-close.png"></a>
+
+
+    <div class="clear"></div>
+
+        <div class="photo-popup" style="mmargin: 0 auto; width:100%;text-align:center;overflow: inherit;height: auto; padding:0; ">
+ <div class="left_body">
+   <img alt="" style="max-width:100%; max-height:75%;" src="{{photoDet.imgSrc}}" />
+
+</div>
+
 
             <div class="poprt">
+
+
+
+
+
+
+
                 <div style="background-color:#D1D3D4;" class="comment-area">
+
+
+
+
+
+
+
                     <div class="comment_top">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="profile-img">
+
+
+
+
+
+
+
                             <img  src="{{photoDet.userImage}}" alt="" style=" max-width:50px; max-height:50px;" />
+
+
+
+
+
+
+
                         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="profile-text">
+
+
+
+
+
+
+
                             <div class="name-text">{{photoDet.userName}}</div>
+
+
+
+
+
+
+
                             <div class="text-contain">{{photoDet.timeSpan}}</div>
+
+
+
+
+
+
+
                             <div class="clear"></div>
+
+
+
+
+
+
+
                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         <div class="clear"></div>
 
-                        <div style="font-size:13px; text-align:left; padding-top:8px;">{{photoDet.msg}}</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div style="font-size:16px; text-align:left; padding-top:8px; padding-left: 4px; color: #000;">{{photoDet.msg}}</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         <div class="cmnt_share">
-                            <a href="javascript:void(0);">Comments [{{photoDet.commentList.length}}]</a> - <a href="javascript:void(0);" ng-click="(photoDet.c_user) ?  statusLike(photoDet) :'';">{{(photoDet.is_like)?'Unlike':'Like'}} [{{photoDet.like_no}}] </a>
-                            <b style="font-weight:bold;display:inline-block; " >&bull;</b>
+
+
+
+
+
+
+
+                            <a href="javascript:void(0);">Comment{{(photoDet.commentList.length >1)?'s':''}} [{{photoDet.commentList.length}}]</a> - <a href="javascript:void(0);" ng-click="(photoDet.c_user) ?  statusLike1(photoDet) :'';">{{(photoDet.is_like)?'Unlike':'Like'}} [{{photoDet.like_no}}] </a>
+
+
+
+
+
+
+
+                            <b style="font-weight:bold;display:inline-block; "> .</b>
+
+
+
+
+
+
+
                             <a href="javascript:void(0);" style="display: inline-block; position: relative;" ng-click="shareStaus(photoDet)">Share</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -173,51 +1422,417 @@
 
                     <div class="commen_body">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div ng-repeat="com in photoDet.commentList track by com.id" class="commend-box">
+
+
+
+
+
+
+
                             <div class="date-link">
+
+
+
+
+
+
+
                                 <a href="javascript:void(0);">{{com.time}}</a>
-                                <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==sessUser" ng-click="delComment($index,0)" />
+
+
+
+
+
+
+
+                               <!-- <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment(photoDet.sIndex,$index)" />-->
+
+
+
+
+
+
+
                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                             <div style="width:50px; float:left; height:auto;">
+
+
+
+
+
+
+
                                 <img style=" margin-top:2px; max-width:35px; max-height:35px;" alt="" src="{{com.user_image}}" />
+
+
+
+
+
+
+
                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                             <div class="combodyu">
+
+
+
+
+
+
+
                                 <strong>
+
+
+
+
+
+
+
                                     <a href="#/profile/{{com.user_id}}" data-original-title="">{{com.user_name}}</a>
+
+
+
+
+
+
+
                                 </strong>
+
+
+
+
+
+
+
                                 <br />{{com.body}}
+
+
+
+
+
+
+
                             </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <div class="clear"></div>
+
+
+
+
+
+
+
                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     </div>
 
-                    <div ng-show="sessUser" class="commendboxpro">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div ng-show="rootsessUser" class="commendboxpro">
+
+
+
+
+
+
+
                         <div class="profile-img2">
+
+
+
+
+
+
+
                             <img style=" max-width:35px; max-height:35px;" alt="" src="{{photoDet.cUserImage}}">
+
+
+
+
+
+
+
                         </div>
 
-                        <div class="popup-text-box1">
-                            <textarea placeholder="Write a comment..." ng-model="photoDet.pstval"  ></textarea>
-                            <a href="javascript:void(0);" ng-click="postComment1(photoDet)" class="mob-post2">POST</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="popup-text-box1" ng-show="item.c_user">
+
+
+
+
+
+
+
+                            <textarea placeholder="Write a comment..." ng-model="photoDet.pstval" id="pstVal" ></textarea>
+
+
+
+
+
+
+
+                       <!--     <a href="javascript:void(0);" ng-click="postComment1(photoDet)">POST</a>-->
+
+
+
+
+
+
+
                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         <div class="clear"></div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
                 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
+
+
+
+
+ <div class="clear"></div>
+
+
         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
+
+
+
+
+
+
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style=" width:170px; height:204px; display: none;" id="mapconmain" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

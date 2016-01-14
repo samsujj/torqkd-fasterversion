@@ -15,17 +15,37 @@ label.has-error{
 	width:100% !important;
 }
 </style>-->
+<style>
+
+    .ngdialog-content{
+        border: 5px solid #f7941e !important;
+        border-radius: 0 !important;
+        padding:25px 15px!important;
+    }
+
+    .ngdialog-content p{
+        font:13px/18px Arial,Helvetica,sans-serif;
+    }
+
+
+    body{background-image: url("../images/base_camp.jpg");  background-size: cover; background-position: center; background-attachment: fixed; }
+	
+	.control-label {width:80%; display:block; margin:0 auto; }
+
+</style>
 
 <div class="login-body">
   <div class="login-top">
-     <div class="login-wrapper">    <div class="logo" > <a href="#/index"> <img  src="images/logo.png" alt="#"/>   </a> </div></div>
+     <div class="login-wrapper">    <div class="logo" style="padding:10px 0;" > <a ui-sref="index"> <img  src="images/logo_main.png" alt="#"/>   </a> </div></div>
   </div>
+
+<div class="login-wrapper">
 <div class="login-box">
   <form angular-validator-submit="submitloginForm()" name="loginForm" class="form-horizontal" novalidate angular-validator> 
-		<label class="has-error" ng-show="msgFlag">Incorrect Login Information..</label>
+		<label class="has-error" ng-show="msgFlag" style="width:86%; display:block; margin:0 auto; padding:0 0 10px 0;">Incorrect Login Information..</label>
         <div class="form-group">
-			<div class="col-sm-10" style="width:100%; padding:0;">
-				<input type="email" id="UserManager_email" name="email" placeholder="EMAIL"
+			<div class="col-sm-12" style="width:100%; padding:0;">
+				<input type="email" id="UserManager_email"   class="UserManager_inputl" name="email" placeholder="EMAIL"
 						validate-on="blur"
                         class = "form-control UserLogIn_email"
                         ng-model = "form.email"
@@ -35,8 +55,8 @@ label.has-error{
 			</div>
 		</div>
         <div class="form-group">
-			<div class="col-sm-10" style="width:100%; padding:0;">
-				<input type="password" id="UserManager_password" name="UserManager[password]" placeholder="PASSWORD"
+			<div class="col-sm-12" style="width:100%; padding:0;">
+				<input type="password" style="height: 36px!important; width:80%!important; margin:0 auto!important; background-color: #fff!important;" id="UserManager_password" class="UserManager_input2" name="UserManager[password]" placeholder="PASSWORD"
 						validate-on="dirty"
                         class = "form-control UserLogIn_password"
                         ng-model = "form.password"
@@ -45,38 +65,26 @@ label.has-error{
 			</div>
 		</div>
 
-   <div class="remember-div">
+   <div class="remember-div" style="margin-top:25px;">
 <input id="remember_me" type="checkbox" value="1" name="remember" ng-model="form.remember" >
 <span data-original-title="">Remember Me</span>
 <div class="clear"></div>
   </div>
 						
-<button  class="loginbtn"  type="submit">LogIn</button>
+<button  class="loginbtnmain"  type="submit">LogIn</button>
 		</form>
-		<div class="login-bottom-div">
-<a  href="#/signup" class="link1">Register for an Account</a>
-<a  href="#/forgot-password" class="link2">Forgot Password?</a>
+    <div style="width:84%; margin:0 auto;">
+<a ui-sref="signup" class="link1" style="float:left; display:block; width:110px; margin-right:0px; margin-top: 0px;">Register for an Account</a>
+<a ui-sref="forgotpassword" class="link2" style="float:right; display:block; width:82px; padding-right:0; margin-right:0; margin-top: 0px;">Forgot Password?</a>
 <div class="clear"></div>
 </div>
 
 		</div>
 
-		 
-  
-  <div class="footer-menu2">
-<span>&copy;TORQK'D</span>
-<span>|</span>
-<span>
-<a href="javascript:void(0);">TERMS </a>
-</span>
-<span>|</span>
-<span>
-<a href="javascript:void(0);">PRIVACY</a>
-</span>
 </div>
-  
-  
-  
+
+
+
 
 
 </div>

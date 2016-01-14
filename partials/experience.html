@@ -1,75 +1,54 @@
 <style type="text/css">
-.ngdialog-content{ background-color: #f6f9fa !important;
-    border: 5px solid #f7941e !important;
-    border-radius: 0 !important; padding:0!important; width:99%; margin:0 auto!important;}
+    .ngdialog-content{ background-color: #f6f9fa !important;
+        border: 5px solid #f7941e !important;
+        border-radius: 0 !important; padding:0!important; width:99%; margin:0 auto!important;}
+
+    .ngdialog-content p{
+        font:13px/18px Arial,Helvetica,sans-serif;
+        margin:0 15px;
+    }
+    .ngdialog-content h2{
+        margin-left:15px;
+        margin-right:15px;
+    }
 
 </style>
 
-<div class="experience-wrapper">
-  <div class="logo" > 
-  <a href="#/index" ng-if="(sessUser==0)"> <img alt="#" src="images/logo.png"/> </a> 
-  <a ng-href="#/profile/{{sessUser}}" ng-if="(sessUser!=0)" > <img alt="#" src="images/logo.png"/> </a> 
+<div class="experience-body">
+    <div class="experience-wrapper">
+        <!--Top Contain-->
+        <div class="top-contain">
+            <div>
+                <div class="logo">
+                    <a ui-sref="index" ng-if="(sessUser==0)"> <img alt="#" src="images/logo_main.png"/> </a>
+                    <a ui-sref="profile({userId:sessUser})" ng-if="(sessUser!=0)" > <img alt="#" src="images/logo_main.png"/> </a>
+                    <div class="top-menu" style="width:230px">
 
+                        <ul id="menu">
+                            <li ng-if="(sessUser!=0)"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
+                            <li><a href="#">Sports</a>
+                                <ul class="sub-menu">
+
+                                </ul>
+                            </li>
+                            <li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
+                            <li ng-if="(sessUser!=0)"><a ui-sref="logout"><img src="images/gear.png"  alt="#" /></a></li>
+                            <li ng-if="(sessUser==0)"><a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
+                        </ul>
+                        <div class="join-btn" ng-if="(sessUser==0)"><a ui-sref="signup" >JOIN</a></div>
+                    </div>
+
+            <div class="clear"></div>
+
+            <h1 style="padding:28px 0 0px 16px; width:313px; margin:0; "><img src="images/experience_hdr.png"  alt="#" /></h1>
+
+        </div>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!--Top Contain-->
+    </div>
 </div>
-  
-  <div class="mobile-join-btn"  ng-if="(sessUser==0)"> <a href="#/signup">JOIN</a></div>
-  
-  <div class="spSlider" ng-include="'partials/experience_1.html'"></div>
- 
 
-<div class="video-contain" ng-include="'partials/experience_2.html'""></div>
-
-
-<div ng-include="'partials/social_tab.html'""></div>
-  
-  
-            
-  <div class="tab-bottom-con">
-  
-    <div class="link2" ><a href="javascript:void(0);">VIEW ROUTES</a></div> 
-
-
-<div class="albums-div" ng-include="'partials/experience_3.html'"></div>
-
-
-<div class="link1" ><a href="javascript:void(0);">FORUMS</a></div>
-
-
-<div class="albums-div">
-	<a  href="javascript:void(0);">
-		<img alt="" src="images/hs1-0-02.jpg">
-		<h2 data-original-title="">ALBUMS</h2>
-	</a>
-</div>
-
-
-<div class="albums-div" ng-include="'partials/experience_4.html'"></div>
-
-
-
-<div class="albums-div" style="padding:0; width:100%;" ng-include="'partials/experience_5.html'"></div>
-
-<div class="banner2" ng-include="'partials/experience_6.html'"></div>
-<div style="clear:both;"></div>
-
-<div class="banner2" ng-include="'partials/experience_7.html'"></div>
-<div style="clear:both;"></div>
-
-
-
-  </div>
-  
- 
-  
- <div class="footer-menu1">
-<span>&copy;TORQK'D</span>
-<span>|</span>
-<span>
-<a href="javascript:void(0);">TERMS </a>
-</span>
-<span>|</span>
-<span>
-<a href="javascript:void(0);">PRIVACY</a>
-</span>
-</div> 
-</div>

@@ -264,8 +264,8 @@
       return; // Skip reset logic if don't have children
     }
 
-    this.containerElem.style.position = 'relative';
-    this.containerElem.style.overflow = 'hidden';
+    //this.containerElem.style.position = 'relative';
+    //this.containerElem.style.overflow = 'hidden';
     this.containerElem.style.display = 'block';
 
     this.imgs = startSlides(this.containerElem, this.unit, this.startVal, this.visVal, this.trProp);
