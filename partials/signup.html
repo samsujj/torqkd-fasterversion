@@ -13,6 +13,9 @@ body {
 	background-position: center;
 	background-attachment: fixed;
 }
+
+.register_wrapper .form-contain .right-form .input1{ height:36px!important; width:92%!important; color:#888!important;  font-size: 13px!important;}
+#UserManager_password2{height:36px!important; width:92%!important; color:#888!important; font-size: 13px!important;}
 </style>
 <div class="register-body" style="background-image: none;">
   <div class="register_wrapper">
@@ -22,9 +25,9 @@ body {
       <div class="right-form">
         <div class="register_form">
           <form angular-validator-submit="submitsignUpForm()" name="signUpForm" id="signUpForm" class="form-horizontal" novalidate angular-validator>
-            <h1><img alt="#" src="images/getstarted.jpg"></h1>
+            <h1 style="margin:0; padding:2px 0 12px 0;"><img alt="#" src="images/getstarted.jpg"></h1>
             
-            <div style="margin-bottom:16px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+            <div style="margin-bottom:20px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
               <input  type="text" class="input1"   id="UserManager_fname" name="UserManager[fname]" placeholder="FIRST NAME"
 
                         class = "form-control register_input"
@@ -37,7 +40,7 @@ body {
             </div>
             
             
-             <div style="margin-bottom:16px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+             <div style="margin-bottom:20px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
               <input type="text" class="input1"    id="UserManager_lname" name="UserManager[lname]" placeholder="LAST NAME"
 
                         class = "form-control register_input"
@@ -50,7 +53,7 @@ body {
             </div>
             
             
-            <div class="email_div" style="margin-bottom:16px!important; overflow: hidden; ">
+            <div class="email_div" style="margin-bottom:20px!important; overflow: hidden; ">
              <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
               <input type="email"  class="input1"  style="background-color: #ebebeb!important "  id="UserManager_email" name="UserManager[email]" placeholder="YOUR EMAIL"
 
@@ -66,7 +69,7 @@ body {
             </div>
             
             
-            <div style="margin-bottom:16px!important; overflow: hidden;">
+            <div style="margin-bottom:20px!important; overflow: hidden;">
               <input type="email"  class="input1"  style="background-color: #ebebeb!important "  name="UserManager[email2]" placeholder="CONFIRM YOUR EMAIL"
 
                         class = "form-control register_input"
@@ -113,21 +116,21 @@ body {
            
             
             
-        <div style="margin-bottom:16px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+        <div style="margin-bottom:20px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
               <select id="UserManager_country"    class="input1"  name="UserManager[country]" class = "register_select form-control" validate-on="blur" ng-model = "form.country" ng-change="changeCountry(form.country)" required-message="'Country cannot be blank.'" required ng-options="item.name for item in countrylist  track by item.id" style="background:none;">
               <option value="">SELECT YOUR COUNTRY</option>
               </select>
             </div>
             
             
-          <div style="margin-bottom:16px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+          <div style="margin-bottom:20px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
               <select id="UserManager_state"   class="input1"  name="UserManager[state]" class = "register_select form-control" validate-on="blur" ng-model = "form.state" required-message="'State cannot be blank.'" required ng-options="item.name for item in statelist  track by item.id">
               <option value="">SELECT YOUR STATE</option>
               </select>
             </div>
             
             
-         <div style="margin-bottom:16px!important; overflow: hidden;"> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+         <div style="margin-bottom:20px!important; overflow: hidden;"> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
               <input type="text" class="input1"   id="UserManager_city" name="UserManager[city]" placeholder="CITY"
 
                    class = "form-control register_input"
@@ -141,7 +144,7 @@ body {
             
             
            
-              <div style="margin-bottom:16px!important; overflow: hidden;">
+              <div style="margin-bottom:20px!important; overflow: hidden;">
                 <input type="radio" value="0" ng-model="form.gender" name="UserManager[gender]">
                 <strong class="ng-binding">Male</strong>
                 <input type="radio" value="1" ng-model="form.gender" name="UserManager[gender]">

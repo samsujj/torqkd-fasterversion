@@ -745,6 +745,19 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
 
     };
 
+    $rootScope.changeShareWith = function(item,valu){
+        item.share_with = valu;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/changeShareWith',
+            data    : $.param({'status_id':item.id,'valu':valu}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+
+        });
+    }
+
     $rootScope.postComment = function(event,item){
         if(event.which === 13) {
             var commentval = event.currentTarget.value;
@@ -2593,6 +2606,15 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
     $scope.statusText = '';
     $scope.shareVal = 1;
     $scope.group = 0;
+    $scope.share_with = 1;
+
+    $scope.openStatusInput = function(){
+        $scope.isStatusInput = 1;
+    }
+
+    $scope.chnagestatusval = function(event){
+        $scope.statusText = event.currentTarget.value;
+    }
 
     $scope.addPhoto = function(){
         $scope.videoval1 = '';
@@ -2659,21 +2681,10 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
                 $scope.statusList.splice(0, 0, result);
                 $scope.offset = $scope.offset+1;
 
+                angular.element( document.querySelector( '#statusText' ) ).val('');
 
-                /*
-                $http({
-                    method: 'POST',
-                    async:   false,
-                    url: $scope.baseUrl+'/user/ajs/getStatus',
-                    data    : $.param({'userid':$routeParams.userid,'offset':0}),
-                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                }).success(function (result) {
-                    $scope.statusList = result.status;
-                    if(result.totalCount > $scope.statusList.length){
-                        $scope.viewMore = 1;
-                        $scope.offset = 5;
-                    }
-                });*/
+
+
 
             });
         }else{
@@ -2742,7 +2753,6 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
             $scope.isVideo = 0;
             $scope.statusType = '';
             $scope.statusValue = '';
-            $scope.statusText = '';
             $scope.shareVal = 1;
 
 
@@ -2827,7 +2837,6 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
             $scope.isVideo = 0;
             $scope.statusType = '';
             $scope.statusValue = '';
-            $scope.statusText = '';
             $scope.shareVal = 1;
 
 
@@ -2924,7 +2933,6 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         $scope.isVideo = 0;
         $scope.statusType = '';
         $scope.statusValue = '';
-        $scope.statusText = '';
         $scope.shareVal = 1;
 
 
@@ -2940,6 +2948,18 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         $scope.isStatusInput = 1;
 
         $scope.ytdialog.close();
+    }
+
+    $scope.imgRotate = function(type){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/rotateleft',
+            data    : $.param({'imgname':$scope.statusValue,'arg':type}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.photoval = result;
+        });
     }
 
     $scope.gotoProfile = function(user_id){

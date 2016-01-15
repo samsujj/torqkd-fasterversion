@@ -458,7 +458,9 @@
 
 .modal-lg{ width:100%!important;}
 
-
+.dropdown-menu .active{
+    background-color: #FAB363;
+}
 
 
 
@@ -625,6 +627,17 @@
                 </a>
 
 
+                <span class="dropdown" ng-show="rootsessUser == item.user_id">
+                  <a href="javascript:void(0)" class="dropdown-toggle" ng-click="dmenuOpen = !dmenuOpen">
+                      {{item.share_with}}<img src="images/ad2.png">
+                  </a>
+                  <ul class="dropdown-menu" ng-show="dmenuOpen" style="display: block">
+                      <li><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,1)" ng-class="(item.share_with==1) ? 'active' : ''">Community</a></li>
+                      <li><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,2)" ng-class="(item.share_with==2) ? 'active' : ''">Friends</a></li>
+                      <li><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,3)" ng-class="(item.share_with==3) ? 'active' : ''">Friends Of Friends</a></li>
+                      <li><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,4)" ng-class="(item.share_with==4) ? 'active' : ''">Private Me Only</a></li>
+                  </ul>
+                </span>
 
 
 
