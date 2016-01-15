@@ -2981,11 +2981,65 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 });
 
 homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
-    $scope.currentState = $state.current.name;
+    $scope.isConnection = 1;
+    if($state.current.name == 'friendlist')
+        $scope.isConnection = 0;
     $scope.sessUser = 0;
     $scope.userId = $stateParams.userId;
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
         $scope.userDet = $cookieStore.get('rootuserdet');
         $scope.sessUser = $scope.userDet.id;
     }
+
+    $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
+    $scope.frnddet = [];
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getsports1',
+    }).success(function (result) {
+        angular.element( document.querySelector( '#select-search' ) ).append(result);
+    });
+
+    if($state.current.name == 'friendlist'){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getFriendDet11',
+            data    : $.param({'userid':$stateParams.userId,sessId:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.user_image = result.user_image;
+            $scope.frnddet = result.frnddet;
+        });
+    }else{
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getFriendDet21',
+            data    : $.param({'userid':$stateParams.userId,sessId:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.user_image = result.user_image;
+            $scope.frnddet = result.frnddet;
+        });
+    }
+
+
+    $scope.cancel_request = function(id,index){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/cancelreq',
+            data    : $.param({'id':id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.frnddet.splice(index,1);
+            $scope.dialog5.close();
+        });
+    }
+
+
+
 });

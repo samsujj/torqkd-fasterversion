@@ -28,43 +28,28 @@
 </style>
 <div class="community">
 {{currentState}}
-	<h4>Community</h4><br /><br />
-
-
-
-	<div class="left-text">Below are individuals that participate in the Torqkd community. To view the sports they follow, place your mouse on their image. Click "connect" to initate a friendship request. </div>
-
-
+	<h4 ng-show="isConnection">Community</h4>
+	<h4 ng-hide="isConnection">Friends</h4>
+	<br /><br />
+	<div ng-show="isConnection" class="left-text">Below are individuals that participate in the Torqkd community. To view the sports they follow, place your mouse on their image. Click "connect" to initate a friendship request. </div>
+	<div ng-hide="isConnection" class="left-text">Below are all of your Torqkd friends. To remove a friendship connection, place your mouse over the friend's profile picture and click "remove" on the pop-up window. </div>
 
 	<div class="right-text">
-
-		<img  src="<?php echo Yii::app()->getBaseUrl(); ?>/uploads/user_image/thumb/<?php echo  Common::getcurrentuserimage($userid); ?>" style="float: left;">
-
+		<img  src="{{user_image}}" style="float: left;">
 		<p> <strong>Pending Friendship</strong><br/>Orange border indicates a pending friendship request</p>
 		<div class="clear"></div>
 	</div>
-
-
-
-
-
-
-
 	<div class="clear"></div>
-
-
-
-	<a href="<?php echo Yii::app()->getBaseUrl(); ?>/user/profile/profile/id/<?php echo $userid;?>" class="back"> Back</a>
+	<a ui-sref="profile({userId:userId})" class="back"> Back</a>
 	<div class="search-new">
 		<div style="float: left">
-			<label>Search By Name :</label> <input type="text" id="filter">
+			<label>Search By Name :</label> <input type="text" ng-model="searchText.user_name">
 			<div class="clear"></div>
 		</div>
-
 		<div style="float: right">
-			<label> Search By Sports :    </label>          <select id="select-search" onchange="searchbysports(this)">
+			<label> Search By Sports :    </label>
+			<select id="select-search"  ng-model="searchText.spList">
 			<option value="" selected="selected">SELECT ONE</option>
-			<?php echo $this->getsports();?>
 		</select>
 			<div class="clear"></div>
 
@@ -72,149 +57,33 @@
 		<div class="clear"></div>
 	</div>
 	<div class="bottom-img">
-
-
-
-		<?php
-
-
-
-        for($i=0;$i<count($getunfrndlist);$i++){
-
-            $userdet = Common::getuserdetails($getunfrndlist[$i]);
-
-            $sports_arr = Common::getusersports($getunfrndlist[$i]);
-            $sstr = "";
-
-            foreach($sports_arr as $rodfsd){
-                $sstr .= $rodfsd['ssportsid'].' ';
-            }
-
-
-
-            if(count($sports_arr) > 5){
-
-		$noSport = 5;
-
-		}else{
-
-		$noSport = count($sports_arr);
-
-		}
-
-
-
-
-
-		$frndship = Common::seefriendship($sess['id'],$getunfrndlist[$i]);
-
-		?>
-
-
-
-		<div class="img-con myParent" >
-			<input type="hidden" class="ssports" value="<?php echo $sstr; ?>">
-
-			<div  style="width: 77px; height: 77px; display: table-cell; text-align: center; vertical-align: middle;"><img class="<?php if($frndship['type'] == 1 || $frndship['type'] == 2){?> fr_request <?php } ?>" src="<?php echo Yii::app()->getBaseUrl(); ?>/uploads/user_image/thumb/<?php echo  Common::getcurrentuserimage($getunfrndlist[$i]); ?>"></div>
-
-			<div class="hover_img4" style="background: url(<?php echo $themeUrl;?>/assets/images/hover_div1.png) no-repeat;">
-				<button class="close">&times;</button>
-
-				<ul>
-
-					<li style="width:98px; float: left;  display:block;" class="mobpimg">
-
-						<a href="<?php echo Yii::app()->getBaseUrl(); ?>/user/profile/profile/id/<?php echo $getunfrndlist[$i];?>"><img src="<?php echo Yii::app()->getBaseUrl(); ?>/uploads/user_image/thumb/<?php echo  Common::getcurrentuserimage($getunfrndlist[$i]); ?>" style="max-height:100%; max-width:100%;"  alt="#" /></a>
-
-					</li>
-
-					<li style="margin-left:0px; width:162px; float: right; display:block;" class="holist2">
-
-						<a class="uname222" href="<?php echo Yii::app()->getBaseUrl(); ?>/user/profile/profile/id/<?php echo $getunfrndlist[$i];?>" style="width: 100px;"><?php echo strtoupper(@$userdet['fname']." ".@$userdet['lname']);?></a>
-
-						<div class="clear"></div>
-
-
-
-						<?php for($j=0;$j<$noSport;$j++){
-
-                                $row = $sports_arr[$j];
-
-                                ?>
-
-						<img src="<?php echo Yii::app()->getBaseUrl(); ?>/uploads/sports_image/thumb/<?php echo $row['imag_name']; ?>" width="25"  alt="#" />
-
-						<?php }  ?>
-
-						<?php if( count($sports_arr) > 6){?>
-
-						<div class="plno">+<?php echo (count($sports_arr)-6);?></div>
-						<div class="clear"></div>
-
-
-
-						<?php }?>
-
-						<div class="clear"></div>
-
-						<?php
-
-                            if($sess['id'] != $getunfrndlist[$i]){
-
-                                if($frndship['type'] == 0) { ?>
-
-						<a  class="view-btn1" href="javascript:void(0);" onclick="add_friend(<?php echo intval($getunfrndlist[$i]);?>,this)"> Connect +</a>
-
-						<?php } ?>
-
-
-
-						<?php if($frndship['type'] == 1) { ?>
-
-						<a  class="view-btn1"   href="javascript:void(0);" onclick="cancel_request(<?php echo intval($frndship['id']);?>,this,<?php echo intval($getunfrndlist[$i]);?>)"> Cancel Request</a>
-
-						<?php } ?>
-
-						<?php if($frndship['type'] == 2) { ?>
-
-						<a  class="view-btn1"   href="javascript:void(0);" onclick="accept_request(<?php echo intval($frndship['id']);?>,this,<?php echo intval($getunfrndlist[$i]);?>)"> Accept</a>
-
-						<?php } ?>
-
-
-
-						<?php if($frndship['type'] == 4) { ?>
-
-						<a  class="view-btn1"  href="javascript:void(0);"> Friend</a>
-
-						<?php }} ?>
-
-
-
-
-
-
-
-					</li>
-
-				</ul>
-
+		<div class="img-con myParent"  ng-repeat="item in frnddet | filter:searchText" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
+			<div  style="width: 77px; height: 77px; display: table-cell; text-align: center; vertical-align: middle;">
+				<img ng-class="(item.status == 1 || item.frnd_type == 1 || item.frnd_type == 2)?'fr_request':''" src="{{item.user_image}}">
 			</div>
 
-
-
+			<div class="hover_img4" ng-show="showunFrndDiv" style="background: url(../images/hover_div1.png) no-repeat; display: block;">
+				<button class="close">&times;</button>
+				<ul>
+					<li style="width:98px; float: left;  display:block;" class="mobpimg">
+						<a ui-sref="profile({userId:item.id})"><img src="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt="#" /></a>
+					</li>
+					<li style="margin-left:0px; width:162px; float: right; display:block;" class="holist2">
+						<a class="uname222" ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
+						<div class="clear"></div>
+						<img ng-repeat="item1 in item.sports | limitTo:6" src="{{item1.imag_name}}" width="25"  alt="#" />
+						<div class="plno" ng-if="item.sports.length > 6">+{{item.sports.length-6}}</div>
+						<div class="clear"></div>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && (item.frnd_type == 1 || item.frnd_type == 2)" ng-click="cancel_request(item.frnd_rel_id,$index)"> Cancel Request</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 4" ui-sref="profile({userId:item.id})"> View Profile</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 0"> Connect +</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 1"> Cancel Request</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 2"> Accept</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 4"> Friend</a>
+					</li>
+				</ul>
+			</div>
 		</div>
-
-
-
-		<?php } ?>
-
-
-
 		<div class="clear"></div>
-
 	</div>
-
-
-
 </div>

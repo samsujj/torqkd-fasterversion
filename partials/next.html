@@ -14,6 +14,8 @@
     }
  body{background-image: url("../images/climber_sign.jpg");  background-size: cover; background-position: center; background-attachment: fixed; }
 
+
+.activities-submit{ text-shadow:0 1px 2px #fff;}
 </style>
 
 <div class="next-body" style="background:none;">
@@ -26,7 +28,7 @@
   
     <div class="right-form">
     <div class="activities_contain">
-          <h1><img  alt="#" src="images/invitefrds.jpg" id="nextH" style="max-width:100%;"></h1>
+          <h1 style="margin:0; padding:3px 0 13px 0;"><img  alt="#" src="images/invitefrds.jpg" id="nextH" style="max-width:100%;"></h1>
      
     <div class="inviteFriends"> 
 	<form angular-validator-submit="sendEmail()" name="sendEmailForm" class="form-horizontal" novalidate angular-validator>
@@ -50,8 +52,8 @@
     font-size: 14px!important;
     height: 120px!important;
     margin-bottom: 20px!important;
-    margin-top: 4px!important;
-    padding: 6px !important; width:100%!important;  height: 50px !important;" name="senderList" placeholder="ADD EMAIL ADDRESSES SEPARATED BY COMMAS"
+    margin-top: 0px!important;
+    padding: 6px !important; width:100%!important;  height: 52px !important;" name="senderList" placeholder="ADD EMAIL ADDRESSES SEPARATED BY COMMAS"
 
 						validate-on="sub"
 
@@ -70,15 +72,15 @@
     font-style: normal;
     font-weight: normal;
     letter-spacing: 1px;
-    margin-bottom: 10px;
-    margin-top: 30px;
+    margin-bottom: 12px;
+    margin-top: 14px;
     padding-left: 0;">Email Message</h5>
     <textarea id="email_text" style="border: 2px solid #97989a;
     border-radius: 5px;
     color: #888;
     font-family: Helvetica,Arial,sans-serif;
     font-size: 11px !important;
-    height:108px !important;
+    height:106px !important;
     line-height: 12px;
     margin-bottom: 10px;
     margin-top: 4px;
@@ -106,7 +108,7 @@
     font-weight: normal;
     letter-spacing: 1px;
     margin-bottom: 10px;
-    margin-top:25px;
+    margin-top:27px;
     padding-left: 0;">INVITE FRIENDS VIA YOUR ONLINE ADDRESS BOOK</h6>
       
     <select id="social_select" ng-model="social_select" style=" background: #fff none repeat scroll 0 0;
@@ -114,7 +116,7 @@
     height: 35px;
     margin: 0 0 20px;
     padding: 5px 0;
-    width: 100%!important;">
+    width: 100%!important; color: #555 !important;">
 
 		<option value="" data-original-title="">SELECT SERVICE</option>
 

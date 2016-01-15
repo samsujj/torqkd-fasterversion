@@ -4815,14 +4815,14 @@ homeControllers1.controller('connectionCtrl', function($scope, $http, $routePara
 	$scope.frnddet = [];
 	
 	$http({
-            method: 'POST',
-			async:   false,
-            url: $scope.baseUrl+'/user/ajs/getFriendDet2',
-			data    : $.param({'userid':$routeParams.userid}),
-			headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' } 
-        }).success(function (result) {
-			$scope.user_image = result.user_image;
-			$scope.frnddet = result.frnddet;
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs/getFriendDet2',
+        data    : $.param({'userid':$routeParams.userid}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.user_image = result.user_image;
+        $scope.frnddet = result.frnddet;
     });
 
 	$http({

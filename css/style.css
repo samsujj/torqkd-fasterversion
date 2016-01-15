@@ -103,7 +103,8 @@ a:hover {
 	outline: none;
 }
 a:active, a:focus {
-	outline: none;
+	outline: none !important;
+	text-decoration: none!important;
 }
 button, button:hover, button:active, button:focus {
 	outline: none !important;
@@ -1834,10 +1835,10 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 }
 .form-contain .right-form .connect-img a {
 	margin:0 14px 14px 0;
-	width:64px;
+	width:72px;
 	display:block;
 	float: left;
-	height:70px;
+	height:76px;
 	overflow:hidden;
 }
 .form-contain .right-form .connect-img a img {
@@ -1846,8 +1847,8 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 .form-contain .right-form .connect-img a:hover, .form-contain .right-form .connect-img a.active-pic {
 	border: 4px solid #f8931f;
 	box-shadow: 0 0 5px #888;
-	height:62px;
-	width:56px!important;
+	height:68px;
+	width:64px!important;
 	margin:0 14px 14px 0;
 }
 #file_upload-button .uploadify-button-text, #file_upload1-button .uploadify-button-text {
@@ -6481,7 +6482,6 @@ width:84%;
 	padding-top: 3px;
 	margin-right: -3px;
 }
-
 .status-wrapper .right-text .top-name-contain span a {
 	font-family: 'veneerregular';
 	color:#333;
@@ -7480,3 +7480,28 @@ a:active, a:focus{outline:none!important;}
 }
 
 .modal-bodytable span{ padding:5px 0;}
+
+
+.dropdown-menu_share{ background:#58585a!important; padding:0 !important; border-radius:0px!important;}
+.dropdown-menu_share li{ padding:4px;  background:#58585a!important; color:#fff!important; font-size:12px!important; padding:0 !important;}
+.dropdown-menu_share li a{color:#fff!important; font-size:14px!important;  background-color:#58585a!important;  padding: 4px 5px !important;
+    border-bottom: solid 1px #9a9a9c!important; font-size:10px!important;}
+	
+.dropdown-menu_share .share4 a{ border:none!important;}	
+.dropdown-menu_share li a:hover{ background:#ff8b00!important;}
+.dropdown-menu_share li a:focus{ background:#ff8b00!important;}
+
+
+
+.dropdown-menu_share .share1 a span{ background:  url(../images/share1_icon.png) no-repeat 4px center!important; padding-left:25px!important;  background-size:16px!important; display:block!important; width:auto!important;   float: none!important;
+    text-align: left!important;}
+.dropdown-menu_share .share2 a span{ background:  url(../images/share2_icon.png) no-repeat 4px center!important; padding-left:22px!important; background-size:12px!important;  display:block!important; width:auto!important;   float: none!important;
+    text-align: left!important;}
+.dropdown-menu_share .share3 a span{ background:  url(../images/share3_icon.png) no-repeat 4px center!important; padding-left:25px!important;  background-size:16px!important; display:block!important; width:auto!important;  float: none!important;
+    text-align: left!important; }
+
+.dropdown-menu_share .share4 a span{ background:  url(../images/share4_icon.png) no-repeat 4px center!important; padding-left:20px!important; background-size:11px!important;  display:block!important; width:auto!important;  float: none!important;
+    text-align: left!important;}
+
+
+.dropdown-menu_share li a.active{ background: #ff8b00 url(../images/sharetick.png) no-repeat 4px center!important; padding-left:20px!important; background-size:16px!important;}
