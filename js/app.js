@@ -403,6 +403,15 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
                     templateUrl: 'partials/footer.html' ,
                     controller: 'footer'
                 },
+                'bannercommon': {
+                    controller: 'bannerCommon'
+                },
+                'chatcommon': {
+                    controller: 'chatcommon'
+                },
+                'tabcommon': {
+                    controller: 'tabcommon'
+                },
 
             }
         }
@@ -469,6 +478,39 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
         }
     )
 
+        .state('album',{
+            url:"/album/:userId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/album.html' ,
+                    controller: 'album'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'photocommon'
+                },
+            }
+        }
+    )
+
+        .state('editprofile',{
+            url:"/editprofile/:userId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/editprofile.html' ,
+                    controller: 'editprofile'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+            }
+        }
+    )
+
 
     $locationProvider.html5Mode({
         enabled: true,
@@ -486,11 +528,32 @@ homeControllers1.controller('index', function($scope,$state,$cookieStore,$rootSc
 homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
     if($state.current.name == 'profile'){
         $rootScope.isProfile = true;
+        $scope.currentUser = $stateParams.userId;
+    }
+    if($state.current.name == 'experience'){
+        $rootScope.isExp = true;
+        $scope.currentUser = 0;
     }
 
     $rootScope.viewMoreLoad = 0;
     $rootScope.viewMore = 0;
     $rootScope.offset = 0;
+
+    $rootScope.tabs = [{
+        title: 'social',
+        url: 'social.tpl.html'
+    }, {
+        title: 'events',
+        url: 'events.tpl.html'
+    }, {
+        title: 'groups',
+        url: 'groups.tpl.html'
+    }, {
+        title: 'stats',
+        url: 'stats.tpl.html'
+    }];
+
+    $rootScope.currentTab = 'social.tpl.html';
 
     $rootScope.tabs = [{
         title: 'social',
@@ -519,7 +582,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/getStatus',
-                data    : $.param({'userid':$stateParams.userId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+                data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
                 headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             }).success(function (result) {
                 $rootScope.statusList = result.status;
@@ -536,7 +599,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/getEvents',
-                data    : $.param({'userid':$stateParams.userId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+                data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
                 headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             }).success(function (result) {
                 $rootScope.eventList = result.event;
@@ -552,7 +615,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/getGroups',
-                data    : $.param({'userid':$stateParams.userId}),
+                data    : $.param({'userid':$scope.currentUser}),
                 headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             }).success(function (result) {
                 $rootScope.groupList = result;
@@ -563,64 +626,127 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
             $rootScope.highchartsNG = [];
             $rootScope.chartdata = [];
 
+            if($scope.currentUser == 0){
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/user/ajs1/getStat',
+                    //data    : $.param({'userid':$stateParams.userId}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function (result) {
+                    $scope.stats = result;
 
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getUserStat',
-                data    : $.param({'userid':$stateParams.userId}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $scope.stats = result;
-
-                angular.forEach($scope.stats, function(val, key) {
-                    var highchartsNG = {
-                        options: {
-                            chart: {
-                                type: 'line'
-                            }
-                        },
-                        series: [{
-                            data: val.data,
-                            name : '<div style="color:#555555;">Month</div>',
-                            color : '#F79213'
-                        }],
-                        title: {
-                            text: '<div style="color:#555555;">Last 6 Months</div>'
-                        },
-                        loading: false,
-
-                        xAxis: {
-                            categories: val.mon
-                        },
-
-                        yAxis : {
+                    angular.forEach($scope.stats, function(val, key) {
+                        var highchartsNG = {
+                            options: {
+                                chart: {
+                                    type: 'line'
+                                }
+                            },
+                            series: [{
+                                data: val.data,
+                                name : '<div style="color:#555555;">Month</div>',
+                                color : '#F79213'
+                            }],
                             title: {
-                                text :  '<div style="color:#555555;">Activity</div>',
-                            }
-                        },
+                                text: '<div style="color:#555555;">Last 6 Months</div>'
+                            },
+                            loading: false,
 
-                        tooltip : {
-                            valueSuffix : ''
-                        },
-                    }
+                            xAxis: {
+                                categories: val.mon
+                            },
 
-                    var chartdata = {
-                        sports_id : val.sports_id,
-                        sport_name : val.sport_name,
-                        imag_name : val.imag_name,
-                        activity_no : val.activity_no,
-                        total_dis : val.total_dis,
-                        total_time : val.total_time,
-                        statDet : val.statDet,
-                    }
+                            yAxis : {
+                                title: {
+                                    text :  '<div style="color:#555555;">Activity</div>',
+                                }
+                            },
 
-                    $rootScope.highchartsNG.push(highchartsNG);
-                    $rootScope.chartdata.push(chartdata);
+                            tooltip : {
+                                valueSuffix : ''
+                            },
+                        }
+
+                        var chartdata = {
+                            sports_id : val.sports_id,
+                            sport_name : val.sport_name,
+                            imag_name : val.imag_name,
+                            activity_no : val.activity_no,
+                            total_dis : val.total_dis,
+                            total_time : val.total_time,
+                            statDet : val.statDet,
+                        }
+
+                        $rootScope.highchartsNG.push(highchartsNG);
+                        $rootScope.chartdata.push(chartdata);
+                    });
+                    $rootScope.tabBodyLoad = false;
+
                 });
-                $rootScope.tabBodyLoad = false;
 
-            });
+            }else{
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/user/ajs1/getUserStat',
+                    data    : $.param({'userid':$stateParams.userId}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function (result) {
+                    $scope.stats = result;
+
+                    angular.forEach($scope.stats, function(val, key) {
+                        var highchartsNG = {
+                            options: {
+                                chart: {
+                                    type: 'line'
+                                }
+                            },
+                            series: [{
+                                data: val.data,
+                                name : '<div style="color:#555555;">Month</div>',
+                                color : '#F79213'
+                            }],
+                            title: {
+                                text: '<div style="color:#555555;">Last 6 Months</div>'
+                            },
+                            loading: false,
+
+                            xAxis: {
+                                categories: val.mon
+                            },
+
+                            yAxis : {
+                                title: {
+                                    text :  '<div style="color:#555555;">Activity</div>',
+                                }
+                            },
+
+                            tooltip : {
+                                valueSuffix : ''
+                            },
+                        }
+
+                        var chartdata = {
+                            sports_id : val.sports_id,
+                            sport_name : val.sport_name,
+                            imag_name : val.imag_name,
+                            activity_no : val.activity_no,
+                            total_dis : val.total_dis,
+                            total_time : val.total_time,
+                            statDet : val.statDet,
+                        }
+
+                        $rootScope.highchartsNG.push(highchartsNG);
+                        $rootScope.chartdata.push(chartdata);
+                    });
+                    $rootScope.tabBodyLoad = false;
+
+                });
+
+            }
+
+
         }
     }
 
@@ -629,7 +755,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
         method: 'POST',
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getStatus',
-        data    : $.param({'userid':$stateParams.userId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+        data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
         $rootScope.statusList = result.status;
@@ -652,7 +778,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
             method: 'POST',
             async:   false,
             url: $scope.baseUrl+'/user/ajs1/getStatus',
-            data    : $.param({'userid':$stateParams.userId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+            data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.viewMoreLoad = 0;
@@ -673,7 +799,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
             method: 'POST',
             async:   false,
             url: $scope.baseUrl+'/user/ajs1/getEvents',
-            data    : $.param({'userid':$stateParams.userId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+            data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.viewMoreLoad = 0;
@@ -692,7 +818,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
             method: 'POST',
             async:   false,
             url: $scope.baseUrl+'/user/ajs1/getSugGroups',
-            data    : $.param({'userid':$stateParams.userId}),
+            data    : $.param({'userid':$rootScope.rootsessUser}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.groupList = result;
@@ -706,7 +832,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
             method: 'POST',
             async:   false,
             url: $scope.baseUrl+'/user/ajs1/getLocGroups',
-            data    : $.param({'userid':$stateParams.userId}),
+            data    : $.param({'userid':$rootScope.rootsessUser}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.groupList = result;
@@ -1385,6 +1511,141 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
 
 
 });
+homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
+    console.log('load');
+    $rootScope.delPhoto = function(index){
+        console.log(index);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center;">Are you sure delete this photo?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+index+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $scope.delConfirm = function(index){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delstatus',
+            data    : $.param({'status_id':$rootScope.photoList[index].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.photoList.splice(index,1);
+        });
+    }
+
+    $rootScope.delComment = function(index,index1){
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center;">Are you sure delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm1('+index+','+index1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $scope.delConfirm1 = function(index,index1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delcomment',
+            data    : $.param({'comment_id':$rootScope.statusList[index].comment[index1].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.statusList[index].comment.splice(index1,1);
+            $rootScope.statusList[index].comment_no = $scope.statusList[index].comment_no -1;
+        });
+    }
+
+    $scope.delCancel = function(){
+        $scope.confirmDialog.close();
+    }
+
+
+    $rootScope.photoDet = {
+        index : 0,
+        itemId : 0,
+        pstval : '',
+        imgSrc : '',
+        value : '',
+        is_status : '',
+        userId : 0,
+        userImage : $scope.baseUrl+"/uploads/user_image/thumb/default.jpg",
+        userName : '',
+        timeSpan : '',
+        msg : '',
+        commentNo : 0,
+        likeNo : 0,
+        likeStatus : 0,
+        cUserId : 0,
+        cUserImage : $scope.baseUrl+"/uploads/user_image/thumb/default.jpg",
+        commentList : [],
+        type: 'photo'
+    };
+
+    var modalInstance;
+    $rootScope.showPhoto = function(item,index){
+        $rootScope.photoDet.index = index;
+        $rootScope.photoDet.itemId = item.id;
+        $rootScope.photoDet.value = item.value;
+        $rootScope.photoDet.is_status = item.is_status;
+        $rootScope.photoDet.userId = item.user_id;
+        $rootScope.photoDet.userImage = item.user_image;
+        $rootScope.photoDet.userName = item.user_name;
+        $rootScope.photoDet.msg = item.msg;
+        $rootScope.photoDet.timeSpan = item.timeSpan;
+        $rootScope.photoDet.commentNo = item.commentNo;
+        $rootScope.photoDet.likeNo = item.likeNo;
+        $rootScope.photoDet.likeStatus = item.likeStatus;
+        $rootScope.photoDet.cUserImage = item.cUserImage;
+        $rootScope.photoDet.cUserId = item.cUserId;
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStatusComment',
+            data    : $.param({'id':item.id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.stateIsLoading = false;
+            $rootScope.photoDet.commentList = result;
+
+            $scope.animationsEnabled = true;
+            modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'photoComment',
+                windowClass: 'photoPopup',
+                size: 'lg',
+                scope : $scope
+
+            });
+
+            $rootScope.photoDet.imgSrc = item.img_src;
+        });
+    }
+
+
+    $scope.modalClose = function(){
+        modalInstance.dismiss('cancel');
+    }
+
+
+
+
+});
 homeControllers1.controller('mapcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi) {
 
     $http({
@@ -1462,6 +1723,9 @@ homeControllers1.controller('bannerCommon', function($scope,$state,$cookieStore,
     $scope.pageId = 0;
     if($state.current.name == 'profile'){
         $scope.pageId = 3;
+    }
+    if($state.current.name == 'experience'){
+        $scope.pageId = 1;
     }
 
     $rootScope.openBanner = function(url){
@@ -2474,12 +2738,68 @@ homeControllers1.controller('changepassword', function($scope,$state,$cookieStor
 });
 
 
-homeControllers1.controller('experience', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog) {
+homeControllers1.controller('experience', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$sce) {
     $scope.sessUser = 0;
+    console.log($cookieStore.get('rootuserdet'));
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
         $scope.userDet = $cookieStore.get('rootuserdet');
         $scope.sessUser = $scope.userDet.id;
+        $rootScope.rootsessUser = $scope.userDet.id;
     }
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getUserListExe',
+        data    : $.param({'userid':$scope.sessUser}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.peoplelist = result;
+    });
+
+    $scope.openDefault = function () {
+        ngDialog.open({
+            template: 'firstDialogId',
+        });
+    };
+
+    $scope.maintvfile = '';
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getMainTv',
+    }).success(function (result) {
+        $scope.maintv = result;
+        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
+        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+    });
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getlast3post',
+    }).success(function (result) {
+        $scope.forumList = result;
+    });
+
+    $scope.mainbanner = 'default.png';
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+    }).success(function (result) {
+        $scope.mainbanner = result;
+    });
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/GetParentSports',
+    }).success(function (result) {
+        $scope.slides = result;
+    });
+
 });
 
 homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
@@ -3026,7 +3346,6 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
         });
     }
 
-
     $scope.cancel_request = function(id,index){
         $http({
             method: 'POST',
@@ -3036,7 +3355,246 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $scope.frnddet.splice(index,1);
-            $scope.dialog5.close();
+        });
+    }
+
+    $scope.cancel_request1 = function(id,index){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/cancelreq',
+            data    : $.param({'id':id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.frnddet[index].frnd_type=0;
+        });
+    }
+
+    $scope.add_friend = function(id,index){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/addconn',
+            data    : $.param({'frnd_id':id,userid:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.frnddet[index].frnd_type=1;
+        });
+    }
+
+    $scope.accept_request = function(id,index){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/acceptreq',
+            data    : $.param({'id':id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.frnddet[index].frnd_type=4;
+        });
+    }
+
+});
+
+homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
+    $scope.sessUser = 0;
+    $scope.userId = $stateParams.userId;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet.id;
+        $rootScope.rootsessUser = $scope.userDet.id;
+    }
+
+    $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getUserDet',
+        data    : $.param({'userid':$scope.userId }),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.user_image = result.userdet.user_image;
+    });
+
+    $scope.photoTabs = [{
+        title: 'photo',
+        url: 'photo.tpl.html'
+    }, {
+        title: 'video',
+        url: 'video.tpl.html'
+    }];
+
+    $scope.currentphotoTab = 'photo.tpl.html';
+
+    $scope.onClickphotoTab = function (tab) {
+        $scope.currentphotoTab = tab.url;
+    }
+
+    $scope.isActiveTab = function(tabUrl) {
+        return tabUrl == $scope.currentTab;
+    }
+
+    $rootScope.photoList = [];
+    $rootScope.videoList = [];
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getImage',
+        data    : $.param({'userid':$scope.userId,sess_id:$scope.sessUser}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $rootScope.photoList = result;
+    });
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getVideo',
+        data    : $.param({'userid':$scope.userId,sess_id:$scope.sessUser}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $rootScope.videoList = result;
+    });
+
+
+
+});
+
+homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
+    $scope.userId = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.userId = $scope.userDet.id;
+    }else{
+        $state.go('index');
+        return
+    }
+
+    var ctime = new Date().getTime();
+
+    $scope.countrylist = [];
+    $scope.statelist = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getCountryList',
+    }).success(function (result) {
+        $scope.countrylist = result;
+    });
+
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
+        data    : $.param({'userid':$scope.userId}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(result) {
+
+        $scope.form = {
+            id:result.id,
+            fname:result.fname,
+            lname:result.lname,
+            email:result.email,
+            location:result.location,
+            city:result.city,
+            country:{id:result.country},
+            state:{id:result.state},
+            gender:result.gender,
+        }
+
+        $scope.userSports = result.user_sports;
+        $scope.userSports1 = result.user_sports1;
+        $scope.origprofileImg = result.profileOrigImgName;
+        $scope.origcoverImg = result.OrigbackImgName;
+        $scope.profileImg = result.profileImg+'?version='+ctime;
+        $scope.coverImg = result.backImg+'?version='+ctime;
+        $scope.profileImgName = result.profileImgName;
+        $scope.coverImgName = result.backImgName;
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStateList',
+            data    : $.param({'id':result.country}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (result5) {
+            $scope.statelist = result5;
+        });
+
+
+
+
+
+    });
+
+
+
+    $scope.changeCountry = function(countryval){
+        if(typeof (countryval) != 'undefined'){
+            $scope.statelist = [];
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/getStateList',
+                data    : $.param({'id':countryval.id}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function (result) {
+                $scope.statelist = result;
+            });
+        }else{
+            $scope.statelist = [];
+        }
+
+    }
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/allsports',
+    }).success(function (result) {
+        $scope.sportsList = result;
+    });
+
+    $scope.editProfile = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/updateProfile',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $state.go('profile',{userId:$scope.userId});
+            return;
+        });
+    }
+
+    $scope.selsports = function(id,obj){
+
+        var idx = $scope.userSports1.indexOf(id);
+        if($scope.userSports1.indexOf(id) < 0){
+            if($scope.userSports1.length){
+                $scope.userSports1.push(id);
+            }else{
+                $scope.userSports1 = [id];
+            }
+        }else{
+            $scope.userSports1.splice(idx,1);
+        }
+
+        $(obj).blur();
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/addDelsports',
+            data    : $.param({'userid':$scope.userId,'sportid':id}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+
         });
     }
 

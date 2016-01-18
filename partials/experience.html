@@ -14,41 +14,146 @@
 
 </style>
 
+
 <div class="experience-body">
     <div class="experience-wrapper">
-        <!--Top Contain-->
+        <!--Top Contain[start]-->
         <div class="top-contain">
             <div>
                 <div class="logo">
-                    <a ui-sref="index" ng-if="(sessUser==0)"> <img alt="#" src="images/logo_main.png"/> </a>
-                    <a ui-sref="profile({userId:sessUser})" ng-if="(sessUser!=0)" > <img alt="#" src="images/logo_main.png"/> </a>
-                    <div class="top-menu" style="width:230px">
+                    <a ui-sref="index" ng-if="(sessUser==0)"><img src="images/logo_main.png"  alt="#" /></a>
+                    <a ui-sref="profile({userId:sessUser})" ng-if="(sessUser!=0)"><img src="images/logo_main.png"  alt="#" /></a>
+                </div>
+                <div class="top-menu" style="width:230px">
+                    <ul id="menu">
+                        <li ng-if="(sessUser!=0)"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
+                        <li data-original-title=""><a href="javascript:void(0);" data-original-title="">Sports</a></li>
+                        <li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
 
-                        <ul id="menu">
-                            <li ng-if="(sessUser!=0)"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
-                            <li><a href="#">Sports</a>
-                                <ul class="sub-menu">
+                        <li ng-if="(sessUser!=0)"><a ui-sref="editprofile({userId:sessUser})"><img src="images/gear.png"  alt="#" /></a></li>
 
-                                </ul>
-                            </li>
-                            <li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
-                            <li ng-if="(sessUser!=0)"><a ui-sref="logout"><img src="images/gear.png"  alt="#" /></a></li>
-                            <li ng-if="(sessUser==0)"><a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
-                        </ul>
-                        <div class="join-btn" ng-if="(sessUser==0)"><a ui-sref="signup" >JOIN</a></div>
-                    </div>
-
-            <div class="clear"></div>
-
-            <h1 style="padding:28px 0 0px 16px; width:313px; margin:0; "><img src="images/experience_hdr.png"  alt="#" /></h1>
-
-        </div>
-
+                        <li ng-if="(sessUser==0)"><a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
+                    </ul>
+                    <div class="join-btn" ng-if="(sessUser==0)"><a ui-sref="signup">JOIN</a></div>
+                </div>
                 <div class="clear"></div>
-            </div>
+                <h1 style="padding:28px 0 0px 16px; width:313px; margin:0; "><img src="images/experience_hdr.png"  alt="#" /></h1>
+            </div><div class="clear"></div>
+        </div>
+        <!--Top Contain[end]-->
+        <div class="clear"></div>
+        <!--Image Gallery Contain[start]-->
+        <div class="image-gallery">
+            <uib-carousel interval="5000" no-wrap="false">
+                <uib-slide ng-repeat="item in slides track by item.id" active="slide.active" index="slide.id">
+                    <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{item.additional_image}}" style="margin:auto;">
+                    <h2>{{item.sport_name}}</h2>
+                    <span>
+                        <div class="text-div">{{item.tag}}</div>
+                        <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
+                    </span>
+                </uib-slide>
+            </uib-carousel>
+        </div>
+        <!--Image Gallery Contain[end]-->
+        <!--people-contain[Start]-->
+        <div class="people-contain">
+        <ul>
+            <li><strong style="line-height:40px;">COMMUNITY:</strong></li>
+            <div class="community-div">+{{(peoplelist.lenght>14)?(peoplelist.lenght - 14):0}}</div>
+            <li class="myParent" style="margin:0 1px 0 0; border: 2px solid #f7931e;" ng-repeat="item in peoplelist | limitTo:14 track by item.id" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
+                <img src="{{item.user_image}}" width="40px"  alt="#" />
+                <span class="hover_img" style="background: url(../images/hover_div1.png) no-repeat; left:-5px; display: block;" ng-show="showunFrndDiv">
+                    <ul>
+                        <li style="width:98px; float: left;  display:block;">
+                            <img src="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt="#"  class="liimg5"/>
+                        </li>
+                        <li  style="margin-left:20px; width:150px; float: right; display:block;">
+                            <a href="javascript:void(0)">{{item.user_name}}</a>
+                            <div class="clear"></div>
+                            <img ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" src="{{item1.imag_name}}" width="25"  alt="#" style="width:25px; margin-bottom:2px;" />
+                            <div ng-if="item.sports.length>6" style="display: inline-block; height: 15px; background: #000; float: right; margin:0 9px 0 0; color:#F7921D; font-size: 12px; text-align: center; padding: 5px; line-height:15px; font-weight: bold;">+{{(item.sports.length-6)}}</div>
+                            <div class="clear"></div>
+                        </li>
+                    </ul>
+                </span>
+            </li>
+            <div class="clear"></div>
+        </ul>
             <div class="clear"></div>
         </div>
-        <!--Top Contain-->
+        <!--people-contain[end]-->
+        <!--left panel contain[start]-->
+        <div class="experience-leftcontain">
+            <div ng-include="'partials/social_tab.html'"></div>
+        </div>
+        <!--left panel contain[end]-->
+
+        <!--right panel contain[start]-->
+        <div class="experience-rightcontain" style="margin-top:10px;">
+            <div class="video-contain">
+                <a class="various" href="javascript:void(0)" ng-click="openDefault()">
+                    <img src="images/howitworks_3.jpg"  alt="#" />
+                </a>
+            </div>
+            <div class="link1" ng-if="sessUser"><a href="javascript:void(0)">GPS YOUR ROUTE</a></div>
+            <div class="link2" ng-if="sessUser"><a href="javascript:void(0)">VIEW ROUTES</a></div>
+            <div class="link2" ng-if="!sessUser"><a href="javascript:void(0)">VIEW ROUTES</a></div>
+
+            <div class="albums">
+                <a href="javascript:void(0)">
+                    <img src="images/hs1-0-02.jpg"  alt="#" />
+                    <h2>ALBUMS</h2>
+                </a>
+            </div>
+            <!--<div ng-include="'partials/maintv.html'"></div>-->
+            <div class="link2" style="margin-bottom:0;"><a href="javascript:void(0)">FORUMS</a></div>
+
+            <div class="foroms-contain">
+                <div ng-repeat="item in forumList"> <strong><a style="padding-left: 0 !important;" href="javascript:void(0);">{{item.title}}</a></strong><br />
+                    <span style="padding-left: 30px !important;">{{item.time}} ({{item.reply_no}} Replies)</span><br>
+                </div>
+            </div>
+
+            <div class="albums albums-btn">
+                <a  href="javascript:void(0);" onClick="showdailypoll()"> <img alt="" src="{{baseUrl}}/uploads/pollbanner/{{mainbanner}}">
+                    <h2 data-original-title="">DAILY POLL</h2>
+                </a>
+            </div>
+
+            <div ng-include="'partials/chatList.html'"></div>
+
+            <div class="adspace">
+
+                <div class="banner2">
+
+                    <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)"><img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" /></a> </simple-slider>
+
+                </div>
+
+            </div>
+
+            <div class="adspace">
+
+                <div class="banner3">
+
+                    <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides3 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)"><img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" /></a> </simple-slider>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!--right panel contain[end]-->
+        <div class="clear"></div>
     </div>
 </div>
 
+
+
+
+<script type="text/ng-template" id="firstDialogId">
+    <div class="ngdialog-message">
+        <div class="video-container"><iframe src="https://www.youtube.com/embed/kkUZRGrF9Ig?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe></div>
+    </div>
+</script>

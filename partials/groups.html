@@ -1,29 +1,58 @@
 <div ng-if="isProfile" class="groupTab">
+
     <input type="button" value="COMMUNITY GROUPS" ng-click="sugGroup()" class="ajuxcss">
+
     <input type="button" value="FRIENDS GROUPS" ng-click="locGroup()" class="ajuxcss">
+
 </div>
+
 <div ng-if="isExp" class="groupTab">
-    <input type="button" value="SUGGESTED GROUPS" ng-click="sugGroup()" class="ajuxcss">
-    <input type="button" value="LOCAL GROUPS" ng-click="locGroup()"class="ajuxcss">
+
+    <input type="button" value="SUGGESTED GROUPS" ng-click="sugGroup()">
+
+    <input type="button" value="LOCAL GROUPS" ng-click="locGroup()">
+
 </div>
+
 <div style="clear: both;"></div>
 
+
+
 <div class="groups-body" ng-repeat="item in groupList track by item.id">
+
 	<div class="left-img" style="width:50px; float:left; margin-left: 11px;">
+
 		<img src="{{item.image}}"    style="margin:-4px 0 0 0;  max-width:50px;max-height:50px;" />
+
 	</div>
+
 	<div class="righttext1">
+
 		<h1 class="h1text">{{item.name}}</h1>
+
 		<div class="sttext">
+
 			<strong > <span> {{item.time}} </span><br>{{(item.type==1)?"Public":"Private"}} Group / {{item.member}} member{{(item.member > 1)?'s':''}}</strong>
+
 		</div>
+
 		<div style="clear: both;"></div>
+
 		<div class="destext1">
+
 			<div style="clear: both;"></div>
+
 			<p>{{item.description}} </p></div>
+
 		<a class="viewgrp" style="background: none; border: none; color: #4f5052!important; padding: 0px; box-shadow: none; margin-bottom: 10px !important;" href="javascript:void(0)">View Group</a>
+
 	</div>
+
 	<div class="clear"></div>
+
 </div>
 
+
+
 <span class="empty" ng-hide="groupList.length">No results found.</span>
+

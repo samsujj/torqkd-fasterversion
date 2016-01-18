@@ -1,22 +1,44 @@
 
+
 <div class="top-contain" data-original-title="">
+
     <div class="logo" data-original-title="">
+
         <a ui-sref="index" ng-if="(sessUser==0)"> <img alt="#" src="images/logo_main.png"/> </a>
+
         <a ui-sref="profile({userId:sessUser})" ng-if="(sessUser!=0)" > <img alt="#" src="images/logo_main.png"/> </a>
+
     </div>
 
-     <div class="top-menu2 top-menu2_style" data-original-title="">
+
+
+    <div class="top-menu2 top-menu2_style" data-original-title="">
+
         <ul id="menu" data-original-title="">
+
             <li data-original-title="">
+
                 <a class="mobile_appL" data-original-title="" target="_blank" href="http://torqkd.com/user/default/mob_popup" style="color: #F7931D;" onmouseover="this.style.color='#5a5b5d'" onmouseout="this.style.color='#F7931D'">Mobile App</a>
+
             </li>
+
             <li ng-if="(sessUser!=0)"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
-            <li data-original-title=""><a ui-sref="experinece" data-original-title=""> The Experience</a></li>
+
+            <li data-original-title=""><a ui-sref="experience" data-original-title=""> The Experience</a></li>
+
             <li data-original-title=""><a href="javascript:void(0);" data-original-title="">Sports</a></li>
+
             <li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
-            <li ng-if="(sessUser!=0)"><a ui-sref="logout"><img src="images/gear.png"  alt="#" /></a></li>
+
+            <li ng-if="(sessUser!=0)"><a ui-sref="editprofile({userId:sessUser})"><img src="images/gear.png"  alt="#" /></a></li>
+
             <li ng-if="(sessUser==0)"><a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
+
         </ul>
+
     </div>
+
     <div class="clear" data-original-title=""></div>
+
 </div>
+

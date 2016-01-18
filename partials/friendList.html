@@ -76,9 +76,9 @@
 						<div class="clear"></div>
 						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && (item.frnd_type == 1 || item.frnd_type == 2)" ng-click="cancel_request(item.frnd_rel_id,$index)"> Cancel Request</a>
 						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 4" ui-sref="profile({userId:item.id})"> View Profile</a>
-						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 0"> Connect +</a>
-						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 1"> Cancel Request</a>
-						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 2"> Accept</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 0" ng-click="add_friend(item.id,$index)"> Connect +</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 1" ng-click="cancel_request1(item.frnd_rel_id,$index)"> Cancel Request</a>
+						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 2" ng-click="accept_request(item.frnd_rel_id,$index)"> Accept</a>
 						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 4"> Friend</a>
 					</li>
 				</ul>

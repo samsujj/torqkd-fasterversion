@@ -3,10 +3,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <base href="http://192.168.0.131/torqkd/">
+    <base href="/">
 
 <script type="text/javascript">
-    var base_url = 'http://192.168.0.131/torqkd';
+    var base_url = 'http://torqkd.com';
     FileAPI = {
       debug: true,
       forceLoad: true, html5: false, //to debug flash in HTML5 browsers
@@ -21,9 +21,10 @@
     };
   </script>
 
-  <title>Torqkd Demo</title>
+  <title>::TORQKD::</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link href="css/style.css" type="text/css" rel="stylesheet" media="all" />
+  <link href="css/media.css" type="text/css" rel="stylesheet" media="all" />
   <link rel="stylesheet" href="css/popupwindow.css">
   <link rel="stylesheet" href="css/ngDialog.css">
   <link rel="stylesheet" href="css/ngDialog-theme-default.css">
@@ -31,6 +32,9 @@
   <link rel="stylesheet" href="css/ng-mobile-menu.min.css">
   <link rel="stylesheet" href="css/wysiwyg.css">
   <link rel="stylesheet" href="css/cropper.css">
+  <link rel="stylesheet" href="css/image-crop-styles.css">
+  <link rel="stylesheet" href="css/jquery.Jcrop.css.css">
+
     <!--<link rel="stylesheet" href="css/ng-img-crop.css">
     <!--<link rel="stylesheet" href="css/jquery.guillotine.css">-->
   <link href="css/font-awesome.css" rel="stylesheet">
@@ -50,7 +54,7 @@
     <script src="js/angular-ui-router.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap.bootbox.min.js"></script>
-  <script src="js/ui-bootstrap-0.13.0.min.js"></script>
+  <script src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
   <script src="js/imgLiquid-min.js"></script>
   <script src="js/angular-mobile.js"></script>
   <script src="js/angular-cookies.js"></script>
@@ -73,8 +77,11 @@
   <script src="js/angular-simple-slider.js"></script>
   <script type="text/javascript" src="js/ng-mobile-menu.js"></script>
   <script src="js/html2canvas.js"></script>
-    <script src="js/ng-img-crop.js"></script>
+    <script src="js/image-crop.js"></script>
     <script src="js/readmore.js"></script>
+    <script src="js/ngFacebook.js"></script>
+    <script src="js/ngscrollbar.js"></script>
+    <script src="js/jquery.Jcrop.js"></script>
     <!--<script src="js/jquery.guillotine.min.js"></script>-->
     <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
@@ -82,7 +89,7 @@
    <script src="js/app.js"></script>
     <script src="js/Chart.min.js"></script>
    <script src="js/common.js"></script>
-   <!--<script src="js/poll.js"></script>-->
+   <script src="js/poll.js"></script>
    <script src="js/angular-validator.js"></script>
    <script src="js/bootstrap-colorpicker-module.js"></script>
    <script src="js/angular-wysiwyg.js"></script>
@@ -93,14 +100,34 @@
 
 
  </head>
- <body  ng-app="torqdTest" ng-init="baseUrl = 'http://192.168.0.131/torqkd'">
+ <body  ng-app="torqdTest" ng-init="baseUrl = 'http://torqkd.com'; subUrl='http://fasterversion.torqkd.com/'">
  <div id="fb-root"></div>
+ <input type="hidden" value="0" id="c_current_user">
 
  <div ui-view="header"></div>
  <div ui-view="coommon"></div>
  <div ui-view="content"></div>
  <div ui-view="footer"></div>
+ <div ui-view="bannercommon"></div>
+ <div ui-view="chatcommon"></div>
+ <div ui-view="mapcommon"></div>
+ <div ui-view="tabcommon"></div>
+ <div ui-view="profilecommon"></div>
  <div ui-view></div>
+
+ <div class="modal fade " id="pollmodal" data-original-title="" style="display: none;" aria-hidden="true" >
+     <div class="popupbody2">
+         <a href="javascript:void(0);" data-dismiss="modal" aria-hidden="true" onclick="js:$('.modal-backdrop').remove();" class="closepopup"><img src="images/close.png"></a>
+
+         <div style="padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; " class="modal-body" data-original-title="">
+
+         </div>
+     </div>
+ </div>
+
+ <div id="pollAll">
+
+ </div>
 
 
  </body>
