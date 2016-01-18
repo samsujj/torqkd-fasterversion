@@ -15,6 +15,7 @@
 </style>
 
 
+
 <div class="experience-body">
     <div class="experience-wrapper">
         <!--Top Contain[start]-->
@@ -43,15 +44,33 @@
         <!--Top Contain[end]-->
         <div class="clear"></div>
         <!--Image Gallery Contain[start]-->
-        <div class="image-gallery">
+        <div class="image-gallery" id="exeSlider">
             <uib-carousel interval="5000" no-wrap="false">
-                <uib-slide ng-repeat="item in slides track by item.id" active="slide.active" index="slide.id">
-                    <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{item.additional_image}}" style="margin:auto;">
-                    <h2>{{item.sport_name}}</h2>
-                    <span>
-                        <div class="text-div">{{item.tag}}</div>
-                        <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
-                    </span>
+                <uib-slide ng-repeat="slideCollection in groupedSlides" active="slide.active" index="slide.id">
+                    <div style="float: left;">
+                        <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}" style="margin:auto;">
+                        <h2>{{slideCollection.image1.sport_name}}</h2>
+                        <span>
+                            <div class="text-div">{{slideCollection.image1.tag}}</div>
+                            <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
+                        </span>
+                    </div>
+                    <div style="float: left;">
+                        <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image2.additional_image}}" style="margin:auto;">
+                        <h2>{{slideCollection.image2.sport_name}}</h2>
+                        <span>
+                            <div class="text-div">{{slideCollection.image2.tag}}</div>
+                            <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
+                        </span>
+                    </div>
+                    <div style="float: left;">
+                        <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image3.additional_image}}" style="margin:auto;">
+                        <h2>{{slideCollection.image3.sport_name}}</h2>
+                        <span>
+                            <div class="text-div">{{slideCollection.image3.tag}}</div>
+                            <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
+                        </span>
+                    </div>
                 </uib-slide>
             </uib-carousel>
         </div>

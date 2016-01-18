@@ -55,7 +55,7 @@ body {
             
             <div class="email_div" style="margin-bottom:20px!important; overflow: hidden; ">
              <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
-              <input type="email"  class="input1"  style="background-color: #ebebeb!important "  id="UserManager_email" name="UserManager[email]" placeholder="YOUR EMAIL"
+              <input type="email"  class="input1"  style="background: #f1f1f3 none repeat scroll 0 0 !important "  id="UserManager_email" name="UserManager[email]" placeholder="YOUR EMAIL"
 
                         class = "form-control register_input"
 
@@ -70,7 +70,7 @@ body {
             
             
             <div style="margin-bottom:20px!important; overflow: hidden;">
-              <input type="email"  class="input1"  style="background-color: #ebebeb!important "  name="UserManager[email2]" placeholder="CONFIRM YOUR EMAIL"
+              <input type="email"  class="input1"  style="background:#f1f1f3 none repeat scroll 0 0 !important "  name="UserManager[email2]" placeholder="CONFIRM YOUR EMAIL"
 
                         class = "form-control register_input"
 
@@ -117,7 +117,7 @@ body {
             
             
         <div style="margin-bottom:20px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
-              <select id="UserManager_country"    class="input1"  name="UserManager[country]" class = "register_select form-control" validate-on="blur" ng-model = "form.country" ng-change="changeCountry(form.country)" required-message="'Country cannot be blank.'" required ng-options="item.name for item in countrylist  track by item.id" style="background:none;">
+              <select id="UserManager_country"    class="input1"  name="UserManager[country]" class = "register_select form-control" validate-on="blur" ng-model = "form.country" ng-change="changeCountry(form.country)" required-message="'Country cannot be blank.'" required ng-options="item.name for item in countrylist  track by item.id" style="background:#f1f1f3 none repeat scroll 0 0 !important;">
               <option value="">SELECT YOUR COUNTRY</option>
               </select>
             </div>
@@ -145,10 +145,14 @@ body {
             
            
               <div style="margin-bottom:20px!important; overflow: hidden;">
-                <input type="radio" value="0" ng-model="form.gender" name="UserManager[gender]">
+                  <select class = "register_select form-control" ng-model = "form.gender" style="background: #f1f1f3 none repeat scroll 0 0 !important; border: 1px solid #414143 !important; border-radius: 5px !important; color: #888 !important; float: left; height: 38px !important;  width: 91% !important;">
+                      <option value="0">MALE</option>
+                      <option value="1">FEMALE</option>
+                  </select>
+                <!--<input type="radio" value="0" ng-model="form.gender" name="UserManager[gender]">
                 <strong class="ng-binding">Male</strong>
                 <input type="radio" value="1" ng-model="form.gender" name="UserManager[gender]">
-                <strong class="ng-binding">Female</strong>
+                <strong class="ng-binding">Female</strong>-->
                 <div style="clear:both;"></div>
               </div>
          

@@ -60,6 +60,27 @@ homeControllers1.directive('ngEnter', function() {
     };
 });
 
+homeControllers1.directive('checkImage', function ($q) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            attrs.$observe('ngSrc', function (ngSrc) {
+                var deferred = $q.defer();
+                var image = new Image();
+                image.onerror = function () {
+                    deferred.resolve(false);
+                    element.attr('src', 'images/demobg.png'); // set default image
+                };
+                image.onload = function () {
+                    deferred.resolve(true);
+                };
+                image.src = ngSrc;
+                return deferred.promise;
+            });
+        }
+    };
+});
+
 homeControllers1.directive('imgCropped', function() {
     return {
         restrict: 'E',
@@ -1512,7 +1533,6 @@ homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$ro
 
 });
 homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
-    console.log('load');
     $rootScope.delPhoto = function(index){
         console.log(index);
         $scope.confirmDialog = ngDialog.open({
@@ -1642,6 +1662,351 @@ homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$
         modalInstance.dismiss('cancel');
     }
 
+    $rootScope.videoDet = {
+        index : 0,
+        itemId : 0,
+        pstval : '',
+        imgSrc : '',
+        userId : 0,
+        userImage : $scope.baseUrl+"/uploads/user_image/thumb/default.jpg",
+        userName : '',
+        timeSpan : '',
+        msg : '',
+        commentNo : 0,
+        likeNo : 0,
+        likeStatus : 0,
+        cUserId : 0,
+        cUserImage : $scope.baseUrl+"/uploads/user_image/thumb/default.jpg",
+        commentList : [],
+        value : '',
+        type : 'video',
+        basepath : '',
+        videoType : ''
+    };
+
+    $rootScope.showVideo = function(item,index){
+        $rootScope.videoDet.index = index;
+        $rootScope.videoDet.itemId = item.id;
+        $rootScope.videoDet.imgSrc = item.img_src;
+        $rootScope.videoDet.userId = item.user_id;
+        $rootScope.videoDet.userImage = item.user_image;
+        $rootScope.videoDet.userName = item.user_name;
+        $rootScope.videoDet.msg = item.msg;
+        $rootScope.videoDet.timeSpan = item.timeSpan;
+        $rootScope.videoDet.commentNo = item.commentNo;
+        $rootScope.videoDet.likeNo = item.likeNo;
+        $rootScope.videoDet.likeStatus = item.likeStatus;
+        $rootScope.videoDet.cUserImage = item.cUserImage;
+        $rootScope.videoDet.videoType = item.type;
+        $rootScope.videoDet.cUserId = item.cUserId;
+        $rootScope.videoDet.basepath = item.basepath;
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStatusComment',
+            data    : $.param({'id':item.id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.stateIsLoading = false;
+            $rootScope.videoDet.commentList = result;
+
+            $rootScope.videoDet.value = item.value;
+
+
+            $scope.animationsEnabled = true;
+            modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'videoComment',
+                windowClass: 'photoPopup',
+                scope : $scope
+
+            });
+
+        });
+    }
+
+
+
+    $rootScope.postComment = function(event,type){
+        var status_id = 0;
+        if(type == 'photo'){
+            status_id = $rootScope.photoDet.itemId;
+        }
+        if(type == 'video'){
+            status_id = $rootScope.videoDet.itemId;
+        }
+
+        if(event.which === 13) {
+            var commentval = event.currentTarget.value;
+            if(commentval !='' && typeof(commentval)!= 'undefined'){
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/user/ajs1/addcomment',
+                    data    : $.param({'status_id':status_id,'cmnt_body':commentval,'user_id':$rootScope.rootsessUser}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function (result) {
+                    if(type == 'photo'){
+                        if($rootScope.photoDet.commentList.length){
+                            $rootScope.photoDet.commentList.push(result);
+                        }else{
+                            $rootScope.photoDet.commentList = [result];
+                        }
+                    }
+                    if(type == 'video'){
+                        if($rootScope.videoDet.commentList.length){
+                            $rootScope.videoDet.commentList.push(result);
+                        }else{
+                            $rootScope.videoDet.commentList = [result];
+                        }
+                    }
+                    event.currentTarget.value = '';
+                });
+            }else{
+
+                $scope.Commentmsg = ngDialog.open({
+                    template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
+                    plain:true,
+                    showClose:false,
+                    closeByDocument: true,
+                    closeByEscape: true
+                });
+
+                $timeout(function(){
+                    $scope.Commentmsg.close();
+                },3000);
+            }
+        }
+    }
+
+    $rootScope.fbImageShare = function(item){
+        var sss = 'Say Something About This Picture'
+        if(item.is_status == 0){
+            var type = 'image1';
+        }else{
+            var type = 'image';
+        }
+
+        $scope.dialog2 = ngDialog.open({
+            template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
+            plain:true,
+            closeByDocument: false,
+            closeByEscape: false,
+            scope: $scope
+        });
+    }
+
+    $rootScope.fbVideoShare = function(item){
+        var sss = 'Say Something About This Video'
+
+        $scope.dialog2 = ngDialog.open({
+            template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
+            plain:true,
+            closeByDocument: false,
+            closeByEscape: false,
+            scope: $scope
+        });
+    }
+
+    $scope.postfb = function(id,type,value){
+        if($scope.fbStatus) {
+            $scope.getAuthResponse = $facebook.getAuthResponse();
+            $scope.fb_share(id,type,value,$scope.getAuthResponse.accessToken);
+        } else {
+            $facebook.login().then(function(){
+                $scope.getAuthResponse = $facebook.getAuthResponse();
+                $scope.fb_share(id,type,value,$scope.getAuthResponse.accessToken);
+            });
+        }
+
+    }
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+        $scope.fbStatus = $facebook.isConnected();
+    });
+
+    $scope.fb_share = function(id,type,value,accessToken){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+        });
+
+        var fbtext = $('#fbtext').val();
+
+        if(type == 'image'){
+
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/postfbimage',
+                data    : $.param({'id':id,'image':value,'accessToken':accessToken,'com':fbtext}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function (result) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+        }else if(type == 'image1'){
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/postfbimage1',
+                data    : $.param({'id':id,'image':value,'accessToken':accessToken,'com':fbtext}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function (result) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+        }else if(type == 'mp4'){
+
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/postfbvideo',
+                data    : $.param({'video':value,'accessToken':accessToken,'com':fbtext}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function (result) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+        }else if(type == 'youtube'){
+
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/postfbYtvideo',
+                data    : $.param({'video':value,'accessToken':accessToken,'com':fbtext}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function (result) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+        }else{
+
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/postfbText',
+                data    : $.param({'accessToken':accessToken,'com':fbtext}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function (result) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+        }
+
+
+
+    }
+
+    $scope.showFbSucMsg = function(){
+        $scope.showFbSucMsg1 = ngDialog.open({
+            template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Posted Successfully On Facebook</div>',
+            plain:true,
+            showClose:false,
+            closeByDocument: true,
+            closeByEscape: true
+        });
+
+        setTimeout(function(){
+            $scope.showFbSucMsg1.close();
+        },3000);
+    }
+
+
+    $rootScope.twImageShare = function(item){
+        var sss = 'Say Something About This Picture';
+
+        if(item.is_status == 0){
+            var sType = 'image1';
+        }else{
+            var sType = 'image';
+        }
+
+        $scope.dialog2 = ngDialog.open({
+            template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="twText" id="fbtext"> <a href="javascript:void(0)" ng-click="postTw(\''+item.value+'\',\''+sType+'\')" id="comment_btn">POST</a></div>',
+            plain:true,
+            closeByDocument: false,
+            closeByEscape: false,
+            scope: $scope
+        });
+
+    };
+
+    $rootScope.twVidShare = function(item){
+        var sss = 'Say Something About This Picture';
+
+        var sType = 'text;'
+
+        $scope.dialog2 = ngDialog.open({
+            template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="twText" id="fbtext"> <a href="javascript:void(0)" ng-click="postTw(\''+item.value+'\',\''+sType+'\')" id="comment_btn">POST</a></div>',
+            plain:true,
+            closeByDocument: false,
+            closeByEscape: false,
+            scope: $scope
+        });
+
+    };
+
+    $scope.postTw = function(value,type){
+        $scope.dialog2.close();
+        var twText = $('#fbtext').val();
+
+        var sType = 'text';
+        if(type == 'image'){
+            sType = 'statImg';
+        }
+        if(type == 'image1'){
+            sType = 'commImg';
+        }
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getTwOauth',
+            data    : $.param({'user_id':$rootScope.rootsessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            if(result.oauth_token == '' || result.oauth_token_secret == ''){
+                window.location.href = ($scope.baseUrl+'/user/profile/twittershare1?image='+value+'&page=profile&com='+twText+'&userid='+$scope.sessUser+'&type='+sType);
+            }else{
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/twitter31.php',
+                    data    : $.param({'type':sType,'oauth_token':result.oauth_token,'oauth_token_secret':result.oauth_token_secret,'com':twText,'image':value}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function (result) {
+                    $scope.showTwSucMsg();
+                });
+            }
+        });
+
+
+    }
+
+    $scope.showTwSucMsg = function(){
+        $scope.showTwSucMsg1 = ngDialog.open({
+            template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Posted Successfully On Twitter</div>',
+            plain:true,
+            showClose:false,
+            closeByDocument: true,
+            closeByEscape: true
+        });
+
+        setTimeout(function(){
+            $scope.showTwSucMsg1.close();
+        },3000);
+    }
+
+    $rootScope.prShare = function(item){
+        window.open('http://pinterest.com/pin/create/button/?url=http://torqkd.com/&media='+item.img_src+'&description=','_blank');
+    }
 
 
 
@@ -1926,6 +2291,7 @@ homeControllers1.controller('signup', function($scope,$state,$cookieStore,$http,
     }
 
     $scope.submitsignUpForm = function(){
+
         $cookieStore.put('login_email',$scope.form.email);
         $cookieStore.put('login_password',$scope.form.password);
 
@@ -2567,9 +2933,6 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
     }
 
     $scope.signUpfinish = function(){
-        console.log($cookieStore.get('login_email'));
-        console.log($cookieStore.get('login_password'));
-        console.log($cookieStore.get('user_insert_id'));
 
 
         $scope.email = $cookieStore.get('login_email');
@@ -2792,12 +3155,56 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
         $scope.mainbanner = result;
     });
 
+    $scope.slides = [];
+    $scope.groupedSlides = [];
+
+    var i, j, first = [],
+        second, third;
+    var many = 3;
+
+
+
     $http({
         method: 'GET',
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/GetParentSports',
     }).success(function (result) {
-        $scope.slides = result;
+        //$scope.slides = result;
+        //$scope.slides1 = result;
+
+        if(result.length%3 > 0){
+
+            angular.forEach(result, function(value, key){
+                $scope.slides.push(value);
+            });
+
+            angular.forEach(result, function(value, key){
+                $scope.slides.push(value);
+            });
+
+            angular.forEach(result, function(value, key){
+                $scope.slides.push(value);
+            });
+        }else{
+            $scope.slides = result;
+        }
+
+
+        for (i = 0; i < $scope.slides.length; i += many) {
+            second = {
+                image1: $scope.slides[i]
+            };
+            if (many == 1) {}
+            if ($scope.slides[i + 1] && (many == 2 || many == 3)) {
+                second.image2 = $scope.slides[i + 1];
+
+            }
+            if ($scope.slides[i + (many - 1)] && many == 3) {
+                second.image3 = $scope.slides[i + 2];
+            }
+            first.push(second);
+        }
+        $scope.groupedSlides = first;
     });
 
 });
@@ -3459,10 +3866,248 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
     });
 
 
+    $scope.photoval="";
+    $scope.videoval1="";
+    $scope.videoval2="";
+    $scope.type="";
+    $scope.statusValue = "";
+    $scope.isStatusInput=0;
+    $scope.isRotateBtn=0;
+    $scope.share_with = 1;
+
+
+
+    $scope.getReqParams = function () {
+        return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
+        '&errorMessage=' + $scope.serverErrorMsg : '';
+    };
+
+    $scope.$watch('image', function (files) {
+        $scope.formUpload = false;
+        if (files != null) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.errorMsg = null;
+                (function (file) {
+                    upload(file);
+                })(files[i]);
+            }
+        }
+    });
+
+    function upload(file) {
+        $scope.errorMsg = null;
+        uploadUsingUpload(file);
+    }
+
+    function uploadUsingUpload(file) {
+        file.upload = Upload.upload({
+            url: $scope.baseUrl+'/user/ajs1/Uploadify_process_com' + $scope.getReqParams(),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            fields: {username: $scope.username},
+            file: file,
+            fileFormDataName: 'Filedata'
+        });
+
+        file.upload.then(function (response) {
+            file.result = response.data;
+            var ctime = (new Date).getTime();
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/Resizeimage_com',
+                data    : $.param({'filename':response.data}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function() {
+                $('.progress').addClass('ng-hide');
+                $scope.photoval=response.data;
+                $scope.statusValue = response.data;
+                $scope.isStatusInput=1;
+                $scope.isRotateBtn=1;
+                $scope.type="image";
+            });
+
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        });
+
+        file.upload.progress(function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+        });
+
+        file.upload.xhr(function (xhr) {
+            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
+        });
+    }
+
+    $scope.$watch('statusVideo', function (files) {
+        $scope.formUpload = false;
+        if (files != null) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.errorMsg = null;
+                (function (file) {
+                    upload1(file);
+                })(files[i]);
+            }
+        }
+    });
+
+    function upload1(file) {
+        $scope.errorMsg = null;
+        uploadUsingUpload1(file);
+    }
+
+    function uploadUsingUpload1(file) {
+        file.upload = Upload.upload({
+            url: $scope.baseUrl+'/user/ajs1/statusVidUp' + $scope.getReqParams(),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            fields: {username: $scope.username},
+            file: file,
+            fileFormDataName: 'Filedata'
+        });
+
+        file.upload.then(function (response) {
+            file.result = response.data;
+            $('.progress').addClass('ng-hide');
+
+            var ctime = (new Date).getTime();
+
+            $scope.isStatusInput = 0;
+            $scope.isRotateBtn = 0;
+            $scope.photoval = '';
+            $scope.videoval1 = '';
+            $scope.videoval2 = '';
+            $scope.isPhoto = 0;
+            $scope.isVideo = 0;
+            $scope.statusType = '';
+            $scope.statusValue = '';
+            $scope.shareVal = 1;
+
+
+            $scope.videoval1 = '';
+            $scope.photoval = '';
+            $scope.videoval2 = 'images/fileloader.gif';
+            $scope.isPhoto = 0;
+            $scope.isVideo = 0;
+
+            $scope.isPhoto = 0;
+            $scope.statusType = 'video';
+            $scope.statusValue = '';
+            $scope.isStatusInput = 1;
+
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/videoprocess',
+                data    : $.param({'file_name':response.data}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function(res2) {
+                $scope.videoval2 = res2;
+                $scope.statusValue = res2;
+
+            });
+
+
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        });
+
+        file.upload.progress(function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+
+        file.upload.xhr(function (xhr) {
+            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
+        });
+    }
+
+    $scope.imgRotate = function(type){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/rotateleft1',
+            data    : $.param({'imgname':$scope.statusValue,'arg':type}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.photoval = result;
+        });
+    }
+
+    $scope.cancelStatus = function(){
+        $scope.photoval="";
+        $scope.videoval1="";
+        $scope.videoval2="";
+        $scope.type="";
+        $scope.statusValue = "";
+        $scope.isStatusInput=0;
+        $scope.isRotateBtn=0;
+        $scope.share_with = 1;
+    }
+
+    $scope.postStatus = function(){
+        if(typeof($scope.statusText) == 'undefined'){
+            $scope.statusText = '';
+        }
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/addAlbum',
+            data    : $.param({'type':$scope.type,'value':$scope.statusValue,'msg':$scope.statusText,user_id:$scope.sessUser,share_with:$scope.share_with}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (data) {
+
+            if($scope.type == 'image'){
+                if($rootScope.photoList.length){
+                    $rootScope.photoList.splice(0, 0, data);
+                }else{
+                    $rootScope.photoList = [data];
+                }
+            }
+
+            if($scope.type == 'video'){
+                if($rootScope.videoList.length){
+                    $rootScope.videoList.splice(0, 0, data);
+                }else{
+                    $rootScope.videoList = [data];
+                }
+            }
+
+
+            $scope.photoval="";
+            $scope.videoval1="";
+            $scope.videoval2="";
+            $scope.type="";
+            $scope.statusValue = "";
+            $scope.isStatusInput=0;
+            $scope.isRotateBtn=0;
+            $scope.share_with = 1;
+
+
+        });
+
+
+
+    }
+
+
+
 
 });
 
-homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
+homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
     $scope.userId = 0;
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
         $scope.userDet = $cookieStore.get('rootuserdet');
@@ -3532,6 +4177,18 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
     });
 
 
+    $scope.passwordValidator = function(password) {
+
+        if(!password){return true;}
+
+        if (password.length < 6) {
+            return "Password must be at least " + 6 + " characters long";
+        }
+
+        return true;
+    };
+
+
 
     $scope.changeCountry = function(countryval){
         if(typeof (countryval) != 'undefined'){
@@ -3598,6 +4255,305 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         });
     }
 
+    $scope.profileImgDel = function(type){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/profileImgDel',
+            data    : $.param({'userid':$scope.userId,'type':type}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            if(type == 1){
+                $scope.profileImg = result.imgSrc;
+                $scope.profileImgName = result.imgName;
+            }
 
+            if(type==2){
+                $scope.coverImg = result.imgSrc;
+                $scope.coverImgName = result.imgName;
+            }
+        });
+    }
+
+    $scope.showtermsploicy = function(id){
+
+        var header = '';
+        if(id=='policy')
+            header = 'Privacy Policy';
+        if(id=='terms')
+            header = 'Terms And Condition';
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/cms/admin/conditionmanager1/bringcondition',
+            data    : $.param({'id':id}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            ngDialog.open({
+                template: '<div><strong style="font-size: 16px; color:#C97413; font-weight: normal; text-align:center; display:block; font-weight:bold; text-transform:uppercase; font-size:22px;">'+header+'</strong></div>'+data,
+                plain:true,
+                showClose:true,
+                closeByDocument: true,
+                closeByEscape: true
+            });
+        });
+    }
+
+    $scope.$watch('files', function (files) {
+        $scope.formUpload = false;
+        if (files != null) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.errorMsg = null;
+                (function (file) {
+                    upload(file);
+                })(files[i]);
+            }
+        }
+    });
+
+    $scope.getReqParams = function () {
+        return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
+        '&errorMessage=' + $scope.serverErrorMsg : '';
+    };
+
+    function upload(file) {
+        $scope.errorMsg = null;
+        uploadUsingUpload(file);
+    }
+
+    function uploadUsingUpload(file) {
+        file.upload = Upload.upload({
+            url: $scope.baseUrl+'/user/ajs1/profileImgUp' + $scope.getReqParams(),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            fields: {'user_id':$scope.userId},
+            file: file,
+            fileFormDataName: 'Filedata'
+        });
+
+        file.upload.then(function (response) {
+            file.result = response.data;
+
+            $scope.profileImgName = response.data;
+
+            var ctime = (new Date).getTime();
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/profileimgresize',
+                data    : $.param({'filename':response.data,'height':156,'width':142,'foldername':'thumb'}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function(data) {
+                $('.progress').addClass('ng-hide');
+                $scope.profileImg = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data+'?version='+ctime;
+                $scope.origprofileImg = response.data;
+            });
+
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        });
+
+        file.upload.progress(function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+
+        file.upload.xhr(function (xhr) {
+            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
+        });
+    }
+
+
+    $scope.$watch('files1', function (files) {
+        $scope.formUpload = false;
+        if (files != null) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.errorMsg = null;
+                (function (file) {
+                    upload1(file);
+                })(files[i]);
+            }
+        }
+    });
+
+    function upload1(file) {
+        $scope.errorMsg = null;
+        uploadUsingUpload1(file);
+    }
+
+    function uploadUsingUpload1(file) {
+        file.upload = Upload.upload({
+            url: $scope.baseUrl+'/user/ajs1/profileBackImgUp' + $scope.getReqParams(),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            fields: {'user_id':$scope.userId},
+            file: file,
+            fileFormDataName: 'Filedata'
+        });
+
+        file.upload.then(function (response) {
+            file.result = response.data;
+
+            $scope.coverImgName = response.data;
+
+            var ctime = (new Date).getTime();
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/profileBackimgresize',
+                data    : $.param({'filename':response.data,'height':536,'width':1175,'foldername':'thumb'}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function(data) {
+                $('.progress').addClass('ng-hide');
+                $scope.coverImg = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data+'?version='+ctime;
+                $scope.origcoverImg = response.data;
+            });
+
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        });
+
+        file.upload.progress(function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+
+        file.upload.xhr(function (xhr) {
+            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
+        });
+    }
+
+
+    var modalInstance;
+    $scope.modalClose = function(){
+        modalInstance.dismiss('cancel');
+    }
+
+
+    $scope.cropProfileImg = function(){
+        $scope.image = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/user_image/'+$scope.profileImgName);
+
+        $scope.animationsEnabled = true;
+        modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'mymodal',
+            windowClass: 'mymodalimg',
+            size: 'lg',
+            scope : $scope
+        });
+    }
+
+    $scope.cropform = {
+        'x2':142,
+        'y2':159,
+        'x1':0,
+        'y1':0,
+        'w':142,
+        'h':159,
+        height:159,
+        width:142,
+        foldername:'thumb'
+    }
+
+    $scope.selected = function(x) {
+        $scope.cropform = {
+            'x2': x.x2,
+            'y2': x.y2,
+            'x1': x.x,
+            'y1': x.y,
+            'w': x.w,
+            'h': x.h,
+            height:159,
+            width:142,
+            foldername:'thumb'
+        }
+    };
+
+
+    $scope.crop = function(){
+        angular.extend($scope.cropform, {'image':$scope.profileImgName});
+        modalInstance.dismiss('cancel');
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/Resize_cropImage',
+            data    : $.param($scope.cropform),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $scope.profileImg = $scope.baseUrl+'/uploads/user_image/temp/'+data;
+        });
+
+    }
+
+    $scope.cropProfileBackImg = function(){
+        $scope.image1 = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/user_image/background/'+$scope.coverImgName);
+
+        $scope.animationsEnabled = true;
+        modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'mymodal1',
+            windowClass: 'mymodalimg1',
+            size: 'lg',
+            scope : $scope
+        });
+    }
+
+
+    $scope.cropform1 = {
+        'x2':1175,
+        'y2':536,
+        'x1':0,
+        'y1':0,
+        'w':1175,
+        'h':536,
+        height:536,
+        width:1175,
+        foldername:'thumb'
+    }
+
+    $scope.selected1 = function(x) {
+        $scope.cropform1 = {
+            'x2': x.x2,
+            'y2': x.y2,
+            'x1': x.x,
+            'y1': x.y,
+            'w': x.w,
+            'h': x.h,
+            height:536,
+            width:1175,
+            foldername:'thumb'
+        }
+    };
+
+
+    $scope.crop1 = function(){
+        angular.extend($scope.cropform1, {'image':$scope.coverImgName});
+        modalInstance.dismiss('cancel');
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/resize_cropImage1',
+            data    : $.param($scope.cropform1),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $scope.coverImg = $scope.baseUrl+'/uploads/user_image/background/temp/'+data;
+        });
+
+    }
 
 });

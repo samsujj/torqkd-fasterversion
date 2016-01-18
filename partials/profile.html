@@ -116,9 +116,9 @@
 
           <div class="hover_img" ng-show="showFrndDiv" style="height: auto; background: url('../images/hover_div1.png') no-repeat; left:-5px;">
 
-            <ul ng-click="gotoProfile(item.id)" style="cursor: pointer;">
+            <ul  style="cursor: pointer;">
 
-              <li style="width:98px; float: left;  display:block;"> <img src="{{item.user_image}}" style="max-height:110px; max-width:98px;"  alt="#" /> </li>
+              <li style="width:98px; float: left;  display:block;" ng-click="gotoProfile(item.id)"> <img src="{{item.user_image}}" style="cursor: pointer; max-height:110px; max-width:98px;"  alt="#" /> </li>
 
               <li style="margin-left:0px; width:162px; float: right; display:block;"> <a ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
 
@@ -152,9 +152,9 @@
 
           <div class="hover_img"  ng-show="showunFrndDiv" style="background: url(../images/hover_div1.png) no-repeat; left:-5px;">
 
-            <ul ng-click="gotoProfile(item.id)" style="cursor: pointer;">
+            <ul>
 
-              <li style="width:98px; float: left;  display:block;"> <img src="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt="#" /> </li>
+              <li style="width:98px; float: left;  display:block;" ng-click="gotoProfile(item.id)"> <img src="{{item.user_image}}" style="max-height:100%; max-width:100%; cursor: pointer;"  alt="#" /> </li>
 
               <li  style="margin-left:0px; width:162px; float: right; display:block;"> <a ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
 
