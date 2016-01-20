@@ -22,7 +22,9 @@
 
             </li>
 
-            <li ng-if="(sessUser!=0)"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
+            <li ng-if="(sessUser!=0) && !isProfilePage"><a ui-sref="index" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
+            <li ng-if="isProfilePage && sessUser != userId"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
+
 
             <li data-original-title=""><a ui-sref="experience" data-original-title=""> The Experience</a></li>
 

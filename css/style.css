@@ -536,7 +536,7 @@ ul#menu li:hover ul.sub-menu {
 }
 .people-contain {
 	width:100%;
-	margin:14px 0 0px 0;
+	margin:32px 0 6px 0;
 }
 .people-contain strong {
 	font-family: 'veneerregular'!important;
@@ -549,7 +549,7 @@ ul#menu li:hover ul.sub-menu {
 }
 .people-contain .community-div {
 	height:30px;
-	width:30px;
+	min-width:30px;
 	font-size:16px;
 	text-align:center;
 	line-height:30px;
@@ -589,7 +589,7 @@ ul#menu li:hover ul.sub-menu {
 }
 .experience-rightcontain .video-contain {
 	width:97%;
-	margin-top:10px;
+	margin-top:22px;
 	padding: 0;
 }
 .experience-rightcontain .video-contain img {
@@ -912,7 +912,7 @@ div#item-actions img {
 	width: 30px;
 }
 .people-contain ul {
-	margin:0 0 10px 0;
+	margin:0 0 0px 0;
 	padding:0;
 }
 .people-contain ul li {
@@ -2385,7 +2385,7 @@ ul.slide li span strong {
 	font-family: 'veneerregular'!important;
 	font-size:24px;
 	color:#4f4f51;
-	margin:25px 10px 0 0;
+	margin:35px 10px 0 0;
 }
 .join-btn a {
 	color:#4f4f51;
@@ -4798,7 +4798,7 @@ width:84%;
 	border:solid 4px #fff;
 	font-size:22px;
 	margin-top:10px;
-	color:#111!important;
+	color:#414142!important;
 	display:inline-block;
 	padding:11px 25px 8px 25px;
 	text-align:center;
@@ -7505,3 +7505,83 @@ a:active, a:focus{outline:none!important;}
 
 
 .dropdown-menu_share li a.active{ background: #ff8b00 url(../images/sharetick.png) no-repeat 4px center!important; padding-left:20px!important; background-size:16px!important;}
+
+.experience-wrapper #exeSlider .ng-scope{ width:31%; margin:0 1%; height:auto; position:relative; background:}
+
+.experience-wrapper #exeSlider .ng-scope img{ width:100%;  border: 5px solid #fff;}
+
+.experience-wrapper .image-gallery{ padding-left:0.5%;}
+
+.experience-wrapper .carousel-indicators{ display:none;}
+
+
+
+.experience-wrapper #exeSlider .ng-scope h2 {
+    color: #fff;
+    font-family: "veneerregular" !important;
+    font-size: 38px;
+    font-weight: normal;
+    left: 12px;
+    letter-spacing: 5px;
+    position: absolute;
+    text-shadow: 2px 2px 5px #333;
+    text-transform: uppercase;
+    top: 7px;
+    width: 100px;
+}
+
+
+.experience-wrapper #exeSlider .ng-scope span {
+    background: rgba(0, 0, 0, 0) url("../images/1px.png") repeat scroll left top;
+    bottom: 5px;
+    display: block;
+    height: 30px;
+    left: 5px;
+    padding: 2px 2%;
+    position: absolute;
+    width: 96.3%;
+}
+
+.experience-wrapper #exeSlider .ng-scope span .text-div {
+    color: #e57e0d;
+    display: block;
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 14px;
+    width: 200px;
+	text-align:left;
+}
+.experience-wrapper #exeSlider .ng-scope span .more {
+    color: #e57e0d !important;
+    float: right !important;
+    font-family: "veneerregular" !important;
+    font-size: 24px !important;
+    line-height: 35px;
+    margin: 0;
+    padding: 0;
+    width: 74px !important;
+}
+.experience-wrapper #exeSlider .ng-scope span .more a {
+    color: #f39221 !important;
+    font-weight: normal;
+}
+.experience-wrapper #exeSlider .ng-scope span .more a:hover {
+    text-decoration: none;
+}
+
+.experience-wrapper #exeSlider .carousel-control.left{ background: url("../images/slideshow-left.png") no-repeat!important; width:37px!important; height:37px!important; opacity: 80.5!important; top: 45%;
+left: -40px;
+}
+
+.experience-wrapper #exeSlider .carousel-control.left span{ background:none!important; display:none;}
+
+
+
+.experience-wrapper #exeSlider .carousel-control.right{ background: url("../images/slideshow-right.png") no-repeat!important; width:37px!important; height:37px!important; opacity: 80.5!important; top: 45%;
+right: -40px;
+}
+
+.experience-wrapper #exeSlider .carousel-control.right span{ background:none!important; display:none;}

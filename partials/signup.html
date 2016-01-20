@@ -15,7 +15,25 @@ body {
 }
 
 .register_wrapper .form-contain .right-form .input1{ height:36px!important; width:92%!important; color:#888!important;  font-size: 13px!important;}
-#UserManager_password2{height:36px!important; width:92%!important; color:#888!important; font-size: 13px!important;}
+#UserManager_password2{height:36px!important; width:92%!important; color:#888!important; font-size: 13px!important; }
+
+.register_wrapper .form-contain .right-form .input1:-moz-placeholder{ color:#888!important;}
+#UserManager_password2::-moz-placeholder{ color:#888!important;}
+
+
+.register_wrapper .form-contain .right-form .input1:-moz-placeholder{ color:#888!important;}
+#UserManager_password2::-moz-placeholder{ color:#888!important;}
+
+
+.register_wrapper .form-contain .right-form .input1:-ms-input-placeholder{ color:#888!important;}
+#UserManager_password2:-ms-input-placeholder{ color:#888!important;}
+
+.register_wrapper .form-contain .right-form .input1::-ms-input-placeholder{ color:#888!important;}
+#UserManager_password2::-ms-input-placeholder{ color:#888!important;}
+
+.register_wrapper .form-contain .right-form .input1:placeholder-shown{ color:#888!important;}
+
+
 </style>
 <div class="register-body" style="background-image: none;">
   <div class="register_wrapper">
@@ -86,7 +104,7 @@ body {
             
            
               <div style="margin-bottom: 16px !important; display:block; overflow:hidden"> <span style="float: right;  display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
-                <input type="password"  class="input1"    id="UserManager_password" name="UserManager[password]" placeholder="PASSWORD"
+                <input type="password"  class="input1"   id="UserManager_password" name="UserManager[password]" placeholder="PASSWORD"
 
                         class = "form-control register_input"
 
@@ -117,15 +135,15 @@ body {
             
             
         <div style="margin-bottom:20px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
-              <select id="UserManager_country"    class="input1"  name="UserManager[country]" class = "register_select form-control" validate-on="blur" ng-model = "form.country" ng-change="changeCountry(form.country)" required-message="'Country cannot be blank.'" required ng-options="item.name for item in countrylist  track by item.id" style="background:#f1f1f3 none repeat scroll 0 0 !important;">
-              <option value="">SELECT YOUR COUNTRY</option>
+              <select id="UserManager_country"   class="input1"  name="UserManager[country]" class = "register_select form-control" validate-on="blur" ng-model = "form.country" ng-change="changeCountry(form.country)" required-message="'Country cannot be blank.'" required ng-options="item.name for item in countrylist  track by item.id" style="background:#f1f1f3 none repeat scroll 0 0 !important; color: #b8b8b9 !important; padding: 0 0 0 0px!important;">
+              <option value="" style="padding-left:5px;">SELECT YOUR COUNTRY</option>
               </select>
             </div>
             
             
           <div style="margin-bottom:20px!important; overflow: hidden; "> <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
-              <select id="UserManager_state"   class="input1"  name="UserManager[state]" class = "register_select form-control" validate-on="blur" ng-model = "form.state" required-message="'State cannot be blank.'" required ng-options="item.name for item in statelist  track by item.id">
-              <option value="">SELECT YOUR STATE</option>
+              <select id="UserManager_state"    class="input1"  name="UserManager[state]" class = "register_select form-control" validate-on="blur" ng-model = "form.state" required-message="'State cannot be blank.'" required ng-options="item.name for item in statelist  track by item.id" style=" color: #b8b8b9 !important;padding: 0 0 0 0px!important;">
+              <option value="" style="padding-left:5px;">SELECT YOUR STATE</option>
               </select>
             </div>
             
@@ -145,9 +163,9 @@ body {
             
            
               <div style="margin-bottom:20px!important; overflow: hidden;">
-                  <select class = "register_select form-control" ng-model = "form.gender" style="background: #f1f1f3 none repeat scroll 0 0 !important; border: 1px solid #414143 !important; border-radius: 5px !important; color: #888 !important; float: left; height: 38px !important;  width: 91% !important;">
-                      <option value="0">MALE</option>
-                      <option value="1">FEMALE</option>
+                  <select class = "register_select form-control" ng-model = "form.gender" style="background: #f1f1f3 none repeat scroll 0 0 !important; border: 1px solid #414143 !important; border-radius: 5px !important; color: #b8b8b9 !important; float: left; height: 38px !important;  width: 92%!important; padding: 0 0 0 0px!important;">
+                      <option value="0" style="padding-left:5px;">MALE</option>
+                      <option value="1" style="padding-left:5px;">FEMALE</option>
                   </select>
                 <!--<input type="radio" value="0" ng-model="form.gender" name="UserManager[gender]">
                 <strong class="ng-binding">Male</strong>

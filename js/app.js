@@ -517,6 +517,42 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
         }
     )
 
+        .state('photo',{
+            url:"/photo",
+            views: {
+                'content': {
+                    templateUrl: 'partials/photoall.html' ,
+                    controller: 'photo'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'photocommon'
+                },
+            }
+        }
+    )
+
+        .state('video',{
+            url:"/video",
+            views: {
+                'content': {
+                    templateUrl: 'partials/videoall.html' ,
+                    controller: 'video'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'photocommon'
+                },
+            }
+        }
+    )
+
         .state('editprofile',{
             url:"/editprofile/:userId",
             views: {
@@ -527,6 +563,87 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
                 'footer': {
                     templateUrl: 'partials/footer.html' ,
                     controller: 'footer'
+                },
+            }
+        }
+    )
+
+        .state('eventdetails',{
+            url:"/event-details/:eventId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/event_det.html' ,
+                    controller: 'eventdetails'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+            }
+        }
+    )
+
+        .state('editevent',{
+            url:"/edit-event/:eventId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/event_add.html' ,
+                    controller: 'editevent'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+            }
+        }
+    )
+
+        .state('addevent',{
+            url:"/add-event",
+            views: {
+                'content': {
+                    templateUrl: 'partials/event_add.html' ,
+                    controller: 'addevent'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+            }
+        }
+    )
+
+        .state('routes',{
+            url:"/routes/:userId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/routes.html' ,
+                    controller: 'routes'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'routecommon'
+                },
+            }
+        }
+    )
+
+        .state('allroutes',{
+            url:"/all-routes",
+            views: {
+                'content': {
+                    templateUrl: 'partials/allroutes.html' ,
+                    controller: 'allroutes'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'routecommon'
                 },
             }
         }
@@ -2011,6 +2128,13 @@ homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$
 
 
 });
+
+homeControllers1.controller('routecommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
+
+});
+
+
+
 homeControllers1.controller('mapcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi) {
 
     $http({
@@ -3210,7 +3334,7 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
 });
 
 homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
-
+    $scope.isProfilePage = 1;
     $scope.sessUser = 0;
     $scope.userId = $stateParams.userId;
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
@@ -3981,29 +4105,11 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
 
             var ctime = (new Date).getTime();
 
-            $scope.isStatusInput = 0;
-            $scope.isRotateBtn = 0;
-            $scope.photoval = '';
-            $scope.videoval1 = '';
-            $scope.videoval2 = '';
-            $scope.isPhoto = 0;
-            $scope.isVideo = 0;
-            $scope.statusType = '';
-            $scope.statusValue = '';
-            $scope.shareVal = 1;
-
-
-            $scope.videoval1 = '';
-            $scope.photoval = '';
+            $scope.isStatusInput=1;
+            $scope.type="video";
             $scope.videoval2 = 'images/fileloader.gif';
-            $scope.isPhoto = 0;
-            $scope.isVideo = 0;
 
-            $scope.isPhoto = 0;
-            $scope.statusType = 'video';
-            $scope.statusValue = '';
-            $scope.isStatusInput = 1;
-
+            $scope.upVidDiv1.close();
 
             $http({
                 method  : 'POST',
@@ -4014,7 +4120,6 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
             }).success(function(res2) {
                 $scope.videoval2 = res2;
                 $scope.statusValue = res2;
-
             });
 
 
@@ -4097,12 +4202,236 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
 
 
         });
+    }
+
+    $scope.videoUploadDivOpen = function(){
+        $scope.upVidDiv1 = ngDialog.open({
+            template: 'upVidDiv',
+            showClose:false,
+            closeByDocument: true,
+            closeByEscape: true,
+            scope: $scope,
+            controller: ['$scope', function($scope) {
+                $scope.$watch('video123', function (files) {
+                    $scope.formUpload = false;
+                    if (files != null) {
+                        for (var i = 0; i < files.length; i++) {
+                            $scope.errorMsg = null;
+                            (function (file) {
+                                upload1(file);
+                            })(files[i]);
+                        }
+                    }
+                });
+            }]
+        });
+    }
+
+    $scope.youtubeSearch = function(){
+        if($('#youtubeTxt').val() == ''){
+
+            $scope.Commentmsg = ngDialog.open({
+                template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please enter search key.</div>',
+                plain:true,
+                showClose:false,
+                closeByDocument: true,
+                closeByEscape: true
+            });
+
+            $timeout(function(){
+                $scope.Commentmsg.close();
+            },3000);
+
+        }else{
+            var dataurl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='+$('#youtubeTxt').val()+'&maxResults=10&key=AIzaSyANefU-R8cD3udZvBqbDPqst7jMKvB_Hvo';
+            $('#youtubeTxt').val('');
+
+            $http.get(dataurl).success(function(data){
+                $scope.vids = [];
+
+                angular.forEach(data.items, function(value, key){
+                    if(typeof (value.id.videoId) != 'undefined'){
+                        $scope.vids.push(value);
+                    }
+                });
+
+                $scope.ytdialog = ngDialog.open({
+                    template: 'youtubeVideo',
+                    showClose:false,
+                    closeByDocument: true,
+                    closeByEscape: true,
+                    className : 'youtubePopup',
+                    scope: $scope
+                });
+
+                $scope.upVidDiv1.close();
+
+            });
+
+        }
+    }
+
+    $scope.addYtVideo = function(item){
+
+        $scope.videoval1=item.id.videoId;
+        $scope.statusValue = item.id.videoId;
+        $scope.isStatusInput=1;
+        $scope.type="video";
 
 
+        $scope.ytdialog.close();
+    }
 
+});
+
+homeControllers1.controller('photo', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
+    $scope.sessUser = 0;
+    $scope.userId = $stateParams.userId;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet.id;
+        $rootScope.rootsessUser = $scope.userDet.id;
+    }
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getAllImage',
+        data    : $.param({'sessUser':$scope.sessUser}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }).success(function (result) {
+        $rootScope.photoList = result;
+    });
+
+
+});
+
+
+homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.sessUser = 0;
+    $scope.userId = $stateParams.userId;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet.id;
+        $rootScope.rootsessUser = $scope.userDet.id;
     }
 
 
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getAllVideo',
+        data    : $.param({'sess_id':$scope.sessUser}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $rootScope.videoList = result;
+    });
+
+    $rootScope.videoDet = {
+        index : 0,
+        itemId : 0,
+        pstval : '',
+        imgSrc : '',
+        userId : 0,
+        userImage : $scope.baseUrl+"/uploads/user_image/thumb/default.jpg",
+        userName : '',
+        timeSpan : '',
+        msg : '',
+        commentNo : 0,
+        likeNo : 0,
+        likeStatus : 0,
+        cUserId : 0,
+        cUserImage : $scope.baseUrl+"/uploads/user_image/thumb/default.jpg",
+        commentList : [],
+        value : '',
+        type : 'video',
+        basepath : '',
+        videoType : ''
+    };
+
+    var modalInstance;
+    $scope.modalClose1 = function(){
+        modalInstance.dismiss('cancel');
+    }
+
+    $rootScope.showVideo1 = function(item,index){
+        $rootScope.videoDet.index = index;
+        $rootScope.videoDet.itemId = item.id;
+        $rootScope.videoDet.imgSrc = item.img_src;
+        $rootScope.videoDet.userId = item.user_id;
+        $rootScope.videoDet.userImage = item.user_image;
+        $rootScope.videoDet.userName = item.user_name;
+        $rootScope.videoDet.msg = item.msg;
+        $rootScope.videoDet.timeSpan = item.timeSpan;
+        $rootScope.videoDet.commentNo = item.commentNo;
+        $rootScope.videoDet.likeNo = item.likeNo;
+        $rootScope.videoDet.likeStatus = item.likeStatus;
+        $rootScope.videoDet.cUserImage = item.cUserImage;
+        $rootScope.videoDet.videoType = item.type;
+        $rootScope.videoDet.cUserId = item.cUserId;
+        $rootScope.videoDet.basepath = item.basepath;
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getVideoComment',
+            data    : $.param({'id':item.id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.stateIsLoading = false;
+            $rootScope.videoDet.commentList = result;
+
+            $rootScope.videoDet.value = item.value;
+
+
+            $scope.animationsEnabled = true;
+            modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'videoComment1',
+                windowClass: 'photoPopup',
+                scope : $scope
+
+            });
+
+        });
+    }
+
+
+    $scope.postComment1 = function(event,type){
+        if(event.which === 13) {
+            var commentval = event.currentTarget.value;
+            if(commentval !='' && typeof(commentval)!= 'undefined'){
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/user/ajs1/addvideocomment',
+                    data    : $.param({'status_id':$rootScope.videoDet.itemId,'cmnt_body':commentval,'user_id':$rootScope.rootsessUser}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function (result) {
+                        if($rootScope.videoDet.commentList.length){
+                            $rootScope.videoDet.commentList.push(result);
+                        }else{
+                            $rootScope.videoDet.commentList = [result];
+                        }
+                    event.currentTarget.value = '';
+                });
+            }else{
+
+                $scope.Commentmsg = ngDialog.open({
+                    template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
+                    plain:true,
+                    showClose:false,
+                    closeByDocument: true,
+                    closeByEscape: true
+                });
+
+                $timeout(function(){
+                    $scope.Commentmsg.close();
+                },3000);
+            }
+        }
+    }
 
 
 });
@@ -4555,5 +4884,234 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         });
 
     }
+
+});
+
+homeControllers1.controller('eventdetails', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.evetId = $stateParams.eventId;
+    $scope.evetDet = [];
+    $scope.userId = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.userId = $scope.userDet.id;
+    }
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getEventDet',
+        data    : $.param({'id':$stateParams.eventId}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.evetDet = result;
+
+        angular.element( document.querySelector( '#eImage' ) ).html($scope.evetDet.imageTag);
+
+        $scope.map = {
+            dragZoom: {options: {}},
+            control:{},
+            center: {
+                latitude: result.latitude,
+                longitude: result.longitude
+            },
+            pan: true,
+            zoom: 12,
+            refresh: false,
+            events: {},
+            bounds: {},
+            markers: result.marker,
+            openedCanadaWindows:{},
+            onWindowCloseClick: function(gMarker, eventName, model){
+                if(model.dowShow !== null && model.dowShow !== undefined)
+                    return model.doShow = false;
+
+            },
+            markerEvents: {
+                click:function(gMarker, eventName, model){
+                    model.doShow = true;
+                    $scope.map.openedCanadaWindows = model;
+                }
+            }
+        };
+
+        $scope.map.markers.forEach(function(model){
+            model.closeClick = function(){
+                model.doShow = false;
+            };
+        });
+    });
+
+
+});
+
+homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.userId = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.userId = $scope.userDet.id;
+    }
+
+    $scope.heading = "Create Event";
+
+    $scope.groupList = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getgroupList',
+    }).success(function (result) {
+        $scope.groupList = result;
+    });
+
+    $scope.countrylist = [];
+    $scope.statelist = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getCountryList',
+    }).success(function (result) {
+        $scope.countrylist = result;
+    });
+
+    $scope.changeCountry = function(countryval){
+        if(typeof (countryval) != 'undefined'){
+            $scope.statelist = [];
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/getStateList',
+                data    : $.param({'id':countryval.id}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function (result) {
+                $scope.statelist = result;
+            });
+        }else{
+            $scope.statelist = [];
+        }
+
+    }
+
+    $scope.sportsList = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/allsports',
+    }).success(function (result) {
+        $scope.sportsList = result;
+    });
+
+    $scope.altInputFormats = ['M!/d!/yyyy'];
+    $scope.format = 'MM/dd/yyyy';
+    $scope.setDate1 = function(){
+        if(typeof($scope.form.to_date) != 'undefined'){
+            $scope.maxDate = new Date($scope.form.to_date);
+        }
+    }
+
+    $scope.disabled = function(date, mode) {
+        return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+    };
+
+    $scope.setDate = function(){
+        if(typeof($scope.form.from_date) != 'undefined'){
+            $scope.minDate1 = new Date($scope.form.from_date);
+        }
+    }
+
+    $scope.toggleMin = function() {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+
+    $scope.toggleMin();
+    $scope.maxDate = new Date(2020, 5, 22);
+
+    $scope.open1 = function() {
+        $scope.popup1.opened = true;
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+});
+
+homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.evetId = $stateParams.eventId;
+    $scope.evetDet = [];
+    $scope.userId = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.userId = $scope.userDet.id;
+    }
+
+    $scope.heading = "Edit Event";
+
+});
+homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.sessUser = 0;
+    $scope.userId = $stateParams.userId;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet.id;
+        $rootScope.rootsessUser = $scope.userDet.id;
+    }
+
+    $scope.viewMore = 0;
+    $scope.viewMoreLoad = 0;
+    $scope.offset = 0;
+
+    $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getUserDet',
+        data    : $.param({'userid':$scope.userId }),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.user_image = result.userdet.user_image;
+    });
+
+    $scope.routeList = [];
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getRoutes',
+        data    : $.param({'userid':$scope.userId,'offset':0}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.routeList = result.routes;
+        $scope.routeListCount = $scope.routeList.length;
+        if(result.totalCount > $scope.routeList.length){
+            $scope.viewMore = 1;
+            $scope.offset = 5;
+        }
+    });
+
+});
+homeControllers1.controller('allroutes', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.sessUser = 0;
+    $scope.userId = $stateParams.userId;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet.id;
+        $rootScope.rootsessUser = $scope.userDet.id;
+    }
+
+    $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getUserDet',
+        data    : $.param({'userid':$scope.userId }),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.user_image = result.userdet.user_image;
+    });
 
 });
