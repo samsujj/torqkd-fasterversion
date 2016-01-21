@@ -109,15 +109,15 @@
         <!--left panel contain[end]-->
 
         <!--right panel contain[start]-->
-        <div class="experience-rightcontain" style="margin-top:10px;">
+        <div class="experience-rightcontain" style="margin-top:12px;">
             <div class="video-contain">
                 <a class="various" href="javascript:void(0)" ng-click="openDefault()">
                     <img src="images/howitworks_3.jpg"  alt="#" />
                 </a>
             </div>
-            <div class="link1" ng-if="sessUser"><a href="javascript:void(0)">GPS YOUR ROUTE</a></div>
-            <div class="link2" ng-if="sessUser"><a href="javascript:void(0)">VIEW ROUTES</a></div>
-            <div class="link2" ng-if="!sessUser"><a href="javascript:void(0)">VIEW ROUTES</a></div>
+            <div class="link1" ng-if="sessUser"><a ui-sref="addroute">GPS YOUR ROUTE</a></div>
+            <div class="link2" ng-if="sessUser"><a ui-sref="routes({userId:userId})">VIEW ROUTES</a></div>
+            <div class="link2" ng-if="!sessUser"><a ui-sref="allroutes">VIEW ROUTES</a></div>
 
             <div class="albums">
                 <a href="javascript:void(0)">
@@ -125,7 +125,7 @@
                     <h2>ALBUMS</h2>
                 </a>
             </div>
-            <!--<div ng-include="'partials/maintv.html'"></div>-->
+            <div ng-include="'partials/maintv.html'"></div>
             <div class="link2" style="margin-bottom:0;"><a href="javascript:void(0)">FORUMS</a></div>
 
             <div class="foroms-contain">

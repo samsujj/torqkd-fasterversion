@@ -649,6 +649,24 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
         }
     )
 
+        .state('addroute',{
+            url:"/add-route",
+            views: {
+                'content': {
+                    templateUrl: 'partials/addroute.html' ,
+                    controller: 'addroute'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'routecommon'
+                },
+            }
+        }
+    )
+
 
     $locationProvider.html5Mode({
         enabled: true,
@@ -659,8 +677,14 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
 
 
 homeControllers1.controller('index', function($scope,$state,$cookieStore,$rootScope) {
-    $state.go('home');
-    return
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $state.go('profile',{userId:$scope.userDet.id});
+        return;
+    }else{
+        $state.go('home');
+        return
+    }
 });
 
 homeControllers1.controller('tabcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
@@ -2131,6 +2155,190 @@ homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$
 
 homeControllers1.controller('routecommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
 
+    $scope.canvasImage = '';
+    $rootScope.delRoute = function(id,index){
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center;">Are you sure delete this route?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+id+','+index+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+    }
+
+    $scope.delConfirm = function(id,index){
+        $scope.confirmDialog.close();
+        $rootScope.stateIsLoading = true;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delroute',
+            data    : $.param({'route_id': id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.stateIsLoading = false;
+            $rootScope.routeList.splice(index,1);
+        });
+    }
+
+    $scope.delCancel = function(){
+        $scope.confirmDialog.close();
+    }
+
+
+    $rootScope.createImage = function(id,type){
+        $rootScope.stateIsLoading = true;
+        html2canvas($('#map'+id), {
+            useCORS: true,
+            onrendered: function(canvas) {
+                var url = canvas.toDataURL();
+
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/user/ajs1/canvastoimg',
+                    data    : $.param({'data': url}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function (result) {
+                    var mapImage = result;
+
+                    $('#mapconmain').html($('#mapcon'+id).html());
+
+
+                    html2canvas($('#mapconmain'), {
+                        useCORS: true,
+                        onrendered: function(canvas) {
+                            var url = canvas.toDataURL();
+
+                            $http({
+                                method: 'POST',
+                                async:   false,
+                                url: $scope.baseUrl+'/user/ajs1/canvastoimg1',
+                                data    : $.param({'data': url}),
+                                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                            }).success(function (result) {
+                                var divImage = result;
+                                $rootScope.stateIsLoading = false;
+
+                                $('#mapconmain').html('');
+
+                                $http({
+                                    method: 'POST',
+                                    async:   false,
+                                    url: $scope.baseUrl+'/user/ajs1/imageMerge',
+                                    data    : $.param({'image1':mapImage,'image2':divImage}),
+                                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                                }).success(function (res) {
+
+                                    var shareImage = 'http://torqkd.com/fbshare/img/'+res;
+                                    var shareImage1 = res;
+
+                                    if(type == 'pr'){
+                                        window.open("http://pinterest.com/pin/create/button/?url=http://torqkd.com/&media="+shareImage+"&description=","_blank");
+                                    }
+                                    if(type == 'fb'){
+                                        if($scope.fbStatus) {
+                                            $scope.getAuthResponse = $facebook.getAuthResponse();
+                                            $scope.fb_share_route(shareImage,$scope.getAuthResponse.accessToken);
+                                        } else {
+                                            $facebook.login().then(function(){
+                                                $scope.getAuthResponse = $facebook.getAuthResponse();
+                                                $scope.fb_share_route(shareImage,$scope.getAuthResponse.accessToken);
+                                            });
+                                        }
+                                    }
+                                    if(type == 'tw'){
+                                        var twText = '';
+
+                                        var sType = 'routesImg';
+
+                                        $http({
+                                            method: 'POST',
+                                            async:   false,
+                                            url: $scope.baseUrl+'/user/ajs1/getTwOauth',
+                                            data    : $.param({'user_id':$rootScope.rootsessUser}),
+                                            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                                        }).success(function (result) {
+                                            if(result.oauth_token == '' || result.oauth_token_secret == ''){
+                                                window.location.href = ($scope.baseUrl+'/user/profile/twittershare1?image='+shareImage1+'&page=profile&com='+twText+'&userid='+$scope.sessUser+'&type='+sType);
+                                            }else{
+                                                $http({
+                                                    method: 'POST',
+                                                    async:   false,
+                                                    url: $scope.baseUrl+'/twitter31.php',
+                                                    data    : $.param({'type':sType,'oauth_token':result.oauth_token,'oauth_token_secret':result.oauth_token_secret,'com':twText,'image':shareImage1}),
+                                                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                                                }).success(function (result) {
+                                                    $scope.showTwSucMsg();
+                                                });
+                                            }
+                                        });
+                                    }
+
+                                });
+
+
+                            });
+
+                        }
+
+                    });
+
+                });
+
+            }
+
+        });
+    }
+
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+        $scope.fbStatus = $facebook.isConnected();
+    });
+
+    $scope.fb_share_route = function(image,accessToken){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/postfbRoutes1',
+            data    : $.param({'image':image,'accessToken':accessToken}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.showFbSucMsg();
+        });
+    }
+
+    $scope.showFbSucMsg = function(){
+        $scope.showFbSucMsg1 = ngDialog.open({
+            template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Posted Successfully On Facebook</div>',
+            plain:true,
+            showClose:false,
+            closeByDocument: true,
+            closeByEscape: true
+        });
+
+        setTimeout(function(){
+            $scope.showFbSucMsg1.close();
+        },3000);
+    }
+
+    $scope.showTwSucMsg = function(){
+        $scope.showTwSucMsg1 = ngDialog.open({
+            template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Posted Successfully On Twitter</div>',
+            plain:true,
+            showClose:false,
+            closeByDocument: true,
+            closeByEscape: true
+        });
+
+        setTimeout(function(){
+            $scope.showTwSucMsg1.close();
+        },3000);
+    }
+
+
 });
 
 
@@ -3252,6 +3460,8 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
 
     $scope.maintvfile = '';
 
+    $scope.isMute = true;
+
     $http({
         method: 'GET',
         async:   false,
@@ -3260,6 +3470,16 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
         $scope.maintv = result;
         $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
         $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+
+
+        setTimeout(function(){
+            console.log(1);
+            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            <source src="'+$scope.maintvfile+'" type="video/mp4">\
+            </video>');
+        },2000);
+
+
     });
 
     $http({
@@ -3343,6 +3563,8 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
+
+
     $http({
         method  : 'POST',
         async:   false,
@@ -3385,6 +3607,7 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
     });
 
     $scope.maintvfile = '';
+    $scope.isMute = true;
 
     $http({
         method: 'GET',
@@ -3394,6 +3617,13 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         $scope.maintv = result;
         $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
         $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+
+        setTimeout(function(){
+            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            <source src="'+$scope.maintvfile+'" type="video/mp4">\
+            </video>');
+        },2000);
+
     });
 
     $http({
@@ -5002,17 +5232,17 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
         $scope.sportsList = result;
     });
 
-    $scope.altInputFormats = ['M!/d!/yyyy'];
+    $scope.minDate = new Date();
+    $scope.minDate1 = new Date();
+
+
     $scope.format = 'MM/dd/yyyy';
+
     $scope.setDate1 = function(){
         if(typeof($scope.form.to_date) != 'undefined'){
             $scope.maxDate = new Date($scope.form.to_date);
         }
     }
-
-    $scope.disabled = function(date, mode) {
-        return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-    };
 
     $scope.setDate = function(){
         if(typeof($scope.form.from_date) != 'undefined'){
@@ -5020,21 +5250,104 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
         }
     }
 
-    $scope.toggleMin = function() {
-        $scope.minDate = $scope.minDate ? null : new Date();
+    $scope.open11 = function() {
+        $scope.opened1 = true;
     };
-
-    $scope.toggleMin();
-    $scope.maxDate = new Date(2020, 5, 22);
 
     $scope.open1 = function() {
-        $scope.popup1.opened = true;
+        $scope.opened = true;
     };
 
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
+    $scope.hstep = 1;
+    $scope.mstep = 15;
+
+    var d = new Date();
+    d.setMinutes( 0 );
+
+    $scope.form = {
+        start_time: d,
+        end_time: d,
+        sports_id: 0,
+        image: '',
+        all_day:0
     };
+
+
+
+    $scope.$watch('files', function (files) {
+        $scope.formUpload = false;
+        if (files != null) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.errorMsg = null;
+                (function (file) {
+                    upload(file);
+                })(files[i]);
+            }
+        }
+    });
+
+    $scope.getReqParams = function () {
+        return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
+        '&errorMessage=' + $scope.serverErrorMsg : '';
+    };
+
+    function upload(file) {
+        $scope.errorMsg = null;
+        uploadUsingUpload(file);
+    }
+
+    function uploadUsingUpload(file) {
+        file.upload = Upload.upload({
+            url: $scope.baseUrl+'/user/ajs1/eventUploadify_process' + $scope.getReqParams(),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            fields: {username: $scope.username},
+            file: file,
+            fileFormDataName: 'Filedata'
+        });
+
+        file.upload.then(function (response) {
+            $scope.form.image = response.data;
+
+            var ctime = (new Date).getTime();
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/eventesizeimage',
+                data    : $.param({'filename':response.data}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function(data) {
+                $('.progress').addClass('ng-hide');
+                $scope.eventImage = $scope.baseUrl+'/uploads/event_image/thumb/'+response.data+'?version='+ctime;
+            });
+
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        });
+
+        file.upload.progress(function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+
+        file.upload.xhr(function (xhr) {
+            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
+        });
+    }
+
+    $scope.selsp = function(sid){
+        //$('.activeimg').removeClass('activeimg');
+    }
+
+    $scope.submiteventForm = function(){
+        console.log($scope.form);
+    }
+
+
 
 });
 
@@ -5063,6 +5376,15 @@ homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,
     $scope.viewMoreLoad = 0;
     $scope.offset = 0;
 
+    $scope.map = {
+        zoom: 13,
+        lineStyle: {
+            color: '#F7931E',
+            weight: 4,
+            opacity: 1
+        }
+    };
+
     $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
 
     $http({
@@ -5075,7 +5397,7 @@ homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,
         $scope.user_image = result.userdet.user_image;
     });
 
-    $scope.routeList = [];
+    $rootScope.routeList = [];
 
     $http({
         method: 'POST',
@@ -5084,13 +5406,33 @@ homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,
         data    : $.param({'userid':$scope.userId,'offset':0}),
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
-        $scope.routeList = result.routes;
+        $rootScope.routeList = result.routes;
         $scope.routeListCount = $scope.routeList.length;
         if(result.totalCount > $scope.routeList.length){
             $scope.viewMore = 1;
             $scope.offset = 5;
         }
     });
+
+    $scope.viewMoreRoues = function(){
+        $scope.viewMoreLoad = 1;
+        $scope.viewMore = 0;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getRoutes',
+            data    : $.param({'userid':$scope.userId,'offset':$scope.offset}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.viewMoreLoad = 0;
+            $rootScope.routeList=$rootScope.routeList.concat(result.routes);
+            $scope.routeListCount = $scope.routeList.length;
+            if(result.totalCount > $scope.routeList.length){
+                $scope.viewMore = 1;
+                $scope.offset = $scope.offset+5;
+            }
+        });
+    }
 
 });
 homeControllers1.controller('allroutes', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
@@ -5102,16 +5444,52 @@ homeControllers1.controller('allroutes', function($scope,$state,$cookieStore,$ht
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
-    $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
+    $rootScope.routeList = [];
 
     $http({
         method: 'POST',
         async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getUserDet',
-        data    : $.param({'userid':$scope.userId }),
+        url: $scope.baseUrl+'/user/ajs1/getRoutes',
+        data    : $.param({'userid':0,'offset':0}),
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
-        $scope.user_image = result.userdet.user_image;
+        $rootScope.routeList = result.routes;
+        $scope.routeListCount = $scope.routeList.length;
+        if(result.totalCount > $scope.routeList.length){
+            $scope.viewMore = 1;
+            $scope.offset = 5;
+        }
     });
+
+    $scope.viewMoreRoues = function(){
+        $scope.viewMoreLoad = 1;
+        $scope.viewMore = 0;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getRoutes',
+            data    : $.param({'userid':0,'offset':$scope.offset}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.viewMoreLoad = 0;
+            $rootScope.routeList=$rootScope.routeList.concat(result.routes);
+            $scope.routeListCount = $scope.routeList.length;
+            if(result.totalCount > $scope.routeList.length){
+                $scope.viewMore = 1;
+                $scope.offset = $scope.offset+5;
+            }
+        });
+    }
+});
+
+homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.userId = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.userId = $scope.userDet.id;
+    }else{
+        $state.go('index');
+        return
+    }
 
 });

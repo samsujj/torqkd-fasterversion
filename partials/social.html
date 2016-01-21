@@ -198,7 +198,7 @@
 
       </span>
 
-          <span class="dropdown" ng-if="rootsessUser != item.user_id" style="width:auto; display:inline-block; float:none; padding:0 4px;">
+          <span class="dropdown" ng-if="rootsessUser != item.user_id" style="width:auto; display:inline; float:none; padding:0 4px;">
 
               <a href="javascript:void(0)" class="dropdown-toggle" style="text-decoration:none; outline:none;">
 
@@ -220,7 +220,7 @@
 
 
 
-          <b class="time-div">&nbsp;&nbsp;&nbsp;&nbsp;{{item.timespan}}</b> </span> <img src="images/deletebutton.png" style="display: block" class="deletebutton" ng-show="showStatusDel" ng-click="delStatus($index)" />
+          <b class="time-div">&nbsp;&nbsp;&nbsp;&nbsp;{{item.timespan}}</b> </span> <img src="images/deletebutton.png" style="display: block" class="deletebutton" ng-show="showStatusDel && item.user_id == item.c_user" ng-click="delStatus($index)" />
 
       <div class="clear"></div>
 

@@ -64,31 +64,57 @@
 
 .youtubePopup .ngdialog-content {
 
+position:relative;
 
-
-	position:relative;
-
-
-
-	margin:0 auto;
-
-
-
+	margin:10px auto!important;
 	width:80%;
 
-
-
-	padding:3px 12px;
-
-
+	padding:3px 0!important;
 
 	animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
-
-
-
+ border: 2px solid #f6921c!important;
+ border-radius: 6px!important;
 }
 
+.youtubePopup .ngdialog-content h4{ border-bottom:solid 1px #eeeeee; padding:12px 0; font-family: "veneerregular" !important;}
 
+.youtubePopup .ngdialog-content .youtubeVideo{ width:94%; display:block; margin:0 auto;  border: 5px solid #f6921c!important; clear:both; overflow-y: scroll; height:505px; padding:0 10px; margin-bottom:20px; }
+
+.youtubePopup .ngdialog-content{font-family: "veneerregular" !important;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;
+	border-bottom:solid 1px #eeeeee; margin:0; padding:12px 0;
+}
+
+.youtubePopup .ngdialog-content .ng-scope{   background: #e2e2e2;
+    float: left;
+    height: 430px;
+    margin: 5px;
+    padding: 10px 1% 10px 1%;
+    width: 46%; margin:25px 1%;}
+
+.youtubePopup .ngdialog-content .ng-scope h1{  border-bottom: 1px dotted #000;
+    font-family: "veneerregular" !important;
+    font-size: 16px;
+    font-weight: normal;
+    height: 40px;
+    line-height: 20px;
+    margin: 0 0 0 0;
+    padding: 10px 0 0 0;}
+
+.youtubePopup .ngdialog-content .ng-scope  .vidAddBtn{ display: block;
+    float: none;
+    margin: 20px auto;
+    width: 72px; background-color: #f8931f;
+    color: #333; border:solid 4px #fff;   font-family: "veneerregular" !important;
+    font-size: 22px;
+    font-weight: normal;  padding: 7px 0 4px 0; margin-top:15px;}
+	
+	.youtubePopup .ngdialog-content .ng-scope .embed-responsive{ border:solid 4px #fff;}
+	
+	
+	.videopopupclose{ position:absolute; right:20px; top:20px;}
 
 </style>
 
@@ -130,7 +156,7 @@
 
 
 
-          <div class="pic cnghidpic" ng-if="sessUser==userId"  onclick="javascript:window.location.href='<?php echo Yii::app()->getBaseUrl(); ?>/user/profile/editprofile#upproimage'">Edit Profile Picture</div>
+          <div class="pic cnghidpic" ng-if="sessUser==userId" >Edit Profile Picture</div>
 
 
 
@@ -150,7 +176,7 @@
 
 
 
-          <a ng-if="sessUser==userId" href="<?php echo yii::app()->getBaseUrl()  ?>/user/profile/editprofile"  class="pliocn" style="color:#f7931e; text-decoration:none; font-weight:bold; float: left; margin: 5px; font-size:24px;">+</a> <a ng-if="sessUser!=userId" href="<?php echo yii::app()->getBaseUrl()  ?>/user/profile/mysports/id/<?php echo $userid  ?>" class="pliocn" style=" color:#f7931e; text-decoration:none; font-weight:bold; float: left; margin: 5px; font-size:22px;">+</a> </div>
+          <a ng-if="sessUser==userId" href="javascript:void(0)"  class="pliocn" style="color:#f7931e; text-decoration:none; font-weight:bold; float: left; margin: 5px; font-size:24px;">+</a> <a ng-if="sessUser!=userId" href="javascript:void(0)" class="pliocn" style=" color:#f7931e; text-decoration:none; font-weight:bold; float: left; margin: 5px; font-size:22px;">+</a> </div>
 
 
 
@@ -162,7 +188,7 @@
 
 
 
-        <div class="changecover cnghidpic" ng-if="sessUser==userId" onclick="javascript:window.location.href='<?php echo Yii::app()->getBaseUrl(); ?>/user/profile/editprofile#upbackimage'">Change Cover</div>
+        <div class="changecover cnghidpic" ng-if="sessUser==userId">Change Cover</div>
 
 
 
@@ -294,9 +320,7 @@
 
 
 
-        <div class="img-div myParent" ng-repeat="item in unfrnddet | limitTo:6 track by item.id"  ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
-
-
+        <div class="img-div myParent" ng-repeat="item in unfrnddet | limitTo:6 track by item.id"  ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" ng-style="{'border':(item.frndship_type != 1?'none':'2px solid #f7931e')}">
 
           <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle;"><img src="{{item.user_image}}"  alt="#" class="img1" width="32"  /></div>
 
@@ -584,7 +608,7 @@
 
 
 
-          <div style="padding:padding:10px 0 10px 10px!important;">
+          <div style="padding:10px 0 0px 2px!important;">
 
 
 
@@ -636,11 +660,11 @@
 
 
 
-          <div style="padding:15px!important;">
+          <div style="padding:15px 15px 6px 15px!important;">
 
 
 
-            <input type="text" placeholder="Type to search YouTube" ng-model="youtubeTxt" id="youtubeTxt" class="searchbox searchboxtab" ng-enter="youtubeSearch()" >
+            <input type="text" placeholder="Type to search YouTube" ng-model="youtubeTxt" id="youtubeTxt" class="searchbox searchboxtab" style="text-align:center;" ng-enter="youtubeSearch()" >
 
 
 
@@ -758,11 +782,11 @@
 
 
 
-            <input type="button" ng-show="isRotateBtn==1" class="rotatebutl" ng-click="imgRotate(1)"  style=" background: url(images/rtal.png) no-repeat !important;   box-shadow: 0 0 2px #888!important; float: left !important; height: 34px !important; width: 114px !important; padding:0!important; border:solid 1px #fff!important; margin:8px 0 0 10px!important;" >
+            <input type="button" ng-show="isRotateBtn==1" class="rotatebutl" ng-click="imgRotate(1)"  style=" background: url(images/rtal.png) no-repeat !important;   box-shadow: 0 0 2px #888!important; float: left !important; height: 34px !important; width: 114px !important; padding:0!important; border:solid 1px #fff!important; margin:8px 0 0 10px!important;  font-weight:normal!important;" >
 
 
 
-            <input type="button" ng-show="isRotateBtn==1" class="rotatebutr" ng-click="imgRotate(2)"  style=" background: url(images/rtar.png) no-repeat !important;  box-shadow: 0 0 2px #888!important; float: right !important; height: 34px !important; width: 114px !important; padding:0!important; border:solid 1px #fff!important; margin:8px 10px 0 0!important;" >
+            <input type="button" ng-show="isRotateBtn==1" class="rotatebutr" ng-click="imgRotate(2)"  style=" background: url(images/rtar.png) no-repeat !important;  box-shadow: 0 0 2px #888!important; float: right !important; height: 34px !important; width: 114px !important; padding:0!important; border:solid 1px #fff!important; margin:8px 10px 0 0!important;  font-weight:normal!important;" >
 
 
 
@@ -914,7 +938,7 @@
 
 
 
-      <div class="link1" ng-if="sessUser==userId" style="margin-top:0px;"><a href="javascript:void(0)">MAP YOUR ROUTE</a></div>
+      <div class="link1" ng-if="sessUser==userId" style="margin-top:0px;"><a ui-sref="addroute">MAP YOUR ROUTE</a></div>
 
 
 
@@ -1063,379 +1087,16 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<div class="ngdialog-message">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h4>Select Video</h4>
 
 
 		<div class="youtubeVideo">
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ <img src="images/youtube_close.png"  alt="#" class="videopopupclose" />
 
 
 
