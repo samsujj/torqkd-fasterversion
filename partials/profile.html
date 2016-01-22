@@ -2,7 +2,15 @@
 
 
 
+
+
+
+
 .ngdialog-content {
+
+
+
+
 
 
 
@@ -10,7 +18,15 @@
 
 
 
+
+
+
+
 	border-radius: 0 !important;
+
+
+
+
 
 
 
@@ -18,7 +34,15 @@
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
@@ -26,7 +50,15 @@
 
 
 
+
+
+
+
 	position:relative;
+
+
+
+
 
 
 
@@ -34,7 +66,15 @@
 
 
 
+
+
+
+
 	width:80%;
+
+
+
+
 
 
 
@@ -42,11 +82,23 @@
 
 
 
+
+
+
+
 	animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
@@ -54,69 +106,139 @@
 
 
 
+
+
+
+
 	font:13px/18px Arial, Helvetica, sans-serif;
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
 .youtubePopup .ngdialog-content {
 
+
+
 position:relative;
 
+
+
 	margin:10px auto!important;
+
 	width:80%;
+
+
 
 	padding:3px 0!important;
 
+
+
 	animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+
  border: 2px solid #f6921c!important;
+
  border-radius: 6px!important;
+
 }
+
+
 
 .youtubePopup .ngdialog-content h4{ border-bottom:solid 1px #eeeeee; padding:12px 0; font-family: "veneerregular" !important;}
 
+
+
 .youtubePopup .ngdialog-content .youtubeVideo{ width:94%; display:block; margin:0 auto;  border: 5px solid #f6921c!important; clear:both; overflow-y: scroll; height:505px; padding:0 10px; margin-bottom:20px; }
 
+
+
 .youtubePopup .ngdialog-content{font-family: "veneerregular" !important;
+
     font-size: 20px;
+
     font-weight: normal;
+
     text-align: center;
+
 	border-bottom:solid 1px #eeeeee; margin:0; padding:12px 0;
+
 }
 
+
+
 .youtubePopup .ngdialog-content .ng-scope{   background: #e2e2e2;
+
     float: left;
+
     height: 430px;
+
     margin: 5px;
+
     padding: 10px 1% 10px 1%;
+
     width: 46%; margin:25px 1%;}
 
+
+
 .youtubePopup .ngdialog-content .ng-scope h1{  border-bottom: 1px dotted #000;
+
     font-family: "veneerregular" !important;
+
     font-size: 16px;
+
     font-weight: normal;
+
     height: 40px;
+
     line-height: 20px;
+
     margin: 0 0 0 0;
+
     padding: 10px 0 0 0;}
 
+
+
 .youtubePopup .ngdialog-content .ng-scope  .vidAddBtn{ display: block;
+
     float: none;
+
     margin: 20px auto;
+
     width: 72px; background-color: #f8931f;
+
     color: #333; border:solid 4px #fff;   font-family: "veneerregular" !important;
+
     font-size: 22px;
+
     font-weight: normal;  padding: 7px 0 4px 0; margin-top:15px;}
+
 	
+
 	.youtubePopup .ngdialog-content .ng-scope .embed-responsive{ border:solid 4px #fff;}
+
 	
+
 	
+
 	.videopopupclose{ position:absolute; right:20px; top:20px;}
 
+
+
 </style>
+
+
+
+
 
 
 
@@ -124,7 +246,15 @@ position:relative;
 
 
 
+
+
+
+
   <div class="experience-wrapper">
+
+
+
+
 
 
 
@@ -132,7 +262,15 @@ position:relative;
 
 
 
+
+
+
+
     <div ng-include="'partials/header.html'"></div>
+
+
+
+
 
 
 
@@ -140,7 +278,15 @@ position:relative;
 
 
 
+
+
+
+
     <!--Profile Banner Area[start]-->
+
+
+
+
 
 
 
@@ -148,7 +294,15 @@ position:relative;
 
 
 
+
+
+
+
       <div class="user-contain">
+
+
+
+
 
 
 
@@ -156,11 +310,23 @@ position:relative;
 
 
 
+
+
+
+
           <div class="pic cnghidpic" ng-if="sessUser==userId" >Edit Profile Picture</div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -168,7 +334,15 @@ position:relative;
 
 
 
+
+
+
+
         <div class="user-sub-img"> <img ng-repeat="item in userDet.user_sports | limitTo:9 track by item.id"  src="{{item.imag_name}}" style="float: none;margin-bottom:4px;"  alt="" />
+
+
+
+
 
 
 
@@ -176,11 +350,23 @@ position:relative;
 
 
 
+
+
+
+
           <a ng-if="sessUser==userId" href="javascript:void(0)"  class="pliocn" style="color:#f7931e; text-decoration:none; font-weight:bold; float: left; margin: 5px; font-size:24px;">+</a> <a ng-if="sessUser!=userId" href="javascript:void(0)" class="pliocn" style=" color:#f7931e; text-decoration:none; font-weight:bold; float: left; margin: 5px; font-size:22px;">+</a> </div>
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -188,11 +374,23 @@ position:relative;
 
 
 
+
+
+
+
         <div class="changecover cnghidpic" ng-if="sessUser==userId">Change Cover</div>
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -200,7 +398,15 @@ position:relative;
 
 
 
+
+
+
+
         <div class="banner1">
+
+
+
+
 
 
 
@@ -208,7 +414,15 @@ position:relative;
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -216,11 +430,23 @@ position:relative;
 
 
 
+
+
+
+
       <div class="clear"></div>
 
 
 
+
+
+
+
     </div>
+
+
+
+
 
 
 
@@ -228,7 +454,15 @@ position:relative;
 
 
 
+
+
+
+
     <!--Profile Freiend & stat Area[Start]-->
+
+
+
+
 
 
 
@@ -236,7 +470,15 @@ position:relative;
 
 
 
+
+
+
+
       <div class="search-left">
+
+
+
+
 
 
 
@@ -244,7 +486,15 @@ position:relative;
 
 
 
+
+
+
+
         <div class="community-div">{{userDet.frnd1}}</div>
+
+
+
+
 
 
 
@@ -252,7 +502,15 @@ position:relative;
 
 
 
+
+
+
+
           <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle; cursor: pointer;"><img src="{{item.user_image}}"  alt="#" class="img1" width="32"  /></div>
+
+
+
+
 
 
 
@@ -260,7 +518,15 @@ position:relative;
 
 
 
+
+
+
+
             <ul  style="cursor: pointer;">
+
+
+
+
 
 
 
@@ -268,11 +534,23 @@ position:relative;
 
 
 
+
+
+
+
               <li style="margin-left:0px; width:162px; float: right; display:block;"> <a ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
 
 
 
+
+
+
+
                 <div class="clear"></div>
+
+
+
+
 
 
 
@@ -280,7 +558,15 @@ position:relative;
 
 
 
+
+
+
+
                 <div class="clear"></div>
+
+
+
+
 
 
 
@@ -288,7 +574,15 @@ position:relative;
 
 
 
+
+
+
+
             </ul>
+
+
+
+
 
 
 
@@ -296,7 +590,15 @@ position:relative;
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -304,11 +606,23 @@ position:relative;
 
 
 
+
+
+
+
         <input type="button"  class="see-btn" ng-click="gotofrndList()" value="See More"/>
 
 
 
+
+
+
+
         <div class="clear"></div>
+
+
+
+
 
 
 
@@ -316,13 +630,27 @@ position:relative;
 
 
 
+
+
+
+
         <div class="community-div" ng-if="userDet.frnd > 0">+{{userDet.frnd}}</div>
+
+
+
+
 
 
 
         <div class="img-div myParent" ng-repeat="item in unfrnddet | limitTo:6 track by item.id"  ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" ng-style="{'border':(item.frndship_type != 1?'none':'2px solid #f7931e')}">
 
+
+
           <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle;"><img src="{{item.user_image}}"  alt="#" class="img1" width="32"  /></div>
+
+
+
+
 
 
 
@@ -330,7 +658,15 @@ position:relative;
 
 
 
+
+
+
+
             <ul>
+
+
+
+
 
 
 
@@ -338,11 +674,23 @@ position:relative;
 
 
 
+
+
+
+
               <li  style="margin-left:0px; width:162px; float: right; display:block;"> <a ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
 
 
 
+
+
+
+
                 <div class="clear"></div>
+
+
+
+
 
 
 
@@ -350,7 +698,15 @@ position:relative;
 
 
 
+
+
+
+
                 <div class="clear"></div>
+
+
+
+
 
 
 
@@ -358,7 +714,15 @@ position:relative;
 
 
 
+
+
+
+
             </ul>
+
+
+
+
 
 
 
@@ -366,7 +730,15 @@ position:relative;
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -374,7 +746,15 @@ position:relative;
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -382,39 +762,79 @@ position:relative;
 
 
 
+
+
+
+
        <h4>Stats</h4>
+
+
 
           <div class="clear"></div>
 
+
+
  <div style="position:relative;">
+
+
 
         <simple-slider  class="Stats-slider-contain">
 
 
 
+
+
+
+
           <!--<div ng-repeat="item in statDet track by item.id" >
+
+
 
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#DFE2E2 !important;">
 
+
+
                    <tr>
+
+
 
                      <th  colspan="4">{{item.sport_name}}</th>
 
+
+
                    </tr>
+
+
 
                    <tr> 
 
+
+
                  	<td> <div class="strongtext">{{item.total_dis}}</div><div class="spantext">Distance</div></td>
+
+
 
                 	<td> <div class="strongtext">{{item.total_time}}</div><div class="spantext">Time</div></td>
 
+
+
                     <td> <div class="strongtext">{{item.event_no}}</div><div class="spantext">Events</div></td>
+
+
 
                    </tr>		
 
+
+
                    </table>
 
+
+
               </div>-->
+
+
+
+
 
 
 
@@ -422,7 +842,15 @@ position:relative;
 
 
 
+
+
+
+
             <li>
+
+
+
+
 
 
 
@@ -430,7 +858,15 @@ position:relative;
 
 
 
+
+
+
+
               <div class="spantext">Sport</div>
+
+
+
+
 
 
 
@@ -438,7 +874,15 @@ position:relative;
 
 
 
+
+
+
+
             <li>
+
+
+
+
 
 
 
@@ -446,7 +890,15 @@ position:relative;
 
 
 
+
+
+
+
               <div class="spantext">Distance</div>
+
+
+
+
 
 
 
@@ -454,7 +906,15 @@ position:relative;
 
 
 
+
+
+
+
             <li>
+
+
+
+
 
 
 
@@ -462,7 +922,15 @@ position:relative;
 
 
 
+
+
+
+
               <div class="spantext">Time</div>
+
+
+
+
 
 
 
@@ -470,7 +938,15 @@ position:relative;
 
 
 
+
+
+
+
             <li>
+
+
+
+
 
 
 
@@ -478,11 +954,23 @@ position:relative;
 
 
 
+
+
+
+
               <div class="spantext">Activities</div>
 
 
 
+
+
+
+
             </li>
+
+
+
+
 
 
 
@@ -490,7 +978,15 @@ position:relative;
 
 
 
+
+
+
+
               <div class="strongtext">{{item.event_no}}</div>
+
+
+
+
 
 
 
@@ -498,11 +994,23 @@ position:relative;
 
 
 
+
+
+
+
             </li>
 
 
 
+
+
+
+
             <div class="clear"></div>
+
+
+
+
 
 
 
@@ -510,9 +1018,19 @@ position:relative;
 
 
 
+
+
+
+
         </simple-slider>
 
+
+
         </div>
+
+
+
+
 
 
 
@@ -520,7 +1038,15 @@ position:relative;
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -528,7 +1054,15 @@ position:relative;
 
 
 
+
+
+
+
     </div>
+
+
+
+
 
 
 
@@ -536,7 +1070,15 @@ position:relative;
 
 
 
+
+
+
+
     <!--Profile Left Content Area[start]-->
+
+
+
+
 
 
 
@@ -544,7 +1086,15 @@ position:relative;
 
 
 
+
+
+
+
       <div class="status-menu" ng-if="sessUser==userId" style="margin-top:20px!important;">
+
+
+
+
 
 
 
@@ -552,11 +1102,23 @@ position:relative;
 
 
 
+
+
+
+
           <textarea ng-focus="openStatusInput()" ng-keypress="chnagestatusval($event)" ng-blur="chnagestatusval($event)" id="statusText" ng-model="statusText" placeholder="STATUS UPDATE" style="box-shadow:none;"></textarea>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -564,7 +1126,15 @@ position:relative;
 
 
 
+
+
+
+
           <a href="javascript:void(0)" ng-click="addVideo()" style="color: #fff;">VIDEO</a> </div>
+
+
+
+
 
 
 
@@ -572,7 +1142,15 @@ position:relative;
 
 
 
+
+
+
+
           <a href="javascript:void(0)" ng-click="addPhoto()"  style="color: #fff;">Photo</a> </div>
+
+
+
+
 
 
 
@@ -580,7 +1158,15 @@ position:relative;
 
 
 
+
+
+
+
           EVENTS</a> </div>
+
+
+
+
 
 
 
@@ -588,7 +1174,15 @@ position:relative;
 
 
 
+
+
+
+
           GROUP</a> </div>
+
+
+
+
 
 
 
@@ -596,7 +1190,15 @@ position:relative;
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -604,7 +1206,15 @@ position:relative;
 
 
 
+
+
+
+
         <div ng-show="isPhoto">
+
+
+
+
 
 
 
@@ -612,11 +1222,23 @@ position:relative;
 
 
 
+
+
+
+
             <input type="button" class="browsebtn browsebtntab" value="Drop files here to upload or click to browse" ngf-drop ngf-select ng-model="statusImage" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
 
 
 
+
+
+
+
             <br>
+
+
+
+
 
 
 
@@ -624,7 +1246,15 @@ position:relative;
 
 
 
+
+
+
+
               <div style="width:{{statusImage[0].progress}}%; background:#F69830;" ng-bind="statusImage[0].progress + '%'"></div>
+
+
+
+
 
 
 
@@ -632,7 +1262,15 @@ position:relative;
 
 
 
+
+
+
+
             </div>
+
+
+
+
 
 
 
@@ -640,7 +1278,15 @@ position:relative;
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -648,11 +1294,23 @@ position:relative;
 
 
 
+
+
+
+
           <div style="padding:10px 10px 0 10px;"> <img ng-src="{{photoval == 'images/fileloader.gif' && photoval || baseUrl+'/uploads/status_img/'+photoval}}" /> </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -660,7 +1318,15 @@ position:relative;
 
 
 
+
+
+
+
           <div style="padding:15px 15px 6px 15px!important;">
+
+
+
+
 
 
 
@@ -668,7 +1334,15 @@ position:relative;
 
 
 
+
+
+
+
             <br>
+
+
+
+
 
 
 
@@ -676,7 +1350,15 @@ position:relative;
 
 
 
+
+
+
+
             <input class="browsebtn browsebtntab" type="button" value="Drop files here to upload or click to browse" ngf-drop ngf-select ng-model="statusVideo" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'video/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+
+
+
+
 
 
 
@@ -684,7 +1366,15 @@ position:relative;
 
 
 
+
+
+
+
               <div style="width:{{statusVideo[0].progress}}%; background:#F69830;" ng-bind="statusVideo[0].progress + '%'"></div>
+
+
+
+
 
 
 
@@ -692,11 +1382,23 @@ position:relative;
 
 
 
+
+
+
+
           </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -704,7 +1406,15 @@ position:relative;
 
 
 
+
+
+
+
           <div style="margin-bottom:10px;" class="embed-responsive embed-responsive-16by9 video-wrapper">
+
+
+
+
 
 
 
@@ -712,11 +1422,23 @@ position:relative;
 
 
 
+
+
+
+
           </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -724,7 +1446,15 @@ position:relative;
 
 
 
+
+
+
+
           <videogular ng-if="videoval2 != 'images/fileloader.gif'" ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+videoval2), type: 'video/mp4'}]" >
+
+
+
+
 
 
 
@@ -732,11 +1462,23 @@ position:relative;
 
 
 
+
+
+
+
           </videogular>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -744,11 +1486,23 @@ position:relative;
 
 
 
+
+
+
+
           <div style="position: relative;"> <img src="{{baseUrl}}/uploads/video/temp/{{videoTempval}}" /> <a href="http://torqkd.com?redirectvideoplay={{localfilepath}}"><img src="images/playVideo.png" style="position: absolute; width: 20%;  left:40%; top:40%;" /></a> </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -756,7 +1510,15 @@ position:relative;
 
 
 
+
+
+
+
           <div class="status_content"></div>
+
+
+
+
 
 
 
@@ -764,17 +1526,35 @@ position:relative;
 
 
 
+
+
+
+
             <select id="share_with" ng-model="share_with">
+
+
+
+
 
 
 
                 <option value="1">Community</option>
 
+
+
                 <option value="2">Friends</option>
+
+
 
                 <option value="3">Friends Of Friends</option>
 
+
+
                 <option value="2">Private Me Only</option>
+
+
+
+
 
 
 
@@ -782,7 +1562,15 @@ position:relative;
 
 
 
+
+
+
+
             <input type="button" ng-show="isRotateBtn==1" class="rotatebutl" ng-click="imgRotate(1)"  style=" background: url(images/rtal.png) no-repeat !important;   box-shadow: 0 0 2px #888!important; float: left !important; height: 34px !important; width: 114px !important; padding:0!important; border:solid 1px #fff!important; margin:8px 0 0 10px!important;  font-weight:normal!important;" >
+
+
+
+
 
 
 
@@ -790,7 +1578,15 @@ position:relative;
 
 
 
+
+
+
+
     
+
+
+
+
 
 
 
@@ -798,7 +1594,15 @@ position:relative;
 
 
 
+
+
+
+
     border: 3px solid #fff !important;
+
+
+
+
 
 
 
@@ -806,11 +1610,23 @@ position:relative;
 
 
 
+
+
+
+
     color: #414151 !important;
 
 
 
+
+
+
+
     display: block;
+
+
+
+
 
 
 
@@ -818,7 +1634,15 @@ position:relative;
 
 
 
+
+
+
+
     font-size: 16px !important;
+
+
+
+
 
 
 
@@ -826,7 +1650,15 @@ position:relative;
 
 
 
+
+
+
+
     height: 34px !important;
+
+
+
+
 
 
 
@@ -834,11 +1666,23 @@ position:relative;
 
 
 
+
+
+
+
     padding: 0 !important;
 
 
 
-    width: 114px !important;">
+
+
+
+
+    width: 114px !important; font-weight:normal!important;">
+
+
+
+
 
 
 
@@ -846,7 +1690,15 @@ position:relative;
 
 
 
+
+
+
+
     border: 3px solid #fff !important;
+
+
+
+
 
 
 
@@ -854,7 +1706,15 @@ position:relative;
 
 
 
+
+
+
+
     color: #414151 !important;
+
+
+
+
 
 
 
@@ -862,7 +1722,15 @@ position:relative;
 
 
 
+
+
+
+
     float: right !important;
+
+
+
+
 
 
 
@@ -870,7 +1738,15 @@ position:relative;
 
 
 
+
+
+
+
     font-style: normal;
+
+
+
+
 
 
 
@@ -878,7 +1754,15 @@ position:relative;
 
 
 
+
+
+
+
     margin: 8px 10px 0 0!important;
+
+
+
+
 
 
 
@@ -886,7 +1770,15 @@ position:relative;
 
 
 
-    width: 114px !important;">
+
+
+
+
+    width: 114px !important; font-weight:normal!important;">
+
+
+
+
 
 
 
@@ -894,11 +1786,23 @@ position:relative;
 
 
 
+
+
+
+
           </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -906,11 +1810,23 @@ position:relative;
 
 
 
+
+
+
+
            <div class="clear"></div>
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -918,11 +1834,23 @@ position:relative;
 
 
 
+
+
+
+
       <div ng-include="'partials/social_tab.html'"></div>
 
 
 
+
+
+
+
     </div>
+
+
+
+
 
 
 
@@ -930,7 +1858,15 @@ position:relative;
 
 
 
+
+
+
+
     <!--Profile Right Content Area[start]-->
+
+
+
+
 
 
 
@@ -938,7 +1874,15 @@ position:relative;
 
 
 
+
+
+
+
       <div class="link1" ng-if="sessUser==userId" style="margin-top:0px;"><a ui-sref="addroute">MAP YOUR ROUTE</a></div>
+
+
+
+
 
 
 
@@ -946,11 +1890,23 @@ position:relative;
 
 
 
+
+
+
+
       <div class="albums"> <a href="javascript:void(0)"> <img src="images/hs1-0-02.jpg"  alt="#" />
 
 
 
-        <h2 style="bottom: 40px" data-original-title=""><span style="margin-left: 0px; width:100%;">ALBUMS</span></h2>
+
+
+
+
+        <h2 style="bottom: 40px; padding-top:10px; padding-bottom:8px;" data-original-title=""><span style="margin-left: 0px; width:100%;">ALBUMS</span></h2>
+
+
+
+
 
 
 
@@ -958,7 +1914,15 @@ position:relative;
 
 
 
+
+
+
+
           <div class="daily_photo_text" style="position: relative; top: 0px; float: left; margin-left: 10px; background-image: none;"> <a style="font-size: 13px; color:#F7941D; font-family:veneerregular; letter-spacing:4px;" ui-sref="album({userId:userId})">PHOTOS & Videos </a> </div>
+
+
+
+
 
 
 
@@ -966,7 +1930,15 @@ position:relative;
 
 
 
+
+
+
+
           <div class="clear"></div>
+
+
+
+
 
 
 
@@ -974,7 +1946,15 @@ position:relative;
 
 
 
+
+
+
+
         </a> </div>
+
+
+
+
 
 
 
@@ -982,7 +1962,15 @@ position:relative;
 
 
 
-      <div class="link2" style="margin-bottom:0;"><a href="javascript:void(0)">FORUMS</a></div>
+
+
+
+
+      <div class="link2" style="margin-bottom:0;"><a ui-sref="forumlist">FORUMS</a></div>
+
+
+
+
 
 
 
@@ -990,7 +1978,15 @@ position:relative;
 
 
 
+
+
+
+
         <div ng-repeat="item in forumList"> <strong><a style="padding-left: 0 !important;" href="javascript:void(0);">{{item.title}}</a></strong><br />
+
+
+
+
 
 
 
@@ -998,11 +1994,23 @@ position:relative;
 
 
 
+
+
+
+
         </div>
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -1010,7 +2018,15 @@ position:relative;
 
 
 
-        <h2 data-original-title="">DAILY POLL</h2>
+
+
+
+
+        <h2 data-original-title="" style="padding-top:10px; padding-bottom:10px;">DAILY POLL</h2>
+
+
+
+
 
 
 
@@ -1018,11 +2034,23 @@ position:relative;
 
 
 
+
+
+
+
       <div ng-include="'partials/chatList.html'"></div>
 
 
 
+
+
+
+
       <div class="adspace">
+
+
+
+
 
 
 
@@ -1030,7 +2058,15 @@ position:relative;
 
 
 
+
+
+
+
           <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)"><img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" /></a> </simple-slider>
+
+
+
+
 
 
 
@@ -1038,7 +2074,15 @@ position:relative;
 
 
 
+
+
+
+
       </div>
+
+
+
+
 
 
 
@@ -1046,7 +2090,15 @@ position:relative;
 
 
 
+
+
+
+
         <div class="banner3">
+
+
+
+
 
 
 
@@ -1054,7 +2106,15 @@ position:relative;
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -1062,7 +2122,15 @@ position:relative;
 
 
 
+
+
+
+
     </div>
+
+
+
+
 
 
 
@@ -1070,7 +2138,15 @@ position:relative;
 
 
 
+
+
+
+
     <!--Profile FRight Content Area[end]-->
+
+
+
+
 
 
 
@@ -1078,7 +2154,15 @@ position:relative;
 
 
 
+
+
+
+
 </div>
+
+
+
+
 
 
 
@@ -1087,12 +2171,26 @@ position:relative;
 
 
 
+
+
+
+
+
 	<div class="ngdialog-message">
+
+
 
 <h4>Select Video</h4>
 
 
+
+
+
 		<div class="youtubeVideo">
+
+
+
+
 
 
 
@@ -1103,7 +2201,142 @@ position:relative;
 
 
 
+
+
+
+
+
+
+
 			<div ng-repeat="c in vids">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1359,7 +2592,263 @@ position:relative;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 					<youtube-video class="embed-responsive-item" video-id="c.id.videoId"></youtube-video>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1615,7 +3104,263 @@ position:relative;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 					<img src="images/youtube-playbtn.png" class="paly_video"  ng-click="playYvideo(c.id.videoId)" style="cursor:pointer;">-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1875,7 +3620,267 @@ position:relative;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				<h1>{{c.snippet.title}}</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2131,7 +4136,263 @@ position:relative;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2387,6 +4648,134 @@ position:relative;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			</div>
 
 
@@ -2515,7 +4904,139 @@ position:relative;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
+
+
+
+
 
 
 

@@ -667,6 +667,24 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
         }
     )
 
+        .state('forumlist',{
+            url:"/forum-list",
+            views: {
+                'content': {
+                    templateUrl: 'partials/forumlist.html' ,
+                    controller: 'forumlist'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'forumcommon'
+                },
+            }
+        }
+    )
+
 
     $locationProvider.html5Mode({
         enabled: true,
@@ -2150,6 +2168,9 @@ homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$
     }
 
 
+
+});
+homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
 
 });
 
@@ -5269,7 +5290,8 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
         end_time: d,
         sports_id: 0,
         image: '',
-        all_day:0
+        all_day:0,
+        user_id :$scope.userId
     };
 
 
@@ -5344,7 +5366,40 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
     }
 
     $scope.submiteventForm = function(){
-        console.log($scope.form);
+        if($scope.form.sports_id == 0){
+            ngDialog.open({
+                template: '<div style="text-align:center;">Please Select A Sport</div>',
+                plain:true,
+                showClose:true,
+                closeByDocument: false,
+                closeByEscape: false
+            });
+        }else{
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/addevent',
+                data    : $.param($scope.form),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(data) {
+                $scope.dialog = ngDialog.open({
+                    template: '<div style="text-align:center;">Event Added Successfully</div>',
+                    plain:true,
+                    showClose:false,
+                    closeByDocument: true,
+                    closeByEscape: true
+                });
+
+                $timeout(function(){
+                    $scope.dialog.close();
+
+                    $state.go('profile',{userId:$scope.userId});
+                    return
+
+                },3000);
+            });
+
+        }
     }
 
 
@@ -5361,6 +5416,262 @@ homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$ht
     }
 
     $scope.heading = "Edit Event";
+
+
+    $scope.groupList = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getgroupList',
+    }).success(function (result) {
+        $scope.groupList = result;
+    });
+
+    $scope.sportsList = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/allsports',
+    }).success(function (result) {
+        $scope.sportsList = result;
+    });
+
+    $scope.countrylist = [];
+    $scope.statelist = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getCountryList',
+    }).success(function (result) {
+        $scope.countrylist = result;
+    });
+
+    $scope.changeCountry = function(countryval){
+        if(typeof (countryval) != 'undefined'){
+            $scope.statelist = [];
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/getStateList',
+                data    : $.param({'id':countryval.id}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function (result) {
+                $scope.statelist = result;
+            });
+        }else{
+            $scope.statelist = [];
+        }
+
+    }
+
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/getEventDet',
+        data    : $.param({'id':$scope.evetId}),  // pass in data as strings  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        if(data.id){
+
+            $scope.minDate1 = new Date(data.from_date);
+            $scope.maxDate = new Date(data.to_date);
+
+            var d = new Date();
+            d.setMinutes( 0 );
+
+            if(data.all_day == 1){
+                $scope.start_time5 = d;
+                $scope.end_time5 = d;
+            }else{
+                $scope.start_time5 = new Date(data.start_time1);
+                $scope.end_time5 = new Date(data.end_time1);
+            }
+
+
+            $scope.form = {
+                id: data.id,
+                sports_id: data.sports_id,
+                image: data.image,
+                name: data.name,
+                description: data.description,
+                location: data.location,
+                address: data.address,
+                city: data.city,
+                zip: data.zip,
+                user_id :$scope.userId,
+                from_date: new Date(data.from_date),
+                to_date: new Date(data.to_date),
+                start_time: $scope.start_time5,
+                end_time: $scope.end_time5,
+                group_id:{
+                    id: data.group_id
+                },
+                all_day: data.all_day,
+                checked: data.all_day_chk,
+                register_url: data.register_url,
+                country:{
+                    id: data.country
+                },
+                state:{
+                    id: $scope.stateid
+                },
+
+            };
+            if(data.image)
+                $scope.eventImage = $scope.baseUrl+'/uploads/event_image/thumb/'+data.image;
+
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/getStateList',
+                data    : $.param({'id':data.country}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).success(function (result5) {
+                $scope.statelist = result5;
+                angular.forEach($scope.statelist, function(val, key) {
+                    if(val['s_st_iso'].trim() == data.state || val['name'].trim() == data.state){
+                        angular.extend($scope.form, {'state':{
+                            id: val['id'],
+                            name: val['name'],
+                            s_st_iso: val['s_st_iso'],
+                        }});
+                    }
+                });
+            });
+
+        }else{
+            $state.go('profile',{userId:$scope.userId});
+            return
+        }
+
+    });
+
+    $scope.minDate = new Date();
+
+    $scope.format = 'MM/dd/yyyy';
+
+    $scope.setDate1 = function(){
+        if(typeof($scope.form.to_date) != 'undefined'){
+            $scope.maxDate = new Date($scope.form.to_date);
+        }
+    }
+
+    $scope.setDate = function(){
+        if(typeof($scope.form.from_date) != 'undefined'){
+            $scope.minDate1 = new Date($scope.form.from_date);
+        }
+    }
+
+    $scope.open11 = function() {
+        $scope.opened1 = true;
+    };
+
+    $scope.open1 = function() {
+        $scope.opened = true;
+    };
+
+    $scope.hstep = 1;
+    $scope.mstep = 15;
+
+
+    $scope.submiteventForm = function() {
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/editevent',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $scope.dialog = ngDialog.open({
+                template: '<div style="text-align:center;">Event Updated Successfully</div>',
+                plain:true,
+                showClose:false,
+                closeByDocument: true,
+                closeByEscape: true
+            });
+
+            $timeout(function(){
+                $scope.dialog.close();
+
+                $state.go('profile',{userId:$scope.userId});
+                return
+
+            },3000);
+        });
+
+    };
+
+    $scope.$watch('files', function (files) {
+        $scope.formUpload = false;
+        if (files != null) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.errorMsg = null;
+                (function (file) {
+                    upload(file);
+                })(files[i]);
+            }
+        }
+    });
+
+    $scope.getReqParams = function () {
+        return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
+        '&errorMessage=' + $scope.serverErrorMsg : '';
+    };
+
+    function upload(file) {
+        $scope.errorMsg = null;
+        uploadUsingUpload(file);
+    }
+
+    function uploadUsingUpload(file) {
+        file.upload = Upload.upload({
+            url: $scope.baseUrl+'/user/ajs1/eventUploadify_process' + $scope.getReqParams(),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            fields: {username: $scope.username},
+            file: file,
+            fileFormDataName: 'Filedata'
+        });
+
+        file.upload.then(function (response) {
+            $scope.form.image = response.data;
+
+            var ctime = (new Date).getTime();
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/eventesizeimage',
+                data    : $.param({'filename':response.data}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function(data) {
+                $('.progress').addClass('ng-hide');
+                $scope.eventImage = $scope.baseUrl+'/uploads/event_image/thumb/'+response.data+'?version='+ctime;
+            });
+
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        });
+
+        file.upload.progress(function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
+
+        file.upload.xhr(function (xhr) {
+            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
+        });
+    }
+
+
+
 
 });
 homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
@@ -5491,5 +5802,10 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
         $state.go('index');
         return
     }
+
+});
+
+homeControllers1.controller('forumlist', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+
 
 });

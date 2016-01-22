@@ -322,6 +322,7 @@ margin-top:-14px;
 .experience-wrapper .top-contain {
 	width:100%;
 	margin-bottom:20px;
+	margin-top:5px;
 }
 .experience-wrapper .logo {
 	width:245px;
@@ -1068,7 +1069,7 @@ div#item-actions img {
 	border:none;
 	border-radius:  0;
 	padding:15px 0 13px 0;
-	font-size: 22px;
+	font-size: 24px;
 	line-height:16px;
 	border-right:solid 1px #fff!important;
 	border-color: #fff #fff transparent!important; cursor:pointer!important;
@@ -1946,7 +1947,7 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 .top-banner-contain .banner-image img {
 	width:100%;
 	height:100%;
-	max-height:445px;
+	max-height:443px;
 }
 .top-banner-contain .banner-add {
 	width:23%;
@@ -1973,6 +1974,7 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 	position:relative;
 	z-index:999;
 }
+
 .pic {
 	position:absolute;
 	bottom:10px;
@@ -1991,7 +1993,6 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 .pic a {
 	color:#333;
 }
-
 
 .top-banner-contain .user-contain .img-contain:hover .pic{ display:block;}
 .changecover {
@@ -2016,8 +2017,6 @@ input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .u
 .top-banner-contain .user-contain .img-contain img {
 	width:100%;
 }
-
-
 .top-banner-contain .user-contain h2 {
 	overflow:hidden!important;
 	font-family: 'veneerregular'!important;
@@ -7597,3 +7596,24 @@ right: -40px;
 }
 
 .experience-wrapper #exeSlider .carousel-control.right span{ background:none!important; display:none;}
+
+
+.confirmPopup .ngdialog-content{ width:480px!important; display:block; margin:20px auto!important; margin-top:20px!important; text-align:center;}
+
+.confirmPopup .confbtn{font-family: 'veneerregular';
+	color:#434142;
+	font-size:24px;
+	line-height:24px;
+	padding:7px 10px 2px 10px;
+	background:#f8931f;
+	cursor:pointer;
+	border:solid 4px #fff;
+	text-transform:uppercase;
+	margin:10px;
+	float:left;
+	border-radius:0px;
+	outline:none!important; -webkit-box-shadow: 0px 0px 2px 1px #ccc;
+-moz-box-shadow: 0px 0px 2px 1px #ccc;
+box-shadow: 0px 0px 2px 1px #ccc;}
+	
+	.confirmPopup .confirmBtn{ width:180px; margin:0 auto; overflow:hidden; margin-top:20px;}
