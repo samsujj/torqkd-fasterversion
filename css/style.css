@@ -709,8 +709,8 @@ ul#menu li:hover ul.sub-menu {
 }
 .adspace {
 	width: 100%;
-	height:120px; overflow:hidden;
-	margin-top:15px;
+	height:100%; overflow:hidden;
+	
 }
 .adspace img {
 	width:100%!important;
@@ -2458,6 +2458,7 @@ ul.slide li span strong {
 }
 .people-div .community-div {
 	height:30px;
+
 	width:30px;
 	font-size:16px;
 	text-align:center;
@@ -2590,7 +2591,7 @@ ul.slide li span strong {
 }
 .photos-body .top-text {
 	background:#58595b;
-	width:91%!important;
+	width:90.5%!important;
 	float:left;
 	width:850px;
 	padding:12px 0 7px 15px;
@@ -3881,7 +3882,7 @@ object,.SWFUpload_0{ color:#F7931E!important; }*/
 	padding-bottom:5px;
 }
 .forumpress-table span a {
-	font-size:11px;
+	font-size:20px!important;
 }
 .forumpress-table .flink2 a {
 	font-size:13px;
@@ -4432,7 +4433,7 @@ object,.SWFUpload_0{ color:#F7931E!important; }*/
 	color:#f7931e;
 	text-transform: uppercase;
 	font-size:10px;
-	margin:7px 0 0 20px;
+	margin:0px 0 0 5px;
 }
 .rowone .wpf-table .rememberme {
 	width:100px;
@@ -4742,6 +4743,7 @@ width:84%;
 	width:271px;
 	height:126px;
 	padding:38px 22px 22px 22px;
+
 	position:absolute;
 	right:0px!important;
 	top:25px;
@@ -5492,8 +5494,10 @@ width:84%;
 .banner2 {
 	width:100%;
 	font-family:Arial, Helvetica, sans-serif;
-	position:relative;
+	position:relative; height:158px; margin-bottom:15px; margin-top:18px; overflow:hidden;
 }
+
+.banner2 .adspace{ height:158px!important;}
 .banner2 .rslides li label a {
 	background:#000;
 	color:#fff;
@@ -5523,7 +5527,10 @@ width:84%;
 	width:100%;
 	font-family:Arial, Helvetica, sans-serif;
 	position:relative;
+	 height:325px; margin-bottom:15px; overflow:hidden;
 }
+
+.banner3 .adspace{ height:325px!important;}
 .banner3 .rslides li label a {
 	background:#000;
 	color:#fff;
@@ -7180,7 +7187,7 @@ height:80px;
 	text-decoration:none;
 }
 .ngdialog-content h2 {
-	margin-bottom:20px;
+	margin-top:20px; text-shadow:none!important
 }
 .upload-btnnew {
 	background:#242021 !important;
@@ -7319,9 +7326,9 @@ height:80px;
 
 .fbcommentpopup h2{  font-family: "veneerregular"; color: #333; font-size:24px; text-align:center; padding-bottom:0;}
 
-.fbcommentpopup #fbtext{ width:100%!important; height:40px!important; padding:8px; margin-bottom:20px!important;}
+.fbcommentpopup #fbtext{ width:90%!important; height:40px!important; padding:8px; margin:20px 5%!important;}
 
-.fbcommentpopup #comment_btn{ display:block; margin:10px auto; width:100px; background:#f7941e; border:solid 2px #fff; box-shadow:0 0 1px #888; color:#fff; overflow:hidden; font-size:16px; font-family: "veneerregular";  text-align:center; height:35px; line-height:35px;  font-weight:bold;} 
+.fbcommentpopup #comment_btn{ display:block; margin:0px auto; margin-bottom:20px; width:100px; background:#f7941e; border:solid 2px #fff; box-shadow:0 0 1px #888; color:#434142 ; overflow:hidden; font-size:22px; font-family: "veneerregular";  text-align:center; height:35px; line-height:40px;  font-weight:normal;} 
 
 
 .popupbox_social_box{ width:80%; margin:0 auto;  background-color: #f6f9fa;
@@ -7617,3 +7624,210 @@ right: -40px;
 box-shadow: 0px 0px 2px 1px #ccc;}
 	
 	.confirmPopup .confirmBtn{ width:180px; margin:0 auto; overflow:hidden; margin-top:20px;}
+	
+	
+	.addbrowsebtn{ width:90%!important; background:none; border: 1px dashed #777!important;
+    color: #777!important; font-size:11px!important; height: 32px!important;
+    line-height: 30px!important; display:block; margin:0 auto;  text-align:center;}
+	
+	
+	.forumpress-table h2 span { font-size:20px!important;}
+	
+		.forumpress-table h2 span a{ font-size:20px!important;}
+		
+				.forumpress-table  span a{ font-size:20px!important;}
+				
+				
+	.table-row2  .topicTitle a {
+    color: #333;
+    font-size: 12px;
+}			
+
+
+
+#forumLogin{ padding: 9px 10px;}
+
+#profileHeader p{font-size:12px; color:#333;}
+
+#profileHeader label span{ color:#ff0000;}
+
+#profileHeader #UserLogIn_email {
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    font-size: 15px !important;
+    height: 40px !important;
+    margin-bottom: 10px !important;
+    padding: 4px 7px !important;
+    width: 250px !important;
+		background:#fff!important;
+}
+
+#profileHeader #UserLogIn_password{
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    font-size: 15px !important;
+    height: 40px !important;
+    margin-bottom: 10px !important;
+    padding: 4px 7px !important;
+    width: 250px !important;
+	background:#fff!important;
+}
+
+#profileHeader .forum-login-main{ padding:10px 0 14px 0!important; clear:both!important;}
+
+#profileHeader .required{ width:auto!important; padding-right:10px!important; margin-left:0px!important;  margin-top: 10px !important;}
+
+
+#profileHeader .forum-login {
+    float: left;
+    width: 370px!important;
+}
+
+
+
+.btn-toolbar{ /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e6e6e6+0,b8b9b8+100 */
+background: #e6e6e6!important; /* Old browsers */
+background: -moz-linear-gradient(top,  #e6e6e6 0%, #b8b9b8 100%)!important; /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #e6e6e6 0%,#b8b9b8 100%)!important; /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #e6e6e6 0%,#b8b9b8 100%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6e6e6', endColorstr='#b8b9b8',GradientType=0 )!important; /* IE6-9 */
+margin:0; border-bottom:1px #b2b2b2 solid; margin-left: 0px;
+    padding: 0;}
+	
+.btn-toolbar .btn-default{ font-family:Arial, Helvetica, sans-serif!important; font-size:12px!important; color:#333!important; border-radius:4px!important; border:solid 1px #a6a6a6!important; /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fdfdfd+0,e2e2e2+100 */
+background: #fdfdfd!important; /* Old browsers */
+background: -moz-linear-gradient(top,  #fdfdfd 0%, #e2e2e2 100%)!important; /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #fdfdfd 0%,#e2e2e2 100%)!important; /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #fdfdfd 0%,#e2e2e2 100%!important); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#e2e2e2',GradientType=0 )!important; /* IE6-9 */  padding: 5px 10px!important;  font-weight: bold;
+
+}
+
+.topicbtn{font-family: 'veneerregular';
+color: #434142;
+font-size: 24px;
+line-height: 24px;
+padding: 7px 10px 2px 10px;
+background: #f8931f;
+cursor: pointer;
+border: solid 4px #fff;
+text-transform: uppercase;
+margin: 10px 10px 20px 0px;
+float: left;
+border-radius: 0px;
+outline: none!important;}
+
+.confirmPopup .ngdialog-content{ border:solid 5px #f7941e!important; padding:25px 0!important; }
+
+
+
+/*---------------*/
+
+.youtubePopup .ngdialog-content {
+
+
+
+position:relative;
+
+
+
+	margin:10px auto!important;
+
+	width:80%;
+
+
+
+	padding:3px 0!important;
+
+
+
+	animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+
+ border: 2px solid #f6921c!important;
+
+ border-radius: 6px!important;
+
+}
+
+
+
+.youtubePopup .ngdialog-content h4{ border-bottom:solid 1px #eeeeee; padding:12px 0; font-family: "veneerregular" !important;}
+
+
+
+.youtubePopup .ngdialog-content .youtubeVideo{ width:94%; display:block; margin:0 auto;  border: 5px solid #f6921c!important; clear:both; overflow-y: scroll; height:505px; padding:0 10px; margin-bottom:20px; }
+
+
+
+.youtubePopup .ngdialog-content{font-family: "veneerregular" !important;
+
+    font-size: 20px;
+
+    font-weight: normal;
+
+    text-align: center;
+
+	border-bottom:solid 1px #eeeeee; margin:0; padding:12px 0;
+
+}
+
+
+
+.youtubePopup .ngdialog-content .ng-scope{   background: #e2e2e2;
+
+    float: left;
+
+    height: 430px;
+
+    margin: 5px;
+
+    padding: 10px 1% 10px 1%;
+
+    width: 46%; margin:25px 1%;}
+
+
+
+.youtubePopup .ngdialog-content .ng-scope h1{  border-bottom: 1px dotted #000;
+
+    font-family: "veneerregular" !important;
+
+    font-size: 16px;
+
+    font-weight: normal;
+
+    height: 40px;
+
+    line-height: 20px;
+
+    margin: 0 0 0 0;
+
+    padding: 10px 0 0 0;}
+
+
+
+.youtubePopup .ngdialog-content .ng-scope  .vidAddBtn{ display: block;
+
+    float: none;
+
+    margin: 20px auto;
+
+    width: 72px; background-color: #f8931f;
+
+    color: #333; border:solid 4px #fff;   font-family: "veneerregular" !important;
+
+    font-size: 22px;
+
+    font-weight: normal;  padding: 7px 0 4px 0; margin-top:15px;}
+
+	
+
+	.youtubePopup .ngdialog-content .ng-scope .embed-responsive{ border:solid 4px #fff;}
+
+	
+
+	
+
+	.videopopupclose{ position:absolute; right:20px; top:20px;}
+	
+	
+	.albumpost{  font-family: "veneerregular" !important;}

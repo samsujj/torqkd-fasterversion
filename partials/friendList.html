@@ -66,12 +66,12 @@
 				<button class="close">&times;</button>
 				<ul>
 					<li style="width:98px; float: left;  display:block;" class="mobpimg">
-						<a ui-sref="profile({userId:item.id})"><img src="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt="#" /></a>
+						<a ui-sref="profile({userId:item.id})"><img src="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt="" /></a>
 					</li>
 					<li style="margin-left:0px; width:162px; float: right; display:block;" class="holist2">
 						<a class="uname222" ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
 						<div class="clear"></div>
-						<img ng-repeat="item1 in item.sports | limitTo:6" src="{{item1.imag_name}}" width="25"  alt="#" />
+						<img ng-repeat="item1 in item.sports | limitTo:6" src="{{item1.imag_name}}" width="25"  alt="" />
 						<div class="plno" ng-if="item.sports.length > 6">+{{item.sports.length-6}}</div>
 						<div class="clear"></div>
 						<a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && (item.frnd_type == 1 || item.frnd_type == 2)" ng-click="cancel_request(item.frnd_rel_id,$index)"> Cancel Request</a>

@@ -17,14 +17,14 @@
 
 <div class="activities-body" style="background:none;">
     <div class="register_wrapper">
-        <div class="logo" > <a ui-sref="index"> <img  alt="TORQKD" src="images/logo_main.png" /> </a> </div>
+        <div class="logo" > <a ui-sref="index"> <img  alt="" src="images/logo_main.png" /> </a> </div>
         <div class="form-contain">
             <div class="left-img">
-                <img id="limg" src="images/bgimage2.png"  alt="TORQKD" style="width: 100%;" />
+                <img id="limg" src="images/bgimage2.png"  alt="" style="width: 100%;" />
             </div>
             <div class="right-form">
                 <div class="activities_contain" id="contain1">
-                    <h1 style="margin:0; padding:0 0 13px 0;"><img  alt="TORQKD" src="images/selectsports.png" id="selSportsH" style="max-width:100%;"></h1>
+                    <h1 style="margin:0; padding:0 0 13px 0;"><img  alt="" src="images/selectsports.png" id="selSportsH" style="max-width:100%;"></h1>
 
 <!--
                     <div class="sports-table" ng-repeat="n in sportsList1" ng-init="current_cat = n.sport_parentcategory">
@@ -32,7 +32,7 @@
                         </ul  ng-if="current_cat != last_cat && count >0"><div class=clear  ng-if="current_cat != last_cat && count >0"></div>
                         <h3 ng-if="current_cat != last_cat"> {{n.sport_parentname}}</h3>
                         <ul ng-if="current_cat != last_cat">
-                            <li  class="sport_li" childern_no="{{n.children_no}}"> <a style="margin-bottom: 0px;" href="javascript:void(0)" data-toggle="tooltip" title="{{n.sport_name}}" class="sport_tag1" sport-id="{{n.id}}" ng-init="last_cat=current_cat;count=count+1;"><img src="{{baseUrl}}/uploads/sports_image/thumb/{{n.imag_name}}"  alt="#" /></a> <strong> {{n.connectionpage_name}}</strong></li>
+                            <li  class="sport_li" childern_no="{{n.children_no}}"> <a style="margin-bottom: 0px;" href="javascript:void(0)" data-toggle="tooltip" title="{{n.sport_name}}" class="sport_tag1" sport-id="{{n.id}}" ng-init="last_cat=current_cat;count=count+1;"><img src="{{baseUrl}}/uploads/sports_image/thumb/{{n.imag_name}}"  alt="" /></a> <strong> {{n.connectionpage_name}}</strong></li>
                     </div>
 
 -->
@@ -51,7 +51,7 @@
 
                                 <li ng-repeat="m in n.ch">
 
-                                    <a href="javascript:void(0);" style="margin-bottom: 0px;" ng-click="selectSp(m.id); actClass = !actClass"  ng-class="actClass ? 'activeimg' : ''" ><img  alt="{{m.name}}" src="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
+                                    <a href="javascript:void(0);" style="margin-bottom: 0px;" ng-click="selectSp(m.id); actClass = !actClass"  ng-class="actClass ? 'activeimg' : ''" ><img  alt="" src="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
 
                                     <strong> {{m.name}}</strong>
 

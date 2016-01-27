@@ -306,7 +306,7 @@ position:relative;
 
 
 
-        <div class="img-contain cngcondiv"><img src="{{userDet.profileImg}}"  alt="#" />
+        <div class="img-contain cngcondiv"><img src="{{userDet.profileImg}}"  alt="" />
 
 
 
@@ -506,7 +506,7 @@ position:relative;
 
 
 
-          <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle; cursor: pointer;"><img src="{{item.user_image}}"  alt="#" class="img1" width="32"  /></div>
+          <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle; cursor: pointer;"><img src="{{item.user_image}}"  alt="" class="img1" width="32"  /></div>
 
 
 
@@ -530,7 +530,7 @@ position:relative;
 
 
 
-              <li style="width:98px; float: left;  display:block;" ng-click="gotoProfile(item.id)"> <img src="{{item.user_image}}" style="cursor: pointer; max-height:110px; max-width:98px;"  alt="#" /> </li>
+              <li style="width:98px; float: left;  display:block;" ng-click="gotoProfile(item.id)"> <img src="{{item.user_image}}" style="cursor: pointer; max-height:110px; max-width:98px;"  alt="" /> </li>
 
 
 
@@ -554,7 +554,7 @@ position:relative;
 
 
 
-                <img ng-repeat="item1 in item.sports track by item1.id" src="{{item1.imag_name}}" width="25"  alt="#" /> <a ui-sref="profile({userId:item.id})" style="left:125px;top:97px;display: inline-block; height: 15px;  float: left; color:#F7921D; text-transform:none; font-weight: normal; font-family:Arial, Helvetica, sans-serif; font-size: 10px; text-align: center; padding: 5px; line-height:15px;position: absolute; ">See More</a>
+                <img ng-repeat="item1 in item.sports track by item1.id" src="{{item1.imag_name}}" width="25"  alt="" /> <a ui-sref="profile({userId:item.id})" style="left:125px;top:97px;display: inline-block; height: 15px;  float: left; color:#F7921D; text-transform:none; font-weight: normal; font-family:Arial, Helvetica, sans-serif; font-size: 10px; text-align: center; padding: 5px; line-height:15px;position: absolute; ">See More</a>
 
 
 
@@ -646,7 +646,7 @@ position:relative;
 
 
 
-          <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle;"><img src="{{item.user_image}}"  alt="#" class="img1" width="32"  /></div>
+          <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle;"><img src="{{item.user_image}}"  alt="" class="img1" width="32"  /></div>
 
 
 
@@ -670,7 +670,7 @@ position:relative;
 
 
 
-              <li style="width:98px; float: left;  display:block;" ng-click="gotoProfile(item.id)"> <img src="{{item.user_image}}" style="max-height:100%; max-width:100%; cursor: pointer;"  alt="#" /> </li>
+              <li style="width:98px; float: left;  display:block;" ng-click="gotoProfile(item.id)"> <img src="{{item.user_image}}" style="max-height:100%; max-width:100%; cursor: pointer;"  alt="" /> </li>
 
 
 
@@ -694,7 +694,7 @@ position:relative;
 
 
 
-                <img ng-repeat="item1 in item.sports track by item1.id" src="{{item1.imag_name}}" width="25"  alt="#" /> <a ui-sref="profile({userId:item.id})" style="left:125px;top:97px;position:absolute;display: inline-block; height: 15px;  float: left; color:#F7921D; text-transform:none;font-weight:normal; font-family:Arial, Helvetica, sans-serif; font-size: 10px; text-align: center; padding: 5px; line-height:15px; ">See More</a> <a href="javascript:void(0);" ng-click="addFriend(item)" ng-if="item.frndship_type == 0 && sessUser != 0" style="color:#f7931e;  display:inline-block; position: absolute; right:30px; bottom:40px; "> CONNECT +</a> <a href="javascript:void(0);" ng-click="cancel_request(item)"  ng-if="item.frndship_type == 1 && sessUser != 0" style="color:#f7931e;  display:inline-block; position: absolute; right:30px; bottom:40px; "> Cancel Request</a>
+                <img ng-repeat="item1 in item.sports track by item1.id" src="{{item1.imag_name}}" width="25"  alt="" /> <a ui-sref="profile({userId:item.id})" style="left:125px;top:97px;position:absolute;display: inline-block; height: 15px;  float: left; color:#F7921D; text-transform:none;font-weight:normal; font-family:Arial, Helvetica, sans-serif; font-size: 10px; text-align: center; padding: 5px; line-height:15px; ">See More</a> <a href="javascript:void(0);" ng-click="addFriend(item)" ng-if="item.frndship_type == 0 && sessUser != 0" style="color:#f7931e;  display:inline-block; position: absolute; right:30px; bottom:40px; "> CONNECT +</a> <a href="javascript:void(0);" ng-click="cancel_request(item)"  ng-if="item.frndship_type == 1 && sessUser != 0" style="color:#f7931e;  display:inline-block; position: absolute; right:30px; bottom:40px; "> Cancel Request</a>
 
 
 
@@ -1894,7 +1894,7 @@ position:relative;
 
 
 
-      <div class="albums"> <a href="javascript:void(0)"> <img src="images/hs1-0-02.jpg"  alt="#" />
+      <div class="albums"> <a ui-sref="photo"> <img src="images/hs1-0-02.jpg"  alt="" />
 
 
 
@@ -2045,7 +2045,7 @@ position:relative;
 
 
 
-
+ <div class="banner2">
       <div class="adspace">
 
 
@@ -2054,7 +2054,7 @@ position:relative;
 
 
 
-        <div class="banner2">
+       
 
 
 
@@ -2086,7 +2086,7 @@ position:relative;
 
 
 
-      <div class="adspace">
+     
 
 
 
@@ -2098,7 +2098,7 @@ position:relative;
 
 
 
-
+ <div class="adspace">
 
 
 
@@ -2194,7 +2194,7 @@ position:relative;
 
 
 
- <img src="images/youtube_close.png"  alt="#" class="videopopupclose" />
+ <img src="images/youtube_close.png" style="cursor: pointer;"  alt="" class="videopopupclose ngdialog-close" />
 
 
 

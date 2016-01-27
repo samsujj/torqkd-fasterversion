@@ -1,7 +1,7 @@
 'use strict';
 
 /* App Module */
-var homeControllers1 = angular.module('torqdTest', ['ui.router','angularValidator','ngDialog','ngCookies','ngFileUpload','ngAnimate', 'ngTouch','uiGmapgoogle-maps','ngSanitize','com.2fdevs.videogular','youtube-embed','highcharts-ng','shoppinpal.mobile-menu','ui.bootstrap','colorpicker.module', 'wysiwyg.module','readMore','ngFacebook','ImageCropper','widget.scrollbar']);
+var homeControllers1 = angular.module('torqdTest', ['ui.router','angularValidator','ngDialog','ngCookies','ngFileUpload','ngAnimate', 'ngTouch','uiGmapgoogle-maps','ngSanitize','com.2fdevs.videogular','youtube-embed','highcharts-ng','shoppinpal.mobile-menu','ui.bootstrap','colorpicker.module', 'wysiwyg.module','readMore','ngFacebook','ImageCropper','widget.scrollbar','textAngular']);
 
 homeControllers1.config(['$facebookProvider', function($facebookProvider) {
     $facebookProvider.setAppId('434078603403320').setPermissions(['email','user_friends']);
@@ -673,6 +673,96 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
                 'content': {
                     templateUrl: 'partials/forumlist.html' ,
                     controller: 'forumlist'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'forumcommon'
+                },
+            }
+        }
+    )
+
+        .state('spforumlist',{
+            url:"/forum-list-by-sports/:spId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/forumlist.html' ,
+                    controller: 'forumlist'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'forumcommon'
+                },
+            }
+        }
+    )
+
+        .state('forumdetails',{
+            url:"/forum-details/:forumId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/forumdetails.html' ,
+                    controller: 'forumdetails'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'forumcommon'
+                },
+            }
+        }
+    )
+
+        .state('topicdetails',{
+            url:"/topic-details/:topicId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/topicdetails.html' ,
+                    controller: 'topicdetails'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'forumcommon'
+                },
+            }
+        }
+    )
+
+        .state('newtopic',{
+            url:"/new-topic/:forumId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/newtopic.html' ,
+                    controller: 'newtopic'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+                'tabcommon': {
+                    controller: 'forumcommon'
+                },
+            }
+        }
+    )
+
+        .state('edittopic',{
+            url:"/edit-topic/:topicId",
+            views: {
+                'content': {
+                    templateUrl: 'partials/newtopic.html' ,
+                    controller: 'edittopic'
                 },
                 'footer': {
                     templateUrl: 'partials/footer.html' ,
@@ -1695,7 +1785,7 @@ homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$
     $rootScope.delPhoto = function(index){
         console.log(index);
         $scope.confirmDialog = ngDialog.open({
-            template: '<div style="text-align:center;">Are you sure delete this photo?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+index+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
+            template: '<div style="text-align:center;" class="delconfmsg">Are you sure delete this photo?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+index+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
             plain:true,
             showClose:false,
             closeByDocument: false,
@@ -2171,7 +2261,29 @@ homeControllers1.controller('photocommon', function($scope,$state,$cookieStore,$
 
 });
 homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
+    $rootScope.sessUser = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
+        $rootScope.sessUser = $rootScope.sessUserDet.id;
 
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getPImage',
+            data    : $.param({'userid':$rootScope.sessUserDet.id}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data) {
+            $rootScope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+data.profileImgName;
+        });
+
+    }
+
+    $rootScope.headingArr = [{
+        id:0,
+        value:'Forum',
+        link:'/forum-list'
+    }];
 });
 
 homeControllers1.controller('routecommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
@@ -2385,7 +2497,7 @@ homeControllers1.controller('mapcommon', function($scope,$state,$cookieStore,$ro
             zoom: 9,
             refresh: false,
             events: {},
-            bounds: {},
+            bounds:{},
             markers: result.marker,
             openedCanadaWindows:{},
             onWindowCloseClick: function(gMarker, eventName, model){
@@ -2402,6 +2514,10 @@ homeControllers1.controller('mapcommon', function($scope,$state,$cookieStore,$ro
             }
 
         };
+
+
+
+
 
         $rootScope.map.markers.forEach(function(model){
             model.closeClick = function(){
@@ -2914,9 +3030,12 @@ homeControllers1.controller('next', function($scope,$state,$cookieStore,$http,$r
                         $scope.fb_share($scope.getAuthResponse.accessToken);
                     });
                 }
-
-
         }
+        if($scope.social_select == 'tw'){
+            console.log($scope.baseUrl+'/user/ajs1/twittershare1');
+            window.location.href = ($scope.baseUrl+'/user/ajs1/twittershare1');
+        }
+
     };
 
     $scope.fb_share = function(accesstoken){
@@ -4214,7 +4333,7 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
     }
 
     $scope.isActiveTab = function(tabUrl) {
-        return tabUrl == $scope.currentTab;
+        return tabUrl == $scope.currentphotoTab;
     }
 
     $rootScope.photoList = [];
@@ -4257,7 +4376,7 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         '&errorMessage=' + $scope.serverErrorMsg : '';
     };
 
-    $scope.$watch('image', function (files) {
+    $scope.$watch('albumimage', function (files) {
         $scope.formUpload = false;
         if (files != null) {
             for (var i = 0; i < files.length; i++) {
@@ -5806,6 +5925,348 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
 });
 
 homeControllers1.controller('forumlist', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.spId = $stateParams.spId;
+
+    if(typeof ($scope.spId) == 'undefined'){
+        $scope.spId = 0;
+    }
+
+    $scope.forumList = [];
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getForumList',
+        data    : $.param({'id':$scope.spId}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.forumList = result;
+        if($scope.spId > 0){
+            $rootScope.headingArr.push({ id:result[0].id,value:result[0].sport_name,link:'/forum-list-by-sports/'+result[0].id})
+        }
+    });
+
+});
+
+homeControllers1.controller('forumdetails', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.forumId = $stateParams.forumId;
+
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getForumTopicList',
+        data    : $.param({'id':$scope.forumId}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.forumDet = result;
+        $scope.headingArr.push({ id:result.parent_id,value:result.parent_name,link:'/forum-list-by-sports/'+result.parent_id},{id:result.id,value:result.name,link:'/forum-details/'+result.id});
+
+    });
+
+});
+
+homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.topicId = $stateParams.topicId;
+
+    $scope.seesuser1 = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.sessUserDet1 = $cookieStore.get('rootuserdet');
+        $scope.seesuser1 = $scope.sessUserDet1.id;
+    }
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/getTopicHArr',
+        data    : $.param({'id':$scope.topicId}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }) .success(function(result) {
+        $scope.topicTitle = result.topic_title;
+        $scope.headingArr.push({ id:result.forum_category_id,value:result.forum_category_name,link:'/forum-list-by-sports/'+result.forum_category_id},{id:result.forum_id,value:result.forum_name,link:'/forum-details/'+result.forum_id},{ id:$scope.topicId,value:result.topic_title,link:'/topic-details/'+$scope.topicId});
+    });
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/addView',
+        data    : $.param({'id':$scope.topicId}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }) .success(function(result) {
+    });
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/getTopicDetails',
+        data    : $.param({'id':$scope.topicId,sess_id:$scope.seesuser1}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }) .success(function(result) {
+        $scope.topicDet = result;
+        $scope.topicDet.description = $sce.trustAsHtml($scope.topicDet.description);
+
+        $scope.form = {
+            title:'Re: '+result.title,
+            parentId:result.id,
+            forumId:result.forum_id,
+            user_id:$scope.seesuser1
+        }
+
+    });
+
+    $scope.addTopicForm = function(){
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/addnewTopic',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $rootScope.stateIsLoading = false;
+            $scope.isReply = false;
+            $scope.form = {
+                title:result.title,
+                parentId:result.parent_id,
+                forumId:result.forum_id,
+                user_id:$scope.seesuser1,
+                description:'',
+            }
+
+            if($scope.topicDet.topic_reply.length > 0){
+                $scope.topicDet.topic_reply.push(result);
+            }else{
+                $scope.topicDet.topic_reply = [result];
+            }
+        });
+    }
+
+    $scope.addTopicForm1 = function(index,item){
+        $rootScope.stateIsLoading = true;
+        var replyval = $('#Reply_description'+index).val();
+        if(replyval != ''){
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/addnewTopic',
+                data    : $.param({'title':item.title,'description':replyval,'parentId':item.id,'forumId':item.forum_id,user_id:$scope.seesuser1}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(result) {
+                $rootScope.stateIsLoading = false;
+                $('#Reply_description'+index).val('');
+
+                if($scope.topicDet.topic_reply.length > 0){
+                    item.topic_reply1.push(result);
+                }else{
+                    item.topic_reply1 = [result];
+                }
+            });
+        }
+    }
+
+
+
+    $scope.likeTopic = function(item){
+        if($scope.sessUser >0){
+            $http({
+                method: 'POST',
+                async:   false,
+                url: $scope.baseUrl+'/user/ajs1/topic_like',
+                data    : $.param({'id':item.id,'user_id':$scope.sessUser}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function (result) {
+                if(result == 0){
+                    item.likeNo = item.likeNo-1;
+                    item.likeStatus = 0;
+                }else{
+                    item.likeNo = item.likeNo+1;
+                    item.likeStatus = 1;
+                }
+            });
+
+        }
+    }
+
+    $scope.delTopicReply = function(id,index,parent){
+        $scope.parentReply = parent;
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center;">Are you sure delete this topic?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+id+','+index+',1)" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+    }
+
+    $scope.delTopicReply1 = function(id,index,parent){
+        $scope.parentReply = parent;
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center;">Are you sure delete this topic?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+id+','+index+',2)" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+    }
+
+    $scope.delTopicReply2 = function(id,f_id){
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center;">Are you sure delete this topic?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+id+','+f_id+',3)" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+    }
+
+    $scope.delConfirm = function(id,index,type){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delTopic',
+            data    : $.param({'id':id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            if(type == 2)
+                $scope.parentReply.topic_reply1.splice(index,1);
+            if(type == 1)
+                $scope.topicDet.topic_reply.splice(index,1);
+            if(type == 3){
+                $state.go('forumdetails',{forumId:index});
+                return;
+            }
+        });
+    }
+
+    $scope.delCancel = function(){
+        $scope.confirmDialog.close();
+    }
+
+    $scope.postid = 0;
+    $scope.replyedit = function(item){
+
+        $scope.item = item;
+
+        $scope.form1 = {
+            id:item.id,
+            replyeditarea:item.description,
+        }
+
+        $scope.ytdialog = ngDialog.open({
+            template: 'editpost',
+            showClose:true,
+            closeByDocument: true,
+            closeByEscape: true,
+            className : 'editpost',
+            scope: $scope
+        });
+    }
+
+    $scope.replyeditform = function(){
+        $scope.ytdialog.close();
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/editTopic1',
+            data    : $.param($scope.form1),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $rootScope.stateIsLoading = false;
+
+
+            $scope.item.description =  $scope.form1.replyeditarea;
+        });
+    }
+
+});
+
+homeControllers1.controller('newtopic', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.forumId = $stateParams.forumId;
+    $scope.seesuser1 = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.sessUserDet1 = $cookieStore.get('rootuserdet');
+        $scope.seesuser1 = $scope.sessUserDet1.id;
+    }
+
+    $scope.form = {
+        forumId : $scope.forumId,
+        parentId : 0,
+        user_id:$scope.seesuser1
+    }
+
+    $scope.addTopicForm = function(){
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/addnewTopic',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $rootScope.stateIsLoading = false;
+            $state.go('forumdetails',{forumId:$scope.forumId});
+            return;
+        });
+    }
+
+});
+
+homeControllers1.controller('edittopic', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.topicId = $stateParams.topicId;
+    $scope.seesuser1 = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.sessUserDet1 = $cookieStore.get('rootuserdet');
+        $scope.seesuser1 = $scope.sessUserDet1.id;
+    }
+
+    $scope.form = {
+        forumId : $scope.forumId,
+        parentId : 0,
+        user_id:$scope.seesuser1
+    }
+
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/getTopicDetails',
+        data    : $.param({'id':$scope.topicId,sess_id:$scope.seesuser1}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }) .success(function(result) {
+        $scope.topicDet = result;
+        $scope.forumId = result.forum_id;
+
+        $scope.form = {
+            id:result.id,
+            title:result.title,
+            description:result.description,
+        }
+
+    });
+
+
+    $scope.addTopicForm = function(){
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/editTopic',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $rootScope.stateIsLoading = false;
+            $state.go('forumdetails',{forumId:$scope.forumId});
+            return;
+        });
+    }
+
 
 
 });
