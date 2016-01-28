@@ -554,11 +554,26 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
     )
 
         .state('editprofile',{
-            url:"/editprofile/:userId",
+            url:"/editprofile",
             views: {
                 'content': {
                     templateUrl: 'partials/editprofile.html' ,
                     controller: 'editprofile'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    controller: 'footer'
+                },
+            }
+        }
+    )
+
+        .state('settings',{
+            url:"/settings",
+            views: {
+                'content': {
+                    templateUrl: 'partials/settings.html' ,
+                    controller: 'settings'
                 },
                 'footer': {
                     templateUrl: 'partials/footer.html' ,
@@ -2641,6 +2656,16 @@ homeControllers1.controller('footer', function($scope,$state,$cookieStore,$http,
         });
     }
 
+    $rootScope.sportsMenu = [];
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/GetParentSports',
+    }).success(function (result) {
+        $rootScope.sportsMenu = result;
+    });
+
 });
 
 homeControllers1.controller('home', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog) {
@@ -2692,6 +2717,23 @@ homeControllers1.controller('login', function($scope,$state,$cookieStore,$http,$
 });
 
 homeControllers1.controller('logout', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog) {
+    $scope.userId = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.userId = $scope.userDet.id;
+    }
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/logout',
+        data    : $.param({'cuser':$scope.userId}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+    });
+
+
+
     $cookieStore.remove('rootuserdet');
     $rootScope.rootsessUser = 0;
     $state.go('index');
@@ -6274,5 +6316,103 @@ homeControllers1.controller('edittopic', function($scope,$state,$cookieStore,$ht
     }
 
 
+
+});
+
+
+homeControllers1.controller('settings', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+    $scope.userId = 0;
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.userId = $scope.userDet.id;
+    }else{
+        $state.go('index');
+        return
+    }
+
+    $scope.searchkey = '';
+    $scope.userList = [];
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.baseUrl+'/user/ajs1/getBlockpeople',
+        data    : $.param({cuser:$scope.userId}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(result) {
+        $scope.blockList = result;
+    });
+
+    var modalInstance;
+    $scope.modalClose = function(){
+        modalInstance.dismiss('cancel');
+    }
+
+    $scope.block = function(){
+        if($scope.searchkey != ''){
+            $scope.animationsEnabled = true;
+
+            $rootScope.stateIsLoading = true;
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/searchUser',
+                data    : $.param({searchkey : $scope.searchkey,cuser:$scope.userId}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(result) {
+                $rootScope.stateIsLoading = false;
+
+                $scope.userList = result;
+
+                modalInstance = $modal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'userModal',
+                    windowClass: 'userModalCls',
+                    size: 'lg',
+                    scope : $scope
+                });
+
+
+            });
+        }
+    }
+
+    $scope.blockpeople = function(uid){
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/blockpeople',
+            data    : $.param({uid : uid,cuser:$scope.userId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $rootScope.stateIsLoading = false;
+
+            modalInstance.dismiss('cancel');
+
+            if(result.status == 1){
+                $scope.blockList.push(result.udet);
+            }
+
+        });
+    }
+
+    $scope.unblockpeople = function(item){
+        var idx = $scope.blockList.indexOf(item);
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/unblockpeople',
+            data    : $.param({uid : item.id,cuser:$scope.userId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $rootScope.stateIsLoading = false;
+
+            $scope.blockList.splice(idx,1);
+
+        });
+    }
 
 });

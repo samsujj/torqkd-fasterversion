@@ -90,8 +90,8 @@
                         <li  style="margin-left:20px; width:150px; float: right; display:block;">
                             <a href="javascript:void(0)">{{item.user_name}}</a>
                             <div class="clear"></div>
-                            <img ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" src="{{item1.imag_name}}" width="25"  alt="" style="width:25px; margin-bottom:2px;" />
-                            <div ng-if="item.sports.length>6" style="display: inline-block; height: 15px; background: #000; float: right; margin:0 9px 0 0; color:#F7921D; font-size: 12px; text-align: center; padding: 5px; line-height:15px; font-weight: bold;">+{{(item.sports.length-6)}}</div>
+                            <img ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" src="{{item1.imag_name}}" width="25"  alt="" style="width:25px; margin:0 2px 2px 0;" />
+                            <div ng-if="item.sports.length>6" style="display: inline-block; height: 15px; background: #000; float: right; margin:0 15px 0 0; color:#F7921D; font-size: 12px; text-align: center; padding: 5px; line-height:15px; font-weight: bold;">+{{(item.sports.length-6)}}</div>
                             <div class="clear"></div>
                         </li>
                     </ul>

@@ -21,16 +21,22 @@
             </li>
 
             <li ng-if="(sessUser!=0) && !isProfilePage"><a ui-sref="index" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
-            <li ng-if="isProfilePage && sessUser != userId"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
+            <li ng-if="isProfilePage && sessUser != userId && sessUser!=0"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
 
 
-            <li data-original-title=""><a ui-sref="experience" data-original-title=""> The Experience</a></li>
+            <li data-original-title=""><a ui-sref="experience" data-original-title=""> The Experience</a> </li>
 
-            <li data-original-title=""><a href="javascript:void(0);" data-original-title="">Sports</a></li>
+            <li data-original-title="" class="dropdownmenu"><a href="javascript:void(0);" data-original-title="">Sports</a>
+            
+             <ul>
+               <li ng-repeat="item in sportsMenu"> <a href="javascript:void(0);" data-original-title="">{{item.sport_name}}</a></li>
+            </ul>
+            
+            </li>
 
             <li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
 
-            <li ng-if="(sessUser!=0)"><a ui-sref="editprofile({userId:sessUser})"><img src="images/gear.png"  alt="" /></a></li>
+            <li ng-if="(sessUser!=0)"><a ui-sref="editprofile()"><img src="images/gear.png"  alt="" /></a></li>
 
             <li ng-if="(sessUser==0)"><a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
 
