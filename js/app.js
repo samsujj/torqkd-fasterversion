@@ -1,7 +1,7 @@
 'use strict';
 
 /* App Module */
-var homeControllers1 = angular.module('torqdTest', ['ui.router','angularValidator','ngDialog','ngCookies','ngFileUpload','ngAnimate', 'ngTouch','uiGmapgoogle-maps','ngSanitize','com.2fdevs.videogular','youtube-embed','highcharts-ng','shoppinpal.mobile-menu','ui.bootstrap','colorpicker.module', 'wysiwyg.module','readMore','ngFacebook','ImageCropper','widget.scrollbar','textAngular']);
+var homeControllers1 = angular.module('torqdTest', ['ui.router','angularValidator','ngDialog','ngCookies','ngFileUpload','ngAnimate', 'ngTouch','uiGmapgoogle-maps','ngSanitize','com.2fdevs.videogular','youtube-embed','highcharts-ng','shoppinpal.mobile-menu','ui.bootstrap','colorpicker.module', 'wysiwyg.module','readMore','ngFacebook','ImageCropper','widget.scrollbar','textAngular','angularLazyImg']);
 
 homeControllers1.config(['$facebookProvider', function($facebookProvider) {
     $facebookProvider.setAppId('434078603403320').setPermissions(['email','user_friends']);
@@ -4306,7 +4306,7 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
-    $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
+    //$scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
 
     $http({
         method: 'POST',
@@ -4376,7 +4376,8 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         '&errorMessage=' + $scope.serverErrorMsg : '';
     };
 
-    $scope.$watch('albumimage', function (files) {
+    $scope.$watch('image', function (files) {
+        console.log(files);
         $scope.formUpload = false;
         if (files != null) {
             for (var i = 0; i < files.length; i++) {
@@ -4389,11 +4390,15 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
     });
 
     function upload(file) {
+        console.log(file);
         $scope.errorMsg = null;
         uploadUsingUpload(file);
     }
 
     function uploadUsingUpload(file) {
+
+        console.log(1);
+
         file.upload = Upload.upload({
             url: $scope.baseUrl+'/user/ajs1/Uploadify_process_com' + $scope.getReqParams(),
             method: 'POST',
@@ -4441,6 +4446,7 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
     }
 
     $scope.$watch('statusVideo', function (files) {
+
         $scope.formUpload = false;
         if (files != null) {
             for (var i = 0; i < files.length; i++) {
