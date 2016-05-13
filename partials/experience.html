@@ -22,23 +22,97 @@
         <div class="top-contain">
             <div>
                 <div class="logo">
-                    <a ui-sref="index" ng-if="(sessUser==0)"><img src="images/logo_main.png"  alt="" /></a>
+                    <a ui-sref="index" ng-if="(sessUser==0)"><img src="images/logo_main.png" width="224" height="69" alt="" /></a>
                     <a ui-sref="profile({userId:sessUser})" ng-if="(sessUser!=0)"><img src="images/logo_main.png"  alt="" /></a>
                 </div>
-                <div class="top-menu" style="width:230px">
+                <div class="top-menu" style="width:355px">
                     <ul id="menu">
-                        <li ng-if="(sessUser!=0)"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
-                        <li data-original-title=""><a href="javascript:void(0);" data-original-title="">Sports</a></li>
-                        <li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
+                        <li ng-show="rootsessUser123 > 0">
+                            <a href="javascript:void(0)" ng-click="opennotlistttt()" class="dropdown-toggle" data-toggle="dropdown">
+                                <img ng-show="unReadNot > 0" alt="" src="images/notification_active.png" width="34" height="35" style=" margin:0; "/>
+                                <img ng-show="unReadNot == 0" alt="" src="images/notification_inactive.png" width="34" height="35" style=" margin:0;"/>
+                            </a>
 
-                        <li ng-if="(sessUser!=0)"><a ui-sref="editprofile({userId:sessUser})"><img src="images/gear.png"  alt="" /></a></li>
+                            <ul class="showmsgblog dropdown-menu" style="border: none; border-radius: 0; box-shadow: none;">
+                                <span  class="showmsgwrapper">
+                                    <li>
+                                        <div ng-repeat="item in notificationList | limitTo:5" class="cmsglist" style="width:303px; padding:5px; border-bottom: 1px solid #FFFFFF; " ng-style="{ background: item.is_read1 == 0 ? '#d9d9d9' : '#ebebeb' }">
+                                            <div class="msg_photo"  ng-click="openNotPost(item); markasreadnot(item);">
+                                                <img src="{{item.user_image}}" width="50">
+                                            </div>
+                                            <div class="msg_text" style="cursor: pointer;" ng-click="openNotPost(item); markasreadnot(item);">
+                                                <div  class="msg_text-wrapper" style="width:160px; float:left;" >
+                                                    <div ng-bind-html="item.str | emoticons:{'linkTarget':'_blank','newLine':true}" class="notificationStr"></div>
+                                                    <label  >{{item.time_str1}}</label>
+                                                </div>
+                                                <div ng-show="item.file" style="width:50px; height:38px; background-color:#000; float:right;  background-position: center center; background-size: cover; background-image: url('{{item.file}}')"></div>
+                                            </div>
+                                            <!--<a ng-click="markasreadnot(item)" title="Mark As Read" class="msgclose">x</a>-->
+                                            <div style="clear:both;"></div>
+                                        </div>
+                                    </li>
+                                    <li class="cmsglist" style="background-color: #f7931e!important; border:none; text-align:center; padding: 10px 0 8px 0; width:100%; border-top:solid 5px #fff!important;"><a ui-sref="allnotification" style="color:#58595b; display:block; background:#f7931e!important; ">See All</a></li>
+                                </span>
+                            </ul>
+                        </li>
+                        <li  ng-show="rootsessUser123 > 0" >
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                <img ng-show="unReadMsg > 0" alt="" src="images/messag_active.png" width="29" height="35" style=" margin:0 ;"/>
+                                <img ng-show="unReadMsg == 0" alt="" src="images/messag_inactive.png" width="29" height="35" style=" margin:0;"/>
+                            </a>
+                            <ul class="showmsgblog dropdown-menu" style="border: none; border-radius: 0; box-shadow: none;">
+                                <span  class="showmsgwrapper">
+                                    <li ng-scrollbar>
+                                        <div ng-repeat="item in CmessageList | limitTo:5" class="cmsglist" style="width:303px; padding:5px; border-bottom: 1px solid #FFFFFF;" ng-style="{ background: item.is_read == 0 ? '#d9d9d9' : '#ebebeb' }">
+                                            <div class="msg_photo"  ng-click="showCMsgfun();openChatbox(item.user_id);">
+                                                <img src="{{item.user_image}}" width="50">
+                                            </div>
+                                            <div class="msg_text" style="cursor: pointer;" ng-click="showCMsgfun();openChatbox(item.user_id);">
+                                                <div  class="msg_text-wrapper" >
+                                                    <strong>{{item.user_name}}</strong>
+                                                    <b class=" ng-emoticons"  ng-bind-html="item.message | newlines | emoticons:{'linkTarget':'_blank','newLine':true}"></b>
+                                                    <label>{{item.time_str}}</label>
+                                                </div>
+                                            </div>
+                                            <a ng-click="markasroad(item)" title="Mark As Read" class="msgclose"></a>
+                                            <div style="clear:both;"></div>
+                                        </div>
+                                    </li>
+                                    <li class="cmsglist" style="background-color: #f7931e!important; border:none; text-align:center; padding: 10px 0 8px 0; width:100%;"><a ui-sref="allmessages" style="color:#58595b; display:block; background:#f7931e!important;">See All</a></li>
+                                </span>
+                            </ul>
+                        </li>
+                        <li data-original-title="" style="padding:5px 4px 0 6px;">
+                            <a class="mobile_appL" data-original-title="" target="_blank" ui-sref="mobpopup" style="color: #F7931D;" onmouseover="this.style.color='#5a5b5d'" onmouseout="this.style.color='#F7931D'">&nbsp;</a>
+                        </li>
+                        <li ng-if="(sessUser!=0)">
+                            <a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a>
+                        </li>
+                        <li class="dropdownmenu">
+                            <a href="javascript:void(0);" data-original-title="">Sports</a>
+                            <ul style="background-color: #58585a !important; background-image: none !important;">
+                                <li ng-repeat="item in sportsMenu">
+                                    <a ui-sref="sportdetail({sportId:item.id})">{{item.sport_name}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-if="(sessUser!=0)" data-original-title="" class="dropdownmenu" > <a href="javascript:void(0);" data-original-title="">
+                            <img src="images/dropdown2.png" width="20" height="20" alt=""  style="margin-left:1px;"/></a>
 
-                        <li ng-if="(sessUser==0)"><a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
+                            <ul class="newdropdownmenu1" style="background-color: #58585a !important; background-image: none !important;">
+                                <li class="setting" style="width: 75px;"> <a ui-sref="editprofile">Settings</a></li>
+                                <li class="logout" style="width: 75px;"> <a ui-sref="logout">Logout</a></li>
+                            </ul>
+
+                        </li>
+                        <li ng-if="(sessUser==0)">
+                            <a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a>
+                        </li>
                     </ul>
                     <div class="join-btn" ng-if="(sessUser==0)"><a ui-sref="signup">JOIN</a></div>
                 </div>
                 <div class="clear"></div>
-                <h1 style="padding:28px 0 0px 16px; width:313px; margin:0; "><img src="images/experience_hdr.png"  alt="" /></h1>
+                <h1 style="margin:28px 0 0px 16px; width:273px; height: 39px; background-image: url(images/experience_hdr.png); background-size: contain; background-repeat: no-repeat; "></h1>
             </div><div class="clear"></div>
         </div>
         <!--Top Contain[end]-->
@@ -48,27 +122,30 @@
             <uib-carousel interval="5000" no-wrap="false">
                 <uib-slide ng-repeat="slideCollection in groupedSlides" active="slide.active" index="slide.id">
                     <div style="float: left;">
-                        <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}" style="margin:auto;">
+                        <!--<img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}" style="margin:auto;">-->
+                        <div style="height: 100%; width: 100%; background-image: url({{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}); background-size: cover;"></div>
                         <h2>{{slideCollection.image1.sport_name}}</h2>
                         <span>
                             <div class="text-div">{{slideCollection.image1.tag}}</div>
-                            <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
+                            <div class="more"><a ui-sref="sportdetail({sportId:slideCollection.image1.id})">MORE &raquo;</a> </div>
                         </span>
                     </div>
                     <div style="float: left;">
-                        <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image2.additional_image}}" style="margin:auto;">
+                        <!--<img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image2.additional_image}}" style="margin:auto;">-->
+                        <div style="height: 100%; width: 100%; background-image: url({{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image2.additional_image}}); background-size: cover;"></div>
                         <h2>{{slideCollection.image2.sport_name}}</h2>
                         <span>
                             <div class="text-div">{{slideCollection.image2.tag}}</div>
-                            <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
+                            <div class="more"><a ui-sref="sportdetail({sportId:slideCollection.image2.id})">MORE &raquo;</a> </div>
                         </span>
                     </div>
                     <div style="float: left;">
-                        <img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image3.additional_image}}" style="margin:auto;">
+                        <!--<img ng-src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image3.additional_image}}" style="margin:auto;">-->
+                        <div style="height: 100%; width: 100%; background-image: url({{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image3.additional_image}}); background-size: cover;"></div>
                         <h2>{{slideCollection.image3.sport_name}}</h2>
                         <span>
                             <div class="text-div">{{slideCollection.image3.tag}}</div>
-                            <div class="more"><a href="javascript:void(0)">MORE &raquo;</a> </div>
+                            <div class="more"><a ui-sref="sportdetail({sportId:slideCollection.image3.id})">MORE &raquo;</a> </div>
                         </span>
                     </div>
                 </uib-slide>
@@ -81,16 +158,20 @@
             <li><strong style="line-height:40px;">COMMUNITY:</strong></li>
             <div class="community-div">+{{(peoplelist.lenght>14)?(peoplelist.lenght - 14):0}}</div>
             <li class="myParent" style="margin:0 1px 0 0; border: 2px solid #f7931e;" ng-repeat="item in peoplelist | limitTo:14 track by item.id" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
-                <img src="{{item.user_image}}" width="40px"  alt="" />
+                <!--<img src="{{item.user_image}}" width="40px"  alt="" />-->
+                <div style="width: 40px; height: 44px; background-image: url({{item.user_image}}); background-size: cover;"></div>
                 <span class="hover_img" style="background: url(../images/hover_div1.png) no-repeat; left:-5px; display: block;" ng-show="showunFrndDiv">
                     <ul>
-                        <li style="width:98px; float: left;  display:block;">
-                            <img src="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt=""  class="liimg5"/>
+                        <li style="width:98px; float: left;  display:block; height: 110px; background-image: url({{item.user_image}}); background-size: cover;" ng-click="gotouserprofile(item.id,item.user_name)">
+                            <!--<img src="images/checkered.png" lazy-img="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt=""  class="liimg5"/>-->
                         </li>
                         <li  style="margin-left:20px; width:150px; float: right; display:block;">
                             <a href="javascript:void(0)">{{item.user_name}}</a>
                             <div class="clear"></div>
-                            <img ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" src="{{item1.imag_name}}" width="25"  alt="" style="width:25px; margin:0 2px 2px 0;" />
+                            <!--<img ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" src="{{item1.imag_name}}" width="25"  alt="" style="width:25px; margin:0 2px 2px 0;" />-->
+
+                            <div ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" style="float: left; margin-bottom:4px; margin-right: 4px; height: 25px; width: 25px; background-image: url({{item1.imag_name}}); background-size: cover;"></div>
+
                             <div ng-if="item.sports.length>6" style="display: inline-block; height: 15px; background: #000; float: right; margin:0 15px 0 0; color:#F7921D; font-size: 12px; text-align: center; padding: 5px; line-height:15px; font-weight: bold;">+{{(item.sports.length-6)}}</div>
                             <div class="clear"></div>
                         </li>
@@ -109,24 +190,26 @@
         <!--left panel contain[end]-->
 
         <!--right panel contain[start]-->
-        <div class="experience-rightcontain" style="margin-top:12px;">
+        <div class="experience-rightcontain expRightCon" style="margin-top:12px;">
             <div class="video-contain">
                 <a class="various" href="javascript:void(0)" ng-click="openDefault()">
-                    <img src="images/howitworks_3.jpg"  alt="" />
+                    <!--<img src="images/checkered.png" lazy-img="images/howitworks_3.jpg"  alt="" />-->
+                    <div style="width: 100%; height: 207px; background-image: url('images/howitworks_3.jpg'); background-size: cover; border: solid 8px #fff; margin-bottom: 10px;"></div>
                 </a>
             </div>
             <div class="link1" ng-if="sessUser"><a ui-sref="addroute">GPS YOUR ROUTE</a></div>
-            <div class="link2" ng-if="sessUser"><a ui-sref="routes({userId:userId})">VIEW ROUTES</a></div>
+            <div class="link2" ng-if="sessUser"><a ui-sref="routes({userId:sessUser})">VIEW ROUTES</a></div>
             <div class="link2" ng-if="!sessUser"><a ui-sref="allroutes">VIEW ROUTES</a></div>
 
             <div class="albums">
-                <a href="javascript:void(0)">
-                    <img src="images/hs1-0-02.jpg"  alt="" />
+                <a ui-sref="photo">
+                   <!-- <img src="images/checkered.png" lazy-img="images/hs1-0-02.jpg"  alt="" />-->
+                    <div style="width: 100%; height: 207px; background-image: url('images/hs1-0-02.jpg'); background-size: cover;"></div>
                     <h2 style="padding-top:10px; padding-bottom:8px;">ALBUMS</h2>
                 </a>
             </div>
             <div ng-include="'partials/maintv.html'"></div>
-            <div class="link2" style="margin-bottom:0;"><a href="javascript:void(0)">FORUMS</a></div>
+            <div class="link2" style="margin-bottom:0;"><a ui-sref="forumlist">FORUMS</a></div>
 
             <div class="foroms-contain">
                 <div ng-repeat="item in forumList"> <strong><a style="padding-left: 0 !important;" href="javascript:void(0);">{{item.title}}</a></strong><br />
@@ -135,32 +218,35 @@
             </div>
 
             <div class="albums albums-btn">
-                <a  href="javascript:void(0);" onClick="showdailypoll()"> <img alt="" src="{{baseUrl}}/uploads/pollbanner/{{mainbanner}}">
+                <a  href="javascript:void(0);" onClick="showdailypoll()">
+                    <!--<img alt="" src="{{baseUrl}}/uploads/pollbanner/{{mainbanner}}">-->
+                    <div style="width: 100%; height: 290px; background-image: url({{baseUrl}}/uploads/pollbanner/{{mainbanner}}); background-size: cover;"></div>
                     <h2 data-original-title="" style="padding-top:10px; padding-bottom:10px;">DAILY POLL</h2>
                 </a>
             </div>
 
             <div ng-include="'partials/chatList.html'"></div>
 
- <div class="banner2">
-            <div class="adspace">
-
-               
-
-                    <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)"><img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" /></a> </simple-slider>
-
+            <div class="banner2">
+                <div class="adspace">
+                    <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
+                        <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                            <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
+                            <div class="bannerdiv225" style="height: 200px; background-image: url({{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                        </a>
+                    </simple-slider>
                 </div>
-
             </div>
- <div class="banner3">
-            <div class="adspace">
 
-               
-
-                    <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides3 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)"><img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" /></a> </simple-slider>
-
+            <div class="banner3">
+                <div class="adspace">
+                    <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
+                        <a ng-repeat="item in bannerslides3 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                            <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
+                            <div class="bannerdiv225" style="height: 100%; background-image: url({{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                        </a>
+                    </simple-slider>
                 </div>
-
             </div>
 
         </div>

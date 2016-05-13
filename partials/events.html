@@ -22,6 +22,7 @@
 </div>
 
 <span class="empty" ng-hide="eventList.length">No results found.</span>
-<div ng-show="viewMore==1" class="viewMore"><a href="javascript:void(0);" ng-click="viewMoreEvent()">View More</a></div>
-<div ng-show="viewMoreLoad" class="viewMore"><img src="images/loading_list.gif" /></div>
+<div ng-show="viewMore==1" class="view_more_link" style="display:block; text-align:center; padding:20px 0;"><a href="javascript:void(0);" ng-click="viewMoreEvent()" style=" font-family: "veneerregular";
+    font-size: 18px !important; color:#333;">View More</a></div>
+<div ng-show="viewMoreLoad" class="viewMore" style="display:block; text-align:center; padding:20px 0;"><img src="images/loading_list.gif" /></div>
 

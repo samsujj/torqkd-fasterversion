@@ -1,11 +1,13 @@
 <style>
-
-    
- body{background-image: url("../images/climber_sign.jpg");  background-size: cover; background-position: center; background-attachment: fixed; }
-
-
-.activities-submit{ text-shadow:0 1px 2px #fff;}
-
+    body{
+        background-image: url("../images/climber_sign.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+    .activities-submit{
+        text-shadow:0 1px 2px #fff;
+    }
     .ngdialog-content{
         border: 5px solid #f7941e !important;
         border-radius: 0 !important;
@@ -14,134 +16,156 @@
     .ngdialog-content p{
         font:13px/18px Arial,Helvetica,sans-serif;
     }
-
-.see-btn2{ padding:0 0 5px 10px!important;}
+    .see-btn2{
+        height: 30px!important;
+        padding: 0 30px 3px 10px !important;
+        background: #414142 url("../images/seemorenew.png") no-repeat right top!important;
+        width:auto!important;
+    }
+    .form-contain .right-form input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .uneditable-input {
+        background: #fff!important;
+        border: 2px solid #888 !important;
+        border-radius: 5px !important;
+        float: none;
+        height: 34px !important;
+        padding: 0 5px;
+        width: 99% !important;
+        color:#000!important;
+    }
+    .next-body .form-contain .right-form input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .uneditable-input{
+        width: 99% !important;
+        color:#000!important;
+    }
+    .modal-lg {
+        background-clip: padding-box;
+        background-color: #ffffff;
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        outline: medium none;
+        border: 5px solid #f7941e;
+        border-radius: 0;
+        width:480px;
+    }
+    .modal-footer .btn-primary{
+        -webkit-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+        box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+        text-shadow:0 1px 1px #fff;
+    }
+    .modal-footer .btn-primary:hover{
+        border-color:#fff;
+    }
 </style>
 
+<div id="loaderDiv" ng-show='stateIsLoading'></div>
+
 <div class="next-body" style="background:none;">
-  <div class="register_wrapper">
-    <div class="logo" > <a ui-sref="index"> <img  alt="" src="images/logo_main.png" /> </a> </div>
+    <div class="register_wrapper">
+        <div class="logo" >
+            <a ui-sref="index">
+                <img  alt="" src="images/logo_main.png" />
+            </a>
+        </div>
 
-    <div class="form-contain">
-  
-      <div class="left-img">   <img id="limg" src="images/bgimage4.png"  alt="" style="width: 100%;" /></div>
-  
-    <div class="right-form">
-    <div class="activities_contain">
-          <h1 style="margin:0; padding:3px 0 13px 0;"><img  alt="" src="images/invitefrds.jpg" id="nextH" style="max-width:100%;"></h1>
-     
-    <div class="inviteFriends"> 
-	<form angular-validator-submit="sendEmail()" name="sendEmailForm" class="form-horizontal" novalidate angular-validator>
-   
-    <h4 style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    color: rgb(81, 91, 93);
-    font-family: veneerregular;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
-    margin-top: 18px;
-    padding-left: 0;">Enter Your Friends' Email Addresses</h4>
-	<div style="overflow:hidden;">
-    
-    <textarea id="friend_emails" style=" background: #ffffff!important;
-    border: 2px solid #97989a!important;
-    border-radius: 5px!important;
-    font-family: Helvetica,Arial,sans-serif!important;
-    font-size: 14px!important;
-    height: 120px!important;
-    margin-bottom: 20px!important;
-    margin-top: 0px!important;
-    padding: 6px !important; width:100%!important;  height: 52px !important;" name="senderList" placeholder="ADD EMAIL ADDRESSES SEPARATED BY COMMAS"
+        <div class="form-contain">
+            <div class="left-img">
+                <img id="limg" src="images/bgimage4.png"  alt="" style="width: 100%;" />
+            </div>
+            <div class="right-form">
+                <div class="activities_contain">
+                    <h1 style="margin:0; padding:3px 0 13px 0;">
+                        <img  alt="" src="images/invitefrds.jpg" id="nextH" style="max-width:100%;">
+                    </h1>
+                    <div class="inviteFriends">
+                        <h6 id="inviteDiv1" style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0; color: rgb(81, 91, 93); font-family: veneerregular; font-size: 16px; font-style: normal; font-weight: normal; letter-spacing: 1px; margin-bottom: 10px; margin-top:27px; padding-left: 0;">INVITE FRIENDS VIA YOUR ONLINE ADDRESS BOOK</h6>
 
-						validate-on="sub"
+                        <select id="social_select1" ng-model="email_select" style=" background: #fff none repeat scroll 0 0; border: 1px solid #333;     border: 2px solid #888 !important;
 
-                        class = "form-control"
+    border-radius: 5px !important;  height: 35px; margin: 0 0 20px; padding: 5px 0; width: 100%!important; color: #555 !important;">
+                            <option value="" data-original-title="">SELECT SERVICE</option>
+                            <option value="gmail" data-original-title="">GMAIL</option>
+                            <option value="yahoo" data-original-title="">YAHOO</option>
+                        </select>
 
-                        ng-model = "form.senderList"
+                        <input class="activities-submit" type="button" value="GET CONTACTS" ng-click="get_email_contacts()" name="inviter_submit">
+                        <div style="clear:both;"></div>
 
-                        required-message="'Please Enter Sender Email.'"
-
-                        required></textarea> 
+                        <form angular-validator-submit="sendEmail()" name="sendEmailForm" class="form-horizontal" novalidate angular-validator>
+                            <h4 style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0; color: rgb(81, 91, 93); font-family: veneerregular; font-size: 16px; font-style: normal; font-weight: normal; letter-spacing: 1px; margin-bottom: 9px; margin-top: 18px; padding-left: 0;">Enter Your Friends' Email Addresses</h4>
+                            <div style="overflow:hidden;">
+                                <tags-input id="friend_emails"  style="padding:0!important; height:auto!important; border:none!important; background:none!important; margin:0!important; width:100%!important; box-shadow: none!important;"
+                                            name="senderList"
+                                            placeholder="ADD EMAIL ADDRESSES SEPARATED BY COMMAS"
+                                            validate-on="sub"
+                                            class = "form-control"
+                                            ng-model = "form.senderList"
+                                            add-on-enter="true"
+                                            add-on-space="true"
+                                            add-on-comma="true"
+                                            required-message="'Please Enter Sender Email.'"
+                                            required>
+                                </tags-input>
+                            </div>
+                            <h5 style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0; color: rgb(81, 91, 93); font-family: veneerregular; font-size: 16px; font-style: normal; font-weight: normal; letter-spacing: 1px; margin-bottom: 11px; margin-top: 14px; padding-left: 0;">Email Message</h5>
+                            <textarea id="email_text" style="border: 2px solid #97989a; border-radius: 5px; color: #888; font-family: Helvetica,Arial,sans-serif; font-size: 14px !important; height:160px !important; line-height: 16px; margin-bottom: 10px; margin-top: 4px; padding: 6px !important; background: #ffffff!important; width:100%!important;"
+                                      name="mailBody"
+                                      validate-on="sub"
+                                      class = "form-control"
+                                      ng-model = "form.mailBody"
+                                      required-message="'Please Enter Mail Body.'"
+                                      required>
+                            </textarea>
+                            <input class="activities-submit" type="submit" value="SEND EMAIL INVITE"  style="margin-top:30px;">
+                        </form>
+                        <div style="clear:both;"></div>
+                        <h6 id="inviteDiv" style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0; color: rgb(81, 91, 93); font-family: veneerregular; font-size: 16px; font-style: normal; font-weight: normal; letter-spacing: 1px; margin-bottom: 10px; margin-top:27px; padding-left: 0;">INVITE FRIENDS VIA SOCIAL MEDIA</h6>
+                        <select id="social_select" ng-model="social_select" style=" background: #fff none repeat scroll 0 0; border: 1px solid #333; height: 35px; margin: 0 0 20px; padding: 5px 0; width: 100%!important; color: #555 !important;">
+                            <option value="" data-original-title="">SELECT SERVICE</option>
+                            <option value="fb" data-original-title="">FACEBOOK</option>
+                            <option value="tw" data-original-title="">TWITTER</option>
+                        </select>
+                        <input class="activities-submit" type="button" value="SEND SOCIAL INVITE" ng-click="social_share()" name="inviter_submit">
+                        <div style="clear:both;"></div>
+                        <!--<input  class="activities-submit" style="margin-top: 20px;" type="button" ng-click="next_n()" value="next step" >-->
+                        <!-- <div class="skip connectskip" style="width:100px; float:none; margin-top:30px;"> <a href="javascript:void(0);" ng-click="next_n()"  style="width:100%;">SKIP >></a> </div>-->
+                        <div class="activities-submit" style=" float:none; margin-top:10px;  text-align: center; width: 68px;">
+                            <a href="javascript:void(0);" ng-click="next_n()"  style="width:100%; display:block;">NEXT</a>
+                        </div>
+                        <!--<input type="button" value="sdfs" ng-click="ylogin()">-->
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
     </div>
-	<h5 style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    color: rgb(81, 91, 93);
-    font-family: veneerregular;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    margin-top: 14px;
-    padding-left: 0;">Email Message</h5>
-    <textarea id="email_text" style="border: 2px solid #97989a;
-    border-radius: 5px;
-    color: #888;
-    font-family: Helvetica,Arial,sans-serif;
-    font-size: 11px !important;
-    height:106px !important;
-    line-height: 12px;
-    margin-bottom: 10px;
-    margin-top: 4px;
-    padding: 6px !important; background: #ffffff!important; width:100%!important;"  name="mailBody"
-
-						validate-on="sub"
-
-                        class = "form-control"
-
-                        ng-model = "form.mailBody"
-
-                        required-message="'Please Enter Mail Body.'"
-
-                        required></textarea>
-    <input class="see-btn2" type="submit" value="STEP 1"  style="margin-top:10px;">
-	</form>
-      
-      <div style="clear:both;"></div>
-      
-    <h6 id="inviteDiv" style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    color: rgb(81, 91, 93);
-    font-family: veneerregular;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    margin-top:27px;
-    padding-left: 0;">INVITE FRIENDS VIA YOUR ONLINE ADDRESS BOOK</h6>
-      
-    <select id="social_select" ng-model="social_select" style=" background: #fff none repeat scroll 0 0;
-    border: 1px solid #333;
-    height: 35px;
-    margin: 0 0 20px;
-    padding: 5px 0;
-    width: 100%!important; color: #555 !important;">
-
-		<option value="" data-original-title="">SELECT SERVICE</option>
-
-		<option value="fb" data-original-title="">FACEBOOK</option>
-		<option value="tw" data-original-title="">TWITTER</option>
-
-	</select>
-
-
-<input class="see-btn2" type="button" value="STEP 2" ng-click="social_share()" name="inviter_submit" data-original-title="">
-<div style="clear:both;"></div>
-
-     <input  class="activities-submit" style="margin-top: 20px;" type="button" ng-click="next_n()" value="next step" >
-      
-      </div>
-
-
-    </div>
-    
-    </div>
-    
-      <div class="clear"></div>
-      </div>
-    
-  </div>
-  
 </div>
-<div class="footer-menu1"> <span>&copy;TORQK'D</span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('terms')" >TERMS </a> </span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a> </span> </div>
+
+<div class="footer-menu1">
+    <span>&copy;TORQK'D</span>
+    <span>|</span>
+    <span> <a href="javascript:void(0);" ng-click="showtermsploicy('terms')" >TERMS </a> </span>
+    <span>|</span>
+    <span> <a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a> </span>
+</div>
+
+<script type="text/ng-template" id="gmailcontactlist">
+    <div class="modal-header">
+        <a class="close" ng-click="modalClose()">&times;</a>
+        <h4 class="headerh4">SELECT FRIENDS</h4>
+    </div>
+    <div class="modal-body" style="padding:0px;">
+        <h1 ng-if="showerror" class="mailerror">Please Select Mail.</h1>
+        <div class="maillistwrapper">
+            <div ng-repeat="item in contactList" class="maillistdiv">
+                <input type="checkbox" value="{{item.name}}" name="dadas" ng-model="item.selected">
+                <!--<label class="emailname">soumik involutiontech</label>-->
+                {{item.name}}
+            </div>
+        </div>
+        <h2 ng-if="contactList.length == 0" class="contactstext">Sorry! We could not find any contact in your contact list. Make sure that you have entered the correct email address.</h2>
+    </div>
+    <div class="modal-footer">
+        <div style="width:118px; margin:0 auto;">
+            <a href="javascript:void(0);" ng-click="sendmailg()" class="btn btn btn-primary">SEND EMAIL</a>
+        </div>
+    </div>
+</script>

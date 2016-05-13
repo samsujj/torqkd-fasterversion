@@ -1,5800 +1,664 @@
 <style>
 
+    .embed-responsive {
 
+        position: relative;
 
-.embed-responsive {
+        display: block;
 
+        height: 0;
 
+        padding: 0;
 
-	position: relative;
+        overflow: hidden;
 
+    }
 
+    .embed-responsive.embed-responsive-16by9 {
 
-	display: block;
+        padding-bottom: 56.25%;
 
+    }
 
+    .embed-responsive-item {
 
-	height: 0;
+        position: absolute;
 
+        top: 0;
 
+        bottom: 0;
 
-	padding: 0;
+        left: 0;
 
+        width: 100%;
 
+        height: 100%;
 
-	overflow: hidden;
+        border: 0;
 
+    }
 
+    #mapconmain {
 
-}
+        padding:0px 0 0 30px;
 
+    }
 
+    #mapconmain img {
 
-.embed-responsive.embed-responsive-16by9 {
+        display:block;
 
+        margin:5px auto;
 
+    }
 
-	padding-bottom: 56.25%;
+    #mapconmain h2.ng-binding {
 
+        color: #f79213;
 
+        font-family: "veneerregular";
 
-}
+        font-size: 20px;
 
+        line-height: 22px;
 
+        padding:5px 0 0 0;
 
-.embed-responsive-item {
+    }
 
+    #mapconmain .date-contain {
 
+        padding:5px 0;
 
-	position: absolute;
+    }
 
+    #mapconmain .date-contain h5 {
 
+        color: #616564;
 
-	top: 0;
+        font-family: "veneerregular";
 
+        font-size: 16px;
 
+        font-weight: normal;
 
-	bottom: 0;
+        line-height:18px;
 
+        margin: 0 !important;
 
+        padding-bottom: 2px;
 
-	left: 0;
+    }
 
+    #mapconmain .date-contain h5 span {
 
+        color: #929497;
 
-	width: 100%;
+        font-family: reservation;
 
+        font-size: 12px;
 
+    }
 
-	height: 100%;
+    .angular-google-map-container img {
 
+        background: none !important;
 
+    }
 
-	border: 0;
+    .angular-google-map-container {
 
+        height: 400px;
 
+        width: 400px;
 
-}
+    }
 
+    .modal-lg {
 
+        width:100%!important;
 
-#mapconmain {
+    }
 
+    .dropdown-menu .active {
 
+        background-color: #FAB363;
 
-	padding:0px 0 0 30px;
+    }
 
+    textarea{
 
+        background:none!important;
 
-}
+        border:none!important;
 
+        border-radius:5px!important;
 
+        color:#888888!important;
 
-#mapconmain img {
+    }
 
+    textarea::-webkit-input-placeholder {
 
+        color:#888888!important;
 
-	display:block;
+        opacity:0.9;
 
+    }
 
+    textarea:-moz-placeholder {
 
-	margin:5px auto;
+        color:#888888!important;
 
+        opacity:0.9;
 
+    }
 
-}
+    textarea::-moz-placeholder {
 
+        color:#888888!important;
 
+        opacity:0.9;
 
-#mapconmain h2.ng-binding {
+    }
 
+    textarea:-ms-input-placeholder {
 
+        color:#888888!important;
 
-	color: #f79213;
+        opacity:0.9;
 
-
-
-	font-family: "veneerregular";
-
-
-
-	font-size: 20px;
-
-
-
-	line-height: 22px;
-
-
-
-	padding:5px 0 0 0;
-
-
-
-}
-
-
-
-#mapconmain .date-contain {
-
-
-
-	padding:5px 0;
-
-
-
-}
-
-
-
-#mapconmain .date-contain h5 {
-
-
-
-	color: #616564;
-
-
-
-	font-family: "veneerregular";
-
-
-
-	font-size: 16px;
-
-
-
-	font-weight: normal;
-
-
-
-	line-height:18px;
-
-
-
-	margin: 0 !important;
-
-
-
-	padding-bottom: 2px;
-
-
-
-}
-
-
-
-#mapconmain .date-contain h5 span {
-
-
-
-	color: #929497;
-
-
-
-	font-family: reservation;
-
-
-
-	font-size: 12px;
-
-
-
-}
-
-
-
-.angular-google-map-container img {
-
-
-
-	background: none !important;
-
-
-
-}
-
-
-
-.angular-google-map-container {
-
-
-
-	height: 400px;
-
-
-
-	width: 400px;
-
-
-
-}
-
-
-
-.modal-lg {
-
-
-
-	width:100%!important;
-
-
-
-}
-
-
-
-.dropdown-menu .active {
-
-
-
-	background-color: #FAB363;
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 </style>
 
 
 
-<div ng-class-odd="'blog1'" ng-class-even="'blog2'" ng-repeat="item in statusList track by item.id" style="clear: both;" ng-mouseenter="showStatusDel = true" ng-mouseleave="showStatusDel = false">
+<div ng-class-odd="'blog1'" ng-class-even="'blog2'" ng-repeat="item in statusList" style="clear: both;" ng-mouseenter="showStatusDel = true" ng-mouseleave="showStatusDel = false">
 
+    <div class="left-img">
 
+        <!--<img src="{{item.user_image}}" alt="" style=" max-width:50px; max-height:54px;" />-->
 
-  <div class="left-img"> <img src="images/checkered.png" lazy-img="{{item.user_image}}"  alt="" style=" max-width:50px; max-height:50px;" />
-
-
-
-    <div class="clear"></div>
-
-
-
-  </div>
-
-
-
-  <div class="right-text">
-
-
-
-    <div class="top-name-contain" style="height:34px;" >
-
-
-
-      <div class="name-div"><strong>{{item.user_name}}</strong></div>
-
-
-
-      
-
-
-
-      
-
-
-
-      <span style="padding-right:10px;"> <a href="javascript:void(0)">Comments </a>[<a>{{item.comment_no}}</a>] - <a href="javascript:void(0)" ng-click="(item.c_user) ?  statusLike(item) :'';">{{(item.is_like==0)?'Like':'Unlike'}}</a> [<a >{{item.like_no}}</a>] <b style="font-weight:bold;display:inline-block; ">&bull;</b> 
-
-
-
-      <a style="display: inline-block; position: relative;" href="javascript:void(0)" class="myParent2 stat_share" ng-mouseenter="showShareDiv = true" ng-mouseleave="showShareDiv = false">Share
-
-
-
-     
-
-
-
-     
-
-
-
-      <div class="hover_img3" style="display: block;" ng-show="showShareDiv"> <img src="images/f1.png" ng-click="fbShare(item)"  alt="" /> <img src="images/ti.png" ng-click="twShare(item)"  alt="" /> <img src="images/pi.png" ng-click="prShare(item)" alt="" /> </div>
-
-
-
-      </a> 
-
-
-
-      
-
-
-
-      <span class="dropdown" ng-if="rootsessUser == item.user_id" style="width:auto; display:inline-block; float:none; padding:0 4px; width:40px;"> <a href="javascript:void(0)" class="dropdown-toggle" ng-click="dmenuOpen = !dmenuOpen" style="text-decoration:none; outline:none;">
-
-
-
-      
-
-
-
-          <img src="images/share1_icon_active.png" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1">
-
-
-
-          <img src="images/share2_icon_active.png" style="width:15px; margin-top:0px;"  ng-show="item.share_with==2">
-
-
-
-          <img src="images/share3_icon_active.png" style="width:18px; margin-top:0px;" ng-show="item.share_with==3">
-
-
-
-          <img src="images/share4_icon_active.png" style="width:12px; margin-top:0px;" ng-show="item.share_with==4">
-
-
-
-      
-
-
-
-      <img src="images/ad2new.png" style="padding-left:4px;"> </a>
-
-
-
-     
-
-
-
-      <ul class="dropdown-menu dropdown-menu_share" ng-show="dmenuOpen" style="display: block;">
-
-
-
-        <li class="share1"><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,1)" ng-class="(item.share_with==1) ? 'active' : ''"><span>Community</span></a></li>
-
-
-
-        <li class="share2"><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,2)" ng-class="(item.share_with==2) ? 'active' : ''"><span>Friends</span></a></li>
-
-
-
-        <li class="share3"><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,3)" ng-class="(item.share_with==3) ? 'active' : ''"><span>Friends Of Friends</span></a></li>
-
-
-
-        <li class="share4"><a href="javascript:void(0)" ng-click="dmenuOpen = !dmenuOpen; changeShareWith(item,4)" ng-class="(item.share_with==4) ? 'active' : ''"><span>Private Me Only</span></a></li>
-
-
-
-      </ul>
-
-
-
-      </span>
-
-
-
-          <span class="dropdown" ng-if="rootsessUser != item.user_id" style="width:auto; display:inline; float:none; padding:0 4px;">
-
-
-
-              <a href="javascript:void(0)" class="dropdown-toggle" style="text-decoration:none; outline:none;">
-
-
-
-
-
-
-
-                  <img src="images/share1_icon_active.png" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1">
-
-
-
-                  <img src="images/share2_icon_active.png" style="width:15px; margin-top:0px;"  ng-show="item.share_with==2">
-
-
-
-                  <img src="images/share3_icon_active.png" style="width:18px; margin-top:0px;" ng-show="item.share_with==3">
-
-
-
-                  <img src="images/share4_icon_active.png" style="width:12px; margin-top:0px;" ng-show="item.share_with==4">
-
-
-
-                  </a>
-
-
-
-              </span>
-
-
-
-
-
-
-
-
-
-
-
-          <b class="time-div">&nbsp;&nbsp;&nbsp;&nbsp;{{item.timespan}}</b> </span> <img src="images/deletebutton.png" style="display: block; cursor:pointer;" class="deletebutton" ng-show="showStatusDel && item.user_id == item.c_user" ng-click="delStatus($index)" />
-
-
-
-      <div class="clear"></div>
-
-
-
-    </div>
-
-
-
-    <div class="text-contain" style="{{(item.msg != '')?'padding:15px 0;':''}}" >{{item.msg}}</div>
-
-
-
-    <img ng-if="item.type" src="images/arrow.png"  alt="" style=" margin-top: -2px;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    position: absolute;" />
-
-
-
-    <div class="blogimg"> <img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/status_img/{{item.value}}?version={{item.time}}" ng-if="item.type=='image'" ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">
-
-
-
-      <div ng-if="item.type=='mp4'">
-
-
-
-        <videogular ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+item.value), type: 'video/mp4'}]" >
-
-
-
-          <vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
-
-
-
-        </videogular>
-
-
-
-      </div>
-
-
-
-      <div class="embed-responsive embed-responsive-16by9 video-wrapper" ng-if="item.type=='youtube'">
-
-
-
-        <youtube-video class="embed-responsive-item" video-id="item.value"></youtube-video>
-
-
-
-      </div>
-
-
-
-      <div class="rowthree" id="map{{item.id}}" ng-if="item.type=='route'">
-
-
-
-        <ui-gmap-google-map center="item.routes.map.center" zoom="item.routes.map.zoom" pan="true" draggable="true">
-
-
-
-          <ui-gmap-markers models="item.routes.marker" coords="'self'" icon="'icon'" idkey='id' >
-
-
-
-          <ui-gmap-polyline ng-if="item.routes.location.length" path="item.routes.location" draggable="false" geodesic="true" stroke="item.routes.map.lineStyle" fit="true"></ui-gmap-polyline>
-
-
-
-        </ui-gmap-google-map>
-
-
-
-      </div>
-
-
-
-    </div>
-
-
-
-    <div class="mobcomment">
-
-
-
-      <div class="commend-box" ng-repeat="comment in item.comment track by comment.id">
-
-
-
-        <div class="date-link"> <a href="javascript:void(0)">{{comment.time}}</a> <br/>
-
-
-
-          <a href="javascript:void(0)" ng-click="delComment($parent.$index,$index)" ng-show="comment.user_id==rootsessUser" style="color:#999; float:right;" ><img src="images/deletebutton1.png" style="width:11px; cursor:pointer;" /></a> </div>
-
-
-
-        <div style="width:44px; float:left; height:auto; margin-left:2px;" class="com-img"> <img src="images/checkered.png" lazy-img="{{comment.user_image}}"  alt="" style=" margin-top:2px; max-width:35px; max-height:35px;" /> </div>
-
-
-
-        <div style=" float:left; padding-left:11px;" class="comm-width"><strong><a ui-sref="profile({userId:comment.user_id})" class="name_a" style="font-weight:bold;">{{comment.user_name}}</a></strong><br />
-
-
-
-          {{comment.body}}</div>
-
-
+        <div style="height: 54px; width: 50px; background-image: url({{item.user_image}}); background-size: cover;"></div>
 
         <div class="clear"></div>
 
+    </div>
 
+    <div class="right-text">
 
-      </div>
+        <div class="top-name-contain" style="height:34px;" >
 
+            <!--<div class="name-div"><strong>{{item.user_name}}</strong></div>-->
 
+            <div class="name-div" style="display:inline;">
 
-      <div class="commend-box-pro" ng-show="item.c_user">
+                <a href="javascript:void(0)" ng-click="gotouserprofile(item.user_id,item.user_name)" style="font-weight: bold;">{{item.user_name}}</a>
 
+                <a ng-if="item.tagpeople.length"> - with </a>
 
+                <a  ng-if="item.tagpeople.length && item.tagpeople[0].id != 0" href="javascript:void(0)" ng-click="gotouserprofile(item.tagpeople[0].id,item.tagpeople[0].name)" style="font-weight: bold;">{{item.tagpeople[0].name}}</a>
 
-        <div style="width:35px; float:left; height:auto;"><img src="images/checkered.png" lazy-img="{{item.c_user_image}}"  alt="" style=" max-width:35px; max-height:35px;" /></div>
+                <a  ng-if="item.tagpeople.length && item.tagpeople[0].id == 0" href="javascript:void(0);" style="font-weight: bold;">{{item.tagpeople[0].name}}</a>
 
+                <a ng-if="item.tagpeople.length > 1"> and </a>
 
+                <a ng-if="item.tagpeople.length == 2 && item.tagpeople[1].id != 0" href="javascript:void(0)" ng-click="gotouserprofile(item.tagpeople[1].id,item.tagpeople[1].name)" style="font-weight: bold;">{{item.tagpeople[1].name}}</a>
 
-        <div  class="text2">
+                <a ng-if="item.tagpeople.length == 2 && item.tagpeople[1].id == 0" href="javascript:void(0)" style="font-weight: bold;">{{item.tagpeople[1].name}}</a>
 
+                <a ng-if="item.tagpeople.length > 2" href="javascript:void(0)" style="font-weight: bold;" uib-tooltip-html="tagpeopleText11(item)" tooltip-placement="bottom" ng-click="openTagPeopleList(item)">{{item.tagpeople.length - 1}} others</a>
 
+            </div>
 
-          <textarea class="cmnt_textarea" placeholder="Write a comment..." ng-keypress="postComment($event,item)"></textarea>
+            <span style="padding-right:10px;">
 
+                <a href="javascript:void(0)">Comments </a>[<a>{{item.comment_no}}</a>] - <a href="javascript:void(0)" ng-click="(item.c_user) ?  statusLike(item) :'';">{{(item.is_like==0)?'Like':'Unlike'}}</a> [<a >{{item.like_no}}</a>] <b style="font-weight:bold;display:inline-block; ">&bull;</b>
 
+                <a style="display: inline-block; position: relative;" href="javascript:void(0)" class="myParent2 stat_share" ng-mouseenter="showShareDiv = true" ng-mouseleave="showShareDiv = false">Share
+
+                    <div class="hover_img3" style="display: block;" ng-show="showShareDiv">
+                    
+                    
+                    <ul>
+                    <li ng-click="fbShare(item)" style="background: url(images/sharefbicon.png); background-repeat: no-repeat; padding-left: 22px; background-position: left center;"> facebook</li>
+                    <li ng-click="twShare(item)" style="background: url(images/sharetwicon.png); background-repeat: no-repeat; padding-left: 22px; background-position: left center;"> Twitter</li>
+                    <li ng-click="prShare(item)" style="background: url(images/sharepticon.png); background-repeat: no-repeat; padding-left: 22px; background-position: left center;"> pinterest</li>
+                    
+                    </ul>
+                    
+
+                      <!--  <img src="images/f1.png"  ng-click="fbShare(item)"  alt="" />
+
+                        <img src="images/ti.png"  ng-click="twShare(item)"  alt="" />
+
+                        <img src="images/pi.png"  ng-click="prShare(item)" alt="" />-->
+
+                    </div>
+
+                </a>
+
+                <span class="dropdown" ng-if="rootsessUser == item.user_id" style="width:auto; display:inline-block; float:none; padding:0 4px; width:48px;">
+
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none; outline:none;">
+                    
+                    
+                        <strong uib-tooltip="Community" tooltip-placement="bottom" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1" class="share1_icon_active" ></strong>
+                        
+                       <strong uib-tooltip="Friends" tooltip-placement="bottom" style="width:15px; margin-top:0px;"  ng-show="item.share_with==2" class="share2_icon_active" ></strong>
+                       
+                       <strong uib-tooltip="Friends Of Friends" tooltip-placement="bottom" style="width:18px; margin-top:0px;" ng-show="item.share_with==3" class="share3_icon_active" ></strong>
+                       
+                        <strong uib-tooltip="Private Me Only" tooltip-placement="bottom" style="width:12px; margin-top:0px;" ng-show="item.share_with==4" class="share4_icon_active" ></strong>
+                        
+                        
+                        <strong  style="padding-left:4px;" class="ad2new" ></strong>
+                        
+
+             <!--           <img src="images/share1_icon_active.png" uib-tooltip="Community" tooltip-placement="bottom" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1">
+
+                        <img src="images/share2_icon_active.png" uib-tooltip="Friends" tooltip-placement="bottom" style="width:15px; margin-top:0px;"  ng-show="item.share_with==2">
+
+                        <img src="images/share3_icon_active.png" uib-tooltip="Friends Of Friends" tooltip-placement="bottom" style="width:18px; margin-top:0px;" ng-show="item.share_with==3">
+
+                        <img src="images/share4_icon_active.png" uib-tooltip="Private Me Only" tooltip-placement="bottom" style="width:12px; margin-top:0px;" ng-show="item.share_with==4">
+
+                        <img src="images/ad2new.png"  style="padding-left:4px;">-->
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu_share">
+
+                        <li class="share1"><a href="javascript:void(0)" style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeShareWith(item,1)" ng-class="(item.share_with==1) ? 'active' : ''"><span>Community</span></a></li>
+
+                        <li class="share2"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeShareWith(item,2)" ng-class="(item.share_with==2) ? 'active' : ''"><span>Friends</span></a></li>
+
+                        <li class="share3"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeShareWith(item,3)" ng-class="(item.share_with==3) ? 'active' : ''"><span>Friends Of Friends</span></a></li>
+
+                        <li class="share4"><a href="javascript:void(0)"   sstyle="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeShareWith(item,4)" ng-class="(item.share_with==4) ? 'active' : ''"><span>Private Me Only</span></a></li>
+
+                    </ul>
+
+                </span>
+
+                <span class="dropdown" ng-if="rootsessUser != item.user_id" style="width:auto; display:inline-block; float:none; padding:0 4px;">
+
+                    <a href="javascript:void(0)" class="dropdown-toggle" style="text-decoration:none; outline:none;">
+                    
+                    
+                     <div  uib-tooltip="Community" tooltip-placement="bottom" style="margin-top:-2px;"  ng-show="item.share_with==1" class="share1_icon_active2" ></div>
+                        
+                       <div uib-tooltip="Friends" tooltip-placement="bottom"  style="margin-top:-2px;"  ng-show="item.share_with==2" class="share2_icon_active2" ></div>
+                       
+                       <div uib-tooltip="Friends Of Friends"  tooltip-placement="bottom"  style="margin-top:-2px;" ng-show="item.share_with==3" class="share3_icon_active2" ></div>
+                       
+                        <div uib-tooltip="Private Me Only" tooltip-placement="bottom" style="margin-top:-2px;"  ng-show="item.share_with==4" class="share4_icon_active" ></div>
+                        
+                        
+                     
+                        
+                        
+<!--
+                        <img src="images/share1_icon_active.png" uib-tooltip="Community" tooltip-placement="bottom" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1">
+
+                        <img src="images/share2_icon_active.png" uib-tooltip="Friends" tooltip-placement="bottom" style="width:15px; margin-top:0px;"  ng-show="item.share_with==2">
+
+                        <img src="images/share3_icon_active.png" uib-tooltip="Friends Of Friends" tooltip-placement="bottom" style="width:18px; margin-top:0px;" ng-show="item.share_with==3">
+
+                        <img src="images/share4_icon_active.png" uib-tooltip="Private Me Only" tooltip-placement="bottom" style="width:12px; margin-top:0px;" ng-show="item.share_with==4">-->
+
+                    </a>
+
+                </span>
+
+                <b class="time-div">&nbsp;&nbsp;&nbsp;&nbsp;{{item.timespan}}</b> </span>
+
+            <img src="images/deletebutton.png" width="11" height="11" style="display: block; cursor:pointer;" class="deletebutton" ng-show="showStatusDel && item.user_id == item.c_user" ng-click="delStatus($index)" />
+
+            <div class="clear"></div>
 
         </div>
 
+        <!--<div class="text-contain" style="{{(item.msg != '')?'padding:15px 0;':''}}" >{{item.msg}}</div>
+
+        <div class="text-contain" style="{{(item.msg != '')?'padding:15px 0;':''}}" ng-bind-html="trustAsHtml(item.msg)" ></div>-->
+
+        <div ng-bind-html="item.msg | newlines" class="text-contain"></div>
+
+        <img ng-if="item.type" src="images/arrow.png" alt="" width="54" height="28" style=" margin-top: -2px;position: absolute; z-index:9;" />
+
+        <div class="blogimg">
 
 
-        <div class="clear"></div>
+            <div class="socialimg254" ng-if="item.type=='image'">
+                <img src="{{baseUrl}}/uploads/status_img/{{item.value}}?version={{item.time}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">
+            </div>
 
+            <div ng-if="item.type=='mp4'">
 
+                <div style="max-height: 430px; overflow: hidden; position: relative;" class="socialimg254" id="youtubeBody{{item.id}}">
+                    <img src="{{item.s_img}}" width="100%">
+                    <div  ng-click="showmp4video(item.id,item.value)" style="cursor:pointer; width: 50px; height: 50px; position: absolute; left: 48%; top: 48%; z-index: 9; background: rgba(0, 0, 0, 0) url('../images/startb.png') no-repeat scroll left top; background-size: cover;"></div>
+                </div>
 
-      </div>
+                <!--<videogular ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+item.value), type: 'video/mp4'}]" >
 
+                    <vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
 
+                </videogular>-->
+
+            </div>
+
+            <div class="embed-responsive embed-responsive-16by9 video-wrapper socialimg254" ng-if="item.type=='youtube'" id="youtubeBody{{item.id}}" style="position:relative; display:block; background:#000;">
+
+                <img class="youtubeimg225" src="https://i.ytimg.com/vi/{{item.value}}/hqdefault.jpg" width="100%">
+
+                <div  class="paly_video"  ng-click="showYoutubevdo(item.id,item.value)" style="cursor:pointer;"></div>
+
+                <!--       <img src="images/`youtube-playbtn.png" class="paly_video"  ng-click="showYoutubevdo(item.id,item.value)" style="cursor:pointer;">-->
+
+            </div>
+
+            <div class="rowthree" id="map{{item.id}}" ng-if="item.type=='route'">
+
+                <ui-gmap-google-map center="item.routes.map.center" zoom="item.routes.map.zoom" pan="true" draggable="true">
+
+                    <ui-gmap-markers models="item.routes.marker" coords="'self'" icon="'icon'" idkey='id' >
+
+                        <ui-gmap-polyline ng-if="item.routes.location.length" path="item.routes.location" draggable="false" geodesic="true" stroke="item.routes.map.lineStyle" fit="true"></ui-gmap-polyline>
+
+                </ui-gmap-google-map>
+
+            </div>
+
+        </div>
+
+        <div class="mobcomment">
+
+            <a ng-show="item.comment_no1 > 5" href="javascript:void(0)" ng-click="viewAllComments(item)">View Previous Comments</a>
+
+            <div class="commend-box" ng-repeat="comment in item.commentSliceList track by comment.id">
+
+                <div class="date-link">
+
+                    <a href="javascript:void(0)">{{comment.time}}</a> <br/>
+
+                    <a href="javascript:void(0)" ng-click="delComment($parent.$index,$index)" ng-show="comment.user_id==rootsessUser" style="color:#999; float:right;" >
+
+                        <img src="images/deletebutton1.png" width="11" height="11" style="width:11px; cursor:pointer;" /></a>
+
+                </div>
+
+                <div style="width:44px; float:left; height:auto; margin-left:2px;" class="com-img">
+
+                    <img src="{{comment.user_image}}"  alt="" style=" margin-top:2px; max-height: 38px;" />
+
+                </div>
+
+                <div style=" float:left; padding-left:11px;" class="comm-width">
+
+                    <strong><a href="javascript:void(0)" ng-click="gotouserprofile(comment.user_id,comment.user_name)" class="name_a" style="font-weight:bold;">{{comment.user_name}}</a></strong><br />
+
+                    <div ng-bind-html="comment.body | newlines | emoticons:{'linkTarget':'_blank','newLine':true} " class="ng-emoticons"></div>
+
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+
+            <div class="commend-box-pro" ng-show="item.c_user">
+
+                <div style="width:35px; float:left; height:38px; background-image: url({{item.c_user_image}}); background-size: cover;">
+                    <!--<img src="{{item.c_user_image}}"  alt="" style="max-height: 38px;" />-->
+                </div>
+
+                <div  class="text2">
+
+                    <div id="commentarea00{{item.id}}" style=" border-radius:5px!important;  width:98%; height: auto; position:relative;  background: #fff !important; border:solid 2px #97989a!important;">
+
+                        <!--<textarea class="commentArea12" id="comment00{{item.id}}" ng-model="item.commpostval" placeholder="Write a comment..." ng-keypress="resizeTextarea555($event); commentEmo($event,item); postComment($event,item);" ng-keyup="resizeTextarea555($event); commentEmo($event,item)" ng-keydown="resizeTextarea555($event); commentEmo($event,item)" style="width:100%; background-color:#fff!important; background:#fff!important; border:none;"  rows="1"></textarea>-->
+
+                        <div id="commentdiv000{{item.id}}" ng-keyup="setcommentval($event,item)" ng-keypress="postComment($event,item);"  style="height: auto; min-height: 35px; padding: 5px; padding-right: 38px;" contentEditable="true"></div>
+
+                        <a href="javascript:void(0)" ng-click="showemojisdiv123(item.id)"> <img src="images/emo.png" width="20" height="20" style="position:absolute; right:18px; top:8px; width:20px"/></a>
+
+                        <div class="clear"></div>
+
+                    </div>
+
+                    <div>
+
+                        <div id="emojisdiv{{item.id}}" style="display: none;">
+
+                            <!--<div ng-bind-html="emojis | emoticons:{'linkTarget':'_blank','newLine':true}" class="ng-emoticons emojisdiv"></div>-->
+
+                            <!--<div ng-bind-html="emojisHtml" class="ng-emoticons emojisdiv"></div>-->
+
+                            <div class="emojisdiv">
+
+                                <a href="javascript:void(0)" ng-repeat="emoitem in emojisArr" ng-click="emoinsert(item,emoitem)" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:" ></a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+
+        </div>
 
     </div>
 
-
-
-  </div>
-
-
-
-  <div class="clear"></div>
-
-
+    <div class="clear"></div>
 
 </div>
 
-
-
 <div style="clear: both;"></div>
-
-
 
 <span class="empty" ng-show="statusList.length == 0">No results found.</span>
 
-
-
 <div ng-show="viewMore==1" class="view_more_link"><a href="javascript:void(0);" ng-click="viewMoreStatus()">View More</a></div>
 
+<div ng-show="viewMoreLoad" class="viewMore" style="width:100%; text-align:center; padding:5px 0;"><img src="images/loading_list.gif" width="118" height="9" /></div>
 
 
-<div ng-show="viewMoreLoad" class="viewMore" style="width:100%; text-align:center; padding:5px 0;"><img src="images/loading_list.gif" /></div>
 
 
 
 <script type="text/ng-template" id="photoComment">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="popupbox_social_box">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         <a href="javascript:void(0)" class="cancelbtn1" ng-click="modalClose()"><img src="images/gtk-close.png"></a>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="clear"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <div class="clear"></div>
 
         <div class="photo-popup" style="mmargin: 0 auto; width:100%;text-align:center;overflow: inherit;height: auto; padding:0; ">
 
+            <div class="left_body">
 
-
-
-
-
-
- <div class="left_body">
-
-
-
-
-
-
-
-   <img alt="" style="max-width:100%; max-height:75%;" src="{{photoDet.imgSrc}}" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div class="poprt">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <div style="background-color:#D1D3D4;" class="comment-area">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <div class="comment_top">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="profile-img">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <img  src="{{photoDet.userImage}}" alt="" style=" max-width:50px; max-height:50px;" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="profile-text">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div class="name-text">{{photoDet.userName}}</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div class="text-contain">{{photoDet.timeSpan}}</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div class="clear"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="clear"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div style="font-size:16px; text-align:left; padding-top:8px; padding-left: 4px; color: #000;">{{photoDet.msg}}</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="cmnt_share">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <a href="javascript:void(0);">Comment{{(photoDet.commentList.length >1)?'s':''}} [{{photoDet.commentList.length}}]</a> - <a href="javascript:void(0);" ng-click="(photoDet.c_user) ?  statusLike1(photoDet) :'';">{{(photoDet.is_like)?'Unlike':'Like'}} [{{photoDet.like_no}}] </a>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <b style="font-weight:bold;display:inline-block; "> .</b>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <a href="javascript:void(0);" style="display: inline-block; position: relative;" ng-click="shareStaus(photoDet)">Share</a>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <div class="commen_body">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div ng-repeat="com in photoDet.commentList track by com.id" class="commend-box">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div class="date-link">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                <a href="javascript:void(0);">{{com.time}}</a>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                               <!-- <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment(photoDet.sIndex,$index)" />-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div style="width:50px; float:left; height:auto;">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                <img style=" margin-top:2px; max-width:35px; max-height:35px;" alt="" src="{{com.user_image}}" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div class="combodyu">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                <strong>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    <a href="#/profile/{{com.user_id}}" data-original-title="">{{com.user_name}}</a>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                </strong>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                <br />{{com.body}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <div class="clear"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <div ng-show="rootsessUser" class="commendboxpro">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="profile-img2">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <img style=" max-width:35px; max-height:35px;" alt="" src="{{photoDet.cUserImage}}">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="popup-text-box1">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            <textarea placeholder="Write a comment..." ng-model="photoDet.pstval" id="pstVal" ></textarea>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                       <!--     <a href="javascript:void(0);" ng-click="postComment1(photoDet)">POST</a>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="clear"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <img alt="" style="max-width:100%; max-height:75%;" src="{{photoDet.imgSrc}}" />
 
             </div>
 
+            <div class="poprt">
+
+                <div style="background-color:#D1D3D4;" class="comment-area">
+
+                    <div class="comment_top">
+
+                        <div class="profile-img">
+
+                            <img  src="{{photoDet.userImage}}" alt="" style=" max-width:50px; max-height:50px;" />
+
+                        </div>
+
+                        <div class="profile-text">
+
+                            <div class="name-text">{{photoDet.userName}}</div>
+
+                            <div class="text-contain">{{photoDet.timeSpan}}</div>
+
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <div class="clear"></div>
+
+                        <!--<div style="font-size:16px; text-align:left; padding-top:8px; padding-left: 4px; color: #000;">{{photoDet.msg}}</div>-->
+
+                        <div style="font-size:16px; text-align:left; padding-top:8px; padding-left: 4px; color: #000;" ng-bind-html="trustAsHtml(photoDet.msg)"></div>
+
+                        <div class="cmnt_share">
+
+                            <a href="javascript:void(0);">Comment{{(photoDet.commentList.length >1)?'s':''}} [{{photoDet.commentList.length}}]</a> - <a href="javascript:void(0);" ng-click="(photoDet.c_user) ?  statusLike1(photoDet) :'';">{{(photoDet.is_like)?'Unlike':'Like'}} [{{photoDet.like_no}}] </a>
+
+                            <b style="font-weight:bold;display:inline-block; "> .</b>
+
+                            <a href="javascript:void(0);" style="display: inline-block; position: relative;" ng-click="shareStaus(photoDet)">Share</a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="commen_body">
+
+                        <a ng-show="photoDet.comment_no1 > 5" href="javascript:void(0)" ng-click="viewAllComments1(photoDet)">View Previous Comments</a>
+
+                        <div ng-repeat="com in photoDet.commentSliceList track by com.id" class="commend-box">
+
+                            <div class="date-link">
+
+                                <a href="javascript:void(0);">{{com.time}}</a>
+
+                                <!-- <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment(photoDet.sIndex,$index)" />-->
+
+                            </div>
+
+                            <div style="width:50px; float:left; height:auto;">
+
+                                <img style=" margin-top:2px; max-width:35px; max-height:35px;" alt="" src="{{com.user_image}}" />
+
+                            </div>
+
+                            <div class="combodyu">
+
+                                <strong>
+
+                                    <a href="javascript:void(0)" ng-click="gotouserprofile(com.user_id,com.user_name)">{{com.user_name}}</a>
+
+                                </strong>
+
+                                <br />
+
+                                <div ng-bind-html="com.body | newlines | emoticons:{'linkTarget':'_blank','newLine':true}" class="ng-emoticons"></div>
+
+                            </div>
+
+                            <div class="clear"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div ng-show="rootsessUser" class="commendboxpro">
+
+                        <div class="profile-img2">
+
+                            <img style=" max-width:35px; max-height:35px;" alt="" src="{{photoDet.cUserImage}}">
+
+                        </div>
+
+                        <div class="popup-text-box1">
+
+                            <div style=" border:solid 2px #97989a; border-radius:5px;  width:98%; height: auto; position: relative;">
+
+                                <!--<textarea placeholder="Write a comment..."  ng-model="photoDet.pstval" id="pstVal"  ng-keydown="resizeTextarea($event)" style="padding: 5px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;  width:100%!important;   height:38px !important;"></textarea>-->
+
+                                <div id="commentdiv111" ng-keyup="setcommentval($event,photoDet)" ng-keypress="postComment1222($event,photoDet);"  style="height: auto; min-height: 35px; padding: 5px; padding-right: 38px; text-align: left;" contentEditable="true"></div>
+
+                                <a href="javascript:void(0)" ng-click="showemojisdivsada112()"><img src="images/emo.png"  style="position:absolute; right:6px; top:8px; width:20px"/></a>
+
+                                <div class="clear"></div>
+
+                            </div>
+
+                            <div style="position: relative;">
 
 
 
+                                <div id="showemojisdiv445" style=" bottom: 50px; position: absolute; right: 0; width: 400px; background-color: #FFFFFF; padding: 5px;border: 2px solid #97989a !important; border-radius: 5px !important; display: none; ">
 
+                                    <div class="emojisdiv" style="height: 200px;" ng-scrollbar>
 
+                                        <a href="javascript:void(0)" ng-repeat="emoitem in emojisArr" ng-click="emoinsert555(photoDet,emoitem)" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:"  ></a>
 
+                                    </div>
 
+                                </div>
 
+                            </div>
 
+                            <!--     <a href="javascript:void(0);" ng-click="postComment1(photoDet)">POST</a>-->
 
+                        </div>
 
+                    </div>
 
+                    <div class="clear"></div>
 
+                </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- <div class="clear"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            </div>
 
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <div class="clear"></div>
 
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </div>
 
 </script>
 
 
 
 <div style=" width:170px; height:204px; display: none;" id="mapconmain" > </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

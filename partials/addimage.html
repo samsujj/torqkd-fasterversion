@@ -1,7 +1,5 @@
 <style>
 
-
-
     .ngdialog-content{
 
         border: 5px solid #f7941e !important;
@@ -12,12 +10,20 @@
 
     }
 
+
+
     .mymodalimg .modal-lg{
+
         width: 860px !important;
+
     }
 
+
+
     .mymodalimg1 .modal-lg{
+
         width: 1300px !important;
+
     }
 
 
@@ -28,234 +34,442 @@
 
     }
 
- body{background-image: url("../images/addimage-bg.jpg");  background-size: cover; background-position: center; background-attachment: fixed; }
 
-     .modal-lg {
+
+
+    body{
+
+        background-image: url("../images/addimage-bg.jpg");
+
+        background-size: cover;
+
+        background-position: center;
+
+        background-attachment: fixed;
+
+    }
+
+
+
+    .modal-lg {
+
         background-clip: padding-box;
+
         background-color: #ffffff;
+
         box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+
         outline: medium none;
+
         border: 5px solid #f7941e;
+
         border-radius: 0;
+
     }
 
-    .modal-body {
+
+
+    /*.modal-body {
+
         max-height: 400px;
+
         overflow-y: auto;
+
         padding: 15px;
+
+    }*/
+
+
+
+    .modal-footer .btn-primary{
+
+        -webkit-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+
+        -moz-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+
+        box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+
+        text-shadow:0 1px 1px #fff;
+
     }
 
-.modal-footer .btn-primary{ -webkit-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
--moz-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75); text-shadow:0 1px 1px #fff;}
-.modal-footer .btn-primary:hover{ border-color:#fff;}
+
+
+    .modal-footer .btn-primary:hover{
+
+        border-color:#fff;
+
+    }
+
+
+
+    .image-editor .cropit-image-preview {
+
+        background: #f8f8f8;
+
+        background-size: cover;
+
+        border: none;
+
+        border-radius: 0px;
+
+        
+
+        width: 284px;
+
+        height: 312px;
+
+        cursor: move;
+
+		margin:0 0 0 25px;
+
+    }
+
+
+
+    .image-editor1 .cropit-image-preview {
+
+        background-color: #f8f8f8;
+
+        background-size: cover;
+
+        border: none;
+
+        border-radius: 0px;
+
+        margin: 0 0 0 18px;
+
+        width: 760px;
+
+        height: 357px;
+
+        cursor: move;
+
+    }
+
+
+
+    .cropit-image-background {
+
+        opacity: .2;
+
+        cursor: auto;
+
+    }
+
+
+
+    .image-size-label {
+
+        margin-top: 10px;
+
+    }
+
+
+
+    .export {
+
+        margin-top: 10px;
+
+    }
+
+
+
+
 
 </style>
 
+<div id="loaderDiv" ng-show='stateIsLoading'></div>
+
 <div class="addimage-body" style="background:none;">
 
-  <div class="register_wrapper" style="margin-bottom:60px;">
+    <div class="register_wrapper" style="margin-bottom:60px;">
 
-    <div class="logo" > <a ui-sref="index"> <img  alt="" src="images/logo_main.png" /> </a> </div>
-    
-       <div class="form-contain">
-  
-      <div class="left-img">   <img id="limg" src="images/bgimage5.png"  alt="" style="width: 100%;" /></div>
+        <div class="logo" >
 
-  <div class="right-form" style="width:370px; float:right;">
+            <a ui-sref="index"> <img  alt="" src="images/logo_main.png" /> </a>
 
-    <div class="activities_contain">
+        </div>
 
-      <h1 style="padding:4px 0 14px 0;"><img  alt="" src="images/your-profile.jpg" id="addImageH" style="max-width:100%;"></h1>
 
-      
 
-      <p style="font-size: 12px;  color: #666666;" data-original-title="">Select photos for your profile and profile background.</p>
+        <div class="form-contain">
 
-     
+            <div class="left-img">
 
-      <h4 style=" background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    color: #f7931e;
-    float: left;
-    font-family: veneerregular;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-    margin-top: 35px;
-    padding-left: 0;
-    width: 210px;">Add Profile Photo</h4>
+                <img id="limg" src="images/bgimage5.png"  alt="" style="width: 100%;" />
 
-        
-<div style="clear:both"></div>
-    <div class="imglist-div1">
+            </div>
 
-        <div class="imglist">
+            <div class="right-form" style="width:370px; float:right;">
 
+                <div class="activities_contain">
 
+                    <h1 style="padding:4px 0 14px 0;"><img  alt="" src="images/your-profile.jpg" id="addImageH" style="max-width:100%;"></h1>
 
-<img ng-src="{{(profileImage != '')?profileImage:'images/default.jpg'}}" alt=""  style="border: 1px solid #000;
-    margin-left: 0;
-    max-height: 156px;
-    max-width: 142px;" >
+                    <p style="font-size: 12px;  color: #666666;" data-original-title="">Select photos for your profile and profile background.</p>
 
+                    <h4 style=" background: rgba(0, 0, 0, 0) none repeat scroll 0 0; color: #f7931e; float: left; font-family: veneerregular; font-size: 24px;     font-style: normal; font-weight: normal;  letter-spacing: 3px; margin-bottom: 12px;  margin-top: 35px;  padding-left: 0;  width: 210px;">Add Profile Photo</h4>
 
+                    <div style="clear:both"></div>
 
-</div>
+                    <div class="imglist-div1">
 
-<div class="img-btn-div" style="clear:both; overflow:hidden; position:inherit; bottom:0; margin-bottom: 10px;">
+                        <div class="imglist">
 
-<input type="button" value="+" class="upload-btn1 btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+                            <img ng-src="{{(profileImage != '')?profileImage:'images/default.jpg'}}" alt=""  style="border: 1px solid #000; margin-left: 0;max-height: 156px;  max-width: 142px;" >
 
-    <img src="images/help.png" alt="" class="help-icon" uib-tooltip="Please Upload An Image Bigger Than 142X156" style="margin-top:-3px;">
+                        </div>
 
-    <div class="clear"></div>   
+                        <div class="img-btn-div" style="clear:both; overflow:hidden; position:inherit; bottom:0; margin-bottom: 10px;">
 
-</div>
+                            <input type="button" value="+" class="upload-btn1 btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
 
+                            <img src="images/help.png" alt="" class="help-icon" uib-tooltip="Please Upload An Image Bigger Than 142X156" style="margin-top:-3px;">
 
+                            <div class="clear"></div>
 
-<div class="progress" ng-show="files[0].progress >= 0">
+                        </div>
 
-	<div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div>
 
-</div>
 
+                        <div class="progress" ng-show="files[0].progress >= 0">
 
-        <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Crop" ng-if="profileImage != ''" ng-click="cropProfileImg()">
+                            <div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div>
 
+                        </div>
 
 
-        <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Delete" ng-if="profileImage != ''"  ng-click="profileImgDel(1)">
 
+                        <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Crop" ng-if="profileImage != ''" ng-click="cropProfileImg()">
 
+                        <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Delete" ng-if="profileImage != ''"  ng-click="profileImgDel(1)">
 
-  </div>
+                    </div>
 
-    <div class="clear"></div>
+                    <div class="clear"></div>
 
-       
+                    <h4 style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0; color: #f7931e; float: left;  font-family: veneerregular; font-size: 24px; font-style: normal; font-weight: normal; letter-spacing: 3px; margin-bottom: 10px;  margin-top: 30px;  padding-left: 0;  width: 260px;">Add Background Photo</h4>
 
-     <h4 style="background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    color: #f7931e;
-    float: left;
-    font-family: veneerregular;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-    margin-top: 30px;
-    padding-left: 0;
-    width: 260px;">Add Background Photo</h4>    
+                    <div style="clear:both"></div>
 
-       
+                    <div class="imglist-div2">
 
-       <div style="clear:both"></div>
+                        <div class="imglist2">
 
-       <div class="imglist-div2">
+                            <img name="" src="{{(profileBackImage != '')?profileBackImage:'images/defaultbg.jpg'}}" alt=""  style=" border: 1px solid #000;margin-left: 0;  max-height: 150px;  max-width: 328px;">
 
-        <div class="imglist2">
+                        </div>
 
+                        <div class="img-btn-div" style="clear:both; overflow:hidden; position:inherit; bottom:0; margin-bottom: 10px;">
 
+                            <input type="button" value="+" class="upload-btn2 btnuptext" ngf-drop ngf-select ng-model="files1" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box"ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
 
-<img name="" src="{{(profileBackImage != '')?profileBackImage:'images/defaultbg.jpg'}}" alt=""  style=" border: 1px solid #000;
-    margin-left: 0;
-    max-height: 150px;
-    max-width: 328px;">
+                            <img src="images/help.png" alt="" class="help-icon" uib-tooltip="Please Upload An Image Bigger Than 1156X576" style="margin-top:-3px;">
 
+                            <div class="clear"></div>
 
+                        </div>
 
-</div>
+                        <div class="progress" ng-show="files1[0].progress >= 0">
 
+                            <div style="width:{{files1[0].progress}}%; background:#F69830;" ng-bind="files1[0].progress + '%'"></div>
 
+                        </div>
 
-  <div class="img-btn-div" style="clear:both; overflow:hidden; position:inherit; bottom:0; margin-bottom: 10px;">
+                        <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Crop" ng-if="profileBackImage != ''" ng-click="cropProfileBackImg()">
 
-<input type="button" value="+" class="upload-btn2 btnuptext" ngf-drop ngf-select ng-model="files1" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box"ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+                        <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Delete" ng-if="profileBackImage != ''" ng-click="profileImgDel(2)">
 
-      <img src="images/help.png" alt="" class="help-icon" uib-tooltip="Please Upload An Image Bigger Than 1156X576" style="margin-top:-3px;">
+                        <div class="clear"></div>
 
-    <div class="clear"></div>   
+                    </div>
 
-</div> 
+                    <div  class="skipfinished" style="margin-top: 20px;">
 
+                        <a href="javascript:void(0);" ng-click="signUpfinish()" id="pro-btn">FINISH AND GET STARTED</a>
 
+                    </div>
 
-<div class="progress" ng-show="files1[0].progress >= 0">
+                </div>
 
-	<div style="width:{{files1[0].progress}}%; background:#F69830;" ng-bind="files1[0].progress + '%'"></div>
+            </div>
 
-</div>
+            <div class="clear"></div>
 
-
-
-           <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Crop" ng-if="profileBackImage != ''" ng-click="cropProfileBackImg()">
-
-
-
-           <input class="imgBtnCls imgBtnCls2" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Delete" ng-if="profileBackImage != ''" ng-click="profileImgDel(2)">
-
-             <div class="clear"></div>
-
-       </div>
-
-       
-
-     
-
-       
-
-       <div  class="skipfinished" style="margin-top: 20px;">
-
-<a href="javascript:void(0);" ng-click="signUpfinish()" id="pro-btn">FINISH AND GET STARTED</a>
-
-</div>
+        </div>
 
     </div>
-    
-     </div>
-       <div class="clear"></div>
-      </div>
 
-  </div>
-
- 
 </div>
 
- <div class="footer-menu1"> <span>&copy;TORQK'D</span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('terms')">TERMS </a> </span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a> </span> </div>
+
+
+<div class="footer-menu1">
+
+    <span>&copy;TORQK'D</span>
+
+    <span>|</span>
+
+    <span>
+
+        <a href="javascript:void(0);" ng-click="showtermsploicy('terms')">TERMS </a>
+
+    </span>
+
+    <span>|</span>
+
+    <span>
+
+        <a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a>
+
+    </span>
+
+</div>
+
 
 
 <script type="text/ng-template" id="mymodal">
+
     <div class="modal-header">
+
         <a class="close" ng-click="modalClose()">&times;</a>
+
         <h4>&nbsp;</h4>
+
     </div>
+
     <div class="modal-body">
-        <img-cropped src="{{image}}" selected='selected(cords)'>
+
+        <div ng-show="pLoad">Loading Image...<img src="images/ajax_loading.gif" ></div>
+
+		
+
+		
+
+        <div class="image-editor">
+
+
+
+		
+
+		     <div style="overflow:hidden; width:340px; margin:0 auto;">
+
+            <div class="cropit-image-preview-container">
+
+                <div class="cropit-image-preview" ng-mousemove="changepreview()"></div>
+
+            </div>
+
+			</div>
+
+			
+
+            <div style="margin-top:20px;"><input type="range" class="cropit-image-zoom-input" name="range" ng-model="range" ng-change="changepreview()"></div>
+
+
+
+        </div>
+
+
+
+        <div style="overflow:hidden; margin:10px auto; margin-top:14px; display:block; width:142px;">
+
+            <img src="{{imagedata1}}" ng-show="imagedata1">
+
+        </div>
+
+
+
+
+
+
+
     </div>
+
     <div class="modal-footer">
-        <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop()" data-original-title="">Crop</a>
-        <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="">Close</a>
+
+		<div style="width:118px; margin:0 auto;">
+
+        <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop123()" data-original-title="" style="width:116px; margin:4px;">Crop & Save</a>
+
+        <!--<a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="" style="width:62px; margin:4px;">Close</a>-->
+
     </div>
+
+	 </div>
+
+
+
+
 
 
 
 </script>
+
 <script type="text/ng-template" id="mymodal1">
+
     <div class="modal-header">
+
         <a class="close" ng-click="modalClose()">&times;</a>
+
         <h4>&nbsp;</h4>
+
     </div>
+
     <div class="modal-body">
-        <img-cropped1 src="{{image1}}" selected1='selected1(cords)'>
+
+        <div ng-show="pLoad">Loading Image...<img src="images/ajax_loading.gif" ></div>
+
+        <div class="image-editor1">
+
+		<div style="overflow:hidden; width:796px; margin:0 auto;">
+
+            <div class="cropit-image-preview-container">
+
+                <div class="cropit-image-preview"  ng-mousemove="changepreview1()"></div>
+
+            </div>
+
+			 </div>
+
+			
+
+			<div style="margin-top:20px;">
+
+            <input type="range" class="cropit-image-zoom-input"  name="range1" ng-model="range1" ng-change="changepreview1()">
+
+			 </div>
+
+        </div>
+
+
+
+         <div style="overflow:hidden; margin:10px auto; margin-top:14px; display:block; width:391px;">
+
+            <img src="{{imagedata2}}" ng-show="imagedata2">
+
+        </div>
+
     </div>
+
     <div class="modal-footer">
-        <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop1()" data-original-title="">Crop</a>
-        <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="">Close</a>
+
+	<div style="width:118px; margin:0 auto;">
+
+        <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop1()" data-original-title="" style="width:116px; margin:4px;">Crop & Save</a>
+
+        <!--<a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="" style="width:62px; margin:4px;">Close</a>-->
+
+		</div>
+
     </div>
+
+
+
+
 
 
 
 </script>
+

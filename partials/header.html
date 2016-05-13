@@ -1,42 +1,226 @@
-<div class="top-contain" data-original-title="">
+<style>
 
-    <div class="logo" data-original-title="">
+    .cmsglist{
 
-        <a ui-sref="index" ng-if="(sessUser==0)"> <img alt="" src="images/logo_main.png"/> </a>
+        width: 300px;
 
-        <a ui-sref="profile({userId:sessUser})" ng-if="(sessUser!=0)" > <img alt="" src="images/logo_main.png"/> </a>
+        border-bottom: #c9c9c9 1px solid;
+
+        text-align: left;
+
+        cursor: pointer;
+
+        position: relative;
+
+    }
+
+    .notificationStr strong {
+
+        display: inline !important;
+
+    }
+
+    .msg_text-wrapper a{
+
+        font-family:Arial, Helvetica, sans-serif!important;
+
+        font-size:12px!important;
+
+        line-height:18px!important;
+
+        margin-top:10px!important;
+
+        color: #231f20!important;
+
+        word-break:break-all;
+
+    }
+
+    .msg_text-wrapper a:hover{
+
+        text-decoration:underline!important;
+
+    }
+
+</style>
+
+
+
+<div class="admin-link-main" ng-show="user_is_admin == 1">
+
+    <div class="admin-link">
+
+        <a href="http://torqkd.com/user/admin" target="_blank">ADMIN</a>
 
     </div>
 
+    <div class="clear"></div>
+
+</div>
 
 
-    <div class="top-menu2 top-menu2_style" data-original-title="">
 
-        <ul id="menu" data-original-title="">
+<div class="top-contain">
 
-            <li data-original-title="">
+    <div class="logo">
 
-                <a class="mobile_appL" data-original-title="" target="_blank" href="http://torqkd.com/user/default/mob_popup" style="color: #F7931D;" onmouseover="this.style.color='#5a5b5d'" onmouseout="this.style.color='#F7931D'">Mobile App</a>
+        <a ui-sref="index">
+
+            <img alt="" src="images/logo_main.png" height="69" width="224" />
+
+        </a>
+
+    </div>
+
+    <div class="top-menu2 top-menu2_style">
+
+        <ul id="menu">
+
+            <li ng-show="rootsessUser123 > 0">
+
+                <a href="javascript:void(0)" ng-click="opennotlistttt()" class="dropdown-toggle" data-toggle="dropdown">
+
+                    <img ng-show="unReadNot > 0" alt="" src="images/notification_active.png" width="34" height="35" style=" margin:0; "/>
+
+                    <img ng-show="unReadNot == 0" alt="" src="images/notification_inactive.png" width="34" height="35" style=" margin:0;"/>
+
+                </a>
+
+                <ul class="showmsgblog dropdown-menu" style="border: none; border-radius: 0; box-shadow: none;">
+
+                    <span  class="showmsgwrapper">
+
+                        <li>
+
+                            <div ng-repeat="item in notificationList | limitTo:5" class="cmsglist" style="width:303px; padding:5px; border-bottom-color: #ffffff !important;" ng-style="{ background: item.is_read1 == 0 ? '#d9d9d9' : '#ebebeb' }">
+
+                                <div class="msg_photo"  ng-click="openNotPost(item); markasreadnot(item);">
+
+                                    <img src="{{item.user_image}}" width="50" height="55">
+
+                                </div>
+
+                                <div class="msg_text" style="cursor: pointer;" ng-click="openNotPost(item); markasreadnot(item);">
+
+                                    <div  class="msg_text-wrapper" style="width:160px; float:left;" >
+
+                                        <div ng-bind-html="item.str | emoticons:{'linkTarget':'_blank','newLine':true}" class="notificationStr"></div>
+
+                                        <label  >{{item.time_str1}}</label>
+
+                                    </div>
+
+                                    <div ng-show="item.file" style="width:50px; height:38px; background-color:#000; float:right;  background-position: center center; background-size: cover; background-image: url('{{item.file}}')"></div>
+
+                                </div>
+
+                                <!--<a ng-click="markasreadnot(item)" title="Mark As Read" class="msgclose">x</a>-->
+
+                                <div style="clear:both;"></div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="cmsglist" style="background-color: #f7931e!important; border:none; text-align:center; padding: 10px 0 5px 0; width:100%; border-top:solid 5px #fff!important;"><a ui-sref="allnotification" style="color:#58595b; display:block; background:#f7931e!important; ">See All</a></li>
+
+                    </span>
+
+                </ul>
+
+            </li>
+
+            <li  ng-show="rootsessUser123 > 0" >
+
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+
+                    <img ng-show="unReadMsg > 0" alt="" src="images/messag_active.png" width="29" height="35" style=" margin:0 ;"/>
+
+                    <img ng-show="unReadMsg == 0" alt="" src="images/messag_inactive.png" width="29" height="35" style=" margin:0;"/>
+
+                </a>
+
+                <ul class="showmsgblog dropdown-menu" style="border: none; border-radius: 0; box-shadow: none;">
+
+                    <span  class="showmsgwrapper">
+
+                        <li ng-scrollbar>
+
+                            <div ng-repeat="item in CmessageList | limitTo:5" class="cmsglist" style="width:303px; padding:5px; border-bottom-color: #FFFFFF !important;" ng-style="{ background: item.is_read == 0 ? '#d9d9d9' : '#ebebeb' }">
+
+                                <div class="msg_photo"  ng-click="showCMsgfun();openChatbox(item.user_id);">
+
+                                    <img src="{{item.user_image}}" width="50" height="55">
+
+                                </div>
+
+                                <div class="msg_text" style="cursor: pointer;" ng-click="showCMsgfun();openChatbox(item.user_id);">
+
+                                    <div  class="msg_text-wrapper" >
+
+                                        <strong>{{item.user_name}}</strong>
+
+                                        <b class=" ng-emoticons"  ng-bind-html="item.message | newlines | emoticons:{'linkTarget':'_blank','newLine':true}"></b>
+
+                                        <label>{{item.time_str}}</label>
+
+                                    </div>
+
+                                </div>
+
+                                <a ng-click="markasroad(item)" title="Mark As Read" class="msgclose"></a>
+
+                                <div style="clear:both;"></div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="cmsglist" ng-show="CmessageList.length" style="background-color: #f7931e!important; border:none; text-align:center; padding: 10px 0 5px 0; width:100%; border-top:solid 5px #fff!important;"><a ui-sref="allmessages" style="color:#58595b; display:block; background:#f7931e!important; ">See All</a></li>
+
+                        <li class="cmsglist" ng-hide="CmessageList.length" style="background-color: #f7931e!important; border:none; text-align:center; padding: 10px 0 5px 0; width:100%; border-top:solid 5px #fff!important;">No Messages</li>
+
+                    </span>
+
+                </ul>
+
+            </li>
+
+            <li data-original-title="" style="padding:5px 4px 0 6px;">
+
+                <a class="mobile_appL" data-original-title="" target="_blank" ui-sref="mobpopup" style="color: #F7931D;" onmouseover="this.style.color='#5a5b5d'" onmouseout="this.style.color='#F7931D'">&nbsp;</a>
 
             </li>
 
             <li ng-if="(sessUser!=0) && !isProfilePage"><a ui-sref="index" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
-            <li ng-if="isProfilePage && sessUser != userId && sessUser!=0"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
 
+            <li ng-if="isProfilePage && sessUser != userId && sessUser!=0"><a ui-sref="profile({userId:sessUser})" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'" onMouseOut="this.style.color='#F7931D'">Profile</a></li>
 
             <li data-original-title=""><a ui-sref="experience" data-original-title=""> The Experience</a> </li>
 
-            <li data-original-title="" class="dropdownmenu"><a href="javascript:void(0);" data-original-title="">Sports</a>
-            
-             <ul>
-               <li ng-repeat="item in sportsMenu"> <a href="javascript:void(0);" data-original-title="">{{item.sport_name}}</a></li>
-            </ul>
-            
+            <li data-original-title="" class="dropdownmenu">
+
+                <a href="javascript:void(0);" data-original-title="">Sports</a> 
+
+                <ul style="background-color: #58585a !important; background-image: none !important;">
+
+                    <li ng-repeat="item in sportsMenu" > <a ui-sref="sportdetail({sportId:item.id})">{{item.sport_name}}</a></li>
+
+                </ul>
+
             </li>
 
-            <li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
+            <!--<li ng-if="(sessUser!=0)"><a ui-sref="logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>-->
 
-            <li ng-if="(sessUser!=0)"><a ui-sref="editprofile()"><img src="images/gear.png"  alt="" /></a></li>
+            <li ng-if="(sessUser!=0)" data-original-title="" class="dropdownmenu" > <a href="javascript:void(0);" data-original-title="">
+                <img src="images/dropdown2.png" width="20" height="20" alt=""  style="margin-left:1px;"/></a>
+            
+              <ul class="newdropdownmenu1" style="background-color: #58585a !important; background-image: none !important;">
+               <li class="setting" style="width: 75px;"> <a ui-sref="editprofile">Settings</a></li>
+                <li class="logout" style="width: 75px;"> <a ui-sref="logout">Logout</a></li>
+              </ul>
+            
+            </li>
 
             <li ng-if="(sessUser==0)"><a ui-sref="login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'" onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
 
@@ -44,7 +228,6 @@
 
     </div>
 
-    <div class="clear" data-original-title=""></div>
+    <div class="clear" ></div>
 
 </div>
-

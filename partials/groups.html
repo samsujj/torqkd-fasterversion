@@ -1,16 +1,16 @@
 <div ng-if="isProfile" class="groupTab">
 
-    <input type="button" value="COMMUNITY GROUPS" ng-click="sugGroup()" class="ajuxcss">
+    <input type="button" value="COMMUNITY GROUPS" ng-click="sugGroup()" class="ajuxcss" style="background: #f7931e !important; padding-top: 4px; width: 196px!important; height: 44px; cursor: pointer; display: block; font-family: 'veneerregular'!important; color: #414142; font-size: 24px; border: solid 4px #fff; margin: 10px 0; box-shadow: none; text-align: center; box-shadow: 0px 0px 2px #888888; margin-top:20px;">
 
-    <input type="button" value="FRIENDS GROUPS" ng-click="locGroup()" class="ajuxcss">
+    <input type="button" value="FRIENDS GROUPS" ng-click="locGroup()" class="ajuxcss" style="background: #f7931e !important; padding-top: 4px; width: 196px!important; height: 44px; cursor: pointer; display: block; font-family: 'veneerregular'!important; color: #414142; font-size: 24px; border: solid 4px #fff; margin: 10px 0; box-shadow: none; box-shadow: 0px 0px 2px #888888; text-align: center; margin-top:20px;">
 
 </div>
 
 <div ng-if="isExp" class="groupTab">
 
-    <input type="button" value="SUGGESTED GROUPS" ng-click="sugGroup()">
+    <input type="button" value="SUGGESTED GROUPS" ng-click="sugGroup()" class="ajuxcss" style="background: #f7931e !important; padding-top: 4px; width: 196px!important; height: 44px; cursor: pointer; display: block; font-family: 'veneerregular'!important; color: #414142; font-size: 24px; border: solid 4px #fff; margin: 10px 0; box-shadow: 0px 0px 2px #888888; text-align: center; margin-top:20px;">
 
-    <input type="button" value="LOCAL GROUPS" ng-click="locGroup()">
+    <input type="button" value="LOCAL GROUPS" ng-click="locGroup()" class="ajuxcss" style="background: #f7931e !important; padding-top: 4px; width: 196px!important; height: 44px; cursor: pointer; display: block; font-family: 'veneerregular'!important; color: #414142; font-size: 24px; border: solid 4px #fff; margin: 10px 0; box-shadow: 0px 0px 2px #888888; text-align: center; margin-top:20px; ">
 
 </div>
 
@@ -42,9 +42,9 @@
 
 			<div style="clear: both;"></div>
 
-			<p>{{item.description}} </p></div>
+			<p style="width:70%;">{{item.description}} </p></div>
 
-		<a class="viewgrp" style="background: none; border: none; color: #4f5052!important; padding: 0px; box-shadow: none; margin-bottom: 10px !important;" href="javascript:void(0)">View Group</a>
+		<a class="viewgrp" style="background: none; border: none; color: #4f5052!important; padding: 0px; box-shadow: none; margin-bottom: 10px !important;" ui-sref="groupdetail({groupId:item.id})">View Group</a>
 
 	</div>
 
