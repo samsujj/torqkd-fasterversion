@@ -99,6 +99,7 @@
   top: -23px;
   width: 45px;
   font-size:0px;
+  background-size: 45px 45px;
 }
 
 .ngdialog.ngdialog-theme-default .ngdialog-close:hover:before,

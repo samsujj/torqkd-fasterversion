@@ -266,7 +266,7 @@
 
                 <div class="img-contain cngcondiv">
 
-                    <img src="{{userDet.profileImg}}" style="max-height: 120px;" alt="" />
+                    <img src="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}" style="max-height: 120px;" alt="" />
 
                     <a class="pic cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Edit Profile Picture</a>
 
@@ -292,7 +292,7 @@
 
             <div class="banner-image cngcondiv">
 
-                <img style="height: auto; max-width: 100%" src="{{userDet.backImg}}"  />
+                <img style="height: auto; max-width: 100%" src="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}"  />
 
                 <a class="changecover cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Change Cover</a>
 
@@ -300,16 +300,19 @@
 
             <div class="banner-add">
 
-                <div class="banner1">
-
+                <div class="banner1" >
+                    <a href="javascript:void(0);">
+                        <div class="bannerdiv22511" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/default_latest_banner1.jpg); background-size: cover;"></div>
+                    </a>
                     <simple-slider class="gallery1" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
 
-                        <a ng-repeat="item in bannerslides1 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                       <!-- <a href="javascript:void(0);" ng-hide="bannerslides1.length" >
+                            <div class="bannerdiv22511" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/default_latest_banner1.jpg); background-size: cover;"></div>
+                        </a>-->
 
+                        <a ng-repeat="item in bannerslides1" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
-
-                            <div class="bannerdiv22511" style="background-image: url({{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
-
+                            <div class="bannerdiv22511" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>
 
                     </simple-slider>
@@ -805,11 +808,11 @@
 
                     <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
 
-                        <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides2" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
 
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
 
-                            <div class="bannerdiv225" style="height: 200px; background-image: url({{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                            <div class="bannerdiv225" style="height: 200px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
 
                         </a>
 
@@ -826,11 +829,11 @@
 
                     <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
 
-                        <a ng-repeat="item in bannerslides3 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides3" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
 
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}"  />-->
 
-                            <div class="bannerdiv225" style="height: 100%; background-image: url({{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                            <div class="bannerdiv225" style="height: 100%; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
 
                         </a>
 

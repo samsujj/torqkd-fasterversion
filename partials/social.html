@@ -332,13 +332,13 @@
 
 
             <div class="socialimg254" ng-if="item.type=='image'">
-                <img src="{{baseUrl}}/uploads/status_img/{{item.value}}?version={{item.time}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">
+                <img src="http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">
             </div>
 
             <div ng-if="item.type=='mp4'">
 
                 <div style="max-height: 430px; overflow: hidden; position: relative;" class="socialimg254" id="youtubeBody{{item.id}}">
-                    <img src="{{item.s_img}}" width="100%">
+                    <img src="http://torqkd.com/user/ajs1/createimage?image={{item.s_img}}" width="100%">
                     <div  ng-click="showmp4video(item.id,item.value)" style="cursor:pointer; width: 50px; height: 50px; position: absolute; left: 48%; top: 48%; z-index: 9; background: rgba(0, 0, 0, 0) url('../images/startb.png') no-repeat scroll left top; background-size: cover;"></div>
                 </div>
 
@@ -352,7 +352,7 @@
 
             <div class="embed-responsive embed-responsive-16by9 video-wrapper socialimg254" ng-if="item.type=='youtube'" id="youtubeBody{{item.id}}" style="position:relative; display:block; background:#000;">
 
-                <img class="youtubeimg225" src="https://i.ytimg.com/vi/{{item.value}}/hqdefault.jpg" width="100%">
+                <img class="youtubeimg225" src="http://torqkd.com/user/ajs1/createimage?image=https://i.ytimg.com/vi/{{item.value}}/hqdefault.jpg" width="100%">
 
                 <div  class="paly_video"  ng-click="showYoutubevdo(item.id,item.value)" style="cursor:pointer;"></div>
 

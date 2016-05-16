@@ -350,3 +350,91 @@ function showandmsg(msg){
     alert(msg);
     Android.showToast(msg);
  }
+
+
+$(function(){
+
+
+    $(window).scroll(function() {
+
+        if($(window).width() > 1024 && $('.experience-rightcontain').length && $('.experience-leftcontain').length){
+
+
+
+
+
+
+
+            var right=$('.experience-rightcontain').height();
+
+            var left=$('.experience-leftcontain').height();
+
+
+            if(right < left ){
+
+                var topheight=$('.experience-rightcontain').height();
+                var rightcontentwidth=$('.experience-rightcontain').width();
+
+
+                if ($(window).scrollTop() > right && $(window).width()>1024) {
+                    var left=$('.experience-leftcontain').offset().left;
+                    var leftwidth=($('.experience-leftcontain').width());
+                    $('.experience-rightcontain').css('position','fixed');
+                    $('.experience-rightcontain').css('left',left+leftwidth+11);
+                    $('.experience-rightcontain').css('bottom','62px');
+                    $('.experience-rightcontain').css('width',rightcontentwidth);
+                }else{
+                    $('.experience-rightcontain').css('position','relative');
+                    $('.experience-rightcontain').css('left','');
+                    $('.experience-rightcontain').css('bottom','');
+                }
+            }
+
+
+            /*if(left < right){
+
+                var topheight=$('.experience-leftcontain').height();
+
+                console.log(topheight);
+
+                if ($(window).scrollTop() > left && $(window).width()>1024) {
+                    //var left=$('.experience-leftcontain').offset().left;
+                    var leftwidth=($('.experience-leftcontain').width());
+                    $('.experience-leftcontain').css('position','fixed');
+                    $('.experience-leftcontain').css('bottom','62px');
+                    $('.experience-leftcontain').css('width',leftwidth);
+
+                    $('.experience-rightcontain').css('position','relative');
+                    $('.experience-rightcontain').css('left','');
+                    $('.experience-rightcontain').css('bottom','');
+                }else{
+                    $('.experience-leftcontain').css('position','relative');
+                    $('.experience-leftcontain').css('bottom','');
+                }
+
+            }*/
+        }
+    });
+})
+
+/*
+$(window).bind("load", function() {
+    $('img').each(function(){
+        var iwidth = $(this).width();
+
+        if(!isNaN(iwidth) && iwidth > 0){
+            $(this).attr('width',iwidth);
+        }
+
+        var iheight = $(this).height();
+
+        if(!isNaN(iheight) && iheight > 0){
+            $(this).attr('height',iheight);
+        }
+
+
+
+    });
+});
+
+*/
