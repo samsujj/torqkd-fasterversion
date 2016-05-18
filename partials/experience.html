@@ -123,7 +123,7 @@
                 <uib-slide ng-repeat="slideCollection in groupedSlides" active="slide.active" index="slide.id">
                     <div style="float: left;">
                         <!--<img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}" style="margin:auto;">-->
-                        <div style="height: 100%; width: 100%; background-image: url({{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}); background-size: cover;"></div>
+                        <div style="height: 100%; width: 100%; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}); background-size: cover;"></div>
                         <h2>{{slideCollection.image1.sport_name}}</h2>
                         <span>
                             <div class="text-div">{{slideCollection.image1.tag}}</div>
@@ -156,21 +156,21 @@
         <div class="people-contain">
         <ul>
             <li><strong style="line-height:40px;">COMMUNITY:</strong></li>
-            <div class="community-div">+{{(peoplelist.lenght>14)?(peoplelist.lenght - 14):0}}</div>
+            <div class="community-div">+{{(peoplelist_no>14)?(peoplelist_no - 14):0}}</div>
             <li class="myParent" style="margin:0 1px 0 0; border: 2px solid #f7931e;" ng-repeat="item in peoplelist | limitTo:14 track by item.id" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
                 <!--<img src="{{item.user_image}}" width="40px"  alt="" />-->
-                <div style="width: 40px; height: 44px; background-image: url({{item.user_image}}); background-size: cover;"></div>
+                <div style="width: 40px; height: 44px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{item.user_image}}); background-size: cover;"></div>
                 <span class="hover_img" style="background: url(../images/hover_div1.png) no-repeat; left:-5px; display: block;" ng-show="showunFrndDiv">
                     <ul>
-                        <li style="width:98px; float: left;  display:block; height: 110px; background-image: url({{item.user_image}}); background-size: cover;" ng-click="gotouserprofile(item.id,item.user_name)">
+                        <li style="width:98px; float: left;  display:block; height: 110px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{item.user_image}}); background-size: cover;" ng-click="gotouserprofile(item.id,item.user_name)">
                             <!--<img src="images/checkered.png" lazy-img="{{item.user_image}}" style="max-height:100%; max-width:100%;"  alt=""  class="liimg5"/>-->
                         </li>
                         <li  style="margin-left:20px; width:150px; float: right; display:block;">
-                            <a href="javascript:void(0)">{{item.user_name}}</a>
+                            <a href="javascript:void(0)" style="padding: 0 0 5px;">{{item.user_name}}</a>
                             <div class="clear"></div>
                             <!--<img ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" src="{{item1.imag_name}}" width="25"  alt="" style="width:25px; margin:0 2px 2px 0;" />-->
 
-                            <div ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" style="float: left; margin-bottom:4px; margin-right: 4px; height: 25px; width: 25px; background-image: url({{item1.imag_name}}); background-size: cover;"></div>
+                            <div ng-repeat="item1 in item.sports | limitTo:6 track by item1.id" style="float: left; margin-bottom:4px; margin-right: 4px; height: 25px; width: 25px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{item1.imag_name}}); background-size: cover;"></div>
 
                             <div ng-if="item.sports.length>6" style="display: inline-block; height: 15px; background: #000; float: right; margin:0 15px 0 0; color:#F7921D; font-size: 12px; text-align: center; padding: 5px; line-height:15px; font-weight: bold;">+{{(item.sports.length-6)}}</div>
                             <div class="clear"></div>
@@ -220,7 +220,7 @@
             <div class="albums albums-btn">
                 <a  href="javascript:void(0);" onClick="showdailypoll()">
                     <!--<img alt="" src="{{baseUrl}}/uploads/pollbanner/{{mainbanner}}">-->
-                    <div style="width: 100%; height: 290px; background-image: url({{baseUrl}}/uploads/pollbanner/{{mainbanner}}); background-size: cover;"></div>
+                    <div style="width: 100%; height: 290px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/pollbanner/{{mainbanner}}); background-size: cover;"></div>
                     <h2 data-original-title="" style="padding-top:10px; padding-bottom:10px;">DAILY POLL</h2>
                 </a>
             </div>
@@ -232,7 +232,7 @@
                     <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
                         <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
                             <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
-                            <div class="bannerdiv225" style="height: 200px; background-image: url({{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                            <div class="bannerdiv225" style="height: 200px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>
                     </simple-slider>
                 </div>
@@ -243,7 +243,7 @@
                     <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
                         <a ng-repeat="item in bannerslides3 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
                             <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
-                            <div class="bannerdiv225" style="height: 100%; background-image: url({{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                            <div class="bannerdiv225" style="height: 100%; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>
                     </simple-slider>
                 </div>

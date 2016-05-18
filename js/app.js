@@ -256,6 +256,20 @@ homeControllers1.directive('imgCropped1', function() {
     };
 })
 
+homeControllers1.directive( 'elemReady', function( $parse ) {
+        return {
+            restrict: 'A',
+            link: function( $scope, elem, attrs ) {
+                elem.ready(function(){
+                    $scope.$apply(function(){
+                        var func = $parse(attrs.elemReady);
+                        func($scope);
+                    })
+                })
+            }
+        }
+    });
+
 homeControllers1.directive('simpleSlider', ['SimpleSliderService', '$timeout', function (SimpleSliderService, $timeout) {
 
     'use strict';
@@ -573,12 +587,12 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
                     templateUrl: 'partials/footer.html' ,
                     controller: 'footer'
                 },
-              //  'bannercommon': {
-              //      controller: 'bannerCommon'
-              //  },
-              //  'chatcommon': {
-              //      controller: 'chatcommon'
-              //  },
+                'bannercommon': {
+                    controller: 'bannerCommon'
+                },
+                'chatcommon': {
+                    controller: 'chatcommon'
+                },
                 'tabcommon': {
                     controller: 'tabcommon'
                 },
@@ -748,7 +762,7 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
             url:"/photo",
             views: {
                 'content': {
-                    templateUrl: 'partials/photoall.html' ,
+                    templateUrl: 'partials/`photoall.html' ,
                     controller: 'photo'
                 },
                 'footer': {
@@ -1223,12 +1237,12 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
                     templateUrl: 'partials/footer.html' ,
                     controller: 'footer'
                 },
-                'bannercommon': {
-                    controller: 'bannerCommon'
-                },
-                'mapcommon': {
-                    controller: 'mapcommon'
-                },
+               // 'bannercommon': {
+               //     controller: 'bannerCommon'
+               // },
+              //  'mapcommon': {
+               //     controller: 'mapcommon'
+               // },
                 'tabcommon': {
                     controller: 'tabcommon2'
                 },
@@ -1489,7 +1503,8 @@ homeControllers1.controller('index', function($scope,$state,$cookieStore,$rootSc
 
 homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieStore,$rootScope,$q,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal,$interval) {
 
-
+    $rootScope.lastCallTime=0;
+    $rootScope.lastCallTime1=0;
 
     $scope.isBarShown = true;
 
@@ -1618,107 +1633,121 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
 
     $scope.openchatbox1 = function(){
-        angular.forEach($http.pendingRequests, function(request) {
+/*        angular.forEach($http.pendingRequests, function(request) {
             if(request.url == $scope.baseUrl+'/user/ajs1/open_chatbox1'){
                 $http.abort(request);
             }
         });
+*/
 
-        if($rootScope.rootsessUser123 > 0){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/open_chatbox1',
-                data    : $.param({'cid':$rootScope.rootsessUser123,'last_login':$scope.last_login}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                if(result.u_arr.length > 0){
 
-                    var u_arr = result.u_arr;
+        var d = new Date();
+        var n = d.getTime();
 
-                    var m;
+        if($rootScope.lastCallTime == 0 || (n-$rootScope.lastCallTime) > 9000) {
+            $rootScope.lastCallTime = n;
 
-                    if(typeof($cookieStore.get('activeChat')) != 'undefined'){
-                        var arr3 = $cookieStore.get('activeChat');
-                        for(m in u_arr){
-                            if(arr3.indexOf(u_arr[m]) == -1){
+
+            if ($rootScope.rootsessUser123 > 0) {
+                $http({
+                    method: 'POST',
+                    async: false,
+                    url: $scope.baseUrl + '/user/ajs1/open_chatbox1',
+                    data: $.param({'cid': $rootScope.rootsessUser123, 'last_login': $scope.last_login}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                }).success(function (result) {
+                    if (result.u_arr.length > 0) {
+
+                        var u_arr = result.u_arr;
+
+                        var m;
+
+                        if (typeof($cookieStore.get('activeChat')) != 'undefined') {
+                            var arr3 = $cookieStore.get('activeChat');
+                            for (m in u_arr) {
+                                if (arr3.indexOf(u_arr[m]) == -1) {
+                                    arr3.push(u_arr[m]);
+                                }
+                            }
+                            $cookieStore.put('activeChat', arr3);
+
+                        } else {
+                            var arr3 = [];
+                            for (m in u_arr) {
                                 arr3.push(u_arr[m]);
                             }
+                            $cookieStore.put('activeChat', arr3);
                         }
-                        $cookieStore.put('activeChat',arr3);
 
-                    }else{
-                        var arr3 = [];
-                        for(m in u_arr){
-                            arr3.push(u_arr[m]);
-                        }
-                        $cookieStore.put('activeChat',arr3);
+                        $http({
+                            method: 'POST',
+                            async: false,
+                            url: $scope.baseUrl + '/user/ajs1/open_chatbox',
+                            data: $.param({'cid': $rootScope.rootsessUser123, 'uids': $cookieStore.get('activeChat')}),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                        }).success(function (result) {
+                            //$rootScope.activeChatUsers = result;
+
+                            //console.log($rootScope.currentChatUser);
+                            if (typeof($rootScope.activeChatUsers) != 'undefined' && $rootScope.activeChatUsers.length > 0) {
+                                angular.forEach(result, function (value, key) {
+                                    if ($rootScope.currentChatUser.indexOf(value.id) == -1) {
+                                        $rootScope.activeChatUsers.push(value);
+                                        $rootScope.currentChatUser.push(value.id)
+                                    } else {
+                                        //console.log(value.msgarr);
+                                        angular.forEach($rootScope.activeChatUsers, function (value1, key1) {
+                                            if (value1.id == value.id) {
+                                                //console.log(1);
+                                                value1.msgarr = value.msgarr;
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                $rootScope.activeChatUsers = result;
+                                angular.forEach(result, function (value, key) {
+                                    if ($rootScope.currentChatUser.indexOf(value.id) == -1) {
+                                        $rootScope.currentChatUser.push(value.id)
+                                    }
+                                });
+                            }
+
+                            if ($rootScope.rootsessUser123 == 0) {
+                                $rootScope.activeChatUsers = [];
+                            }
+
+                            $timeout(function () {
+                                $scope.openchatbox1();
+                            }, 10000);
+
+                        }).error(function (result) {
+
+                            $timeout(function () {
+                                $scope.openchatbox1();
+                            }, 5000);
+
+                        });
+
+                    } else {
+
+                        $timeout(function () {
+                            $scope.openchatbox1();
+                        }, 5000);
+
                     }
+                }).error(function (result) {
 
-                    $http({
-                        method: 'POST',
-                        async:   false,
-                        url: $scope.baseUrl+'/user/ajs1/open_chatbox',
-                        data    : $.param({'cid':$rootScope.rootsessUser123,'uids':$cookieStore.get('activeChat')}),
-                        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                    }).success(function (result) {
-                        //$rootScope.activeChatUsers = result;
-
-                        //console.log($rootScope.currentChatUser);
-                        if(typeof($rootScope.activeChatUsers) != 'undefined' && $rootScope.activeChatUsers.length > 0){
-                            angular.forEach(result,function(value,key){
-                                if($rootScope.currentChatUser.indexOf(value.id) == -1){
-                                    $rootScope.activeChatUsers.push(value);
-                                    $rootScope.currentChatUser.push(value.id)
-                                }else{
-                                    //console.log(value.msgarr);
-                                    angular.forEach($rootScope.activeChatUsers,function(value1,key1){
-                                        if(value1.id == value.id){
-                                            //console.log(1);
-                                            value1.msgarr = value.msgarr;
-                                        }
-                                    });
-                                }
-                            });
-                        }else{
-                            $rootScope.activeChatUsers = result;
-                            angular.forEach(result,function(value,key){
-                                if($rootScope.currentChatUser.indexOf(value.id) == -1){
-                                    $rootScope.currentChatUser.push(value.id)
-                                }
-                            });
-                        }
-
-                        if($rootScope.rootsessUser123 == 0){
-                            $rootScope.activeChatUsers = [];
-                        }
-
-                        $timeout(function(){
-                            $scope.openchatbox1();
-                        },8000);
-
-                    }).error(function (result) {
-
-                        $timeout(function(){
-                            $scope.openchatbox1();
-                        },5000);
-
-                    });
-
-                }else{
-
-                    $timeout(function(){
+                    $timeout(function () {
                         $scope.openchatbox1();
-                    },5000);
+                    }, 5000);
 
-                }
-            }).error(function (result) {
-
-                $timeout(function(){
-                    $scope.openchatbox1();
-                },5000);
-
-            });
+                });
+            }
+        }else{
+            $timeout(function () {
+                $scope.openchatbox1();
+            }, 5000);
         }
     }
 
@@ -2079,74 +2108,77 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 /***********************************************/
 
     $scope.getchatnotcommonrec = function(){
-        angular.forEach($http.pendingRequests, function(request) {
-            if(request.url == $scope.baseUrl+'/user/ajs1/chatmsgnotificationcommon'){
-                $http.abort(request);
-            }
-        });
-        if($rootScope.rootsessUser123 > 0){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/chatmsgnotificationcommon',
-                data    : $.param({'cid':$rootScope.rootsessUser123,'last_login':$scope.last_login}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
+
+        var d = new Date();
+        var n = d.getTime();
+
+        if($rootScope.lastCallTime1 == 0 || (n-$rootScope.lastCallTime1) > 9000) {
+            $rootScope.lastCallTime1 = n;
+
+            if ($rootScope.rootsessUser123 > 0) {
+                $http({
+                    method: 'POST',
+                    async: false,
+                    url: $scope.baseUrl + '/user/ajs1/chatmsgnotificationcommon',
+                    data: $.param({'cid': $rootScope.rootsessUser123, 'last_login': $scope.last_login}),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                }).success(function (result) {
 
 
-                var unReadNot1 = 0;
+                    var unReadNot1 = 0;
 
-                if(typeof($rootScope.notificationList) != 'undefined'){
+                    if (typeof($rootScope.notificationList) != 'undefined') {
 
-                    var notificationList123 = $rootScope.notificationList;
+                        var notificationList123 = $rootScope.notificationList;
 
-                    angular.forEach(result['notification'],function(value,key){
-                        if(value.is_read2 == 0){
-                            unReadNot1++;
-                        }
+                        angular.forEach(result['notification'], function (value, key) {
+                            if (value.is_read2 == 0) {
+                                unReadNot1++;
+                            }
 
-                    });
-                }else{
-                    $rootScope.notificationList = result['notification'];
-
-
-                    angular.forEach(result['notification'],function(value,key){
-                        if(value.is_read2 == 0){
-                            unReadNot1++;
-                        }
-                    });
-                }
+                        });
+                    } else {
+                        $rootScope.notificationList = result['notification'];
 
 
-
-                $rootScope.unReadNot = unReadNot1;
-
-
-
-
-                $rootScope.CmessageList = result['cmessage'];
-                var unReadMsgT = 0;
-                angular.forEach(result['cmessage'],function(value,key){
-                    if(value.is_read == 0){
-                        unReadMsgT++;
+                        angular.forEach(result['notification'], function (value, key) {
+                            if (value.is_read2 == 0) {
+                                unReadNot1++;
+                            }
+                        });
                     }
+
+
+                    $rootScope.unReadNot = unReadNot1;
+
+
+                    $rootScope.CmessageList = result['cmessage'];
+                    var unReadMsgT = 0;
+                    angular.forEach(result['cmessage'], function (value, key) {
+                        if (value.is_read == 0) {
+                            unReadMsgT++;
+                        }
+                    });
+                    $rootScope.unReadMsg = unReadMsgT;
+
+
+                    $timeout(function () {
+                        $scope.getchatnotcommonrec();
+                    }, 10000);
+
+
+                }).error(function (result) {
+
+                    $timeout(function () {
+                        $scope.getchatnotcommonrec();
+                    }, 5000);
+
                 });
-                $rootScope.unReadMsg = unReadMsgT;
-
-
-
-                $timeout(function(){
-                    $scope.getchatnotcommonrec();
-                },10000);
-
-
-            }).error(function (result) {
-
-                $timeout(function(){
-                    $scope.getchatnotcommonrec();
-                },3000);
-
-            });
+            }
+        }else{
+            $timeout(function () {
+                $scope.getchatnotcommonrec();
+            }, 5000);
         }
 
     }
@@ -2171,6 +2203,7 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
     $rootScope.isExp = false;
     $rootScope.isProfile = false;
+    $rootScope.widowWidth = $(window).width();
 
     $rootScope.trustAsHtml = $sce.trustAsHtml;
     if($state.current.name == 'profile1'){
@@ -2500,6 +2533,11 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
 
             $('.socialimg254').find('img').one("load", function() {
+
+             //   $(this).parent().removeAttr('style');
+
+
+
                 var imgh = $(this).height();
                 var imgw = $(this).width();
 
@@ -3562,6 +3600,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
     $rootScope.trustAsHtml = $sce.trustAsHtml;
     $scope.currentUser = $rootScope.rootsessUser;
+    $rootScope.widowWidth = $(window).width();
 
     $rootScope.tagpeopleText11 = function(item){
         var fsgs =item.tagpeopleText;
@@ -4595,6 +4634,7 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
     $rootScope.viewMoreLoad = 0;
     $rootScope.viewMore = 0;
     $rootScope.offset = 0;
+    $rootScope.widowWidth = $(window).width();
 
     $rootScope.tagpeopleText11 = function(item){
         var fsgs =item.tagpeopleText;
@@ -6572,29 +6612,29 @@ homeControllers1.controller('mapcommon', function($scope,$state,$cookieStore,$ro
 
 homeControllers1.controller('chatcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout) {
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/chatUserList1',
-        data    : $.param({'userid':$rootScope.rootsessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.chatUser1 = result;
-    });
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/chatUserList2',
-        data    : $.param({'userid':$rootScope.rootsessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.chatUser2 = result;
-    });
+    if($rootScope.rootsessUser > 0){
 
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/chatUserList1',
+            data    : $.param({'userid':$rootScope.rootsessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.chatUser1 = result;
+        });
 
-
-
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/chatUserList2',
+            data    : $.param({'userid':$rootScope.rootsessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.chatUser2 = result;
+        });
+    }
 
 });
 homeControllers1.controller('bannerCommon', function($scope,$state,$cookieStore,$rootScope,$http,$interval,$timeout) {
@@ -8344,7 +8384,7 @@ homeControllers1.controller('changepassword', function($scope,$state,$cookieStor
 });
 
 
-homeControllers1.controller('experience', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$sce) {
+homeControllers1.controller('experience', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$sce,$window) {
     $scope.sessUser = 0;
 
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
@@ -8372,7 +8412,7 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
 
 
     /**************************Common*****************************/
-    $http({
+/*    $http({
         method: 'POST',
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/expcommon',
@@ -8439,108 +8479,109 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
         $scope.bannerslides3 = result.bannerslides3;
 
     });
-
+*/
     $scope.openBanner = function(url){
         window.open(url);
     }
 
     /**************************Common*****************************/
 
-    /*$http({
+    $http({
         method: 'POST',
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getUserListExe',
         data    : $.param({'userid':$scope.sessUser}),
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
-        $scope.peoplelist = result;
-    });*/
+        $rootScope.peoplelist_no = result.nooflist;
+        $rootScope.peoplelist = result.frnddet;
+    });
 
 
 
 
-/*
+
     $http({
         method: 'GET',
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getMainTv',
     }).success(function (result) {
-        $scope.maintv = result;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+        $rootScope.maintv = result;
+        $rootScope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file);
+        $rootScope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file), type: "video/mp4"}];
 
 
         setTimeout(function(){
             angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
-            <source src="'+$scope.maintvfile+'" type="video/mp4">\
+            <source src="'+$rootScope.maintvfile+'" type="video/mp4">\
             </video>');
         },2000);
 
 
-    });*/
+    });
 
-    /*$http({
+    $http({
         method: 'GET',
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getlast3post',
     }).success(function (result) {
-        $scope.forumList = result;
-    });*/
-/*
+        $rootScope.forumList = result;
+    });
+
     $scope.mainbanner = 'default.png';
     $http({
         method: 'GET',
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getMainBanner',
     }).success(function (result) {
-        $scope.mainbanner = result;
+        $rootScope.mainbanner = result;
     });
-*/
 
 
 
-//    $http({
-//        method: 'GET',
-//        async:   false,
-//        url: $scope.baseUrl+'/user/ajs1/GetParentSports',
-//    }).success(function (result) {
-//        $scope.slides = result;
-//        $scope.slides1 = result;
-//
-//        if(result.length%3 > 0){
-//
-//            angular.forEach(result, function(value, key){
-//               $scope.slides.push(value);
-//            });
-//
-//            angular.forEach(result, function(value, key){
-//                $scope.slides.push(value);
-//            });
-//
-//            angular.forEach(result, function(value, key){
-//                $scope.slides.push(value);
-//            });
-//        }else{
-//            $scope.slides = result;
-//        }
-//
-//
-//        for (i = 0; i < $scope.slides.length; i += many) {
-//            second = {
-//                image1: $scope.slides[i]
-//            };
-//            if (many == 1) {}
-//            if ($scope.slides[i + 1] && (many == 2 || many == 3)) {
-//                second.image2 = $scope.slides[i + 1];
-//
-//            }
-//            if ($scope.slides[i + (many - 1)] && many == 3) {
-//                second.image3 = $scope.slides[i + 2];
-//            }
-//            first.push(second);
-//        }
-//        $scope.groupedSlides = first;
-//    });
+
+    $http({
+        method: 'GET',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/GetParentSports',
+    }).success(function (result) {
+        $scope.slides = result;
+        $scope.slides1 = result;
+
+        if(result.length%3 > 0){
+
+            angular.forEach(result, function(value, key){
+               $scope.slides.push(value);
+            });
+
+            angular.forEach(result, function(value, key){
+                $scope.slides.push(value);
+            });
+
+            angular.forEach(result, function(value, key){
+                $scope.slides.push(value);
+            });
+        }else{
+            $scope.slides = result;
+        }
+
+
+        for (i = 0; i < $scope.slides.length; i += many) {
+            second = {
+                image1: $scope.slides[i]
+            };
+            if (many == 1) {}
+            if ($scope.slides[i + 1] && (many == 2 || many == 3)) {
+                second.image2 = $scope.slides[i + 1];
+
+            }
+            if ($scope.slides[i + (many - 1)] && many == 3) {
+                second.image3 = $scope.slides[i + 2];
+            }
+            first.push(second);
+        }
+        $scope.groupedSlides = first;
+    });
 
 });
 
@@ -8588,6 +8629,8 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
 
         $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
         return;
+
+        //window.location.href = $scope.subUrl+'/profile/'+$scope.userId+'/'+user_str1;
     });
 
 });
@@ -8597,6 +8640,33 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         window.open(url);
     }
 
+    $scope.bannerslides11 = [];
+
+    $rootScope.widowWidth = $(window).width();
+
+    $scope.elemload = 0;
+    $scope.elemloadtime = 0;
+
+    $scope.someMethod = function(){
+        //$scope.mapcommonfunc();
+       // $scope.bannerload();
+
+        var d = new Date();
+        var t = d.getTime();
+
+
+        $scope.elemload = $scope.elemload +1;
+
+        console.log('element load : '+$scope.elemload +' time interval : '+(t- $scope.elemloadtime));
+        $scope.elemloadtime = t;
+
+        if($scope.elemload == 10){
+             $scope.mapcommonfunc();
+             $scope.bannerload();
+        }
+
+    }
+
     /*****************************************************************************/
 
     var canvasheight;
@@ -8604,35 +8674,38 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
     $(window).ready(function(){
         //setbannerheight();
-        setbannerheight55();
+        $timeout(function(){
+            $scope.setbannerheight55();
+        },100);
+
+
+        console.log('window ready');
+
     });
 
-    $scope.$on('$viewContentLoaded', function(){
-        console.log('content load');
-       // $scope.mapcommonfunc();
-    });
 
-    $(window).load(function () {
+   /* $(window).load(function () {
         $scope.mapcommonfunc();
         $scope.bannerload();
-    });
+    });*/
+
 
     $( window ).resize(function() {
         $timeout(function(){
            // setbannerheight1();
-            setbannerheight55();
+            $scope.setbannerheight55();
         },1000);
     });
 
     $timeout(function(){
        // setbannerheight();
-        setbannerheight55();
+        $scope.setbannerheight55();
 
     },5000);
 
     $timeout(function(){
        // setbannerheight();
-        setbannerheight55();
+        $scope.setbannerheight55();
     },10000);
 
     function setbannerheight(){
@@ -8720,14 +8793,20 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
     }
 
 
-    function setbannerheight55(){
-            var ffheight = $('.top-banner-contain').height();
+    $scope.setbannerheight55 = function(){
+//            var ffheight = $('.top-banner-contain').height();
+            var ffheight = $('.banner-image').height();
+
+
+
+        console.log('banner height: '+ffheight);
+
             if(ffheight > 0){
                 $('.bannerdiv22511').height(ffheight);
                 $('.bannerdiv22511').width($('.banner-add').width());
             }else{
                 $timeout(function(){
-                    setbannerheight55()
+                    $scope.setbannerheight55();
                 },5000);
             }
     }
@@ -8748,7 +8827,19 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
 
 
+    $http({
+        method: 'POST',
+        async:   false,
+        url: $scope.baseUrl+'/user/ajs1/getBanner',
+        data    : $.param({'pageid':3,'areaid':1,'sp_id':0}),
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    }).success(function (result) {
+        $scope.tempbannerslides = result[0];
 
+        $timeout(function(){
+            $scope.setbannerheight55();
+        },2000);
+    });
 
 
 
@@ -9200,9 +9291,9 @@ $scope.matches = [];
 
             $timeout(function(){
                 $scope.markerpush();
-            },5000);
+            },10000);
 
-            $rootScope.rootmap = {
+            $scope.rootmap = {
                 dragZoom: {options: {}},
                 control:{},
                 center: {
@@ -9243,7 +9334,7 @@ $scope.matches = [];
                                         $scope.zoomlevel = parseInt($scope.zoomlevel)-1;
 
 
-                                        $rootScope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
+                                        $scope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
                                         // console.log($rootScope.map.zoom);
                                     }
                                 }
@@ -9281,7 +9372,7 @@ $scope.matches = [];
             };
 
 
-            $rootScope.rootmap.markers.forEach(function(model){
+            $scope.rootmap.markers.forEach(function(model){
                 model.closeClick = function(){
                     model.doShow = false;
                 };
@@ -9298,16 +9389,18 @@ $scope.matches = [];
     $scope.markerpush = function(){
         var i;
         for(i=$scope.markerIndex; i<($scope.markerIndex+10);i++){
-            $scope.slicemarker.push($scope.allmarker[i]);
+            if(typeof ($scope.allmarker[i]) != 'undefined')
+                $scope.slicemarker.push($scope.allmarker[i]);
         }
 
         $scope.markerIndex += 10;
-        console.log($scope.markerIndex);
         console.log($scope.slicemarker.length);
         if($scope.slicemarker.length < $scope.allmarker.length){
             $timeout(function(){
                 $scope.markerpush();
             },5000);
+        }else{
+            console.log('marker load complete');
         }
     }
 
@@ -9318,7 +9411,7 @@ $scope.bannerload = function(){
         $scope.pageId = 3;
 
 
-    $rootScope.bannerslides1 = [];
+    $scope.bannerslides1 = [];
     $http({
         method: 'POST',
         async:   false,
@@ -9326,19 +9419,14 @@ $scope.bannerload = function(){
         data    : $.param({'pageid':$scope.pageId,'areaid':1,'sp_id':$scope.spId}),
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
-        $rootScope.bannerslides1 = result;
+        $scope.bannerslides11 = result;
 
         $timeout(function(){
-            setbannerheight55();
+            $scope.setbannerheight55();
         },2000);
-
-
-
-
-
     });
 
-    $rootScope.bannerslides2 = [];
+    $scope.bannerslides2 = [];
     $http({
         method: 'POST',
         async:   false,
@@ -9346,15 +9434,15 @@ $scope.bannerload = function(){
         data    : $.param({'pageid':$scope.pageId,'areaid':2,'sp_id':$scope.spId}),
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
-        $rootScope.bannerslides2 = result;
+        $scope.bannerslides2 = result;
 
         $timeout(function(){
-            setbannerheight55();
+            $scope.setbannerheight55();
         },2000);
 
     });
 
-    $rootScope.bannerslides3 = [];
+    $scope.bannerslides3 = [];
 
     $http({
         method: 'POST',
@@ -9363,10 +9451,10 @@ $scope.bannerload = function(){
         data    : $.param({'pageid':$scope.pageId,'areaid':3,'sp_id':$scope.spId}),
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
-        $rootScope.bannerslides3 = result;
+        $scope.bannerslides3 = result;
 
         $timeout(function(){
-            setbannerheight55();
+            $scope.setbannerheight55();
         },2000);
 
     });
@@ -9409,6 +9497,9 @@ $scope.bannerload = function(){
         $rootScope.metaservice.set(user_str);
 
       //  $scope.mapcommonfunc();
+        $timeout(function(){
+            $scope.setbannerheight55();
+        },5000);
 
     });
 
@@ -9516,13 +9607,13 @@ $scope.bannerload = function(){
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getMainTv',
     }).success(function (result) {
-        $scope.maintv = result;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+        $rootScope.maintv = result;
+        $rootScope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file);
+        $rootScope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file), type: "video/mp4"}];
 
         setTimeout(function(){
             angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
-            <source src="'+$scope.maintvfile+'" type="video/mp4">\
+            <source src="'+$rootScope.maintvfile+'" type="video/mp4">\
             </video>');
         },2000);
 
@@ -9533,7 +9624,7 @@ $scope.bannerload = function(){
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getlast3post',
     }).success(function (result) {
-        $scope.forumList = result;
+        $rootScope.forumList = result;
     });
 
 
@@ -9542,7 +9633,7 @@ $scope.bannerload = function(){
         async:   false,
         url: $scope.baseUrl+'/user/ajs1/getMainBanner',
     }).success(function (result) {
-        $scope.mainbanner = result;
+        $rootScope.mainbanner = result;
     });
 
     $scope.addFriend = function(item){
@@ -14502,13 +14593,18 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
 });
 
 
-homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
+homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$interval) {
 
-    $scope.userId = $rootScope.rootsessUser = 0;
+    $scope.userId = $rootScope.rootsessUser =$rootScope.sessUser = 0;
     $scope.sportId = $rootScope.rootsportId = $stateParams.sportId;
     if (typeof ($cookieStore.get('rootuserdet')) != 'undefined') {
         $scope.userDet = $cookieStore.get('rootuserdet');
-        $scope.userId = $rootScope.rootsessUser = $scope.userDet.id;
+        $scope.userId = $rootScope.rootsessUser = $rootScope.sessUser = $scope.userDet.id;
+    }
+
+    $scope.someMethod = function(){
+        $scope.mapcommonfunc();
+        $scope.bannerload()
     }
 
     $scope.content = '';
@@ -14592,6 +14688,178 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
                 $scope.slides = result;
             }
     });
+
+    $scope.mapfullnotload = true;
+    $scope.mapcommonfunc = function(){
+        $scope.zoomlevel = 9;
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCurLocation',
+            data    : $.param({'userid':$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+
+
+            $scope.markerIndex = 0;
+            $scope.allmarker = result.marker;
+            $scope.slicemarker = $scope.allmarker.slice($scope.markerIndex, 10);
+
+
+            console.log($scope.slicemarker.length);
+
+            $timeout(function(){
+                $scope.markerpush();
+            },10000);
+
+            $scope.rootmap = {
+                dragZoom: {options: {}},
+                control:{},
+                center: {
+                    latitude: result.latitude,
+                    longitude: result.longitude
+                },
+                options : {
+                    scrollwheel : false,
+                },
+                pan: true,
+                zoom: $scope.zoomlevel,
+                refresh: false,
+                events: {
+
+                    idle: function (rootmap) {
+
+                        $timeout(function() {
+
+
+                            $interval(function(){
+
+                                var visibleMarkers = [];
+
+                                if(typeof($scope.rootmap.bounds.southwest) != 'undefined' && typeof($scope.rootmap.bounds.northeast) != 'undefined'){
+                                    angular.forEach(result.marker, function(marker, key) {
+                                        if ($scope.rootmap.bounds.southwest.latitude < marker.latitude
+                                            && marker.latitude < $scope.rootmap.bounds.northeast.latitude
+                                            && $scope.rootmap.bounds.southwest.longitude < marker.longitude
+                                            && marker.longitude < $scope.rootmap.bounds.northeast.longitude) {
+
+                                            visibleMarkers.push(marker);
+                                        }
+                                    });
+
+                                    $scope.visibleMarkers = visibleMarkers;
+
+                                    if($scope.visibleMarkers.length < 5){
+                                        $scope.zoomlevel = parseInt($scope.zoomlevel)-1;
+
+
+                                        $rootScope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
+                                        // console.log($rootScope.map.zoom);
+                                    }
+                                }
+
+
+                            },3000);
+
+
+
+
+
+                        }, 0);
+
+                    }
+
+
+                },
+                bounds:{},
+                markers: $scope.slicemarker,
+                openedCanadaWindows:{},
+                onWindowCloseClick: function(gMarker, eventName, model){
+                    if(model.dowShow !== null && model.dowShow !== undefined)
+                        return model.doShow = false;
+
+                },
+                markerEvents: {
+                    click:function(gMarker, eventName, model){
+                        angular.element( document.querySelector( '#infoWin' ) ).html(model.infoHtml);
+                        model.doShow = true;
+                        $scope.rootmap.openedCanadaWindows = model;
+                    }
+                }
+
+
+            };
+
+
+            $scope.rootmap.markers.forEach(function(model){
+                model.closeClick = function(){
+                    model.doShow = false;
+                };
+            });
+
+            $scope.mapfullnotload = false;
+
+
+
+        });
+
+    }
+
+    $scope.markerpush = function(){
+        var i;
+        for(i=$scope.markerIndex; i<($scope.markerIndex+10);i++){
+            if(typeof ($scope.allmarker[i]) != 'undefined')
+                $scope.slicemarker.push($scope.allmarker[i]);
+        }
+
+        $scope.markerIndex += 10;
+        console.log($scope.slicemarker.length);
+        if($scope.slicemarker.length < $scope.allmarker.length){
+            $timeout(function(){
+                $scope.markerpush();
+            },5000);
+        }else{
+            console.log('marker load complete');
+        }
+    }
+
+    $scope.bannerload = function(){
+
+        $scope.spId = $scope.sportId;
+        $scope.pageId = 2;
+
+        $rootScope.bannerslides2 = [];
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':2,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.bannerslides2 = result;
+
+        });
+
+        $rootScope.bannerslides3 = [];
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':3,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.bannerslides3 = result;
+
+        });
+
+    }
+
+    $rootScope.openBanner = function(url){
+        window.open(url);
+    };
+
 
 });
 

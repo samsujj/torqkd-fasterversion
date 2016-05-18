@@ -331,8 +331,8 @@
         <div class="blogimg">
 
 
-            <div class="socialimg254" ng-if="item.type=='image'">
-                <img src="http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">
+            <div class="socialimg254" ng-if="item.type=='image'" style="background-image: url({{baseUrl}}/uploads/user_image/blank.png); background-size: cover; min-height:200px;">
+                <img src="http://torqkd.com/user/ajs1/createimage?windowwidth={{widowWidth}}&image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">
             </div>
 
             <div ng-if="item.type=='mp4'">
@@ -362,7 +362,7 @@
 
             <div class="rowthree" id="map{{item.id}}" ng-if="item.type=='route'">
 
-                <ui-gmap-google-map center="item.routes.map.center" zoom="item.routes.map.zoom" pan="true" draggable="true">
+                <ui-gmap-google-map center="item.routes.map.center" zoom="item.routes.map.zoom" pan="true" draggable="true" options="item.routes.map.options">
 
                     <ui-gmap-markers models="item.routes.marker" coords="'self'" icon="'icon'" idkey='id' >
 

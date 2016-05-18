@@ -246,9 +246,9 @@
 
 
 
-<div class="experience-body" style="margin-top: 0px;">
+<div class="experience-body" elem-ready="someMethod()" style="margin-top: 0px;">
 
-    <div class="experience-wrapper" style="min-height: 700px;">
+    <div class="experience-wrapper" elem-ready="someMethod()" style="min-height: 700px;">
 
         <!--Top Contain[start]-->
 
@@ -260,11 +260,11 @@
 
         <!--Profile Banner Area[start]-->
 
-        <div ng-hide="stateIsLoading" class="top-banner-contain">
+        <div ng-hide="stateIsLoading" class="top-banner-contain" elem-ready="someMethod()">
 
             <div class="user-contain">
 
-                <div class="img-contain cngcondiv">
+                <div class="img-contain cngcondiv" elem-ready="someMethod()">
 
                     <img src="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}" style="max-height: 120px;" alt="" />
 
@@ -274,7 +274,7 @@
 
                 <h2>{{userDet.fname}} {{userDet.lname}}</h2>
 
-                <div class="user-sub-img">
+                <div class="user-sub-img" elem-ready="someMethod()">
 
                     <div ng-repeat="item in userDet.user_sports | limitTo:9 track by item.id" style="float: left; margin-bottom:4px; margin-right: 4px; height: 25px; width: 25px; background-image: url({{item.imag_name}}); background-size: cover;"></div>
 
@@ -290,7 +290,7 @@
 
             </div>
 
-            <div class="banner-image cngcondiv">
+            <div class="banner-image cngcondiv" elem-ready="someMethod()">
 
                 <img style="height: auto; max-width: 100%" src="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}"  />
 
@@ -298,11 +298,11 @@
 
             </div>
 
-            <div class="banner-add">
+            <div class="banner-add" elem-ready="someMethod()">
 
                 <div class="banner1" >
-                    <a href="javascript:void(0);">
-                        <div class="bannerdiv22511" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/default_latest_banner1.jpg); background-size: cover;"></div>
+                    <a href="javascript:void(0);" ng-click="openBanner(tempbannerslides.banner_url)">
+                        <div class="bannerdiv22511" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/{{tempbannerslides.b_image}}); background-size: cover;"></div>
                     </a>
                     <simple-slider class="gallery1" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
 
@@ -310,7 +310,7 @@
                             <div class="bannerdiv22511" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/default_latest_banner1.jpg); background-size: cover;"></div>
                         </a>-->
 
-                        <a ng-repeat="item in bannerslides1" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides11" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
                             <div class="bannerdiv22511" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>
@@ -331,7 +331,7 @@
 
         <!--Profile Freiend & stat Area[Start]-->
 
-        <div ng-hide="stateIsLoading" class="spot-search-contain">
+        <div ng-hide="stateIsLoading" class="spot-search-contain" elem-ready="someMethod()">
 
             <div class="search-left">
 
@@ -533,7 +533,7 @@
 
         <!--Profile Left Content Area[start]-->
 
-        <div ng-hide="stateIsLoading" class="experience-leftcontain">
+        <div ng-hide="stateIsLoading" class="experience-leftcontain" elem-ready="someMethod()">
 
             <div class="status-menu" ng-if="sessUser==userId" style="margin-top:20px!important; background-color: #fff;">
 
@@ -725,7 +725,7 @@
 
         <!--Profile Right Content Area[start]-->
 
-        <div ng-hide="stateIsLoading" class="experience-rightcontain profileRightCon" style="margin-top:20px;">
+        <div ng-hide="stateIsLoading" class="experience-rightcontain profileRightCon" elem-ready="someMethod()" style="margin-top:20px;">
 
             <div class="link1" ng-if="sessUser==userId" style="margin-top:0px;">
 
