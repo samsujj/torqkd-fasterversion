@@ -762,7 +762,7 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
             url:"/photo",
             views: {
                 'content': {
-                    templateUrl: 'partials/`photoall.html' ,
+                    templateUrl: 'partials/photoall.html' ,
                     controller: 'photo'
                 },
                 'footer': {
