@@ -1,11 +1,11 @@
-<ul style="min-height: 300px">
+<ul style="min-height: 500px">
 
-<li class="imageParent imgLiquid555" ng-repeat="item in photoList track by item.id" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" style="height: 150px; width: 250px; float: left; cursor: pointer; overflow:hidden;" >
+<li class="imageParent imgLiquid555" ng-repeat="item in photoList | limitTo:photoLimit" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" style="height: 150px; width: 250px; float: left; cursor: pointer; overflow:hidden;" >
 
 	<!--<img ng-src="{{item.img_src}}" style=" width: 100%;" ng-click="showPhoto(item,$index)" />-->
 
-	<div ng-click="showPhoto(item,$index)" style=" width: 100%; height: 100%;background-image: url({{item.img_src}});  background-position: center center; background-size: cover;"></div>
-	<!--<div lazy-img="{{item.img_src}}" ng-click="showPhoto(item,$index)" style=" width: 100%; height: 100%; background-position: center center; background-size: cover;"></div>-->
+	<!--<div ng-click="showPhoto(item,$index)" style=" width: 100%; height: 100%;background-image: url({{item.img_src}});  background-position: center center; background-size: cover;"></div>-->
+	<div lazy-img="http://torqkd.com/user/ajs1/createimage?photoWindowWidth={{photoWindowWidth}}&image={{item.img_src}}" ng-click="showPhoto(item,$index)" style=" width: 100%; height: 100%; background-position: center center; background-size: cover;"></div>
 
 
 
@@ -43,6 +43,10 @@
 
 </ul>
 
+<div class="clear"></div>
+<div ng-show="photoloading" class="viewMore" style="width:100%; text-align:center; padding:10px 0;">
+	<img src="images/loading_list.gif" width="118" height="9" />
+</div>
 
 
 

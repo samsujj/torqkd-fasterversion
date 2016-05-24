@@ -1140,11 +1140,11 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
             url:"/group-detail1/:groupId",
             views: {
                 'content': {
-                    //templateUrl: 'partials/groupdetail.html' ,
+                    templateUrl: 'partials/blank_profile.html' ,
                     controller: 'groupdetail1'
                 },
                 'footer': {
-                    templateUrl: 'partials/footer.html' ,
+                   // templateUrl: 'partials/footer.html' ,
                     controller: 'footer'
                 },
                 'chatManager': {
@@ -1166,15 +1166,15 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
                     templateUrl: 'partials/footer.html' ,
                     controller: 'footer'
                 },
-                'bannercommon': {
-                    controller: 'bannerCommon'
-                },
+            //    'bannercommon': {
+            //        controller: 'bannerCommon'
+            //    },
                 'chatcommon': {
                     controller: 'chatcommon'
                 },
-                'mapcommon': {
-                    controller: 'mapcommon'
-                },
+            //    'mapcommon': {
+            //        controller: 'mapcommon'
+            //    },
                 'tabcommon': {
                     controller: 'tabcommon1'
                 },
@@ -2536,14 +2536,14 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
              //   $(this).parent().removeAttr('style');
 
-
+/*
 
                 var imgh = $(this).height();
                 var imgw = $(this).width();
 
                 $(this).attr('width',imgw);
                 $(this).attr('height',imgh);
-
+*/
             });
 
 
@@ -10331,6 +10331,8 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
+    $scope.photoWindowWidth = $(window).width();
+
     //$scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
 
     $http({
@@ -10364,6 +10366,9 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
     $rootScope.photoList = [];
     $rootScope.videoList = [];
 
+    $scope.photoLimit = 0;
+    $scope.videoLimit = 0;
+
     $http({
         method: 'POST',
         async:   false,
@@ -10372,7 +10377,30 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
         $rootScope.photoList = result;
+
+        $scope.photoLimit = 10;
+        $scope.photoloading = true;
+        $timeout(function(){
+            $scope.photoloading = false;
+            $scope.photolimitinc();
+        },10000);
+
     });
+
+    $scope.photolimitinc = function(){
+        $scope.photoloading = true;
+        if($rootScope.photoList.length > $scope.photoLimit){
+            $scope.photoLimit = $scope.photoLimit+10;
+
+            $timeout(function(){
+                $scope.photoloading = false;
+                $scope.photolimitinc();
+            },10000);
+        }else{
+            $scope.photoloading = false;
+        }
+    }
+
 
     $http({
         method: 'POST',
@@ -10382,7 +10410,28 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
         $rootScope.videoList = result;
+
+        $scope.videoLimit = 10;
+        $scope.videoloading = true;
+        $timeout(function(){
+            $scope.videoloading = false;
+            $scope.videolimitinc();
+        },10000);
     });
+
+    $scope.videolimitinc = function(){
+        $scope.videoloading = true;
+        if($rootScope.videoList.length > $scope.videoLimit){
+            $scope.videoLimit = $scope.videoLimit+10;
+
+            $timeout(function(){
+                $scope.videoloading = false;
+                $scope.videolimitinc();
+            },10000);
+        }else{
+            $scope.videoloading = false;
+        }
+    }
 
    $scope.tetshigh = function(event){
         var strss = event.currentTarget.value;
@@ -10719,6 +10768,10 @@ homeControllers1.controller('photo', function($scope,$state,$cookieStore,$http,$
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
+    $scope.photoWindowWidth = $(window).width();
+
+    $scope.photoLimit = 0;
+
     $http({
         method: 'POST',
         async:   false,
@@ -10727,7 +10780,36 @@ homeControllers1.controller('photo', function($scope,$state,$cookieStore,$http,$
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).success(function (result) {
         $rootScope.photoList = result;
+
+        console.log('total image :'+result.length);
+
+        $scope.photoLimit = 10;
+
+        $scope.photoloading = true;
+        $timeout(function(){
+            $scope.photoloading = false;
+            $scope.photolimitinc();
+        },10000);
+
+
     });
+
+
+    $scope.photolimitinc = function(){
+        $scope.photoloading = true;
+        if($rootScope.photoList.length > $scope.photoLimit){
+            $scope.photoLimit = $scope.photoLimit+10;
+
+            console.log('photoLimit :'+$scope.photoLimit);
+
+            $timeout(function(){
+                $scope.photoloading = false;
+                $scope.photolimitinc();
+            },10000);
+        }else{
+            $scope.photoloading = false;
+        }
+    }
 
 
 });
@@ -10742,6 +10824,7 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
+    $scope.videoLimit = 0;
 
     $http({
         method: 'POST',
@@ -10751,7 +10834,36 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     }).success(function (result) {
         $rootScope.videoList = result;
+
+        console.log('total video :'+result.length);
+
+        $scope.videoLimit = 10;
+
+        $scope.videoloading = true;
+        $timeout(function(){
+            $scope.videoloading = false;
+            $scope.videolimitinc();
+        },10000);
+
+
     });
+
+    $scope.videolimitinc = function(){
+        $scope.videoloading = true;
+        if($rootScope.videoList.length > $scope.videoLimit){
+            $scope.videoLimit = $scope.videoLimit+10;
+
+            console.log('videoLimit :'+$scope.videoLimit);
+
+            $timeout(function(){
+                $scope.videoloading = false;
+                $scope.videolimitinc();
+            },10000);
+        }else{
+            $scope.videoloading = false;
+        }
+    }
+
 
     $rootScope.videoDet = {
         index : 0,
@@ -13700,7 +13812,7 @@ homeControllers1.controller('groupdetail1', function($scope,$state,$cookieStore,
 
 });
 
-homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,MetaService,$location) {
+homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,MetaService,$location,$interval) {
 
     $scope.userId = 0;
     $scope.groupId = $rootScope.rootgroupId = $stateParams.groupId;
@@ -13708,6 +13820,205 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         $scope.userDet = $cookieStore.get('rootuserdet');
         $scope.userId= $scope.sessUser =$rootScope.rootsessUser = $scope.userDet.id;
     }
+
+    $scope.someMethod = function(){
+        $scope.mapcommonfunc();
+        $scope.bannerload()
+    }
+
+    $scope.groupDet = {
+        imgSrc : $scope.baseUrl+'/uploads/user_image/default_latest_user.jpg',
+        cover_imageSrc : $scope.baseUrl+'/uploads/user_image/default_latest_back.jpg'
+    }
+
+    $scope.gotogroupmember = function(groupId){
+        $state.go('groupmember',{groupId: groupId});
+        return;
+    }
+
+    $scope.gotogroupnonmember = function(groupId){
+        $state.go('groupnonmember',{groupId: groupId});
+        return;
+    }
+
+
+    /************************************************************************/
+    $scope.mapfullnotload = true;
+    $scope.rootmap = {};
+    $scope.markerIndex = 0;
+    $scope.allmarker = [];
+    $scope.slicemarker = [];
+    $scope.mapcommonfunc = function(){
+        $scope.zoomlevel = 9;
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCurLocation',
+            data    : $.param({'userid':$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+
+
+            $scope.markerIndex1 = 0;
+            $scope.allmarker1 = result.marker;
+            $scope.slicemarker1 = $scope.allmarker1.slice($scope.markerIndex1, 10);
+
+
+            console.log($scope.slicemarker.length);
+
+            $timeout(function(){
+                $scope.markerpush1();
+            },10000);
+
+            $scope.rootmap = {
+                dragZoom: {options: {}},
+                control:{},
+                center: {
+                    latitude: result.latitude,
+                    longitude: result.longitude
+                },
+                options : {
+                    scrollwheel : false,
+                },
+                pan: true,
+                zoom: $scope.zoomlevel,
+                refresh: false,
+                events: {
+
+                    idle: function (rootmap) {
+
+                        $timeout(function() {
+
+
+                            $interval(function(){
+
+                                var visibleMarkers = [];
+
+                                if(typeof($scope.rootmap.bounds.southwest) != 'undefined' && typeof($scope.rootmap.bounds.northeast) != 'undefined'){
+                                    angular.forEach(result.marker, function(marker, key) {
+                                        if ($scope.rootmap.bounds.southwest.latitude < marker.latitude
+                                            && marker.latitude < $scope.rootmap.bounds.northeast.latitude
+                                            && $scope.rootmap.bounds.southwest.longitude < marker.longitude
+                                            && marker.longitude < $scope.rootmap.bounds.northeast.longitude) {
+
+                                            visibleMarkers.push(marker);
+                                        }
+                                    });
+
+                                    $scope.visibleMarkers = visibleMarkers;
+
+                                    if($scope.visibleMarkers.length < 5){
+                                        $scope.zoomlevel = parseInt($scope.zoomlevel)-1;
+
+
+                                        $scope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
+                                        // console.log($rootScope.map.zoom);
+                                    }
+                                }
+
+
+                            },3000);
+
+
+
+
+
+                        }, 0);
+
+                    }
+
+
+                },
+                bounds:{},
+                markers: $scope.slicemarker1,
+                openedCanadaWindows:{},
+                onWindowCloseClick: function(gMarker, eventName, model){
+                    if(model.dowShow !== null && model.dowShow !== undefined)
+                        return model.doShow = false;
+
+                },
+                markerEvents: {
+                    click:function(gMarker, eventName, model){
+                        angular.element( document.querySelector( '#infoWin' ) ).html(model.infoHtml);
+                        model.doShow = true;
+                        $scope.rootmap.openedCanadaWindows = model;
+                    }
+                }
+
+
+            };
+
+
+            $scope.rootmap.markers.forEach(function(model){
+                model.closeClick = function(){
+                    model.doShow = false;
+                };
+            });
+
+            $scope.mapfullnotload = false;
+
+
+
+        });
+
+    }
+
+    $scope.markerpush1 = function(){
+        var i;
+        for(i=$scope.markerIndex1; i<($scope.markerIndex1+10);i++){
+            if(typeof ($scope.allmarker1[i]) != 'undefined')
+                $scope.slicemarker1.push($scope.allmarker1[i]);
+        }
+
+        $scope.markerIndex1 += 10;
+        console.log($scope.slicemarker1.length);
+        if($scope.slicemarker1.length < $scope.allmarker1.length){
+            $timeout(function(){
+                $scope.markerpush1();
+            },5000);
+        }else{
+            console.log('marker load complete');
+        }
+    }
+
+    $scope.bannerload = function(){
+
+        $scope.spId = $scope.sportId;
+        $scope.pageId = 4;
+
+        $rootScope.bannerslides2 = [];
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':2,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.bannerslides2 = result;
+
+        });
+
+        $rootScope.bannerslides3 = [];
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':3,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.bannerslides3 = result;
+
+        });
+
+    }
+
+    $rootScope.openBanner = function(url){
+        window.open(url);
+    };
+
+    /************************************************************************/
 
     $scope.option = {
         words: ['test'],

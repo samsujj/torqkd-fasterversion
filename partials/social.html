@@ -332,7 +332,8 @@
 
 
             <div class="socialimg254" ng-if="item.type=='image'" style="background-image: url({{baseUrl}}/uploads/user_image/blank.png); background-size: cover; min-height:200px;">
-                <img src="http://torqkd.com/user/ajs1/createimage?windowwidth={{widowWidth}}&image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">
+                <!--<img src="http://torqkd.com/user/ajs1/createimage?windowwidth={{widowWidth}}&image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">-->
+                <img src="{{baseUrl}}/uploads/user_image/blank.png" lazy-img="http://torqkd.com/user/ajs1/createimage?windowwidth={{widowWidth}}&image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%;" alt="">
             </div>
 
             <div ng-if="item.type=='mp4'">

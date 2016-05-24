@@ -1,79 +1,41 @@
 <style>
-
     .ngdialog-content {
-
         border: 5px solid #f7941e !important;
-
         border-radius: 0 !important;
-
         padding:25px 15px!important;
-
     }
-
     .confirmPopup .ngdialog-content {
-
         position:relative;
-
         margin:0 auto;
-
         width:80%;
-
         padding:3px 12px;
-
         animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
-
     }
-
     .ngdialog-content p {
-
         font:13px/18px Arial, Helvetica, sans-serif;
-
     }
-
     .youtubePopup .ngdialog-content {
-
         position:relative;
-
         margin:10px auto!important;
-
         width:80%;
-
         padding:3px 0!important;
-
         animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
-
         border: 2px solid #f6921c!important;
-
         border-radius: 6px!important;
-
     }
-
     .youtubePopup .ngdialog-content h4{
-
         border-bottom:solid 1px #eeeeee;
-
         padding:12px 0;
-
         font-family: "veneerregular" !important;
-
     }
-
     .youtubePopup .ngdialog-content .youtubeVideo{
-
         width:94%;
-
         display:block;
-
         margin:0 auto;
-
         border: 5px solid #f6921c!important;
-
         clear:both;
-
         overflow-y: scroll;
-
         height:505px;
-
         padding:0 10px;
 
         margin-bottom:20px;
@@ -266,7 +228,7 @@
 
                 <div class="img-contain cngcondiv" elem-ready="someMethod()">
 
-                    <img src="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}" style="max-height: 120px;" alt="" />
+                    <img src="{{baseUrl}}/uploads/user_image/default_latest_user.jpg" lazy-img="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}" style="max-height: 120px;" alt="" />
 
                     <a class="pic cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Edit Profile Picture</a>
 
@@ -292,7 +254,7 @@
 
             <div class="banner-image cngcondiv" elem-ready="someMethod()">
 
-                <img style="height: auto; max-width: 100%" src="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}"  />
+                <img style="height: auto; max-width: 100%" src="{{baseUrl}}/uploads/user_image/default_latest_back.jpg" lazy-img="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}"  />
 
                 <a class="changecover cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Change Cover</a>
 
@@ -339,7 +301,7 @@
 
                 <div class="community-div">{{userDet.frnd1}}</div>
 
-                <div class="img-div myParent" ng-repeat="item in frnddet | limitTo:6 track by item.id" ng-mouseenter="showFrndDiv = true" ng-mouseleave="showFrndDiv = false">
+                <div class="img-div myParent" ng-repeat="item in frnddet | limitTo:6" ng-mouseenter="showFrndDiv = true" ng-mouseleave="showFrndDiv = false">
 
                     <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle; cursor: pointer; background-image: url({{item.user_image}}); background-size: cover;">
 
@@ -407,10 +369,9 @@
 
                 <div class="community-div" ng-if="userDet.frnd > 0">+{{userDet.frnd}}</div>
 
-                <div class="img-div myParent" ng-repeat="item in unfrnddet | limitTo:6 track by item.id"  ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" ng-style="{'border':(item.frndship_type != 1?'none':'2px solid #f7931e')}">
+                <div class="img-div myParent" ng-repeat="item in unfrnddet | limitTo:6"  ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" ng-style="{'border':(item.frndship_type != 1?'none':'2px solid #f7931e')}">
 
                     <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle; background-image: url({{item.user_image}}); background-size: cover;">
-
                         <!--<img src="{{item.user_image}}"  alt="" class="img1" style="height: 45px;"   />-->
 
                     </div>

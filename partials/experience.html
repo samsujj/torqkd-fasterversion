@@ -123,7 +123,8 @@
                 <uib-slide ng-repeat="slideCollection in groupedSlides" active="slide.active" index="slide.id">
                     <div style="float: left;">
                         <!--<img ng-src="{{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}" style="margin:auto;">-->
-                        <div style="height: 100%; width: 100%; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}); background-size: cover;"></div>
+                        <!--<div style="height: 100%; width: 100%; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}); background-size: cover;"></div>-->
+                        <div lazy-img="http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/sports_image/additional/thumb/{{slideCollection.image1.additional_image}}" style="height: 100%; width: 100%;"></div>
                         <h2>{{slideCollection.image1.sport_name}}</h2>
                         <span>
                             <div class="text-div">{{slideCollection.image1.tag}}</div>
