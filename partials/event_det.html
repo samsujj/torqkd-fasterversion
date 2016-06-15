@@ -1,0 +1,703 @@
+<style>
+
+
+
+    .angular-google-map-container {
+
+        width: 100%;
+
+        height: 400px;
+
+    }
+
+    .angular-google-map img {
+
+        max-width: none;
+
+    }
+
+    .angular-google-map {
+
+        top: 80px;
+
+    }
+
+    .shrink {
+
+        font-size: 8px;
+
+    }
+
+    .true:hover {
+
+        background-color: lightgreen;
+
+    }
+
+    .false:hover {
+
+        background-color: lightpink;
+
+    }
+
+    .marker-labels {
+
+        color: red;
+
+        background-color: white;
+
+        font-family: "Lucida Grande", "Arial", sans-serif;
+
+        font-size: 10px;
+
+        font-weight: bold;
+
+        text-align: center;
+
+        border: 1px solid black;
+
+        white-space: nowrap;
+
+    }
+
+    .custom-info-window{
+
+        background: rgba(0,0,0,0.5);
+
+        color: white;
+
+        padding: 20px;
+
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+
+        border-radius: 5px;
+
+        width: 200px;
+
+        margin-top: 15px;
+
+        margin-left: -130px;
+
+    }
+
+    .custom-info-window a{
+
+        color: white;
+
+        text-decoration: underline;
+
+    }
+
+    .custom-info-window:after{
+
+        content: '';
+
+        position: absolute;
+
+        border-style: solid;
+
+        border-width: 0 15px 15px;
+
+        border-color: rgba(0,0,0,0.5) transparent;
+
+        display: block;
+
+        width: 0;
+
+        z-index: 1;
+
+        top: -15px;
+
+        left: 118px;
+
+    }
+
+
+/*-------*/
+.main-map-body {
+    margin: 0 auto;
+    padding: 0 0 100px;
+    width: 990px;
+}
+.map-canvas-main {
+    float: right;
+    height: 694px;
+    position: relative;
+    width: 684px;
+}
+.map-canvas {
+    border-color: #f7941e;
+    border-style: solid;
+    border-width: 3px;
+    float: right;
+    height: 90%;
+    margin: 0;
+    padding: 0;
+    width: 90%;
+}
+
+.angular-google-map-container{ height:100%;}
+.map-canvas .gm-style-cc {
+    display: none;
+}
+#panel {
+    background-color: #fff;
+    border: 1px solid #999;
+    left: 50%;
+    margin-left: -180px;
+    padding: 5px;
+    position: absolute;
+    top: 5px;
+    z-index: 5;
+}
+#RouteMap_route_name {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    height: 25px !important;
+    margin-top: 5px;
+    padding: 6px !important;
+    width: 220px !important;
+}
+#RouteMap_date {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    height: 25px !important;
+    margin-top: 5px;
+    padding: 6px !important;
+    width: 220px !important;
+}
+#RouteMap_address {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    height: 25px !important;
+    margin-top: 5px;
+    padding: 6px !important;
+    width: 220px !important;
+}
+#RouteMap_description {
+    border: 2px solid #97989a;
+    border-radius: 5px;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    height: 66px !important;
+    margin-top: 10px;
+    padding: 6px !important;
+    width: 220px !important;
+}
+.map_route {
+    position: absolute;
+    right: 67px;
+    top: 3px;
+    width: 200px;
+    z-index: 900;
+}
+.map_route .header_map {
+    background: #414042 none repeat scroll 0 0;
+    color: #f7941e;
+    float: left;
+    height: 55px;
+    width: 100%;
+    z-index: 2147483647;
+}
+.map_route .header_map .distance_text_left {
+    color: #f7941e;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    width: 80px;
+}
+.map_route .header_map .distance_text_right {
+    color: #f7941e;
+    float: left;
+    font-size: 25px;
+    height: 50px;
+    padding: 8px 5px 2px;
+    text-align: right;
+    width: 80px;
+}
+.map_route .header_map .icons_set {
+    color: #f7941e;
+    float: left;
+    font-size: 25px;
+    height: 55px;
+    padding: 2px 5px;
+    width: 40px;
+}
+.map_route .map_below {
+    background: #ffffff none repeat scroll 0 0;
+    color: #939598;
+    float: left;
+    font-size: 12px;
+    height: 90px;
+    width: 100%;
+    z-index: 2147483647;
+}
+.map_route .map_below table, .map_route .map_below tr, .map_route .map_below td {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.map_route .map_below tr, .map_route .map_below td {
+    background-color: #ffffff;
+    font-size: 10px;
+    height: 80px;
+    vertical-align: middle;
+}
+.map_route_message {
+    background-color: #ffffff;
+    display: none;
+    height: 160px;
+    left: 40px;
+    position: absolute;
+    top: 50px;
+    width: 380px;
+    z-index: 1000000000;
+}
+.map_route_message .header_msg {
+    background: #f9af56 none repeat scroll 0 0;
+    color: #414042;
+    font-size: 26px;
+    margin: 5px;
+    padding: 4px;
+    text-align: center;
+}
+.map_route_message p {
+    color: #414042;
+    font-size: 12px;
+    padding: 8px;
+    text-align: justify;
+}
+.map_left-con {
+    float: left;
+    width: 300px;
+}
+.map_left-con label {
+    display: none;
+}
+.map_left-con .controls {
+    margin: 0;
+    padding: 0;
+}
+.map_left-con .header_msg {
+    color: #f7941e;
+    font-family: veneerregular;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 30px;
+    text-align: left;
+}
+.map_left-con h2 {
+    font-family: reservation !important;
+    font-size: 16px;
+    margin: 0;
+    padding: 1px 0 0 0!important; color:#333 !important;
+}
+.map_left-con h3 {
+    color: #545455;
+    font-family: reservation !important;
+    font-size: 16px;
+    margin: 0;
+   padding: 11px 0 !important
+}
+
+.map_left-con span{color:#333 !important; font-size: 14px !important;   line-height: 22px;}
+
+.map_left-con a {
+    color: #545455;
+}
+.savemap-btn {
+    background: #f7941d none repeat scroll 0 0;
+    border: 5px solid #ffffff;
+    color: #4f4f51;
+    cursor: pointer;
+    display: block;
+    font-family: "veneerregular" !important;
+    font-size: 24px;
+    height: 34px;
+    line-height: 36px;
+    margin: 20px 10px 0 0;
+    text-align: center;
+    width: 88px;
+}
+#description {
+    height: 66px !important;
+    width: 220px !important;
+}
+#duration-hours {
+    background: #ffffff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    float: left !important;
+    height: 25px !important;
+    margin-right: 10px !important;
+    width: 55px !important;
+}
+#duration-minutes {
+    background: #ffffff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    float: left !important;
+    height: 25px !important;
+    margin-right: 9px !important;
+    width: 55px !important;
+}
+#duration-seconds {
+    background: #ffffff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    border-radius: 5px !important;
+    float: left !important;
+    height: 25px !important;
+    width: 55px !important;
+}
+.control-group .button, .btn, .btn-primary button {
+    background: #f8931f none repeat scroll 0 0;
+    border: 4px solid #ffffff;
+    border-radius: 0;
+    color: #434142;
+    cursor: pointer;
+    float: left;
+    font-family: "veneerregular";
+    font-size: 24px;
+    line-height: 24px;
+    margin: 10px 10px 20px 0;
+    padding: 6px 22px 2px;
+    text-transform: uppercase;
+}
+.map-canvas img {
+    max-width: none;
+}
+.control-group .button, .btn, .btn-primary button:hover {
+    background: #f8931f none repeat scroll 0 0 !important;
+}
+.experience-wrapper {
+    margin: 0 auto !important;
+    padding-top: 10px;
+    width: 1000px;
+}
+.experience-wrapper .top-contain {
+  margin: 10px 0 31px 0;
+    width: 100%;
+}
+.experience-wrapper .logo {
+    float: left;
+    width: 245px;
+}
+.experience-wrapper .top-menu {
+    color: #ffffff;
+    float: right;
+    width: 130px;
+}
+.experience-wrapper .top-menu2 {
+    color: #ffffff;
+    float: right;
+    width: 364px;
+}
+ul#menu, ul#menu ul.sub-menu {
+    margin: 0;
+    padding: 0;
+}
+ul#menu li, ul#menu ul.sub-menu li {
+    display: inline-block;
+    float: none;
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 5px;
+}
+ul#menu li a, ul#menu li ul.sub-menu li a {
+    color: #f7931d;
+    display: inline-block;
+    font-family: "veneerregular";
+    font-size: 20px;
+    text-decoration: none;
+  
+}
+ul#menu li a:hover {
+    color: #5a5b5d;
+}
+ul#menu li {
+    position: relative;
+}
+ul#menu li ul.sub-menu {
+    background: rgba(0, 0, 0, 0) url("/themes/classic/images/orange1_1.png") repeat scroll 0 0;
+    display: none;
+    left: -10px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    top: 30px;
+    width: 100px;
+    z-index: 999999;
+}
+ul#menu li ul.sub-menu li {
+    display: block;
+    margin-left: 0;
+    padding: 0;
+    width: 100%;
+}
+ul#menu li ul.sub-menu a {
+    color: #ffffff !important;
+    display: inline-block;
+    float: none;
+    margin: 0 auto;
+    padding: 5px 0;
+    text-align: center;
+    width: 100%;
+}
+ul#menu li ul.sub-menu a:hover {
+    background: #f99331 none repeat scroll 0 0;
+}
+ul#menu li:hover ul.sub-menu {
+    display: block;
+}
+.experience-body {
+    background: #ebebeb none repeat scroll 0 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
+.error {
+    color: #f69f38 !important;
+    font-size: 12px !important;
+}
+#RouteMap_sports_id {
+    background-color: #ffffff;
+    border: 2px solid #97989a !important;
+    border-radius: 3px !important;
+    height: 35px !important;
+    line-height: 40px;
+    text-align: left !important;
+    width: 235px !important;
+}
+#RouteMap_sports_id option {
+    color: #000;
+    line-height: 40px;
+}
+#RouteMap_sports_id option[disabled] {
+    color: #9b9c9e;
+}
+h2 {
+    line-height: 30px !important;
+    margin: 0 !important;
+}
+.control-group {
+    margin-bottom: 0 !important;
+}
+.controls input {
+    color: #000 !important;
+}
+.readmore-js-toggle {
+    color: #f7941d !important;
+    font-family: "reservation";
+}
+#firstHeading {
+    color: #f7941e;
+    display: block;
+    font-family: "veneerregular";
+    font-size: 20px;
+    font-weight: normal;
+    letter-spacing: inherit;
+    line-height: 24px;
+    margin: 0 0 10px;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
+#firstHeading span {
+    color: #333;
+    display: inline-block;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 18px;
+}
+.mobile-top-con {
+    display: none;
+}
+/*----*/
+
+</style>
+
+
+
+
+
+<div class="experience-body">
+
+    <div class="experience-wrapper">
+
+        <!--Top Contain[start]-->
+
+        <div ng-include="'partials/header.html'"></div>
+
+        <!--Top Contain[end]-->
+
+        <div class="main-map-body">
+
+            <div class="map_left-con">
+
+                <div class="header_msg" style="margin-bottom:10px;">{{evetDet.name}}</div>
+
+                <br />
+
+                <h2>{{evetDet.from_date1}}</h2>
+
+                <h3>DATE/TIME</h3>
+
+                <span>Date(s): {{evetDet.from_date}}-{{evetDet.to_date}}</span><br />
+
+                <span ng-show="evetDet.all_day==1"><i>All Day</i></span>
+
+                <span ng-hide="evetDet.all_day==1">Time(s): {{evetDet.start_time}}-{{evetDet.end_time}}</span>
+
+                <h3>LOCATION</h3>
+
+                <span>{{evetDet.location}}<br />
+
+                    {{evetDet.address}},{{evetDet.city}},{{evetDet.state}}
+
+                </span>
+
+                <h3>SPORT</h3>
+
+                <span>{{evetDet.sports_name}}</span>
+
+
+
+                <h3>EVENT DESCRIPTION</h3>
+
+                <article>{{evetDet.description}}</article>
+
+                <img ng-show="evetDet.image" src="{{baseUrl}}/uploads/event_image/thumb/{{evetDet.image}}"  style=" margin: 10px 0; display:block; float:left;  max-width:300px;max-height:300px;" />
+
+                <div style="clear:both;"></div>
+
+                <a ng-show="evetDet.register_url" class="viewgrp" href="{{evetDet.register_url}}" target="_blank" style="background: #f7941e none repeat scroll 0 0;
+
+    border: 2px solid #fff;
+
+    box-shadow: none;
+
+    clear: both;
+
+    color: #58595b!important;
+
+    display: inline-block;
+
+    float: none;
+
+    font-family: veneerregular;
+
+    font-size: 22px!important;
+
+    margin: 5px auto;
+
+    overflow: hidden;
+
+padding:  5px 9px 2px 9px ;" data-original-title="">Register</a>
+
+                <a class="viewgrp" ng-show="userId==evetDet.created_by" ui-sref="editevent({eventId:evetDet.id})" style="background: #f7941e; border: none;  color: #58595b !important; border: solid 2px #fff; padding:  5px 9px 2px 9px ;     font-family: veneerregular;     font-size: 22px !important; box-shadow: none; margin:5px auto; display:inline-block; overflow:hidden; clear:both; float:none; " data-original-title="">Edit This Event</a>
+
+                <div style="clear:both;overflow: hidden;"></div>
+
+            </div>
+
+
+
+            <div class="map-canvas-main">
+
+                <div class="map-canvas">
+
+                    <ui-gmap-google-map id="map"
+
+                                        center="map.center"
+
+                                        pan="map.pan"
+
+                                        zoom="map.zoom"
+
+                                        draggable="true"
+
+                            >
+
+                        <ui-gmap-markers models="map.markers" coords="'self'" icon="'icon'" idkey='id' events="map.markerEvents" >
+
+
+
+                        </ui-gmap-markers>
+
+
+
+                        <ui-gmap-window
+
+                                idKey="map.openedCanadaWindows.id"
+
+                                coords ='map.openedCanadaWindows'
+
+                                show="map.openedCanadaWindows.doShow"
+
+                                closeclick="map.openedCanadaWindows.closeClick">
+
+                            <div>
+
+                                <h1 id="firstHeading" class="firstHeading">
+
+                                    {{evetDet.name}}<br/>
+
+                                    <span>{{evetDet.address}}, {{evetDet.city}}, {{evetDet.state}}</span></h1>
+
+                                <div id="eImage"></div>
+
+                            </div>
+
+                        </ui-gmap-window>
+
+
+
+
+
+                    </ui-gmap-google-map>
+
+
+
+
+
+                </div>
+
+            </div>
+
+            <div style="clear:both;"></div>
+
+            <br>
+
+            <a href="javascript:history.go(-1)" style="color: #545455;
+
+    font-family: veneerregular;
+
+    font-size: 26px; padding:50px 0 0 0; overflow: hidden;">BACK</a>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+</div>
+

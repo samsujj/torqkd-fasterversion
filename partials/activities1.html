@@ -1,0 +1,113 @@
+<style>
+
+
+
+    .ngdialog-content{
+
+        border: 5px solid #f7941e !important;
+
+        border-radius: 0 !important;
+
+        padding:25px 15px!important;
+
+    }
+
+
+
+    .ngdialog-content p{
+
+        font:13px/18px Arial,Helvetica,sans-serif;
+
+    }
+
+ body{background-image: url("../images/hiker_sign.jpg");  background-size: cover; background-position: center; background-attachment: fixed; }
+
+</style>
+
+<div class="activities-body" style="background:none;">
+
+  <div class="register_wrapper">
+
+    <div class="logo" > <a ui-sref="index"> <img  alt="" src="images/logo_main.png" /> </a> </div>
+
+
+
+         <div class="form-contain">
+
+<div class="left-img">
+
+
+
+              <img id="limg" src="images/bgimage2.png"  alt="" style="width: 100%;" /></div>
+              
+              
+              
+	        <div class="right-form">
+
+    <div class="activities_contain" id="contain1">
+
+	
+
+      <h1><img  alt="" src="images/selectsports.png" id="selSportsH"></h1>
+
+      
+
+      <div class="sports-table">
+
+	  
+
+		<div ng-repeat="n in sportsList">
+ 
+	  
+
+		<h3> {{n.name}}</h3>
+
+		<ul>
+
+			<li ng-repeat="m in n.ch">
+
+				<a href="javascript:void(0);" style="margin-bottom: 0px;" ng-click="selectSp(m.id); actClass = !actClass"  ng-class="actClass ? 'activeimg' : ''" ><img  alt="" src="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
+
+				<strong> {{m.name}}</strong>
+
+			</li>
+
+		</ul>
+
+		<div class="clear"></div>
+
+		
+
+		</div>
+
+	  
+
+ 
+
+  <input  class="activities-submit" type="button" ng-click="next_a()" value="next step" >
+
+   
+
+      </div>
+
+        
+
+        
+
+    </div>
+    
+       </div>
+
+      <div class="clear"></div>
+    
+    
+    
+      </div>
+
+  </div>
+
+  
+
+</div>
+
+<div class="footer-menu1"> <span>&copy;TORKQ</span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('terms')">TERMS </a> </span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a> </span> </div>

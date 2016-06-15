@@ -222,13 +222,13 @@
 
         <!--Profile Banner Area[start]-->
 
-        <div ng-hide="stateIsLoading" class="top-banner-contain" elem-ready="someMethod()">
+        <div ng-show="imgageLoadf==1" class="top-banner-contain" elem-ready="someMethod()">
 
             <div class="user-contain">
 
                 <div class="img-contain cngcondiv" elem-ready="someMethod()">
 
-                    <img src="{{baseUrl}}/uploads/user_image/default_latest_user.jpg" lazy-img="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}" style="max-height: 120px;" alt="" />
+                    <img  src="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}" style="max-height: 120px;" alt=""  />
 
                     <a class="pic cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Edit Profile Picture</a>
 
@@ -254,7 +254,7 @@
 
             <div class="banner-image cngcondiv" elem-ready="someMethod()">
 
-                <img style="height: auto; max-width: 100%" src="{{baseUrl}}/uploads/user_image/default_latest_back.jpg" lazy-img="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}"  />
+                <img style="height: auto; max-width: 100%" src="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}" imageonload  />
 
                 <a class="changecover cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Change Cover</a>
 
@@ -293,7 +293,7 @@
 
         <!--Profile Freiend & stat Area[Start]-->
 
-        <div ng-hide="stateIsLoading" class="spot-search-contain" elem-ready="someMethod()">
+        <div ng-show="imgageLoadf==1" class="spot-search-contain" elem-ready="someMethod()">
 
             <div class="search-left">
 
@@ -674,7 +674,8 @@
 
             </div>
 
-            <div ng-include="'partials/mapcontent.html'" ></div>
+            <!--<div ng-include="'partials/mapcontent.html'" ></div>-->
+            <div ng-include="'partials/profilemapcontent.html'" ></div>
 
             <div ng-include="'partials/social_tab.html'"></div>
 
@@ -763,7 +764,7 @@
 
             <div ng-include="'partials/chatList.html'"></div>
 
-            <div class="banner2">
+            <div class="banner2"  style="height: auto;">
 
                 <div class="adspace">
 
@@ -773,7 +774,7 @@
 
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
 
-                            <div class="bannerdiv225" style="height: 200px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                            <div class="bannerdiv225" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
 
                         </a>
 
@@ -783,7 +784,7 @@
 
             </div>
 
-            <div class="banner3">
+            <div class="banner3" style="height: auto;">
 
 
                 <div class="adspace">
@@ -794,7 +795,7 @@
 
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}"  />-->
 
-                            <div class="bannerdiv225" style="height: 100%; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                            <div class="bannerdiv225" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
 
                         </a>
 
@@ -820,7 +821,7 @@
 
 
 <div class="footer-menu1" ng-hide="stateIsLoading">
-    <span>&copy;TORQK'D</span>
+    <span>&copy;TORKQ</span>
     <span>|</span>
 <span>
 <a href="javascript:void(0);" ng-click="openTerms()">TERMS </a>

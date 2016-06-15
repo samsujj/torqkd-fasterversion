@@ -1,0 +1,517 @@
+<style>
+
+    .angular-google-map-container {
+
+        width: 200px;
+
+        height: 200px;
+
+    }
+
+    .angular-google-map img {
+
+        max-width: none;
+
+    }
+
+    .angular-google-map {
+
+        top: 80px;
+
+    }
+
+    .confirmPopup .ngdialog-content {
+
+        position:relative;
+
+        margin:0 auto;
+
+        width:80%;
+
+        padding:3px 12px;
+
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+
+    }
+
+    .experience-wrapper{ width:980px; margin:0 auto;}
+
+    .main-map-body{ width:980px; margin:30px auto;}
+
+
+    .map_left-con {
+        float: left;
+        width: 248px;
+    }
+
+    .map-canvas-main {
+        float: right;
+        height: 694px;
+        position: relative;
+        width: 694px;
+    }
+
+
+    .header_msg {
+        color: #f7941e;
+        font-family: veneerregular;
+        font-size: 28px;
+        font-weight: normal;
+        text-align: left;
+    }
+
+    .map_left-con h2 {
+        font-family: reservation !important;
+        color: #333333!important;
+        line-height:30px!important;
+    }
+
+    #sportsList {
+        background-color: #ffffff;
+        border: 2px solid #97989a !important;
+        border-radius: 5px !important;
+        height: 42px !important;
+        line-height: 40px;
+        text-align: left !important;
+        width: 235px !important;
+        margin-bottom:10px!important;
+
+    }
+
+    .form-group{ margin:0!important; padding:0!important;}
+
+    .form-group input[type="text"] {  background-color: #ffffff!important;
+        border: 2px solid #97989a !important;
+        border-radius: 5px !important;
+        height: 42px !important;
+        line-height: 40px;
+        text-align: left !important;
+        width: 235px !important; margin-bottom:10px!important;}
+
+
+    #route_description{  border: 2px solid #97989a;
+        border-radius: 5px;
+        font-family: Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        height: 66px !important;
+        margin-top: 10px;
+        padding: 6px !important;
+        width: 235px !important;  background-color: #ffffff!important;margin-bottom:10px!important;}
+
+
+    .savebtn {
+        background: #f8931f none repeat scroll 0 0;
+        border: 4px solid #ffffff;
+        border-radius: 0;
+        color: #434142;
+        cursor: pointer;
+        float: left;
+        font-family: "veneerregular";
+        font-size: 24px;
+        line-height: 24px;
+        margin: 10px 10px 20px 0;
+        padding: 6px 22px 2px;
+        text-transform: uppercase;
+    }
+
+
+    #duration-hours{background: #ffffff none repeat scroll 0 0 !important;
+        border: 2px solid #97989a !important;
+        border-radius: 5px !important;
+        float: left !important;
+        height: 42px !important;
+        margin-right: 10px !important;
+        width: 71px !important;margin-bottom:10px!important;}
+
+    #duration-minutes {
+        background: #ffffff none repeat scroll 0 0 !important;
+        border: 2px solid #97989a !important;
+        border-radius: 5px !important;
+        float: left !important;
+        height: 42px !important;
+        margin-right: 9px !important;
+        width: 71px !important; margin-bottom:10px!important;
+    }
+
+    #duration-seconds {
+        background: #ffffff none repeat scroll 0 0 !important;
+        border: 2px solid #97989a !important;
+        border-radius: 5px !important;
+        float: left !important;
+        height: 42px !important;
+        width: 71px !important; margin-bottom:10px!important;
+    }
+
+    .angular-google-map{ width:100%; height:630px; }
+
+    .angular-google-map .angular-google-map-container{ width:100%; height:100%; border:solid 3px #f7941e;}
+
+    .panel {
+        background-color: #fff;
+        position: absolute;
+        right: 7px;
+        top: 13px;
+        width: 200px;
+        z-index: 5; border-radius:0px; border:none;
+    }
+
+    map_below{  color: #939598;
+        font-size: 12px !important;}
+
+
+    map_below td{  color: #939598;
+        font-size: 12px !important;}
+
+
+    .header_map{background: #414042;
+        color: #f7941e;
+        float: left;
+        height: 55px;
+        width: 100%;
+        z-index: 0;
+    }
+
+    .header_map .distance_text_left {
+        color: #f7941e;
+        float: left;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 2px 8px;
+        width: 80px;
+    }
+
+
+    .header_map .distance_text_right {
+        color: #f7941e;
+        float: left;
+        font-size: 25px;
+        height: 50px;
+        padding: 8px 5px 2px;
+        text-align: right;
+        width: 80px;
+    }
+
+    .ngdialog-content{background-color: #f6f9fa !important;
+        border: 5px solid #f7941e !important;
+        border-radius: 0 !important;  font-family: veneerregular!important; font-size:18px!important; padding:20px 0!important;}
+</style>
+
+
+
+
+<div class="experience-body">
+
+    <div class="experience-wrapper">
+
+        <div ng-include="'partials/header.html'"></div>
+
+    </div>
+
+    <div class="main-map-body">
+
+        <div class="map_left-con">
+
+            <form name="eventForm" id="addRouteMap" class="form-horizontal" method="post">
+
+                <input type="hidden" name="distance" id="distance">
+
+                <input type="hidden" name="st_point" id="st_point">
+
+                <input type="hidden" name="user_id" id="user_id">
+
+                <div id="end_p">
+
+
+
+                </div>
+
+                <div class="header_msg" style="margin-bottom:10px;"> GPS YOUR ROUTE </div>
+
+                <h2 class="step_gps" style="font-size:12px;text-transform:uppercase;">1. Sport/Route <span style="width: 10px;color: #FB992C;padding: 0 4px;" >*</span></h2>
+
+                <select name="sports_id" id="sportsList" ng-model="form.sports_id" ng-change="sportsChange()">
+
+                    <option value="">SELECT ONE</option>
+
+                </select>
+
+                <br />
+
+                <div id="snap_div">
+
+                </div>
+
+                <h2 class="step_gps" style="font-size:12px;text-transform:uppercase;">2. Route Name <span style="width: 10px;color: #FB992C;padding: 0 4px;" data-original-title="">*</span></h2>
+
+                <div class="form-group">
+
+                    <div class="col-sm-10" style="width:100%; padding:0;">
+
+                        <input type="text" id="cbc" name="route_name" placeholder="ROUTE NAME"
+
+                               validate-on="blur"
+
+                               class = "form-control input1"
+
+                               ng-model = "form.route_name"
+
+                                >
+
+                    </div>
+
+                </div>
+
+                <h2 class="step_gps" style="font-size:12px;text-transform:uppercase;">3. Date <span style="width: 10px;color: #FB992C;padding: 0 4px;" data-original-title="">*</span></h2>
+
+                <div class="form-group">
+
+                    <div class="col-sm-10" style="width:100%; padding:0;">
+
+                        <input type="text" id="cbxcvxc" name="date" placeholder="DATE"
+
+                               validate-on="blur"
+
+                               class = "form-control input1"
+
+                               ng-model = "form.date"
+
+                               uib-datepicker-popup="{{format}}"
+
+
+
+                               is-open="opened" ng-required="true" show-weeks="false" close-text="Close" min-date="minDate"
+
+                               ng-focus="open1()"
+
+                                >
+
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+
+                <h2 class="step_gps" style="font-size:12px;text-transform:uppercase;">4. STARTING Location<span style="width: 10px;color: #FB992C;padding: 0 4px;" data-original-title="">*</span></h2>
+
+                <div class="form-group">
+
+                    <div class="col-sm-10" style="width:100%; padding:0;">
+
+                        <input type="text" id="address" name="address" placeholder="CITY / STATE"
+
+                               validate-on="blur"
+
+                               class = "form-control input1"
+
+                               ng-model = "form.address"
+
+                                >
+
+                    </div>
+
+                </div>
+
+                <div class="clear"></div>
+
+
+
+                <h2 class="step_gps" style="font-size:12px;text-transform:uppercase;">5. Duration/Description</h2>
+
+
+
+                <div class="clear"></div>
+
+
+
+                <input id="duration-hours" name="duration-hours" autocomplete="off" placeholder="HH" class="duration" type="text" maxlength="3" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;"/>&nbsp;&nbsp;<input id="duration-minutes" name="duration-minutes" placeholder="MM" autocomplete="off" class="duration" type="text" maxlength="2" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />&nbsp;&nbsp;<input id="duration-seconds" name="duration-seconds" placeholder="SS" autocomplete="off" class="duration" type="text" maxlength="2" size="2" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />
+
+                <br><br>
+
+
+
+                <textarea id="route_description" name="description" class="form-control input2" placeholder="ROUTE DESCRIPTION" ng-model="form.description"></textarea>
+
+                <div class="clear"></div>
+
+
+
+                <div class="main-btn">
+
+                    <h2 class="step_gps" style="font-size:12px;text-transform:uppercase;">6. Map Route</h2>
+
+                    <span style="font-family:Arial, Helvetica, sans-serif;margin-bottom:10px;font-size:12px;">Click on the map at your starting location and trace your route with each additional click. Click "Save" to finish.</span>
+
+                    <br />
+
+                    <input type="button" ng-click="addRoutes()" value="Save" class="savebtn">
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="map-canvas-main">
+
+
+
+            <div id="img-div" style="height:694px; padding:10px;">
+
+                <div id="map-canvas">
+
+
+
+                    <ui-gmap-google-map id="map" center="map.center" pan="map.pan" zoom="map.zoom" draggable="true" events="map.events">
+
+
+
+                        <ui-gmap-marker coords="markerc"  idKey="markerc.id" ng-if="markerc.id"></ui-gmap-marker>
+
+                        <ui-gmap-polyline path="location" geodesic="true" fit="true" stroke="polyline.stroke">
+
+                        </ui-gmap-polyline>
+
+
+
+                    </ui-gmap-google-map>
+
+
+
+
+
+                </div>
+
+
+
+                <div class="mapcon" style="float: right;display:none;  position: relative;width: 325px; margin:-620px -320px 0 0;" data-original-title="">
+
+
+
+
+
+                    <div class="rowtwo" style="float: none; width: 300px; padding-right: 0px; " data-original-title="">
+
+
+
+
+
+                        <div style=" width: 120px; margin:10px 0; padding-bottom:30px;" class="sportsicon" data-original-title="">
+
+
+
+                            <h5 id="fbimage_sp_name" style="font-size: 40px; margin: 0; padding: 0 0 10px 0; color: #F79213; text-align: center" data-original-title=""> ROAD</h5>
+
+                            <img id="fbimage_sp_image" alt="#" style="width:100%; display: block; margin: 0 auto;" src="/uploads/sports_image/thumb/1397129075.png" data-original-title="">
+
+                        </div>
+
+
+
+
+
+                        <h2 id="fbimage_route_name" data-original-title="" >test</h2>
+
+                        <div class="date-contain" data-original-title="">
+
+                            <h5 data-original-title="">
+
+                                <span data-original-title="">DATE</span><br data-original-title="">
+
+                                <h5 id="fbimage_date">03/30/2015</h5>                </h5>
+
+                            <h5 data-original-title="">
+
+                                <span data-original-title="">TIME</span><br data-original-title="">
+
+                                <h5 id="fbimage_time">00:11:22</h5>                </h5>
+
+                            <h5 data-original-title="">
+
+                                <span data-original-title="">DISTANCE</span><br data-original-title="">
+
+                                <h5 id="fbimage_dist">0.00 miles</h5>
+
+                            </h5>
+
+                        </div>
+
+                        <h5 style="font-size: 34px;" data-original-title=""> TORQKD.COM</h5>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+            <input type="hidden" id="start"><input type="hidden" id="end">
+
+            <div class="panel">
+
+                <div class="map_route">
+
+                    <div class="header_map">
+
+                        <div class="distance_text_left">DISTANCE (Miles) </div>
+
+                        <div id="distance_text_right" class="distance_text_right">{{distance}}</div>
+
+                    </div>
+
+                    <div class="map_below">
+
+                        <table  border="0">
+
+                            <tr>
+
+                                <td align="center" style=" color: #939598!important; font-size: 11px !important; padding:10px 0 20px 0;"><a href="javascript:void(0)" ng-click="outback()"><img src="images/out_back.png" id="outback" style="cursor: pointer; margin-bottom:5px;" /> OUT+BACK</a></td>
+
+                                <td align="center" style=" color: #939598!important; font-size: 11px !important;  padding:10px 0 20px 0;"><a href="javascript:void(0)" ng-click="undo()"><img src="images/undo.png" id="mapundo" style="cursor: pointer; margin-bottom:5px;"  /> UNDO</a></td>
+
+                                <td align="center" style=" color: #939598!important; font-size: 11px !important;  padding:10px 0 20px 0;"><a href="javascript:void(0)" ng-click="cancel()"><img src="images/cancel.png" id="mapcancel" style="cursor: pointer; margin-bottom:5px;"  /> CANCEL</a></td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="clear"></div>
+
+
+
+    </div>
+
+    <div style="width: 70%; margin: 10px auto;">
+
+    </div>
+
+</div>
+
+
+

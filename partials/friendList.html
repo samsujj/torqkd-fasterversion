@@ -264,7 +264,7 @@
             <div  style=" overflow:hidden;" class="imgdiv" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
                 <img  src="images/checkered.png" lazy-img="{{item.user_image}}">
             </div>
-            <div class="hover_img4" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" ng-show="showunFrndDiv" style="background: url(../images/hover_div1.png) no-repeat; display: block;">
+            <div class="hover_img4" ng-show="showunFrndDiv" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" style="background: url(../images/hover_div1.png) no-repeat; display: block;">
                 <button class="close">&times;</button>
                 <ul>
                     <li style="width:98px; float: left;  display:block;" class="mobpimg">
@@ -286,13 +286,13 @@
                     </li>
                 </ul>
             </div>
-            <div class="friend_detail">
-                <a uib-tooltip-html="tooltipVal(item)" tooltip-class="customTooltip" tooltip-placement="bottom">
-                    <span>{{ item.user_name | limitTo: 30 }}{{item.user_name.length > 30 ? '...' : ''}}</span><br />
-                    {{ item.user_address | limitTo: 30 }}{{item.user_address.length > 30 ? '...' : ''}}
-                </a>
-            </div>
-        </div>
+
+        </div> <div class="friend_detail">
+        <a uib-tooltip-html="tooltipVal(item)" tooltip-class="customTooltip" tooltip-placement="bottom">
+            <span>{{ item.user_name | limitTo: 30 }}{{item.user_name.length > 30 ? '...' : ''}}</span><br />
+            {{ item.user_address | limitTo: 30 }}{{item.user_address.length > 30 ? '...' : ''}}
+        </a>
+    </div>
         <div class="clear"></div>
     </div>
 </div>

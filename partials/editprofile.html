@@ -1,0 +1,1106 @@
+<style>
+
+    .mymodalimg .modal-lg{
+
+        width: 860px !important;
+
+    }
+
+    .mymodalimg1 .modal-lg{
+
+        width: 1300px !important;
+
+    }
+
+    .modal-lg {
+
+        background-clip: padding-box;
+
+        background-color: #ffffff;
+
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+
+        outline: medium none;
+
+        border: 5px solid #f7941e;
+
+        border-radius: 0;
+
+    }
+
+    .experience-wrapper {
+
+        margin: 0 auto !important;
+
+        padding-top: 10px;
+
+        width: 1000px;
+
+    }
+
+    .createevent-body {
+
+        margin: 20px auto;
+
+        width: 1000px;
+
+    }
+
+    .form-horizontal label{
+
+        color: #4f4f51;
+
+        font-family: reservation;
+
+        -webkit-font-smoothing: antialiased;
+
+        font-weight: normal !important;
+
+        font-style: normal;
+
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+
+        display: block;
+
+        margin-bottom: 8px!important;
+
+        text-transform: uppercase;
+
+    }
+
+    .form-horizontal .input1 {
+
+        border-radius: 5px!important;
+
+        background: #fff!important;
+
+        border: 2px solid #97989A!important;
+
+        padding: 6px !important;
+
+        font-family: Helvetica, Arial, sans-serif!important;
+
+        font-size: 14px!important;
+
+        width: 95%!important;
+
+        border-image: initial;
+
+        height:40px!important;
+
+        background:#fff!important;
+
+    }
+
+    .modal-footer .btn-primary{
+
+        -webkit-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+
+        -moz-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+
+        box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+
+        text-shadow:0 1px 1px #fff;
+
+    }
+
+    .modal-footer .btn-primary:hover{
+
+        border-color:#fff;
+
+    }
+
+    .has-error{
+
+        font-family:Arial, Helvetica, sans-serif!important;
+
+        font-size:12px!important;
+
+        text-transform:inherit!important;
+
+        margin-bottom: 0px!important;
+
+    }
+
+    .image-editor .cropit-image-preview {
+
+        background: #f8f8f8;
+
+        background-size: cover;
+
+        border: none;
+
+        border-radius: 0px;
+
+        width: 284px;
+
+        height: 312px;
+
+        cursor: move;
+
+        margin:0 0 0 25px;
+
+    }
+
+    .image-editor1 .cropit-image-preview {
+
+        background-color: #f8f8f8;
+
+        background-size: cover;
+
+        border: none;
+
+        border-radius: 0px;
+
+        margin: 0 0 0 18px;
+
+        width: 760px;
+
+        height: 357px;
+
+        cursor: move;
+
+    }
+
+    .cropit-image-background {
+
+        opacity: .2;
+
+        cursor: auto;
+
+    }
+
+    .image-size-label {
+
+        margin-top: 10px;
+
+    }
+
+    .export {
+
+        margin-top: 10px;
+
+    }
+
+    .dropdown-menu .active {
+
+        background-color: #FAB363;
+
+    }
+
+    .createevent-body .left-part .input1{
+
+        color:#888!important;
+
+    }
+
+    .createevent-body .left-part .input1::-webkit-input-placeholder {
+
+        color:#888!important;
+
+        opacity:0.9;
+
+    }
+
+    .createevent-body .left-part .input1:-moz-placeholder {
+
+        color:#888!important;
+
+        opacity:0.9;
+
+    }
+
+    .createevent-body .left-part .input1::-moz-placeholder {
+
+        color:#888!important;
+
+        opacity:0.9;
+
+    }
+
+    .createevent-body .left-part .input1:-ms-input-placeholder {
+
+        color:#888!important;
+
+        opacity:0.9;
+
+    }
+
+</style>
+
+
+
+<div class="experience-body" >
+
+    <div class="experience-wrapper">
+
+        <div ng-include="'partials/header.html'"></div>
+
+    </div>
+
+</div>
+
+
+
+<div class="createevent-body">
+
+    <h2 style="line-height:36px; display:inline-block">UPDATE YOUR PROFILE</h2>
+
+    <div class="clear"></div>
+
+    <div class="left-part">
+
+        <form angular-validator-submit="editProfile()" name="signUpForm" id="signUpForm" class="form-horizontal" novalidate angular-validator>
+
+            <div style="margin-bottom:20px!important; overflow: hidden; ">
+
+                <label>FIRST NAME</label>
+
+                <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+
+                <input  type="text" class="input1" style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"   id="UserManager_fname" name="UserManager[fname]" placeholder="FIRST NAME"
+
+                        class = "form-control register_input"
+
+                        ng-model = "form.fname"
+
+                        required-message="'First Name cannot be blank.'"
+
+                        required>
+
+            </div>
+
+            <div style="margin-bottom:20px!important; overflow: hidden; ">
+
+                <label>LAST NAME</label>
+
+                <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+
+                <input type="text" class="input1"  style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"   id="UserManager_lname" name="UserManager[lname]" placeholder="LAST NAME"
+
+                       class = "form-control register_input"
+
+                       ng-model = "form.lname"
+
+                       required-message="'Last Name cannot be blank.'"
+
+                       required>
+
+            </div>
+
+            <div class="email_div" style="margin-bottom:20px!important; overflow: hidden; ">
+
+                <label>EMAIL</label>
+
+                <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+
+                <input type="email" ng-disabled="true" class="input1" style="border-radius: 5px!important;
+
+
+
+background: #eee !important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"    id="UserManager_email" name="UserManager[email]" placeholder="YOUR EMAIL"
+
+                       class = "form-control register_input"
+
+                       ng-model = "form.email"
+
+                       required-message="'Email cannot be blank.'"
+
+                       invalid-message="'Enter valid email address.'"
+
+                       required>
+
+            </div>
+
+            <div style="margin-bottom: 16px !important; display:block; overflow:hidden">
+
+                <label>PASSWORD</label>
+
+                <input type="password"  class="input1" style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"    id="UserManager_password" name="UserManager[password]" placeholder="PASSWORD"
+
+                       class = "form-control register_input"
+
+                       ng-model = "form.password"
+
+                       validator = "passwordValidator(form.password) === true"
+
+                       invalid-message = "passwordValidator(form.password)" >
+
+            </div>
+
+            <div style="margin-bottom: 16px !important; display:block; overflow:hidden">
+
+                <label>CONFIRM PASSWORD</label>
+
+                <input type="password"  class="input1"   style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"  id="UserManager_password2" name="UserManager[password2]" placeholder="CONFIRM PASSWORD"
+
+                       class = "form-control register_input"
+
+                       ng-model = "form.password2"
+
+                       validator = "form.password === form.password2 || form.password == ''"
+
+                       invalid-message = "'Passwords do not match!'">
+
+            </div>
+
+            <div style="margin-bottom:20px!important; overflow: hidden; ">
+
+                <label>COUNTRY</label>
+
+                <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+
+                <select id="UserManager_country"  style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"    name="UserManager[country]" class = "register_select form-control input1" validate-on="blur" ng-model = "form.country" ng-change="changeCountry(form.country)" required-message="'Country cannot be blank.'" required ng-options="item.name for item in countrylist  track by item.id" style="background:none;">
+
+                    <option value="">SELECT YOUR COUNTRY</option>
+
+                </select>
+
+            </div>
+
+            <div style="margin-bottom:20px!important; overflow: hidden; ">
+
+                <label>STATE / PROVINCE</label>
+
+                <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+
+                <select id="UserManager_state"  style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"   name="UserManager[state]" class = "register_select form-control input1" validate-on="blur" ng-model = "form.state" required-message="'State cannot be blank.'" required ng-options="item.name for item in statelist  track by item.id">
+
+                    <option value="">SELECT YOUR STATE /PROVINCE</option>
+
+                </select>
+
+            </div>
+
+            <div style="margin-bottom:20px!important; overflow: hidden;">
+
+                <label>CITY</label>
+
+                <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+
+                <input type="text" class="input1"  style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"  id="UserManager_city" name="UserManager[city]" placeholder="CITY"
+
+                       class = "form-control register_input"
+
+                       ng-model = "form.city"
+
+                       required-message="'City cannot be blank.'"
+
+                       required>
+
+            </div>
+
+            <div style="margin-bottom:20px!important; overflow: hidden;">
+
+                <label>LOCATION</label>
+
+                <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
+
+                <input type="text" class="input1"  style="border-radius: 5px!important;
+
+
+
+background: #fff!important;
+
+
+
+border: 2px solid #97989A!important;
+
+
+
+
+
+padding: 6px !important;
+
+
+
+font-family: Helvetica, Arial, sans-serif!important;
+
+
+
+font-size: 14px!important;
+
+
+
+width: 95%!important;
+
+
+
+border-image: initial; height:40px!important; background:#fff!important;"  id="UserManager_location" name="UserManager[location]" placeholder="LOCATION"
+
+                       class = "form-control register_input"
+
+                       ng-model = "form.location"
+
+                       required-message="'Location cannot be blank.'"
+
+                       required>
+
+            </div>
+
+            <div style="margin-bottom:20px!important; overflow: hidden;">
+
+                <label>GENDER</label>
+
+                <input type="radio" value="0" ng-model="form.gender" name="UserManager[gender]">
+
+                <strong class="ng-binding">Male</strong>
+
+                <input type="radio" value="1" ng-model="form.gender" name="UserManager[gender]">
+
+                <strong class="ng-binding">Female</strong>
+
+                <div style="clear:both;"></div>
+
+            </div>
+
+
+
+            <!-------------image content[start]---------------------->
+
+            <div  style="margin-top:20px;" >
+
+                <div id="show_thumb" style="margin-left:0px">
+
+                    <div class="imglist" style="position:relative; margin-bottom:10px; overflow:inherit; padding:0; z-index:0;">
+
+                        <a href="javascript:void(0);" style="display:block; margin-bottom:2px;">
+
+                            <img src="{{profileImg}}" class="newaddimg" />
+
+                        </a>
+
+                        <div>
+
+                            <input type="button" value="+" class="upload-btn1 btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+
+                            <img src="images/help.png" alt="" class="help-icon" style="margin-left:8px;">
+
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <div class="progress" ng-show="files[0].progress >= 0">
+
+                            <div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div>
+
+                        </div>
+
+                        <input type="button" style="background: #f7931e;padding-top:4px; width: 100px!important; height: 40px; float: left; cursor: pointer; display:block; font-family: 'veneerregular'!important; color: #414142;font-size: 22px;  border: solid 4px #fff;margin: 10px 5px 0px 0; box-shadow: none; text-align: center; " class="crop_btn" ng-if="profileImgName != 'default.jpg' && profileImgName != 'default_f.jpg'" ng-click="cropProfileImg()" value="Crop">
+
+                        <input type="button" style="background: #f7931e;padding-top:4px; width: 100px!important; height: 40px; float: left; cursor: pointer; display:block; font-family: 'veneerregular'!important; color: #414142;font-size: 22px;  border: solid 4px #fff;margin: 10px 5px 0px 0; box-shadow: none; text-align: center; " class="crop_btn" ng-if="profileImgName != 'default.jpg' && profileImgName != 'default_f.jpg'"  ng-click="profileImgDel(1)" value="Delete">
+
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div  style="margin-top:20px;" >
+
+                    <div id="show_thumb1" style="margin-left:0px">
+
+                        <div class="imglist1" style="position:relative; ">
+
+                            <a href="javascript:void(0);" style="width: 143px;">
+
+                                <img src="{{coverImg}}"  class="newaddimg" style="margin-bottom:2px;" />
+
+                            </a>
+
+                            <div>
+
+                                <input type="button" value="+" class="upload-btn1 btnuptext" ngf-drop ngf-select ng-model="files1" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+
+                                <img src="images/help.png" alt="" class="help-icon" style="margin-left:8px;">
+
+                                <div class="clear"></div>
+
+                            </div>
+
+                            <div class="progress" ng-show="files1[0].progress >= 0">
+
+                                <div style="width:{{files1[0].progress}}%; background:#F69830;" ng-bind="files1[0].progress + '%'"></div>
+
+                            </div>
+
+                            <input type="button" style="background: #f7931e;padding-top:4px; width: 100px!important; height: 40px; float: left; cursor: pointer; display:block; font-family: 'veneerregular'!important; color: #414142;font-size: 22px;  border: solid 4px #fff;margin: 10px 5px 0px 0; box-shadow: none; text-align: center; " class="crop_btn" ng-if="coverImgName != 'default.jpg'" ng-click="cropProfileBackImg()" value="Crop">
+
+                            <input type="button" style="background: #f7931e;padding-top:4px; width: 100px!important; height: 40px; float: left; cursor: pointer; display:block; font-family: 'veneerregular'!important; color: #414142;font-size: 22px;  border: solid 4px #fff;margin: 10px 5px 0px 0; box-shadow: none; text-align: center; " class="crop_btn" ng-if="coverImgName != 'default.jpg'" ng-click="profileImgDel(2)" value="Delete">
+
+                        </div>
+
+                        <div id="clr" class="clear"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <img src="{{subUrl}}/uploads/user_image/{{origprofileImg}}" style="display: none;">
+
+            <img src="{{subUrl}}/uploads/user_image/background/{{origcoverImg}}" style="display: none;">
+
+
+
+            <!-------------image content[end]---------------------->
+
+
+
+            <div class="editprofilemain">
+
+                <div style="display: block;margin-top:15px; position: relative;">
+
+                    <span class="editsettingbtn" style="background: none; float: left; width:100%; margin: 10px 0; color: #f7931d;">Privacy
+
+                    <!--<span ng-mouseenter="showprivacy = true" ng-mouseleave="showprivacy = false" class="editsettingbtn" style="background: none; float: left; width:100%; cursor: pointer; margin: 10px 0;">Privacy-->
+
+                        <!-- <ul style="display: block; background-color: #F4A546; top: 21px; position: absolute;" ng-show="showprivacy">
+
+                        <li style="width: 100px; margin: 0 auto; text-align: center;"><a href="javascript:void(0)" style="color: #f7931d; display: inline-block; font-family: 'veneerregular'; font-size: 20px; text-decoration: none; color: #fff !important; padding: 6px 0 !important; text-align: center;">Privacy</a></li>
+
+                        <li style="width: 100px; margin: 0 auto; text-align: center;"><a ui-sref="settings" style="color: #f7931d; display: inline-block; font-family: 'veneerregular'; font-size: 20px; text-decoration: none; color: #fff !important; padding: 6px 0 !important; text-align: center;">Blocking</a></li>
+
+                        </ul>-->
+
+                        <!--<ul class=" dropdown-menu dropdown-menu_share" style="display: block;  top: 28px; position: absolute;" ng-show="showprivacy">
+
+                            <li class="share4" style="border-bottom:solid 1px #9a9a9c;"><a href="javascript:void(0)" ng-click="showprivacypopup()"  style="font-size:10px!important; text-transform:uppercase; border:none; font-weight:normal!important;" ><span>Privacy</span></a></li>
+
+                            <li class="share6" style="border:none!important;"><a ui-sref="settings"  style="font-size:10px!important; text-transform:uppercase;  border:none; font-weight:normal!important;" ><span>Blocking</span></a></li>
+
+                        </ul>-->
+
+
+
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none; outline:none;">
+
+                            <span ng-show="privacy==1"><img src="images/share1_icon_active.png" style="width:18px; margin-top:-2px; margin-right: 5px; margin-left: 10px;"><span>Public</span></span>
+
+                            <span ng-show="privacy==2"><img src="images/share2_icon_active.png" style="width:15px; margin-top:0px; margin-right: 5px; margin-left: 10px;
+
+"><span>Friends</span></span>
+
+                            <span ng-show="privacy==3"><img src="images/share3_icon_active.png" style="width:18px; margin-top:0px; margin-right: 5px; margin-left: 10px;"><span>Friends Of Friends</span></span>
+
+                            <span ng-show="privacy==4"><img src="images/share4_icon_active.png" style="width:12px; margin-top:0px; margin-right: 5px; margin-left: 10px;"><span>Private Me Only</span></span>
+
+                            <span><img src="images/ad2new.png" style="padding-left:4px;"></span>
+
+                        </a>
+
+            <ul class="dropdown-menu dropdown-menu_share" style="left: 186px; top: 8px;">
+
+                <li class="share1"><a href="javascript:void(0)" style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(1)" ng-class="(item.share_with==1) ? 'active' : ''"><span>Public</span></a></li>
+
+                <li class="share2"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(2)" ng-class="(item.share_with==2) ? 'active' : ''"><span>Friends</span></a></li>
+
+                <li class="share3"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(3)" ng-class="(item.share_with==3) ? 'active' : ''"><span>Friends Of Friends</span></a></li>
+
+                <li class="share4"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(4)" ng-class="(item.share_with==4) ? 'active' : ''"><span>Private Me Only</span></a></li>
+
+            </ul>
+
+
+
+                    </span>
+
+                    <span class="editsettingbtn" style="background: none; float: left; width:100%; margin: 10px 0; color: #f7931d;">Blocking
+
+                        <a ui-sref="settings"  style="font-size:18px!important; text-transform:uppercase;  border:none; font-weight:normal!important;" ><img src="images/gear.png"  style="margin-top:-3px; margin-left:4px;"/></a>
+
+                    </span>
+
+                    <!--<span class="editsettingbtn" style="background: none; float: left; width:100%; cursor: pointer; margin: 10px 0;"><a ui-sref="logout" style="color: #f7931d; display: inline-block; font-family: 'veneerregular'; font-size: 20px; text-decoration: none; padding: 6px 0 !important; text-align: center;">LogOut</a></span>-->
+
+                </div>
+
+                <div style="clear: both;"></div>
+
+                <p style="font-size: 11px; padding:12px 0 0 0"> By proceeding to the next step, you agree to our  <a href="javascript:void(0)"  style="color: #ff0000;" ng-click="showtermsploicy('terms')"> terms of service </a> as well as our <a href="javascript:void(0)" style="color: #ff0000;" ng-click="showtermsploicy('policy')">  privacy </a>.</p>
+
+                <input type="submit" value="UPDATE PROFILE"  style="background: #f7931e;
+
+
+
+padding-top: 4px;
+
+
+
+width: 196px!important;
+
+
+
+height: 44px;
+
+
+
+
+
+
+
+cursor: pointer;
+
+
+
+display: block;
+
+
+
+font-family: 'veneerregular'!important;
+
+
+
+color: #414142;
+
+
+
+font-size: 24px;
+
+
+
+border: solid 4px #fff;
+
+
+
+margin: 10px 0;
+
+
+
+box-shadow: none;
+
+
+
+text-align: center; margin-top:20px;">
+
+                <!--<div style="float:left;  font-family: 'veneerregular'; font-size: 22px; color: #585b60; padding: 10px 0;"><a ui-sref="profile({userId:userId})">BACK</a></div>-->
+
+                <div style="float:left;  font-family: 'veneerregular'; font-size: 22px; color: #585b60; padding: 10px 0;"><a href="javascript:void(0)" onclick="window.history.back();">BACK</a></div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="right-part">
+
+        <h1 style=" font-size: 22px;  padding-bottom: 5px !important;"> Select Sports</h1>
+
+        <div class="sports-table">
+
+            <div ng-repeat="n in sportsList">
+
+                <h3> {{n.name}}</h3>
+
+                <ul>
+
+                    <li ng-repeat="m in n.ch">
+
+                        <a href="javascript:void(0);" style="margin-bottom: 0px;" ng-click="selsports(m.id,this);"  ng-class="{'activeimg':(userSports1.indexOf(m.id) > -1)}" ><img  alt="" src="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
+
+                        <strong> {{m.name}}</strong>
+
+                    </li>
+
+                </ul>
+
+                <div class="clear"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="clear"></div>
+
+</div>
+
+
+
+<script type="text/ng-template" id="mymodal">
+
+    <div class="modal-header">
+
+        <a class="close" ng-click="modalClose()">&times;</a>
+
+        <h4>&nbsp;</h4>
+
+    </div>
+
+    <div class="modal-body">
+
+        <div ng-show="pLoad">Loading Image...<img src="images/ajax_loading.gif" ></div>
+
+        <div class="image-editor">
+
+            <div style="overflow:hidden; width:340px; margin:0 auto;">
+
+                <div class="cropit-image-preview-container">
+
+                    <div class="cropit-image-preview" ng-mousemove="changepreview()"></div>
+
+                </div>
+
+            </div>
+
+            <div style="margin-top:20px;">
+
+                <input type="range" class="cropit-image-zoom-input" name="range" ng-model="range" ng-change="changepreview()">
+
+            </div>
+
+        </div>
+
+        <div style="overflow:hidden; margin:10px auto; margin-top:14px; display:block; width:142px;">
+
+            <img src="{{imagedata1}}" ng-show="imagedata1">
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <div style="width:118px; margin:0 auto;">
+
+            <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop123()" data-original-title="" style="width:116px; margin:4px;">Crop & Save</a>
+
+            <!--<a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="" style="width:62px; margin:4px;">Close</a>-->
+
+        </div>
+
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="mymodal1">
+
+    <div class="modal-header">
+
+        <a class="close" ng-click="modalClose()">&times;</a>
+
+        <h4>&nbsp;</h4>
+
+    </div>
+
+    <div class="modal-body">
+
+        <div ng-show="pLoad">Loading Image...<img src="images/ajax_loading.gif" ></div>
+
+        <div class="image-editor1">
+
+            <div style="overflow:hidden; width:796px; margin:0 auto;">
+
+                <div class="cropit-image-preview-container">
+
+                    <div class="cropit-image-preview"  ng-mousemove="changepreview1()"></div>
+
+                </div>
+
+            </div>
+
+            <div style="margin-top:20px;">
+
+                <input type="range" class="cropit-image-zoom-input"  name="range1" ng-model="range1" ng-change="changepreview1()">
+
+            </div>
+
+        </div>
+
+        <div style="overflow:hidden; margin:10px auto; margin-top:14px; display:block; width:391px;">
+
+            <img style="width: 100%;" src="{{imagedata2}}" ng-show="imagedata2">
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <div style="width:118px; margin:0 auto;">
+
+            <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop1()" data-original-title="" style="width:116px; margin:4px;">Crop & Save</a>
+
+            <!--<a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="" style="width:62px; margin:4px;">Close</a>-->
+
+        </div>
+
+    </div>
+
+</script>
+
+
+
+<script type="text/ng-template" id="privacymodal">
+
+    <div class="modal-header">
+
+        <a class="close" ng-click="modalClose()">&times;</a>
+
+        <h4>Privacy Settings</h4>
+
+    </div>
+
+    <div class="modal-body" style="text-align: center; min-height: 130px;">
+
+        <div style="text-align:center; display: inline; position: relative;">
+
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none; outline:none;">
+
+                <span ng-show="privacy==1"><img src="images/share1_icon_active.png" style="width:18px; margin-top:-2px;"><span>Public</span></span>
+
+                <span ng-show="privacy==2"><img src="images/share2_icon_active.png" style="width:15px; margin-top:0px;"><span>Friends</span></span>
+
+                <span ng-show="privacy==3"><img src="images/share3_icon_active.png" style="width:18px; margin-top:0px;"><span>Friends Of Friends</span></span>
+
+                <span ng-show="privacy==4"><img src="images/share4_icon_active.png" style="width:12px; margin-top:0px;"><span>Private Me Only</span></span>
+
+                <span><img src="images/ad2new.png" style="padding-left:4px;"></span>
+
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu_share">
+
+                <li class="share1"><a href="javascript:void(0)" style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(1)" ng-class="(item.share_with==1) ? 'active' : ''"><span>Public</span></a></li>
+
+                <li class="share2"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(2)" ng-class="(item.share_with==2) ? 'active' : ''"><span>Friends</span></a></li>
+
+                <li class="share3"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(3)" ng-class="(item.share_with==3) ? 'active' : ''"><span>Friends Of Friends</span></a></li>
+
+                <li class="share4"><a href="javascript:void(0)"  style="font-size:10px!important; text-transform:uppercase; font-weight:normal!important;"  ng-click="changeuserprivacy(4)" ng-class="(item.share_with==4) ? 'active' : ''"><span>Private Me Only</span></a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</script>
+
+
+

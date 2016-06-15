@@ -3,12 +3,9 @@
 /* App Module */
 var homeControllers1 = angular.module('torqdTest', ['ui.router','angularHighlightTextarea','angularValidator','ngDialog','ngCookies','ngFileUpload','ngAnimate', 'ngTouch','uiGmapgoogle-maps','ngSanitize','com.2fdevs.videogular','youtube-embed','highcharts-ng','shoppinpal.mobile-menu','ui.bootstrap','colorpicker.module', 'wysiwyg.module','readMore','ngFacebook','ImageCropper','widget.scrollbar','textAngular','angularLazyImg','ngTagsInput','ngEmoticons','angular.filter','myApp.services']);
 
-//var homeControllers2 = angular.module('torqdTest', ['ui.router','angularHighlightTextarea','angularValidator','ngDialog','ngCookies','ngFileUpload','ngAnimate', 'ngTouch','ngSanitize','com.2fdevs.videogular','youtube-embed','highcharts-ng','shoppinpal.mobile-menu','ui.bootstrap','colorpicker.module', 'wysiwyg.module','readMore','ImageCropper','widget.scrollbar','textAngular','angularLazyImg','ngTagsInput','ngEmoticons','angular.filter']);
-
-
 
 homeControllers1.config(['$facebookProvider', function($facebookProvider) {
-    $facebookProvider.setAppId('434078603403320').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('821649631217712').setPermissions(['email','user_friends']);
 }]);
 
 homeControllers1.run(['$rootScope', '$window','$state', function($rootScope, $window,$state) {
@@ -28,13 +25,6 @@ homeControllers1.run(['$rootScope', '$window','$state', function($rootScope, $wi
 }]);
 
 homeControllers1.run(['$rootScope', '$state','$cookieStore','$q','$http','$window','$timeout',function($rootScope, $state,$cookieStore,$q,$http,$window,$timeout){
-
-    /*$rootScope.$on('$stateChangeStart',function(){
-        $rootScope.stateIsLoading = true;
-        var canceler = $q.defer();
-        canceler.resolve();
-        canceler.reject();
-    });*/
 
     $rootScope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
 
@@ -71,43 +61,25 @@ homeControllers1.run(['$rootScope', '$state','$cookieStore','$q','$http','$windo
     $rootScope.$on('$stateChangeSuccess',function(ev, to, toParams, from, fromParams){
         $rootScope.stateIsLoading = false;
 
-
-        /*if($state.current.name == 'profile1'){
-            $timeout(function(){
-                $rootScope.mapcommonfunc();
-            },500);
-
-            console.log('staechange success');
-        }*/
-
-
-        /*if(to.name == 'groupdetail' && from.name == 'groupdetail1'){
-            console.log('g :'+to.name);
-            console.log('g :'+from.name);
-            $window.history.back();
-        }
-
-        if(to.name == 'profile' && from.name == 'profile1'){
-            console.log('p :'+to.name);
-            console.log('p :'+from.name);
-            $window.history.back();
-        }
-
-        if(to.name == 'eventdetails' && from.name == 'eventdetails1'){
-            $window.history.back();
-        }*/
-
         if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
             $rootScope.dfgdf = $cookieStore.get('rootuserdet');
             angular.element( document.querySelector( '#c_current_user' ) ).val($rootScope.dfgdf.id);
+
+            $http({
+                method: 'POST',
+                async:   false,
+                url: 'http://torqkd.com/user/ajs1/useractive',
+                data    : $.param({'userid':$rootScope.dfgdf.id}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).success(function (result) {
+            });
+
+
         }else{
             angular.element( document.querySelector( '#c_current_user' ) ).val(0);
         }
 
     });
-
-
-
 
 
 }]);
@@ -1427,6 +1399,19 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
     });
 });
 
+homeControllers1.directive('imageonload', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            scope.imgageLoadf = 0;
+            element.bind('load', function() {
+                scope.imgageLoadf = 1;
+                console.log('Image load');
+            });
+        }
+    };
+});
+
 homeControllers1.config(["$provide", function ($provide) {
 
     $provide.decorator('$http', ["$delegate", "$q", function ($delegate, $q) {
@@ -1558,18 +1543,7 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
     $timeout(function(){
         $scope.openchatbox1();
-     //   //$scope.openchatbox2();
-     //  // $scope.getMsgListRec();
-     //  // $scope.getNotListRec();
-
-
-
-
         $scope.getchatnotcommonrec();
-
-
-
-
     },10000);
 
     $rootScope.openChatbox = function(uid){
@@ -1598,48 +1572,16 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
                 }
             });
 
+        }).error(function (result) {
+            $scope.openChatbox();
         });
 
     }
 
-    /*$scope.openchatbox2 = function() {
-        if(typeof($cookieStore.get('activeChat')) != 'undefined' && $rootScope.rootsessUser123 > 0){
-            var arr3 = $cookieStore.get('activeChat');
-            if(arr3.length > 0){
-                $http({
-                    method: 'POST',
-                    async:   false,
-                    url: $scope.baseUrl+'/user/ajs1/open_chatbox',
-                    data    : $.param({'cid':$rootScope.rootsessUser123,'uids':$cookieStore.get('activeChat')}),
-                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                }).success(function (result) {
-                    angular.forEach(result,function(value,key){
-                        angular.forEach($rootScope.activeChatUsers,function(value1,key1){
-                            if(value1.id == value.id){
-                                value1.msgarr = value.msgarr;
-                            }
-                        });
-                    }).error(function (result) {
-                        $scope.openchatbox2();
-                    });
-                });
-            }else{
-                $scope.openchatbox2();
-            }
-        }else{
-            $scope.openchatbox2();
-        }
-    };*/
+
 
 
     $scope.openchatbox1 = function(){
-/*        angular.forEach($http.pendingRequests, function(request) {
-            if(request.url == $scope.baseUrl+'/user/ajs1/open_chatbox1'){
-                $http.abort(request);
-            }
-        });
-*/
-
 
         var d = new Date();
         var n = d.getTime();
@@ -1790,70 +1732,6 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
 
 
-    /*$interval(function(){
-        if($rootScope.rootsessUser123 > 0){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/open_chatbox1',
-                data    : $.param({'cid':$rootScope.rootsessUser123}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                if(result.length > 0){
-
-                    if(typeof($cookieStore.get('activeChat')) != 'undefined'){
-                        var arr3 = $cookieStore.get('activeChat');
-                        for(n in result){
-                            if(arr3.indexOf(result[n]) == -1){
-                                arr3.push(result[n]);
-                            }
-                        }
-                        $cookieStore.put('activeChat',arr3);
-
-                    }else{
-                        var arr3 = [];
-                        for(n in result){
-                            arr3.push(result[n]);
-                        }
-                        $cookieStore.put('activeChat',arr3);
-                    }
-
-                    $http({
-                        method: 'POST',
-                        async:   false,
-                        url: $scope.baseUrl+'/user/ajs1/open_chatbox',
-                        data    : $.param({'cid':$rootScope.rootsessUser123,'uids':$cookieStore.get('activeChat')}),
-                        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                    }).success(function (result) {
-                        //$rootScope.activeChatUsers = result;
-                        console.log($rootScope.currentChatUser);
-                        if(typeof($rootScope.activeChatUsers) != 'undefined' && $rootScope.activeChatUsers.length > 0){
-                            angular.forEach(result,function(value,key){
-                                if($rootScope.currentChatUser.indexOf(value.id) == -1){
-                                    $rootScope.activeChatUsers.push(value);
-                                    $rootScope.currentChatUser.push(value.id)
-                                }else{
-                                    //console.log(value.msgarr);
-                                    angular.forEach($rootScope.activeChatUsers,function(value1,key1){
-                                        if(value1.id == value.id){
-                                            console.log(1);
-                                            value1.msgarr = value.msgarr;
-                                        }
-                                    });
-                                }
-                            });
-                        }else{
-                            $rootScope.activeChatUsers = result;
-                            angular.forEach(result,function(value,key){
-                                 $rootScope.currentChatUser.push(value.id)
-                            });
-                        }
-                    });
-
-                }
-            });
-        }
-    },5000);*/
 
     $rootScope.closeChatBox = function(item){
         var arr3 = $cookieStore.get('activeChat');
@@ -1885,6 +1763,8 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             item.thtml = result;
+        }).error(function (result) {
+            $rootScope.turnOff(item);
         });
     }
 
@@ -1906,9 +1786,8 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
                     $('#chatdiv000'+item.id).html('');
                     $('#chatEmodiv'+item.id).hide();
-
-                //    $scope.openchatbox1();
-
+                }).error(function (result) {
+                    $rootScope.sendMsg(event,item);
                 });
             }
         }
@@ -1923,8 +1802,8 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
 
-          //  $scope.openchatbox1();
-
+        }).error(function (result) {
+            $rootScope.textArfocus(item);
         });
     }
 
@@ -1938,6 +1817,8 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
         }).success(function (result) {
             item.is_read = result;
             $rootScope.unReadMsg = $rootScope.unReadMsg - 1;
+        }).error(function (result) {
+            $rootScope.markasroad(item);
         });
     }
 
@@ -2044,6 +1925,8 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
             item.is_read1 = result;
             if($rootScope.unReadNot > 0)
                 $rootScope.unReadNot = $rootScope.unReadNot - 1;
+        }).error(function (result) {
+            $rootScope.markasreadnot(item);
         });
     }
 
@@ -2060,19 +1943,6 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
     }
 
     $rootScope.chatemoinsert = function(item,emoitem){
-        /*var emoval = ':'+emoitem+':';
-
-        $http({
-            method: 'POST',
-            async:   false,
-            url: $scope.baseUrl+'/user/ajs1/send_msg',
-            data    : $.param({'cid':$rootScope.rootsessUser123,'uid':item.id,msg:emoval}),
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        }).success(function (result) {
-            item.msgarr.push(result);
-
-            $scope.openchatbox1();
-        });*/
 
         var emoval = '<input title="'+emoitem+'" style="border:none; margin-left: 3px; margin-right: 3px;" class="emoticon emoticon-'+emoitem+'" />';
 
@@ -2187,17 +2057,6 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 })
 
 homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
@@ -2285,213 +2144,22 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         $rootScope.tabBodyLoad = true;
         $rootScope.currentTab = tab.url;
         if(tab.url == 'social.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStatus',
-                data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.statusList = result.status;
-                //$rootScope.statusList=$rootScope.statusList.concat(result.status);
-
-                angular.forEach($rootScope.statusList, function(item, key) {
-                    var itemcomlist = item.comment;
-                    itemcomlist = itemcomlist.slice(-5);
-                    item.commentSliceList = itemcomlist;
-                });
-
-                if(result.totalCount > $rootScope.statusList.length){
-                    $rootScope.viewMore = 1;
-                    $rootScope.offset = 5;
-                }
-                $rootScope.tabBodyLoad = false;
-
-
-                /*$timeout(function(){
-                    $('.commentArea12').highlightTextarea({
-                        words:[]
-                    });
-                },5000);*/
-
-                setTimeout(function(){
-                    $('.extracted_url2').css('cursor','pointer');
-                    $('.extracted_url2').on('click',function(){
-                        var targeturl = $(this).find('a').attr('href');
-                        window.open(targeturl);
-                    })
-                },2000);
-
-
-            });
+            $scope.getStatus();
         }
         if(tab.url == 'events.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getEvents',
-                data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.eventList = result.event;
-                if(result.totalCount > $rootScope.eventList.length){
-                    $rootScope.viewMore = 1;
-                    $rootScope.offset = 5;
-                }
-                $rootScope.tabBodyLoad = false;
-            });
+            $scope.getEvent();
         }
         if(tab.url == 'groups.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getGroups',
-                data    : $.param({'userid':$scope.currentUser}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.groupList = result;
-                $rootScope.tabBodyLoad = false;
-
-
-                //console.log(result.length);
-                if(result.length == 0){
-                    $rootScope.sugGroup();
-                }
-
-
-
-            });
+            $scope.getGroup();
         }
         if(tab.url == 'stats.tpl.html'){
             $rootScope.highchartsNG = [];
             $rootScope.chartdata = [];
 
             if($scope.currentUser == 0){
-                $http({
-                    method: 'POST',
-                    async:   false,
-                    url: $scope.baseUrl+'/user/ajs1/getStat',
-                    //data    : $.param({'userid':$stateParams.userId}),
-                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                }).success(function (result) {
-                    $scope.stats = result;
-
-                    angular.forEach($scope.stats, function(val, key) {
-                        var highchartsNG = {
-                            options: {
-                                chart: {
-                                    type: 'line'
-                                }
-                            },
-                            series: [{
-                                data: val.data,
-                                name : '<div style="color:#555555;">Month</div>',
-                                color : '#F79213'
-                            }],
-                            title: {
-                                text: '<div style="color:#555555;">Last 6 Months</div>'
-                            },
-                            loading: false,
-
-                            xAxis: {
-                                categories: val.mon
-                            },
-
-                            yAxis : {
-                                title: {
-                                    text :  '<div style="color:#555555;">Activity</div>',
-                                }
-                            },
-
-                            tooltip : {
-                                valueSuffix : ''
-                            },
-                        }
-
-                        var chartdata = {
-                            sports_id : val.sports_id,
-                            sport_name : val.sport_name,
-                            imag_name : val.imag_name,
-                            activity_no : val.activity_no,
-                            total_dis : val.total_dis,
-                            total_time : val.total_time,
-                            statDet : val.statDet,
-                        }
-
-
-
-                        $rootScope.highchartsNG.push(highchartsNG);
-                        $rootScope.chartdata.push(chartdata);
-                    });
-                    $rootScope.tabBodyLoad = false;
-
-                });
-
+                $scope.getStat();
             }else{
-                $http({
-                    method: 'POST',
-                    async:   false,
-                    url: $scope.baseUrl+'/user/ajs1/getUserStat',
-                    data    : $.param({'userid':$stateParams.userId}),
-                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                }).success(function (result) {
-                    $scope.stats = result;
-
-
-                    //console.log($scope.stats.length);
-
-                    angular.forEach($scope.stats, function(val, key) {
-                        var highchartsNG = {
-                            options: {
-                                chart: {
-                                    type: 'line'
-                                }
-                            },
-                            series: [{
-                                data: val.data,
-                                name : '<div style="color:#555555;">Month</div>',
-                                color : '#F79213'
-                            }],
-                            title: {
-                                text: '<div style="color:#555555;">Last 6 Months</div>'
-                            },
-                            loading: false,
-
-                            xAxis: {
-                                categories: val.mon
-                            },
-
-                            yAxis : {
-                                title: {
-                                    text :  '<div style="color:#555555;">Activity</div>',
-                                }
-                            },
-
-                            tooltip : {
-                                valueSuffix : ''
-                            },
-                        }
-
-                        var chartdata = {
-                            sports_id : val.sports_id,
-                            sport_name : val.sport_name,
-                            imag_name : val.imag_name,
-                            activity_no : val.activity_no,
-                            total_dis : val.total_dis,
-                            total_time : val.total_time,
-                            statDet : val.statDet,
-                        }
-
-
-
-                        $rootScope.highchartsNG.push(highchartsNG);
-                        $rootScope.chartdata.push(chartdata);
-                    });
-
-                    $rootScope.tabBodyLoad = false;
-
-                });
-
+                $scope.getUserStat();
             }
 
 
@@ -2499,62 +2167,223 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
     }
 
     $rootScope.tabBodyLoad = true;
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getStatus',
-        data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.statusList = result.status;
-        //$rootScope.statusList=$rootScope.statusList.concat(result.status);
-
-        angular.forEach($rootScope.statusList, function(item, key) {
-            var itemcomlist = item.comment;
-            itemcomlist = itemcomlist.slice(-5);
-            item.commentSliceList = itemcomlist;
-        });
-
-        if(result.totalCount > $rootScope.statusList.length){
-            $rootScope.viewMore = 1;
-            $rootScope.offset = 5;
-        }
-        $rootScope.tabBodyLoad = false;
+    $timeout(function(){
+        $scope.getStatus();
+    },500);
 
 
-
-
-        setTimeout(function(){
-            $('.extracted_url2').css('cursor','pointer');
-            $('.extracted_url2').on('click',function(){
-                var targeturl = $(this).find('a').attr('href');
-                window.open(targeturl);
-            });
-
-
-            $('.socialimg254').find('img').one("load", function() {
-
-             //   $(this).parent().removeAttr('style');
-
-/*
-
-                var imgh = $(this).height();
-                var imgw = $(this).width();
-
-                $(this).attr('width',imgw);
-                $(this).attr('height',imgh);
-*/
-            });
-
-
-
-
-        },2000);
-
-    });
 
     $rootScope.isActiveTab = function(tabUrl) {
         return tabUrl == $rootScope.currentTab;
+    }
+
+    $scope.getStatus = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStatus',
+            data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.statusList = result.status;
+
+            angular.forEach($rootScope.statusList, function(item, key) {
+                var itemcomlist = item.comment;
+                itemcomlist = itemcomlist.slice(-5);
+                item.commentSliceList = itemcomlist;
+            });
+
+            if(result.totalCount > $rootScope.statusList.length){
+                $rootScope.viewMore = 1;
+                $rootScope.offset = 5;
+            }
+            $rootScope.tabBodyLoad = false;
+
+
+
+
+            setTimeout(function(){
+                $('.extracted_url2').css('cursor','pointer');
+                $('.extracted_url2').on('click',function(){
+                    var targeturl = $(this).find('a').attr('href');
+                    window.open(targeturl);
+                });
+
+
+            },2000);
+
+        }).error(function (result) {
+            $scope.getStatus();
+        });
+    }
+
+    $scope.getEvent = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getEvents',
+            data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.eventList = result.event;
+            if(result.totalCount > $rootScope.eventList.length){
+                $rootScope.viewMore = 1;
+                $rootScope.offset = 5;
+            }
+            $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $scope.getEvent();
+        });
+    }
+
+    $scope.getGroup = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getGroups',
+            data    : $.param({'userid':$scope.currentUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.groupList = result;
+            $rootScope.tabBodyLoad = false;
+
+            if(result.length == 0){
+                $rootScope.sugGroup();
+            }
+        }).error(function (result) {
+            $scope.getGroup();
+        });
+
+    }
+
+    $scope.getStat = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStat',
+            //data    : $.param({'userid':$stateParams.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.stats = result;
+
+            angular.forEach($scope.stats, function(val, key) {
+                var highchartsNG = {
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    },
+                    series: [{
+                        data: val.data,
+                        name : '<div style="color:#555555;">Month</div>',
+                        color : '#F79213'
+                    }],
+                    title: {
+                        text: '<div style="color:#555555;">Last 6 Months</div>'
+                    },
+                    loading: false,
+
+                    xAxis: {
+                        categories: val.mon
+                    },
+
+                    yAxis : {
+                        title: {
+                            text :  '<div style="color:#555555;">Activity</div>',
+                        }
+                    },
+
+                    tooltip : {
+                        valueSuffix : ''
+                    },
+                }
+
+                var chartdata = {
+                    sports_id : val.sports_id,
+                    sport_name : val.sport_name,
+                    imag_name : val.imag_name,
+                    activity_no : val.activity_no,
+                    total_dis : val.total_dis,
+                    total_time : val.total_time,
+                    statDet : val.statDet,
+                }
+
+
+
+                $rootScope.highchartsNG.push(highchartsNG);
+                $rootScope.chartdata.push(chartdata);
+            });
+            $rootScope.tabBodyLoad = false;
+
+        }).error(function (result) {
+            $scope.getStat();
+        });
+    }
+
+    $scope.getUserStat = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getUserStat',
+            data    : $.param({'userid':$stateParams.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.stats = result;
+
+            angular.forEach($scope.stats, function(val, key) {
+                var highchartsNG = {
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    },
+                    series: [{
+                        data: val.data,
+                        name : '<div style="color:#555555;">Month</div>',
+                        color : '#F79213'
+                    }],
+                    title: {
+                        text: '<div style="color:#555555;">Last 6 Months</div>'
+                    },
+                    loading: false,
+
+                    xAxis: {
+                        categories: val.mon
+                    },
+
+                    yAxis : {
+                        title: {
+                            text :  '<div style="color:#555555;">Activity</div>',
+                        }
+                    },
+
+                    tooltip : {
+                        valueSuffix : ''
+                    },
+                }
+
+                var chartdata = {
+                    sports_id : val.sports_id,
+                    sport_name : val.sport_name,
+                    imag_name : val.imag_name,
+                    activity_no : val.activity_no,
+                    total_dis : val.total_dis,
+                    total_time : val.total_time,
+                    statDet : val.statDet,
+                }
+
+
+
+                $rootScope.highchartsNG.push(highchartsNG);
+                $rootScope.chartdata.push(chartdata);
+            });
+
+            $rootScope.tabBodyLoad = false;
+
+        }).error(function (result) {
+            $scope.getUserStat();
+        });
+
     }
 
     $rootScope.viewMoreStatus = function(){
@@ -2581,12 +2410,6 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 $rootScope.offset = $rootScope.offset+5;
             }
 
-            /*$timeout(function(){
-                $('.commentArea12').highlightTextarea({
-                    words:[]
-                });
-            },5000);*/
-
             setTimeout(function(){
                 $('.extracted_url2').css('cursor','pointer');
                 $('.extracted_url2').on('click',function(){
@@ -2595,10 +2418,10 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 })
             },2000);
 
+        }).error(function (result) {
+            $rootScope.viewMoreStatus();
         });
     }
-
-
 
     $rootScope.viewMoreEvent = function(){
         $rootScope.viewMoreLoad = 1;
@@ -2616,6 +2439,8 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 $rootScope.viewMore = 1;
                 $rootScope.offset = $rootScope.offset+5;
             }
+        }).error(function (result) {
+            $rootScope.viewMoreEvent();
         });
     }
 
@@ -2631,6 +2456,8 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         }).success(function (result) {
             $rootScope.groupList = result;
             $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $rootScope.sugGroup();
         });
     }
 
@@ -2645,11 +2472,12 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         }).success(function (result) {
             $rootScope.groupList = result;
             $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $rootScope.locGroup();
         });
     }
 
     $rootScope.viewStatDet = function(index){
-        //$scope.statDet = obj;
         $rootScope.statDet1 = $rootScope.chartdata[index].statDet;
         ngDialog.open({
             template: 'statdet12',
@@ -2737,24 +2565,9 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                     $('#commentdiv000'+item.id).html('');
                     $('#emojisdiv'+item.id).hide();
 
-                    //var target = event.target || event.srcElement || event.originalTarget;
-                    //target.style.setProperty ("height", '35px', "important");
-
-//                    $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').find('span').html('');
+                }).error(function (result) {
+                    $rootScope.postComment(event,item);
                 });
-                /*}else{
-
-                 $scope.Commentmsg = ngDialog.open({
-                 template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                 plain:true,
-                 showClose:false,
-                 closeByDocument: true,
-                 closeByEscape: true
-                 });
-
-                 $timeout(function(){
-                 $scope.Commentmsg.close();
-                 },3000);*/
             }
         }
     }
@@ -2788,25 +2601,9 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
                     $('#commentdiv111').html('');
                     $('#showemojisdiv445').hide();
-
-                    //var target = event.target || event.srcElement || event.originalTarget;
-                    //target.style.setProperty ("height", '35px', "important");
-
-//                    $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').find('span').html('');
+                }).error(function (result) {
+                    $rootScope.postComment1222(event,item);
                 });
-                /*}else{
-
-                 $scope.Commentmsg = ngDialog.open({
-                 template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                 plain:true,
-                 showClose:false,
-                 closeByDocument: true,
-                 closeByEscape: true
-                 });
-
-                 $timeout(function(){
-                 $scope.Commentmsg.close();
-                 },3000);*/
             }
         }
     }
@@ -2836,6 +2633,9 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         }).success(function (result) {
             $rootScope.statusList.splice(index,1);
             $rootScope.offset = $rootScope.offset-1;
+
+        }).error(function (result) {
+            $scope.delConfirm(index);
         });
     }
 
@@ -2864,6 +2664,8 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         }).success(function (result) {
             $rootScope.statusList[index].comment.splice(index1,1);
             $rootScope.statusList[index].comment_no = $scope.statusList[index].comment_no -1;
+        }).error(function (result) {
+            $scope.delConfirm1(index,index1);
         });
     }
 
@@ -3384,20 +3186,9 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
             }).success(function (result) {
                 item.commentList.push(result);
                 item.pstval = '';
+            }).error(function (result) {
+                $rootScope.postComment1(item);
             });
-       /* }else{
-
-            $scope.Commentmsg = ngDialog.open({
-                template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                plain:true,
-                showClose:false,
-                closeByDocument: true,
-                closeByEscape: true
-            });
-
-            $timeout(function(){
-                $scope.Commentmsg.close();
-            },3000);*/
         }
     };
 
@@ -3406,26 +3197,6 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
     $rootScope.emojisArr = ["bowtie","smile","laughing","blush","smiley","relaxed","smirk","heart_eyes","kissing_heart","kissing_closed_eyes","flushed","relieved","satisfied","grin","wink","stuck_out_tongue_winking_eye","stuck_out_tongue_closed_eyes","grinning","kissing","winky_face","kissing_smiling_eyes","stuck_out_tongue","sleeping","worried","frowning","anguished","open_mouth","grimacing","confused","hushed","expressionless","unamused","sweat_smile","sweat","wow","disappointed_relieved","weary","pensive","disappointed","confounded","fearful","cold_sweat","persevere","cry","sob","joy","astonished","scream","neckbeard","tired_face","angry","rage","triumph","sleepy","yum","mask","sunglasses","dizzy_face","imp","neutral_face","no_mouth","innocent","alien","yellow_heart","blue_heart","purple_heart","heart","green_heart","broken_heart","heartbeat","heartpulse","two_hearts","revolving_hearts","cupid","sparkling_heart","sparkles","star","star2","dizzy","boom","anger","exclamation","question","grey_exclamation","grey_question","zzz","dash","sweat_drops","notes","musical_note","fire","hankey","thumbsup","thumbsdown","ok_hand","punch","fist","v","wave","hand","open_hands","point_up","point_down","point_left","point_right","raised_hands","pray","point_up_2","clap","muscle","metal","fu","walking","runner","couple","family","two_men_holding_hands","two_women_holding_hands","dancer","dancers","ok_woman","no_good","information_desk_person","raising_hand","bride_with_veil","person_with_pouting_face","person_frowning","bow","couplekiss","couple_with_heart","massage","haircut","nail_care","boy","girl","woman","man","baby","older_woman","older_man","person_with_blond_hair","man_with_gua_pi_mao","man_with_turban","construction_worker","cop","angel","princess","smiley_cat","smile_cat","heart_eyes_cat","kissing_cat","smirk_cat","scream_cat","crying_cat_face","joy_cat","pouting_cat","japanese_ogre","japanese_goblin","see_no_evil","hear_no_evil","speak_no_evil","guardsman","skull","feet","lips","kiss","droplet","ear","eyes","nose","tongue","love_letter","bust_in_silhouette","busts_in_silhouette","speech_balloon","thought_balloon","feelsgood","finnadie","goberserk","godmode","hurtrealbad","rage1","rage2","rage3","rage4","suspect","trollface","sunny","umbrella","cloud","snowflake","snowman","zap","cyclone","foggy","ocean","cat","dog","mouse","hamster","rabbit","wolf","frog","tiger","koala","bear","pig","pig_nose","cow","boar","monkey_face","monkey","horse","racehorse","camel","sheep","elephant","panda_face","snake","bird","baby_chick","hatched_chick","hatching_chick","chicken","penguin","turtle","bug","honeybee","ant","beetle","snail","octopus","tropical_fish","fish","whale","whale2","dolphin","cow2","ram","rat","water_buffalo","tiger2","rabbit2","dragon","goat","rooster","dog2","pig2","mouse2","ox","dragon_face","blowfish","crocodile","dromedary_camel","leopard","cat2","poodle","paw_prints","bouquet","cherry_blossom","tulip","four_leaf_clover","rose","sunflower","hibiscus","maple_leaf","leaves","fallen_leaf","herb","mushroom","cactus","palm_tree","evergreen_tree","deciduous_tree","chestnut","seedling","blossom","ear_of_rice","shell","globe_with_meridians","sun_with_face","full_moon_with_face","new_moon_with_face","new_moon","waxing_crescent_moon","first_quarter_moon","waxing_gibbous_moon","full_moon","waning_gibbous_moon","last_quarter_moon","waning_crescent_moon","last_quarter_moon_with_face","first_quarter_moon_with_face","moon","earth_africa","earth_americas","earth_asia","volcano","milky_way","partly_sunny","octocat","squirrel","bamboo","gift_heart","dolls","school_satchel","mortar_board","flags","fireworks","sparkler","wind_chime","rice_scene","jack_o_lantern","ghost","santa","christmas_tree","gift","bell","no_bell","tanabata_tree","tada","confetti_ball","balloon","crystal_ball","cd","dvd","floppy_disk","camera","video_camera","movie_camera","computer","tv","iphone","phone","telephone_receiver","pager","fax","minidisc","vhs","sound","mute","loudspeaker","mega","hourglass","hourglass_flowing_sand","alarm_clock","watch","radio","satellite","loop","mag","mag_right","unlock","lock","lock_with_ink_pen","closed_lock_with_key","key","bulb","flashlight","high_brightness","low_brightness","electric_plug","battery","calling","email","mailbox","postbox","bath","bathtub","shower","toilet","wrench","nut_and_bolt","hammer","seat","moneybag","yen","dollar","pound","euro","credit_card","money_with_wings","e-mail","inbox_tray","outbox_tray","envelope","incoming_envelope","postal_horn","mailbox_closed","mailbox_with_mail","mailbox_with_no_mail","door","smoking","bomb","gun","hocho","pill","syringe","page_facing_up","page_with_curl","bookmark_tabs","bar_chart","chart_with_upwards_trend","chart_with_downwards_trend","scroll","clipboard","calendar","date","card_index","file_folder","open_file_folder","scissors","pushpin","paperclip","black_nib","pencil2","straight_ruler","triangular_ruler","closed_book","green_book","blue_book","orange_book","notebook","notebook_with_decorative_cover","ledger","books","bookmark","name_badge","microscope","telescope","newspaper","football","basketball","soccer","baseball","tennis","8ball","rugby_football","bowling","golf","mountain_bicyclist","bicyclist","horse_racing","snowboarder","swimmer","surfer","ski","spades","hearts","clubs","diamonds","gem","ring","trophy","musical_score","musical_keyboard","violin","space_invader","video_game","black_joker","flower_playing_cards","game_die","dart","mahjong","clapper","memo","pencil","book","art","microphone","headphones","trumpet","saxophone","guitar","shoe","sandal","high_heel","lipstick","boot","shirt","necktie","womans_clothes","dress","running_shirt_with_sash","jeans","kimono","bikini","ribbon","tophat","crown","womans_hat","mans_shoe","closed_umbrella","briefcase","handbag","pouch","purse","eyeglasses","fishing_pole_and_fish","coffee","tea","sake","baby_bottle","beer","beers","cocktail","tropical_drink","wine_glass","fork_and_knife","pizza","hamburger","fries","poultry_leg","meat_on_bone","spaghetti","curry","fried_shrimp","bento","sushi","fish_cake","rice_ball","rice_cracker","rice","ramen","stew","oden","dango","egg","bread","doughnut","custard","icecream","ice_cream","shaved_ice","birthday","cake","cookie","chocolate_bar","candy","lollipop","honey_pot","apple","green_apple","tangerine","lemon","cherries","grapes","watermelon","strawberry","peach","melon","banana","pear","pineapple","sweet_potato","eggplant","tomato","corn","house","house_with_garden","school","office","post_office","hospital","bank","convenience_store","love_hotel","hotel","wedding","church","department_store","european_post_office","city_sunrise","city_sunset","japanese_castle","european_castle","tent","factory","tokyo_tower","japan","mount_fuji","sunrise_over_mountains","sunrise","stars","statue_of_liberty","bridge_at_night","carousel_horse","rainbow","ferris_wheel","fountain","roller_coaster","ship","speedboat","boat","rowboat","anchor","rocket","airplane","helicopter","steam_locomotive","tram","mountain_railway","bike","aerial_tramway","suspension_railway","mountain_cableway","tractor","blue_car","oncoming_automobile","car","red_car","taxi","oncoming_taxi","articulated_lorry","bus","oncoming_bus","rotating_light","police_car","oncoming_police_car","fire_engine","ambulance","minibus","truck","train","station","train2","bullettrain_side","light_rail","monorail","railway_car","trolleybus","ticket","fuelpump","vertical_traffic_light","traffic_light","warning","construction","beginner","atm","slot_machine","busstop","barber","hotsprings","checkered_flag","crossed_flags","izakaya_lantern","moyai","circus_tent","performing_arts","round_pushpin","triangular_flag_on_post","jp","kr","cn","us","fr","es","it","ru","uk","de","one","two","three","four","five","six","seven","eight","nine","keycap_ten","1234","zero","hash","symbols","arrow_backward","arrow_down","arrow_forward","arrow_left","capital_abcd","abcd","abc","arrow_lower_left","arrow_lower_right","arrow_right","arrow_up","arrow_upper_left","arrow_upper_right","arrow_double_down","arrow_double_up","arrow_down_small","arrow_heading_down","arrow_heading_up","leftwards_arrow_with_hook","arrow_right_hook","left_right_arrow","arrow_up_down","arrow_up_small","arrows_clockwise","arrows_counterclockwise","rewind","fast_forward","information_source","ok","twisted_rightwards_arrows","repeat","repeat_one","new","top","up","cool","free","ng","cinema","koko","signal_strength","u5272","u5408","u55b6","u6307","u6708","u6709","u6e80","u7121","u7533","u7a7a","u7981","sa","restroom","mens","womens","baby_symbol","no_smoking","parking","wheelchair","metro","baggage_claim","accept","wc","potable_water","put_litter_in_its_place","secret","congratulations","m","passport_control","left_luggage","customs","ideograph_advantage","cl","sos","id","no_entry_sign","underage","no_mobile_phones","do_not_litter","non-potable_water","no_bicycles","no_pedestrians","children_crossing","no_entry","eight_spoked_asterisk","eight_pointed_black_star","heart_decoration","vs","vibration_mode","mobile_phone_off","chart","currency_exchange","aries","taurus","gemini","cancer","leo","virgo","libra","scorpius","sagittarius","capricorn","aquarius","pisces","ophiuchus","six_pointed_star","negative_squared_cross_mark","a","b","ab","o2","diamond_shape_with_a_dot_inside","recycle","end","on","soon","clock1","clock130","clock10","clock1030","clock11","clock1130","clock12","clock1230","clock2","clock230","clock3","clock330","clock4","clock430","clock5","clock530","clock6","clock630","clock7","clock730","clock8","clock830","clock9","clock930","heavy_dollar_sign","copyright","registered","tm","x","heavy_exclamation_mark","bangbang","interrobang","o","heavy_multiplication_x","heavy_plus_sign","heavy_minus_sign","heavy_division_sign","white_flower","100","heavy_check_mark","ballot_box_with_check","radio_button","link","curly_loop","wavy_dash","part_alternation_mark","trident","black_square","white_square","white_check_mark","black_square_button","white_square_button","black_circle","white_circle","red_circle","large_blue_circle","large_blue_diamond","large_orange_diamond","small_blue_diamond","small_orange_diamond","small_red_triangle","small_red_triangle_down","shipit"];
 
     $rootScope.setcommentval = function(event,item) {
-        /*console.log(event);
-        if(event.keyCode == 13 || event.keyCode == 8 || (event.keyCode >= 48 && event.keyCode <= 90) || (event.keyCode >= 96 && event.keyCode <= 111) || event.keyCode == 173 || (event.keyCode >= 186 && event.keyCode <= 222) ){
-            var cval = event.key;
-            if(event.keyCode == 13)
-                var cval = '<br>';
-            if(event.keyCode == 8){
-                var str = item.commpostval;
-                if (typeof (item.commpostval) != 'undefined' && str.length > 1){
-                    item.commpostval = str.slice(0, -1);
-                }
-            }else{
-                if (typeof (item.commpostval) != 'undefined')
-                    item.commpostval = item.commpostval + cval;
-                else
-                    item.commpostval = cval;
-            }
-        }*/
-
-
-
         var target = event.target || event.srcElement || event.originalTarget;
 
         item.commpostval = target.innerHTML;
@@ -3442,51 +3213,6 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
         $('#commentdiv000'+item.id).html(prevval+emoval);
         item.commpostval = prevval+emoval;
-
-        //$( '#commentdiv000'+item.id ).focus();
-
-        /*
-         if (typeof (item.commpostval) != 'undefined')
-         item.commpostval = item.commpostval + emoval2;
-         else
-         item.commpostval = emoval2;
-         */
-
-        /*
-         if(typeof (item.commpostval) == 'undefined'){
-         item.commpostval = emoval;
-         $('#comment00'+item.id).val(emoval+' ');
-         }else{
-         item.commpostval = item.commpostval +' '+ emoval;
-         $('#comment00'+item.id).val($('#comment00'+item.id).val()+' '+emoval+' ');
-         }
-
-
-         if(!$('#commentarea00'+item.id).find('.highlightTextarea-highlighter').hasClass('ng-emoticons')){
-         $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').addClass('ng-emoticons')
-         }
-
-         $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').html($('#commentarea00'+item.id).find('.highlightTextarea-highlighter').html()+' '+(emoval,'<i title="'+emoval+'" class="emoticon emoticon-'+emoitem+'"></i>'));
-
-         */
-
-        /*
-         $http({
-         method: 'POST',
-         async:   false,
-         url: $scope.baseUrl+'/user/ajs1/addcomment',
-         data    : $.param({'status_id':item.id,'cmnt_body':emoval,'user_id':$rootScope.rootsessUser}),
-         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-         }).success(function (result) {
-         if(item.comment_no){
-         item.comment.push(result);
-         item.commentSliceList.push(result);
-         }else{
-         item.comment = [result];
-         item.commentSliceList = [result];
-         }
-         item.comment_no = item.comment_no +1;
-         });*/
     }
 
     $rootScope.emoinsert555 = function(item,emoitem){
@@ -3503,56 +3229,17 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
     }
 
     $rootScope.commentEmo = function(event,item){
-      /*  var strss = event.currentTarget.value;
-
-
-        if(!$('#commentarea00'+item.id).find('.highlightTextarea-highlighter').children('span').length){
-            $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').append('<span style="position:relative; z-index:9;"></span>')
-        }
-
-        $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').find('span').html(strss);
-
-        var re = /(?:^|\W):(\w+)(?!\w)/g, match, matches ;
-
-        while (match = re.exec(strss)) {
-           // $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').html($('#commentarea00'+item.id).find('.highlightTextarea-highlighter').html()+' '+(':'+match[1]+':','<span style="position:relative; z-index:9;" title=":'+match[1]+':" class="emoticon emoticon-'+match[1]+'"></span>'));
-
-
-            $('#commentarea00'+item.id).find('.highlightTextarea-highlighter').find('span').html($('#commentarea00'+item.id).find('.highlightTextarea-highlighter').find('span').html().replace(':'+match[1]+':','<i title=":'+match[1]+':" class="emoticon emoticon-'+match[1]+'"></i>'));
-
-
-
-        }*/
     }
 
-
-
     $rootScope.resizeTextarea555 = function(event){
-
-
         var target = event.target || event.srcElement || event.originalTarget;
-
 
         target.style.setProperty ("height", '35px', "important");
         if(target.scrollHeight>51)target.style.setProperty ("height", 'auto', "important");
         target.style.setProperty ("height", target.scrollHeight+'px', "important");
-
-
-
-
-       // target.parentElement.parentElement.style.setProperty ("height", target.scrollHeight+'px', "important");
-      //  target.parentElement.style.setProperty ("height", target.scrollHeight+'px', "important");
-      //  target.parentElement.children[0].style.setProperty ("height", target.scrollHeight+'px', "important");
-      //  target.parentElement.children[0].children[0].style.setProperty ("height", target.scrollHeight+'px', "important");
-
     }
 
     $rootScope.resizeTextarea = function(event){
-        //event.originalTarget.style.setProperty ("height", 'auto', "important");
-        //event.originalTarget.style.setProperty ("height", event.originalTarget.scrollHeight+'px', "important");
-
-
-
         var target = event.target || event.srcElement || event.originalTarget;
         target.style.setProperty ("height", '35px', "important");
         if(target.scrollHeight>51)target.style.setProperty ("height", 'auto', "important");
@@ -3650,151 +3337,154 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         $rootScope.tabBodyLoad = true;
         $rootScope.currentTab = tab.url;
         if(tab.url == 'social.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getSpStatus',
-                data    : $.param({sp_id:$rootScope.rootsportId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.statusList = result.status;
-
-                angular.forEach($rootScope.statusList, function(item, key) {
-                    var itemcomlist = item.comment;
-                    itemcomlist = itemcomlist.slice(-5);
-                    item.commentSliceList = itemcomlist;
-                });
-
-                //$rootScope.statusList=$rootScope.statusList.concat(result.status);
-                if(result.totalCount > $rootScope.statusList.length){
-                    $rootScope.viewMore = 1;
-                    $rootScope.offset = 5;
-                }
-                $rootScope.tabBodyLoad = false;
-            });
+            $scope.getStatus();
         }
         if(tab.url == 'events.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getSpEvents',
-                data    : $.param({sp_id:$rootScope.rootsportId,'offset':$rootScope.offset}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.eventList = result.event;
-                if(result.totalCount > $rootScope.eventList.length){
-                    $rootScope.viewMore = 1;
-                    $rootScope.offset = 5;
-                }
-                $rootScope.tabBodyLoad = false;
-            });
+            $scope.getEvent();
         }
         if(tab.url == 'groups.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getSpGroups',
-                data    : $.param({'userid':$scope.currentUser,sp_id:$rootScope.rootsportId}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.groupList = result;
-                $rootScope.tabBodyLoad = false;
-            });
+            $scope.getGroup();
         }
         if(tab.url == 'stats.tpl.html'){
             $rootScope.highchartsNG = [];
             $rootScope.chartdata = [];
 
-
-                $http({
-                    method: 'POST',
-                    async:   false,
-                    url: $scope.baseUrl+'/user/ajs1/getSpStat',
-                    data    : $.param({'spId':$rootScope.rootsportId}),
-                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                }).success(function (result) {
-                    $scope.stats = result;
-
-                    angular.forEach($scope.stats, function(val, key) {
-                        var highchartsNG = {
-                            options: {
-                                chart: {
-                                    type: 'line'
-                                }
-                            },
-                            series: [{
-                                data: val.data,
-                                name : '<div style="color:#555555;">Month</div>',
-                                color : '#F79213'
-                            }],
-                            title: {
-                                text: '<div style="color:#555555;">Last 6 Months</div>'
-                            },
-                            loading: false,
-
-                            xAxis: {
-                                categories: val.mon
-                            },
-
-                            yAxis : {
-                                title: {
-                                    text :  '<div style="color:#555555;">Activity</div>',
-                                }
-                            },
-
-                            tooltip : {
-                                valueSuffix : ''
-                            },
-                        }
-
-                        var chartdata = {
-                            sports_id : val.sports_id,
-                            sport_name : val.sport_name,
-                            imag_name : val.imag_name,
-                            activity_no : val.activity_no,
-                            total_dis : val.total_dis,
-                            total_time : val.total_time,
-                            statDet : val.statDet,
-                        }
-
-                        $rootScope.highchartsNG.push(highchartsNG);
-                        $rootScope.chartdata.push(chartdata);
-                    });
-                    $rootScope.tabBodyLoad = false;
-
-                });
-
-
-
+            $scope.getStat();
         }
     }
 
     $rootScope.tabBodyLoad = true;
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getSpStatus',
-        data    : $.param({sp_id:$rootScope.rootsportId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.statusList = result.status;
-
-        angular.forEach($rootScope.statusList, function(item, key) {
-            var itemcomlist = item.comment;
-            itemcomlist = itemcomlist.slice(-5);
-            item.commentSliceList = itemcomlist;
-        });
-
-        //$rootScope.statusList=$rootScope.statusList.concat(result.status);
-        if(result.totalCount > $rootScope.statusList.length){
-            $rootScope.viewMore = 1;
-            $rootScope.offset = 5;
-        }
-        $rootScope.tabBodyLoad = false;
-    });
 
     $rootScope.isActiveTab = function(tabUrl) {
         return tabUrl == $rootScope.currentTab;
+    }
+
+    $timeout(function(){
+        $scope.getStatus();
+    },500);
+
+    $scope.getStatus = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getSpStatus',
+            data    : $.param({sp_id:$rootScope.rootsportId,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.statusList = result.status;
+
+            angular.forEach($rootScope.statusList, function(item, key) {
+                var itemcomlist = item.comment;
+                itemcomlist = itemcomlist.slice(-5);
+                item.commentSliceList = itemcomlist;
+            });
+
+            if(result.totalCount > $rootScope.statusList.length){
+                $rootScope.viewMore = 1;
+                $rootScope.offset = 5;
+            }
+            $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $scope.getStatus();
+        });
+    }
+
+    $scope.getEvent = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getSpEvents',
+            data    : $.param({sp_id:$rootScope.rootsportId,'offset':$rootScope.offset}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.eventList = result.event;
+            if(result.totalCount > $rootScope.eventList.length){
+                $rootScope.viewMore = 1;
+                $rootScope.offset = 5;
+            }
+            $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $scope.getEvent();
+        });
+    }
+
+    $scope.getGroup = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getSpGroups',
+            data    : $.param({'userid':$scope.currentUser,sp_id:$rootScope.rootsportId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.groupList = result;
+            $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $scope.getGroup();
+        });
+
+    }
+
+    $scope.getStat = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getSpStat',
+            data    : $.param({'spId':$rootScope.rootsportId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.stats = result;
+
+            angular.forEach($scope.stats, function(val, key) {
+                var highchartsNG = {
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    },
+                    series: [{
+                        data: val.data,
+                        name : '<div style="color:#555555;">Month</div>',
+                        color : '#F79213'
+                    }],
+                    title: {
+                        text: '<div style="color:#555555;">Last 6 Months</div>'
+                    },
+                    loading: false,
+
+                    xAxis: {
+                        categories: val.mon
+                    },
+
+                    yAxis : {
+                        title: {
+                            text :  '<div style="color:#555555;">Activity</div>',
+                        }
+                    },
+
+                    tooltip : {
+                        valueSuffix : ''
+                    },
+                }
+
+                var chartdata = {
+                    sports_id : val.sports_id,
+                    sport_name : val.sport_name,
+                    imag_name : val.imag_name,
+                    activity_no : val.activity_no,
+                    total_dis : val.total_dis,
+                    total_time : val.total_time,
+                    statDet : val.statDet,
+                }
+
+                $rootScope.highchartsNG.push(highchartsNG);
+                $rootScope.chartdata.push(chartdata);
+            });
+            $rootScope.tabBodyLoad = false;
+
+        }).error(function (result) {
+            $scope.getStat();
+        });
+
     }
 
     $rootScope.viewMoreStatus = function(){
@@ -3820,6 +3510,8 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 $rootScope.viewMore = 1;
                 $rootScope.offset = $rootScope.offset+5;
             }
+        }).error(function (result) {
+            $rootScope.viewMoreStatus();
         });
     }
 
@@ -3839,6 +3531,8 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 $rootScope.viewMore = 1;
                 $rootScope.offset = $rootScope.offset+5;
             }
+        }).error(function (result) {
+            $rootScope.viewMoreEvent();
         });
     }
 
@@ -3854,6 +3548,8 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         }).success(function (result) {
             $rootScope.groupList = result;
             $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $rootScope.sugGroup();
         });
     }
 
@@ -3868,11 +3564,12 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         }).success(function (result) {
             $rootScope.groupList = result;
             $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $rootScope.locGroup();
         });
     }
 
     $rootScope.viewStatDet = function(index){
-        //$scope.statDet = obj;
         $rootScope.statDet1 = $rootScope.chartdata[index].statDet;
         ngDialog.open({
             template: 'statdet12',
@@ -3922,7 +3619,6 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
 
         if(event.which === 13 && !event.shiftKey) {
             event.preventDefault();
-            //var commentval = event.currentTarget.value;
             var commentval = item.commpostval;
             if(commentval !='' && typeof(commentval)!= 'undefined'){
                 $http({
@@ -3943,20 +3639,9 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                     item.commpostval = '';
                     $('#commentdiv000'+item.id).html('');
                     $('#emojisdiv'+item.id).hide();
+                }).error(function (result) {
+                    $rootScope.postComment(event,item);
                 });
-            /*}else{
-
-                $scope.Commentmsg = ngDialog.open({
-                    template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                    plain:true,
-                    showClose:false,
-                    closeByDocument: true,
-                    closeByEscape: true
-                });
-
-                $timeout(function(){
-                    $scope.Commentmsg.close();
-                },3000);*/
             }
         }
     }
@@ -3986,6 +3671,8 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         }).success(function (result) {
             $rootScope.statusList.splice(index,1);
             $rootScope.offset = $rootScope.offset-1;
+        }).error(function (result) {
+            $scope.delConfirm(index);
         });
     }
 
@@ -4014,6 +3701,8 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         }).success(function (result) {
             $rootScope.statusList[index].comment.splice(index1,1);
             $rootScope.statusList[index].comment_no = $scope.statusList[index].comment_no -1;
+        }).error(function (result) {
+            $scope.delConfirm1(index,index1);
         });
     }
 
@@ -4535,26 +4224,10 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 item.commentList.push(result);
                 item.pstval = '';
             });
-        /*}else{
-
-            $scope.Commentmsg = ngDialog.open({
-                template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                plain:true,
-                showClose:false,
-                closeByDocument: true,
-                closeByEscape: true
-            });
-
-            $timeout(function(){
-                $scope.Commentmsg.close();
-            },3000);*/
         }
     };
 
     $rootScope.resizeTextarea = function(event){
-       // event.originalTarget.style.setProperty ("height", '35 px', "important");
-        //event.originalTarget.style.setProperty ("height", event.originalTarget.scrollHeight+'px', "important");
-
         var target = event.target || event.srcElement || event.originalTarget;
         target.style.setProperty ("height", '35px', "important");
         if(target.scrollHeight>51)target.style.setProperty ("height", 'auto', "important");
@@ -4593,27 +4266,6 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
 
         $('#commentdiv000'+item.id).html(prevval+emoval);
         item.commpostval = prevval+emoval;
-
-
-
-        /*var emoval = ':'+emoitem+':';
-
-        $http({
-            method: 'POST',
-            async:   false,
-            url: $scope.baseUrl+'/user/ajs1/addcomment',
-            data    : $.param({'status_id':item.id,'cmnt_body':emoval,'user_id':$rootScope.rootsessUser}),
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        }).success(function (result) {
-            if(item.comment_no){
-                item.comment.push(result);
-                item.commentSliceList.push(result);
-            }else{
-                item.comment = [result];
-                item.commentSliceList = [result];
-            }
-            item.comment_no = item.comment_no +1;
-        });*/
     }
 
     $rootScope.showemojisdiv123 = function(id){
@@ -4623,8 +4275,6 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
             $('#emojisdiv'+id).hide();
         }
     }
-
-
 
 });
 
@@ -4663,41 +4313,10 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
         $rootScope.currentTab = tab.url;
 
         if(tab.url == 'social.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getgroupStatus',
-                data    : $.param({'groupId':$rootScope.rootgroupId,'sess_user':$rootScope.rootsessUser,'offset':$rootScope.offset}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.statusList = result.status;
-                //$rootScope.statusList=$rootScope.statusList.concat(result.status);
-
-                angular.forEach($rootScope.statusList, function(item, key) {
-                    var itemcomlist = item.comment;
-                    itemcomlist = itemcomlist.slice(-5);
-                    item.commentSliceList = itemcomlist;
-                });
-
-                if(result.totalCount > $rootScope.statusList.length){
-                    $rootScope.viewMore = 1;
-                    $rootScope.offset = 5;
-                }
-                $rootScope.tabBodyLoad = false;
-            });
+            $scope.getStatus();
         }
-
         if(tab.url == 'members.tpl.html'){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getgroupMember',
-                data    : $.param({'groupId':$rootScope.rootgroupId,'offset':$rootScope.offset,sess_id:$rootScope.rootsessUser}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $rootScope.groupMmber = result;
-                $rootScope.tabBodyLoad = false;
-            });
+            $scope.getGroupMember();
         }
 
         if(tab.url == 'settings.tpl.html'){
@@ -4708,97 +4327,123 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
             $rootScope.highchartsNG = [];
             $rootScope.chartdata = [];
 
-
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getGroupStat',
-                data    : $.param({'groupId':$rootScope.rootgroupId}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                $scope.stats = result;
-
-                angular.forEach($scope.stats, function(val, key) {
-                    var highchartsNG = {
-                        options: {
-                            chart: {
-                                type: 'line'
-                            }
-                        },
-                        series: [{
-                            data: val.data,
-                            name : '<div style="color:#555555;">Month</div>',
-                            color : '#F79213'
-                        }],
-                        title: {
-                            text: '<div style="color:#555555;">Last 6 Months</div>'
-                        },
-                        loading: false,
-
-                        xAxis: {
-                            categories: val.mon
-                        },
-
-                        yAxis : {
-                            title: {
-                                text :  '<div style="color:#555555;">Activity</div>',
-                            }
-                        },
-
-                        tooltip : {
-                            valueSuffix : ''
-                        },
-                    }
-
-                    var chartdata = {
-                        sports_id : val.sports_id,
-                        sport_name : val.sport_name,
-                        imag_name : val.imag_name,
-                        activity_no : val.activity_no,
-                        total_dis : val.total_dis,
-                        total_time : val.total_time,
-                        statDet : val.statDet,
-                    }
-
-                    $rootScope.highchartsNG.push(highchartsNG);
-                    $rootScope.chartdata.push(chartdata);
-                });
-                $rootScope.tabBodyLoad = false;
-
-            });
-
-
-
+            $scope.getStat();
         }
     }
 
     $rootScope.tabBodyLoad = true;
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getgroupStatus',
-        data    : $.param({'groupId':$rootScope.rootgroupId,'sess_user':$rootScope.rootsessUser,'offset':$rootScope.offset}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.statusList = result.status;
-        //$rootScope.statusList=$rootScope.statusList.concat(result.status);
-
-        angular.forEach($rootScope.statusList, function(item, key) {
-            var itemcomlist = item.comment;
-            itemcomlist = itemcomlist.slice(-5);
-            item.commentSliceList = itemcomlist;
-        });
-
-        if(result.totalCount > $rootScope.statusList.length){
-            $rootScope.viewMore = 1;
-            $rootScope.offset = 5;
-        }
-        $rootScope.tabBodyLoad = false;
-    });
-
 
     $rootScope.isActiveTab = function(tabUrl) {
         return tabUrl == $rootScope.currentTab;
+    }
+
+    $timeout(function(){
+        $scope.getStatus();
+    },500);
+
+    $scope.getStatus = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getgroupStatus',
+            data    : $.param({'groupId':$rootScope.rootgroupId,'sess_user':$rootScope.rootsessUser,'offset':$rootScope.offset}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.statusList = result.status;
+
+            angular.forEach($rootScope.statusList, function(item, key) {
+                var itemcomlist = item.comment;
+                itemcomlist = itemcomlist.slice(-5);
+                item.commentSliceList = itemcomlist;
+            });
+
+            if(result.totalCount > $rootScope.statusList.length){
+                $rootScope.viewMore = 1;
+                $rootScope.offset = 5;
+            }
+            $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $scope.getStatus();
+        });
+    }
+
+    $scope.getGroupMember = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getgroupMember',
+            data    : $.param({'groupId':$rootScope.rootgroupId,'offset':$rootScope.offset,sess_id:$rootScope.rootsessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.groupMmber = result;
+            $rootScope.tabBodyLoad = false;
+        }).error(function (result) {
+            $scope.getGroupMember();
+        });
+
+    }
+
+    $scope.getStat = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getGroupStat',
+            data    : $.param({'groupId':$rootScope.rootgroupId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.stats = result;
+
+            angular.forEach($scope.stats, function(val, key) {
+                var highchartsNG = {
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    },
+                    series: [{
+                        data: val.data,
+                        name : '<div style="color:#555555;">Month</div>',
+                        color : '#F79213'
+                    }],
+                    title: {
+                        text: '<div style="color:#555555;">Last 6 Months</div>'
+                    },
+                    loading: false,
+
+                    xAxis: {
+                        categories: val.mon
+                    },
+
+                    yAxis : {
+                        title: {
+                            text :  '<div style="color:#555555;">Activity</div>',
+                        }
+                    },
+
+                    tooltip : {
+                        valueSuffix : ''
+                    },
+                }
+
+                var chartdata = {
+                    sports_id : val.sports_id,
+                    sport_name : val.sport_name,
+                    imag_name : val.imag_name,
+                    activity_no : val.activity_no,
+                    total_dis : val.total_dis,
+                    total_time : val.total_time,
+                    statDet : val.statDet,
+                }
+
+                $rootScope.highchartsNG.push(highchartsNG);
+                $rootScope.chartdata.push(chartdata);
+            });
+            $rootScope.tabBodyLoad = false;
+
+        }).error(function (result) {
+            $scope.getStat();
+        });
+
     }
 
     $rootScope.viewMoreStatus = function(){
@@ -4824,13 +4469,12 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                 $rootScope.viewMore = 1;
                 $rootScope.offset = $rootScope.offset+5;
             }
+        }).error(function (result) {
+            $rootScope.viewMoreStatus();
         });
     }
 
-
-
     $rootScope.viewStatDet = function(index){
-        //$scope.statDet = obj;
         $rootScope.statDet1 = $rootScope.chartdata[index].statDet;
         ngDialog.open({
             template: 'statdet12',
@@ -4902,19 +4546,6 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                     $('#commentdiv000'+item.id).html('');
                     $('#emojisdiv'+item.id).hide();
                 });
-            /*}else{
-
-                $scope.Commentmsg = ngDialog.open({
-                    template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                    plain:true,
-                    showClose:false,
-                    closeByDocument: true,
-                    closeByEscape: true
-                });
-
-                $timeout(function(){
-                    $scope.Commentmsg.close();
-                },3000);*/
             }
         }
     }
@@ -4944,6 +4575,8 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
         }).success(function (result) {
             $rootScope.statusList.splice(index,1);
             $rootScope.offset = $rootScope.offset-1;
+        }).error(function (result) {
+            $scope.delConfirm(index);
         });
     }
 
@@ -4972,6 +4605,8 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
         }).success(function (result) {
             $rootScope.statusList[index].comment.splice(index1,1);
             $rootScope.statusList[index].comment_no = $scope.statusList[index].comment_no -1;
+        }).error(function (result) {
+            $scope.delConfirm1(index,index1);
         });
     }
 
@@ -5493,26 +5128,10 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                 item.commentList.push(result);
                 item.pstval = '';
             });
-        /*}else{
-
-            $scope.Commentmsg = ngDialog.open({
-                template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                plain:true,
-                showClose:false,
-                closeByDocument: true,
-                closeByEscape: true
-            });
-
-            $timeout(function(){
-                $scope.Commentmsg.close();
-            },3000);*/
         }
     };
 
     $rootScope.resizeTextarea = function(event){
-        //event.originalTarget.style.setProperty ("height", 'auto', "important");
-        //event.originalTarget.style.setProperty ("height", event.originalTarget.scrollHeight+'px', "important");
-
         var target = event.target || event.srcElement || event.originalTarget;
         target.style.setProperty ("height", '35px', "important");
         if(target.scrollHeight>51)target.style.setProperty ("height", 'auto', "important");
@@ -5548,25 +5167,6 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
 
         $('#commentdiv000'+item.id).html(prevval+emoval);
         item.commpostval = prevval+emoval;
-
-        /*var emoval = ':'+emoitem+':';
-
-        $http({
-            method: 'POST',
-            async:   false,
-            url: $scope.baseUrl+'/user/ajs1/addcomment',
-            data    : $.param({'status_id':item.id,'cmnt_body':emoval,'user_id':$rootScope.rootsessUser}),
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        }).success(function (result) {
-            if(item.comment_no){
-                item.comment.push(result);
-                item.commentSliceList.push(result);
-            }else{
-                item.comment = [result];
-                item.commentSliceList = [result];
-            }
-            item.comment_no = item.comment_no +1;
-        });*/
     }
 
     $rootScope.showemojisdiv123 = function(id){
@@ -5579,11 +5179,11 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
 
 
 });
+
 homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
     $rootScope.trustAsHtml = $sce.trustAsHtml;
 
     $rootScope.delPhoto = function(index){
-        // console.log(index);
         $scope.confirmDialog = ngDialog.open({
             template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;" class="delconfmsg">Are you sure you want to delete this photo?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm('+index+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
             plain:true,
@@ -5596,7 +5196,6 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
     }
 
     $rootScope.delVideo = function(index){
-        // console.log(index);
         $scope.confirmDialog = ngDialog.open({
             template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;" class="delconfmsg">Are you sure you want to delete this video?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm14646('+index+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel()" class="confbtn" /></div> ',
             plain:true,
@@ -5618,6 +5217,8 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.photoList.splice(index,1);
+        }).error(function (result) {
+            $scope.delConfirm(index);
         });
     }
 
@@ -5631,6 +5232,8 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.videoList.splice(index,1);
+        }).error(function (result) {
+            $scope.delConfirm14646(index);
         });
     }
 
@@ -5644,8 +5247,6 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
             className : 'confirmPopup',
             scope:$scope
         });
-
-
     }
 
     $scope.delConfirm1 = function(index,index1){
@@ -5659,6 +5260,8 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
         }).success(function (result) {
             $rootScope.statusList[index].comment.splice(index1,1);
             $rootScope.statusList[index].comment_no = $scope.statusList[index].comment_no -1;
+        }).error(function (result) {
+            $scope.delConfirm1(index,index1);
         });
     }
 
@@ -5737,7 +5340,6 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
         });
     }
 
-
     $scope.modalClose = function(){
         modalInstance.dismiss('cancel');
     }
@@ -5814,8 +5416,6 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
         });
     }
 
-
-
     $rootScope.postComment = function(event,type){
         var status_id = 0;
         var commentval = '';
@@ -5863,19 +5463,6 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
                     }
 
                 });
-            /*}else{
-
-                $scope.Commentmsg = ngDialog.open({
-                    template: '<div style="text-align: center;margin: 0 auto;display: block;font-family: arial, helvetica, sans-serif;font-weight: normal;font-size: 18px; padding: 15px 0;">Please Enter Comment.</div>',
-                    plain:true,
-                    showClose:false,
-                    closeByDocument: true,
-                    closeByEscape: true
-                });
-
-                $timeout(function(){
-                    $scope.Commentmsg.close();
-                },3000);*/
             }
         }
     }
@@ -6120,9 +5707,6 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
     }
 
     $rootScope.resizeTextarea = function(event){
-        //event.originalTarget.style.setProperty ("height", 'auto', "important");
-        //event.originalTarget.style.setProperty ("height", event.originalTarget.scrollHeight+'px', "important");
-
         var target = event.target || event.srcElement || event.originalTarget;
         target.style.setProperty ("height", '35px', "important");
         if(target.scrollHeight>51)target.style.setProperty ("height", 'auto', "important");
@@ -6190,45 +5774,6 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
         item.pstval = prevval+emoval;
 
 
-        /*
-        var emoval = ':'+emoitem+':';
-
-        var status_id = 0;
-        if(type == 'photo'){
-            status_id = $rootScope.photoDet.itemId;
-        }
-        if(type == 'video'){
-            status_id = $rootScope.videoDet.itemId;
-        }
-
-        $http({
-            method: 'POST',
-            async:   false,
-            url: $scope.baseUrl+'/user/ajs1/addcomment',
-            data    : $.param({'status_id':status_id,'cmnt_body':emoval,'user_id':$rootScope.rootsessUser}),
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        }).success(function (result) {
-            if(type == 'photo'){
-                if($rootScope.photoDet.commentList.length){
-                    $rootScope.photoDet.commentList.push(result);
-                    $rootScope.photoDet.commentSliceList.push(result);
-                }else{
-                    $rootScope.photoDet.commentList = [result];
-                    $rootScope.photoDet.commentSliceList = [result];
-                }
-            }
-            if(type == 'video'){
-                if($rootScope.videoDet.commentList.length){
-                    $rootScope.videoDet.commentList.push(result);
-                    $rootScope.videoDet.commentSliceList.push(result);
-                }else{
-                    $rootScope.videoDet.commentList = [result];
-                    $rootScope.videoDet.commentSliceList = [result];
-                }
-            }
-
-        });
-*/
     }
     $rootScope.emoinsert1 = function(type,emoitem){
         var emoval = ':'+emoitem+':';
@@ -6258,7 +5803,10 @@ homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$
         $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
         $rootScope.sessUser = $rootScope.sessUserDet.id;
 
+        $scope.getPImage();
+    }
 
+    $scope.getPImage = function(){
         $http({
             method  : 'POST',
             async:   false,
@@ -6267,8 +5815,9 @@ homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).success(function(data) {
             $rootScope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+data.profileImgName;
+        }).error(function (result) {
+            $scope.getPImage();
         });
-
     }
 
     $rootScope.headingArr = [{
@@ -6278,7 +5827,6 @@ homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$
     }];
 
     $rootScope.resizeTextarea = function(event){
-        //event.originalTarget.style.setProperty ("height", 'auto', "important");
         var target = event.target || event.srcElement || event.originalTarget;
         target.style.setProperty ("height", target.scrollHeight+'px', "important");
     }
@@ -6343,6 +5891,8 @@ homeControllers1.controller('routecommon', function($scope,$state,$cookieStore,$
         }).success(function (result) {
             $rootScope.stateIsLoading = false;
             $rootScope.routeList.splice(index,1);
+        }).error(function (result) {
+            $scope.delConfirm(id,index);
         });
     }
 
@@ -6504,117 +6054,125 @@ homeControllers1.controller('routecommon', function($scope,$state,$cookieStore,$
 
 });
 
-
-
 homeControllers1.controller('mapcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$interval,$stateParams,uiGmapGoogleMapApi) {
-
-
     $scope.zoomlevel = 9;
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getCurLocation',
-        data    : $.param({'userid':$rootScope.rootsessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
+    $timeout(function(){
+        $scope.getCurLocation();
+    })
 
-        $rootScope.rootmap = {
-            dragZoom: {options: {}},
-            control:{},
-            center: {
-                latitude: result.latitude,
-                longitude: result.longitude
-            },
-            options : {
-                scrollwheel : false,
-            },
-            pan: true,
-            zoom: $scope.zoomlevel,
-            refresh: false,
-            events: {
+    $scope.getCurLocation = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCurLocation',
+            data    : $.param({'userid':$rootScope.rootsessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
 
-                idle: function (rootmap) {
+            $rootScope.rootmap = {
+                dragZoom: {options: {}},
+                control:{},
+                center: {
+                    latitude: result.latitude,
+                    longitude: result.longitude
+                },
+                options : {
+                    scrollwheel : false,
+                },
+                pan: true,
+                zoom: $scope.zoomlevel,
+                refresh: false,
+                events: {
 
-                    $timeout(function() {
+                    idle: function (rootmap) {
+
+                        $timeout(function() {
 
 
-                        $interval(function(){
+                            $interval(function(){
 
-                            var visibleMarkers = [];
+                                var visibleMarkers = [];
 
-                            if(typeof($scope.rootmap.bounds.southwest) != 'undefined' && typeof($scope.rootmap.bounds.northeast) != 'undefined'){
-                                angular.forEach(result.marker, function(marker, key) {
-                                    if ($scope.rootmap.bounds.southwest.latitude < marker.latitude
-                                        && marker.latitude < $scope.rootmap.bounds.northeast.latitude
-                                        && $scope.rootmap.bounds.southwest.longitude < marker.longitude
-                                        && marker.longitude < $scope.rootmap.bounds.northeast.longitude) {
+                                if(typeof($scope.rootmap.bounds.southwest) != 'undefined' && typeof($scope.rootmap.bounds.northeast) != 'undefined'){
+                                    angular.forEach(result.marker, function(marker, key) {
+                                        if ($scope.rootmap.bounds.southwest.latitude < marker.latitude
+                                            && marker.latitude < $scope.rootmap.bounds.northeast.latitude
+                                            && $scope.rootmap.bounds.southwest.longitude < marker.longitude
+                                            && marker.longitude < $scope.rootmap.bounds.northeast.longitude) {
 
-                                        visibleMarkers.push(marker);
+                                            visibleMarkers.push(marker);
+                                        }
+                                    });
+
+                                    $scope.visibleMarkers = visibleMarkers;
+
+                                    if($scope.visibleMarkers.length < 5){
+                                        $scope.zoomlevel = parseInt($scope.zoomlevel)-1;
+
+
+                                        $rootScope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
+                                        // console.log($rootScope.map.zoom);
                                     }
-                                });
-
-                                $scope.visibleMarkers = visibleMarkers;
-
-                                if($scope.visibleMarkers.length < 5){
-                                    $scope.zoomlevel = parseInt($scope.zoomlevel)-1;
-
-
-                                    $rootScope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
-                                   // console.log($rootScope.map.zoom);
                                 }
-                            }
 
 
-                        },3000);
-
-
+                            },3000);
 
 
 
-                    }, 0);
 
+
+                        }, 0);
+
+                    }
+
+
+                },
+                bounds:{},
+                markers: result.marker,
+                openedCanadaWindows:{},
+                onWindowCloseClick: function(gMarker, eventName, model){
+                    if(model.dowShow !== null && model.dowShow !== undefined)
+                        return model.doShow = false;
+
+                },
+                markerEvents: {
+                    click:function(gMarker, eventName, model){
+                        angular.element( document.querySelector( '#infoWin' ) ).html(model.infoHtml);
+                        model.doShow = true;
+                        $scope.rootmap.openedCanadaWindows = model;
+                    }
                 }
 
 
-            },
-            bounds:{},
-            markers: result.marker,
-            openedCanadaWindows:{},
-            onWindowCloseClick: function(gMarker, eventName, model){
-                if(model.dowShow !== null && model.dowShow !== undefined)
-                    return model.doShow = false;
-
-            },
-            markerEvents: {
-                click:function(gMarker, eventName, model){
-                    angular.element( document.querySelector( '#infoWin' ) ).html(model.infoHtml);
-                    model.doShow = true;
-                    $scope.rootmap.openedCanadaWindows = model;
-                }
-            }
-
-
-        };
-
-
-        $rootScope.rootmap.markers.forEach(function(model){
-            model.closeClick = function(){
-                model.doShow = false;
             };
+
+
+            $rootScope.rootmap.markers.forEach(function(model){
+                model.closeClick = function(){
+                    model.doShow = false;
+                };
+            });
+
+
+        }).error(function (result) {
+            $scope.getCurLocation();
         });
 
-
-    });
-
+    }
 
 });
 
 homeControllers1.controller('chatcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout) {
+    $timeout(function(){
+        if($rootScope.rootsessUser > 0){
+            $scope.chatUserList1();
+            $scope.chatUserList2();
+        }
+    },500);
 
-
-    if($rootScope.rootsessUser > 0){
-
+    $scope.chatUserList1 = function(){
         $http({
             method: 'POST',
             async:   false,
@@ -6623,8 +6181,12 @@ homeControllers1.controller('chatcommon', function($scope,$state,$cookieStore,$r
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.chatUser1 = result;
+        }).error(function (result) {
+            $scope.chatUserList1();
         });
+    }
 
+    $scope.chatUserList2 = function(){
         $http({
             method: 'POST',
             async:   false,
@@ -6633,10 +6195,16 @@ homeControllers1.controller('chatcommon', function($scope,$state,$cookieStore,$r
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.chatUser2 = result;
+        }).error(function (result) {
+            $scope.chatUserList2();
         });
     }
 
+
+
+
 });
+
 homeControllers1.controller('bannerCommon', function($scope,$state,$cookieStore,$rootScope,$http,$interval,$timeout) {
 
     $scope.pageId = 0;
@@ -6663,48 +6231,63 @@ homeControllers1.controller('bannerCommon', function($scope,$state,$cookieStore,
     $rootScope.bannelimit2 = 2;
     $rootScope.bannelimit3 = 2;
     $rootScope.bannerslides1 = [];
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getBanner',
-        data    : $.param({'pageid':$scope.pageId,'areaid':1,'sp_id':$scope.spId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.allbannerslides1 = result;
-        $rootScope.bannerslides1.push(result[0]);
-        $rootScope.bannerslides1.push(result[1]);
-
-
-    });
-
     $rootScope.bannerslides2 = [];
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getBanner',
-        data    : $.param({'pageid':$scope.pageId,'areaid':2,'sp_id':$scope.spId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.bannerslides2 = result;
-
-
-
-    });
-
     $rootScope.bannerslides3 = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getBanner',
-        data    : $.param({'pageid':$scope.pageId,'areaid':3,'sp_id':$scope.spId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.bannerslides3 = result;
-    });
+    $timeout(function(){
+        $scope.getBanner1();
+        $scope.getBanner2();
+        $scope.getBanner3();
+    },500);
+
+
+    $scope.getBanner1 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':1,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.allbannerslides1 = result;
+            $rootScope.bannerslides1.push(result[0]);
+            $rootScope.bannerslides1.push(result[1]);
+        }).error(function (result) {
+            $scope.getBanner1();
+        });
+    }
+
+    $scope.getBanner2 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':2,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.bannerslides2 = result;
+        }).error(function (result) {
+            $scope.getBanner2();
+        });
+    }
+
+    $scope.getBanner3 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':3,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.bannerslides3 = result;
+        }).error(function (result) {
+            $scope.getBanner3();
+        });
+    }
+
 });
 
-homeControllers1.controller('footer', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog) {
+homeControllers1.controller('footer', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$timeout) {
 
     $scope.openTerms = function () {
         ngDialog.open({
@@ -6741,18 +6324,29 @@ homeControllers1.controller('footer', function($scope,$state,$cookieStore,$http,
                 closeByDocument: true,
                 closeByEscape: true
             });
+        }).error(function (result) {
+            $scope.showtermsploicy(id);
         });
     }
 
     $rootScope.sportsMenu = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/GetParentSports',
-    }).success(function (result) {
-        $rootScope.sportsMenu = result;
-    });
+    $timeout(function(){
+        $scope.GetParentSports();
+    },500);
+
+
+    $scope.GetParentSports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/GetParentSports',
+        }).success(function (result) {
+            $rootScope.sportsMenu = result;
+        }).error(function (result) {
+            $scope.GetParentSports();
+        });
+    }
 
 });
 
@@ -6797,8 +6391,8 @@ homeControllers1.controller('login', function($scope,$state,$cookieStore,$http,$
             }else{
                 $scope.msgFlag = true;
             }
-
-
+        }).error(function (result) {
+            $scope.submitloginForm();
         });
     };
 
@@ -6830,7 +6424,7 @@ homeControllers1.controller('logout', function($scope,$state,$cookieStore,$http,
     return;
 });
 
-homeControllers1.controller('signup', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog) {
+homeControllers1.controller('signup', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$timeout) {
 
     $scope.showtermsploicy = function(id){
 
@@ -6856,6 +6450,8 @@ homeControllers1.controller('signup', function($scope,$state,$cookieStore,$http,
                 closeByDocument: true,
                 closeByEscape: true
             });
+        }).error(function (result) {
+            $scope.showtermsploicy(id);
         });
     }
 
@@ -6865,26 +6461,44 @@ homeControllers1.controller('signup', function($scope,$state,$cookieStore,$http,
         gender : 0
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getCountryList',
-    }).success(function (result) {
-        $scope.countrylist = result;
-    });
+    $timeout(function(){
+        $scope.getCountryList();
+    },500);
+
+    $scope.getCountryList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCountryList',
+        }).success(function (result) {
+            $scope.countrylist = result;
+        }).error(function (result) {
+            $scope.getCountryList();
+        });
+    }
+
+    $scope.getStateList = function(countryval){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStateList',
+            data    : $.param({'id':countryval}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (result) {
+            $scope.statelist = result;
+        }).error(function (result) {
+            $scope.getStateList(countryval);
+        });
+    }
+
+
 
     $scope.changeCountry = function(countryval){
         if(typeof (countryval) != 'undefined'){
             $scope.statelist = [];
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':countryval.id}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result) {
-                $scope.statelist = result;
-            });
+
+            $scope.getStateList(countryval.id);
+
         }else{
             $scope.statelist = [];
         }
@@ -6916,12 +6530,14 @@ homeControllers1.controller('signup', function($scope,$state,$cookieStore,$http,
                 return;
             }
 
+        }).error(function (result) {
+            $scope.submitsignUpForm();
         });
     }
 
 });
 
-homeControllers1.controller('activities', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog) {
+homeControllers1.controller('activities', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$timeout) {
     $scope.showtermsploicy = function(id){
 
         var header = '';
@@ -6946,6 +6562,8 @@ homeControllers1.controller('activities', function($scope,$state,$cookieStore,$h
                 closeByDocument: true,
                 closeByEscape: true
             });
+        }).error(function (result) {
+            $scope.showtermsploicy(id);
         });
     }
 
@@ -6960,13 +6578,22 @@ homeControllers1.controller('activities', function($scope,$state,$cookieStore,$h
     $scope.predicate = 'priority';
     $scope.reverse = false;
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/allsports',
-    }).success(function (result) {
-        $scope.sportsList = result;
-    });
+    $timeout(function(){
+        $scope.allsports();
+    },500);
+
+
+    $scope.allsports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/allsports',
+        }).success(function (result) {
+            $scope.sportsList = result;
+        }).error(function (result) {
+            $scope.allsports();
+        });
+    }
 
     $scope.selectSp = function(id) {
         var idx = $scope.selSports.indexOf(id);
@@ -6996,7 +6623,7 @@ homeControllers1.controller('activities', function($scope,$state,$cookieStore,$h
 
 });
 
-homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$filter) {
+homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$filter,$timeout) {
     $scope.showtermsploicy = function(id){
 
         var header = '';
@@ -7021,13 +6648,14 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
                 closeByDocument: true,
                 closeByEscape: true
             });
+        }).error(function (result) {
+            $scope.showtermsploicy(id);
         });
     }
 
     $scope.showadvsearch = 0;
     $scope.showadvsearchfun = function(){
         $scope.showadvsearch = !$scope.showadvsearch;
-        //$('html, body').animate({ scrollTop: 0 }, 1000);
     }
 
     $scope.limit = 20;
@@ -7048,17 +6676,31 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
 
     $scope.sportsList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/userList',
-        data    : $.param({'sess_id':$cookieStore.get('user_insert_id')}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.tabBodyLoad = false;
-        $scope.userList = result;
-        $scope.userList1 = result;
+    $timeout(function(){
+        $scope.getuserList();
+        $scope.getCountryList();
+    },500);
 
+    $scope.getuserList = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/userList',
+            data    : $.param({'sess_id':$cookieStore.get('user_insert_id')}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.tabBodyLoad = false;
+            $scope.userList = result;
+            $scope.userList1 = result;
+
+            $scope.getallsports();
+
+        }).error(function (result) {
+            $scope.getuserList();
+        });
+    }
+
+    $scope.getallsports = function(){
         $http({
             method: 'GET',
             async:   false,
@@ -7066,26 +6708,32 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
         }).success(function (result5) {
             $scope.sportsList = result5;
 
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
-                data    : $.param({'userid':$cookieStore.get('user_insert_id'),sessUser:0}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }) .success(function(result1) {
-                $scope.userDet = result1;
-                angular.forEach(result1.user_sports,function(value,key){
+            $scope.getUserDetails();
 
-                    $('#sportscheck'+value.id).prop('checked', true);
-                    $scope.sp_tag_add(value.id);
-                });
+        }).error(function (result) {
+            $scope.getallsports();
+        });
+    }
 
+    $scope.getUserDetails = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
+            data    : $.param({'userid':$cookieStore.get('user_insert_id'),sessUser:0}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result1) {
+            $scope.userDet = result1;
+            angular.forEach(result1.user_sports,function(value,key){
+
+                $('#sportscheck'+value.id).prop('checked', true);
+                $scope.sp_tag_add(value.id);
             });
 
+        }).error(function (result) {
+            $scope.getUserDetails();
         });
-
-    });
-
+    }
 
     $scope.selectUser = function(id) {
         var idx = $scope.selUsers.indexOf(id);
@@ -7100,24 +6748,34 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
 
 
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getCountryList',
-    }).success(function (result) {
-        $scope.countrylist = result;
-        if($scope.defCountry != ''){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':$scope.defCountry}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result) {
-                $scope.statelist = result;
-            });
-        }
-    });
+    $scope.getCountryList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCountryList',
+        }).success(function (result) {
+            $scope.countrylist = result;
+            if($scope.defCountry != ''){
+                $scope.getStateList($scope.defCountry);
+            }
+        }).error(function (result) {
+            $scope.getCountryList();
+        });
+    }
+
+    $scope.getStateList = function(countryval){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStateList',
+            data    : $.param({'id':countryval}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (result) {
+            $scope.statelist = result;
+        }).error(function (result) {
+            $scope.getStateList(countryval);
+        });
+    }
 
     $scope.statelist = [];
 
@@ -7129,33 +6787,12 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
         $scope.search_user_state = '';
 
         $scope.statelist = [];
-        //$scope.searchText.user_state = '';
 
         if(typeof (event) != 'undefined'){
             $scope.statelist = [];
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':event}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result) {
-                $scope.statelist = result;
-            });
+            $scope.getStateList(event)
         }
-
     }
-
-
-
-    /*$http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getsports55',
-    }).success(function (result) {
-        $scope.sportList = result;
-    });*/
-
 
     $scope.search_user_name = '';
     $scope.search_user_country = '';
@@ -7174,16 +6811,6 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
         $scope.userList = $scope.userList1;
         $(".sportscheck").prop('checked', false);
 
-        /*$http({
-            method: 'POST',
-            async:   false,
-            url: $scope.baseUrl+'/user/ajs1/getsports51',
-            data    : $.param({'sp_array':[]}),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        }).success(function (result) {
-            angular.element( document.querySelector( '#select-search' ) ).empty();
-            angular.element( document.querySelector( '#select-search' ) ).append(result);
-        });*/
 
     }
 
@@ -7207,20 +6834,7 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
         return false;
     }
 
-    /*setTimeout(function(){
 
-            $("#select-search").change(function () {
-                $("option", $(this)).each(function (index) {
-                    if ($(this).is(":selected")) {
-                        console.log($(this).attr('value'));
-                        $(this).css("background-color", "#f8931f");
-                    }
-                    else {
-                        $(this).css("backgroundColor", "#fff");
-                    }
-                });
-            });
-    },5000);*/
 
     $scope.sp_tag_add = function(id){
 
@@ -7234,19 +6848,7 @@ homeControllers1.controller('connect', function($scope,$state,$cookieStore,$http
         var tor_user = $scope.userList1;
         var sel_user = [];
 
-        /*if($scope.search_user_sports.length > 0){
-            angular.forEach(tor_user,function(value,key){
-                angular.forEach($scope.search_user_sports,function(value1,key1){
-                    if ( (value.spList.indexOf(value1.id) != -1 && sel_user.indexOf(value) == -1) ){
-                        sel_user.push(value);
-                        return false;
-                    }
-                });
-            });
-            $scope.userList = sel_user;
-        }else{
-            $scope.userList = $scope.userList1;
-        }*/
+
 
         if($scope.search_user_sports.length > 0){
             angular.forEach(tor_user,function(value,key){
@@ -7327,6 +6929,8 @@ homeControllers1.controller('next', function($scope,$state,$cookieStore,$http,$r
                 closeByDocument: true,
                 closeByEscape: true
             });
+        }).error(function (result) {
+            $scope.showtermsploicy(id);
         });
     }
 
@@ -7555,6 +7159,8 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
                 closeByDocument: true,
                 closeByEscape: true
             });
+        }).error(function (result) {
+            $scope.showtermsploicy(id);
         });
     };
 
@@ -7565,21 +7171,30 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
     $scope.origprofileImageName = "";
     $scope.origprofileBackImageName = "";
 
+    $timeout(function(){
+        $scope.getPImage();
+    },500);
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getPImage',
-        data    : $.param({'userid':$cookieStore.get('user_insert_id')}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }).success(function(data) {
-        $scope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+data.profileImgName;
-        $scope.profileImageName = data.profileImgName;
-        $scope.origprofileImageName = data.profileOrigImgName;
-        $scope.profileBackImage = $scope.baseUrl+'/uploads/user_image/background/thumb/'+data.backImg;
-        $scope.profileBackImageName = data.backImg;
-        $scope.origprofileBackImageName = data.OrigbackImgName;
-    });
+    $scope.getPImage = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getPImage',
+            data    : $.param({'userid':$cookieStore.get('user_insert_id')}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function(data) {
+            $scope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+data.profileImgName;
+            $scope.profileImageName = data.profileImgName;
+            $scope.origprofileImageName = data.profileOrigImgName;
+            $scope.profileBackImage = $scope.baseUrl+'/uploads/user_image/background/thumb/'+data.backImg;
+            $scope.profileBackImageName = data.backImg;
+            $scope.origprofileBackImageName = data.OrigbackImgName;
+        }).error(function (result) {
+            $scope.getPImage();
+        });
+    }
+
+
 
     $scope.profileImgDel = function(type){
         $http({
@@ -7883,381 +7498,6 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
 
 })
 
-
-/*homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,Upload,$modal,$sce) {
-
-    $scope.showtermsploicy = function(id){
-
-        var header = '';
-        if(id=='policy')
-            header = 'Privacy Policy';
-        if(id=='terms')
-            header = 'Terms And Condition';
-
-        $rootScope.stateIsLoading = true;
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.baseUrl+'/cms/admin/conditionmanager1/bringcondition',
-            data    : $.param({'id':id}),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(data) {
-            $rootScope.stateIsLoading = false;
-            ngDialog.open({
-                template: '<div><strong style="font-size: 16px; color:#C97413; font-weight: normal; text-align:center; display:block; font-weight:bold; text-transform:uppercase; font-size:22px;">'+header+'</strong></div>'+data,
-                plain:true,
-                showClose:true,
-                closeByDocument: true,
-                closeByEscape: true
-            });
-        });
-    }
-
-    $scope.profileImage = "";
-    $scope.profileBackImage = "";
-    $scope.profileImageName = "";
-    $scope.profileBackImageName = "";
-    $scope.origprofileImageName = "";
-    $scope.origprofileBackImageName = "";
-
-
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getPImage',
-        data    : $.param({'userid':$cookieStore.get('user_insert_id')}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }).success(function(data) {
-        //alert(data.userid);
-        $scope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+data.profileImgName;
-        $scope.profileImageName = data.profileImgName;
-        $scope.origprofileImageName = data.profileOrigImgName;
-        $scope.profileBackImage = $scope.baseUrl+'/uploads/user_image/background/thumb/'+data.backImg;
-        $scope.profileBackImageName = data.backImg;
-        $scope.origprofileBackImageName = data.OrigbackImgName;
-    });
-
-    $scope.profileImgDel = function(type){
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/profileImgDel',
-            data    : $.param({'userid':$cookieStore.get('user_insert_id'),'type':type}),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(result) {
-            if(type == 1){
-                $scope.profileImage = "";
-                $scope.profileImageName = "default.jpg";
-                $scope.origprofileImageName = "";
-            }
-
-            if(type==2){
-                $scope.profileBackImage = "";
-                $scope.profileBackImageName = "default.jpg";
-                $scope.origprofileBackImageName = "";
-            }
-        });
-    }
-
-
-    $scope.$watch('files', function (files) {
-        $scope.formUpload = false;
-        if (files != null) {
-            for (var i = 0; i < files.length; i++) {
-                $scope.errorMsg = null;
-                (function (file) {
-                    upload(file);
-                })(files[i]);
-            }
-        }
-    });
-
-    $scope.getReqParams = function () {
-        return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
-        '&errorMessage=' + $scope.serverErrorMsg : '';
-    };
-
-    function upload(file) {
-        $scope.errorMsg = null;
-        uploadUsingUpload(file);
-    }
-
-    function uploadUsingUpload(file) {
-        file.upload = Upload.upload({
-            url: $scope.baseUrl+'/user/ajs1/profileImgUp' + $scope.getReqParams(),
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            fields: {'user_id':$cookieStore.get('user_insert_id')},
-            file: file,
-            fileFormDataName: 'Filedata'
-        });
-
-        file.upload.then(function (response) {
-            file.result = response.data;
-
-            var ctime = (new Date).getTime();
-
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/profileimgresize',
-                data    : $.param({'filename':response.data,'height':156,'width':142,'foldername':'thumb'}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function(data) {
-                $('.progress').addClass('ng-hide');
-                $scope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data+'?version='+ctime;
-                $scope.profileImageName = response.data;
-                $scope.origprofileImageName = response.data;
-            });
-
-        }, function (response) {
-            if (response.status > 0)
-                $scope.errorMsg = response.status + ': ' + response.data;
-        });
-
-        file.upload.progress(function (evt) {
-            // Math.min is to fix IE which reports 200% sometimes
-            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
-
-        file.upload.xhr(function (xhr) {
-            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
-        });
-    }
-
-    $scope.$watch('files1', function (files) {
-        $scope.formUpload = false;
-        if (files != null) {
-            for (var i = 0; i < files.length; i++) {
-                $scope.errorMsg = null;
-                (function (file) {
-                    upload1(file);
-                })(files[i]);
-            }
-        }
-    });
-
-    function upload1(file) {
-        $scope.errorMsg = null;
-        uploadUsingUpload1(file);
-    }
-
-    function uploadUsingUpload1(file) {
-        file.upload = Upload.upload({
-            url: $scope.baseUrl+'/user/ajs1/profileBackImgUp' + $scope.getReqParams(),
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            fields: {'user_id':$cookieStore.get('user_insert_id')},
-            file: file,
-            fileFormDataName: 'Filedata'
-        });
-
-        file.upload.then(function (response) {
-            file.result = response.data;
-
-            var ctime = (new Date).getTime();
-
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/profileBackimgresize',
-                data    : $.param({'filename':response.data,'height':536,'width':1175,'foldername':'thumb'}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function(data) {
-                $('.progress').addClass('ng-hide');
-                $scope.profileBackImage = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data+'?version='+ctime;
-                $scope.profileBackImageName = response.data;
-                $scope.origprofileBackImageName = response.data;
-            });
-
-        }, function (response) {
-            if (response.status > 0)
-                $scope.errorMsg = response.status + ': ' + response.data;
-        });
-
-        file.upload.progress(function (evt) {
-            // Math.min is to fix IE which reports 200% sometimes
-            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
-
-        file.upload.xhr(function (xhr) {
-            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
-        });
-    }
-
-
-
-
-
-
-    var modalInstance;
-    $scope.modalClose = function(){
-        modalInstance.dismiss('cancel');
-    }
-
-
-    $scope.cropProfileImg = function(){
-        $scope.image = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/user_image/'+$scope.profileImageName);
-
-        $scope.animationsEnabled = true;
-        modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'mymodal',
-            windowClass: 'mymodalimg',
-            size: 'lg',
-            scope : $scope
-        });
-    }
-
-    $scope.cropform = {
-        'x2':142,
-        'y2':159,
-        'x1':0,
-        'y1':0,
-        'w':142,
-        'h':159,
-        height:159,
-        width:142,
-        foldername:'thumb'
-    }
-
-    $scope.selected = function(x) {
-        $scope.cropform = {
-            'x2': x.x2,
-            'y2': x.y2,
-            'x1': x.x,
-            'y1': x.y,
-            'w': x.w,
-            'h': x.h,
-            height:159,
-            width:142,
-            foldername:'thumb'
-        }
-    };
-
-
-    $scope.crop = function(){
-        angular.extend($scope.cropform, {'image':$scope.profileImageName});
-        modalInstance.dismiss('cancel');
-        $rootScope.stateIsLoading = true;
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/Resize_cropImage',
-            data    : $.param($scope.cropform),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(data) {
-            $rootScope.stateIsLoading = false;
-            $scope.profileImage = $scope.baseUrl+'/uploads/user_image/temp/'+data;
-        });
-
-    }
-
-    $scope.cropProfileBackImg = function(){
-        $scope.image1 = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/user_image/background/'+$scope.profileBackImageName);
-
-        $scope.animationsEnabled = true;
-        modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'mymodal1',
-            windowClass: 'mymodalimg1',
-            size: 'lg',
-            scope : $scope
-        });
-    }
-
-
-    $scope.cropform1 = {
-        'x2':1175,
-        'y2':536,
-        'x1':0,
-        'y1':0,
-        'w':1175,
-        'h':536,
-        height:536,
-        width:1175,
-        foldername:'thumb'
-    }
-
-    $scope.selected1 = function(x) {
-        $scope.cropform1 = {
-            'x2': x.x2,
-            'y2': x.y2,
-            'x1': x.x,
-            'y1': x.y,
-            'w': x.w,
-            'h': x.h,
-            height:536,
-            width:1175,
-            foldername:'thumb'
-        }
-    };
-
-
-    $scope.crop1 = function(){
-        angular.extend($scope.cropform1, {'image':$scope.profileBackImageName});
-        modalInstance.dismiss('cancel');
-        $rootScope.stateIsLoading = true;
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/resize_cropImage1',
-            data    : $.param($scope.cropform1),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(data) {
-            $rootScope.stateIsLoading = false;
-            $scope.profileBackImage = $scope.baseUrl+'/uploads/user_image/background/temp/'+data;
-        });
-
-    }
-
-    $scope.signUpfinish = function(){
-
-
-        $scope.email = $cookieStore.get('login_email');
-        $scope.password = $cookieStore.get('login_password');
-        if (typeof ($scope.email) != 'undefined' && typeof ($scope.password) != 'undefined') {
-            $rootScope.stateIsLoading = true;
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/login',
-                data    : $.param({'email':$scope.email,'password':$scope.password}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }) .success(function(data) {
-                $rootScope.stateIsLoading = false;
-
-                if(typeof (data.id) != 'undefined'){
-                    $cookieStore.put('login_email1',$scope.email);
-                    $cookieStore.put('login_password1',$scope.password);
-
-                    $cookieStore.put('rootuserdet',data);
-
-                    $cookieStore.remove('login_email');
-                    $cookieStore.remove('login_password');
-                    $cookieStore.remove('user_insert_id');
-
-                    $state.go('profile',{userId:data.id});
-                    return;
-
-                }else{
-                    $state.go('index');
-                    return
-                }
-            });
-        }else{
-            $state.go('index');
-            return
-        }
-    }
-
-
-});*/
-
 homeControllers1.controller('completesignup', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog) {
     $scope.showtermsploicy = function(id){
 
@@ -8309,6 +7549,8 @@ homeControllers1.controller('forgotpassword', function($scope,$state,$cookieStor
             }else{
                 $scope.msgFlag = true;
             }
+        }).error(function (result) {
+            $scope.submitloginForm();
         });
 
     }
@@ -8337,6 +7579,8 @@ homeControllers1.controller('forgotpassword2', function($scope,$state,$cookieSto
             }else{
                 $scope.msgFlag = true;
             }
+        }).error(function (result) {
+            $scope.submitloginForm();
         });
 
     }
@@ -8377,15 +7621,30 @@ homeControllers1.controller('changepassword', function($scope,$state,$cookieStor
 
             $state.go('login');
             return;
+        }).error(function (result) {
+            $scope.submitloginForm();
         });
 
     }
 
 });
 
-
-homeControllers1.controller('experience', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$sce,$window) {
+homeControllers1.controller('experience', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$sce,$window,$timeout) {
     $scope.sessUser = 0;
+
+    $scope.howitHeight = 210;
+    $scope.ban2Height = 200;
+
+    $scope.widowWidth12 = $(window).width();
+    $scope.expWrapWidth = (($scope.widowWidth12*90)/100);
+    $scope.RconWidth = (($scope.expWrapWidth*39)/100);
+    $scope.RconWidth = (parseInt($scope.RconWidth)-16);
+
+    $scope.howitHeight = (($scope.RconWidth*143)/334);
+    $scope.howitHeight = parseInt($scope.howitHeight);
+
+    $scope.ban2Height = ($scope.RconWidth/3);
+    $scope.ban2Height = parseInt($scope.ban2Height);
 
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
         $scope.userDet = $cookieStore.get('rootuserdet');
@@ -8412,176 +7671,177 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
 
 
     /**************************Common*****************************/
-/*    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/expcommon',
-        data    : $.param({'userid':$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.peoplelist = result.peoplelist;
 
-        $scope.maintv = result.maintv;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
-
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
-            <source src="'+$scope.maintvfile+'" type="video/mp4">\
-            </video>');
-        },10000);
-
-
-        $scope.forumList = result.forumList;
-        $scope.mainbanner = result.mainbanner;
-
-
-        $scope.slideres = result.spslides;
-
-        if($scope.slideres.length%3 > 0){
-
-            angular.forEach($scope.slideres, function(value, key){
-                $scope.slides.push(value);
-            });
-
-            angular.forEach($scope.slideres, function(value, key){
-                $scope.slides.push(value);
-            });
-
-            angular.forEach($scope.slideres, function(value, key){
-                $scope.slides.push(value);
-            });
-        }else{
-            $scope.slides = $scope.slideres;
-        }
-
-
-        for (i = 0; i < $scope.slides.length; i += many) {
-            second = {
-                image1: $scope.slides[i]
-            };
-            if (many == 1) {}
-            if ($scope.slides[i + 1] && (many == 2 || many == 3)) {
-                second.image2 = $scope.slides[i + 1];
-
-            }
-            if ($scope.slides[i + (many - 1)] && many == 3) {
-                second.image3 = $scope.slides[i + 2];
-            }
-            first.push(second);
-        }
-        $scope.groupedSlides = first;
-
-        $scope.chatUser2 = result.chatUser2;
-        $scope.chatUser1 = result.chatUser1;
-
-        $scope.bannerslides2 = result.bannerslides2;
-        $scope.bannerslides3 = result.bannerslides3;
-
-    });
-*/
     $scope.openBanner = function(url){
         window.open(url);
     }
 
+    $( window ).resize(function() {
+        $timeout(function(){
+            $scope.setbannerdim221();
+        },1000);
+    });
+
+    $timeout(function(){
+        $scope.setbannerdim221();
+    },100);
+
+    $scope.setbannerdim221 = function(){
+
+        var ban2no = $('.banner2').find('simple-slider').find('a').length;
+        var ban3no = $('.banner3').find('simple-slider').find('a').length;
+
+        if(ban2no > 0 && ban3no >0){
+
+            $rootScope.widowWidth = $(window).width();
+            $scope.widowWidthPage = $(window).width();
+            $scope.bannerwidth = (($scope.widowWidthPage *90)/100);
+            $scope.bannerwidth = (($scope.bannerwidth *39)/100);
+            $scope.bannerwidth = parseInt($scope.bannerwidth);
+
+            $scope.bannerheight1 = (($scope.bannerwidth*142)/501);
+            $scope.bannerheight1 = parseInt($scope.bannerheight1);
+
+            $scope.bannerheight2 = (($scope.bannerwidth*282)/501);
+            $scope.bannerheight2 = parseInt($scope.bannerheight2);
+
+            console.log('$scope.bannerwidth : '+$scope.bannerwidth);
+            console.log('$scope.bannerheight1 : '+$scope.bannerheight1);
+            console.log('$scope.bannerheight2 : '+$scope.bannerheight2);
+
+            $('.banner2').find('.adspace').css("cssText", "height: "+$scope.bannerheight1+"px !important;");
+            $('.banner2').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight1+'px');
+
+            $('.banner3').find('.adspace').css("cssText", "height: "+$scope.bannerheight2+"px !important;");
+            $('.banner3').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight2+'px');
+        }else{
+            $timeout(function(){
+                $scope.setbannerdim221();
+            },100);
+        }
+
+    }
+
+
     /**************************Common*****************************/
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getUserListExe',
-        data    : $.param({'userid':$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.peoplelist_no = result.nooflist;
-        $rootScope.peoplelist = result.frnddet;
-    });
+    $timeout(function(){
+        $scope.getUserListExe();
+        $scope.getMainTv();
+        $scope.getlast3post();
+        $scope.getMainBanner();
+        $scope.GetParentSports();
+    },500);
+
+    $scope.getUserListExe =function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getUserListExe',
+            data    : $.param({'userid':$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.peoplelist_no = result.nooflist;
+            $rootScope.peoplelist = result.frnddet;
+        }).error(function (result) {
+            $scope.getUserListExe();
+        });
+    }
+
+    $scope.getMainTv = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainTv',
+        }).success(function (result) {
+            $rootScope.maintv = result;
+            $rootScope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file);
+            $rootScope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file), type: "video/mp4"}];
 
 
-
-
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainTv',
-    }).success(function (result) {
-        $rootScope.maintv = result;
-        $rootScope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file);
-        $rootScope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file), type: "video/mp4"}];
-
-
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            setTimeout(function(){
+                angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" autoplay loop muted controls>\
             <source src="'+$rootScope.maintvfile+'" type="video/mp4">\
             </video>');
-        },2000);
+            },2000);
+        }).error(function (result) {
+            $scope.getMainTv();
+        });
+    }
 
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $rootScope.forumList = result;
+        }).error(function (result) {
 
-    });
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $rootScope.forumList = result;
-    });
+            $scope.getlast3post();
+        });
+    }
 
     $scope.mainbanner = 'default.png';
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
-    }).success(function (result) {
-        $rootScope.mainbanner = result;
-    });
 
+    $scope.getMainBanner = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+        }).success(function (result) {
+            $rootScope.mainbanner = result;
+        }).error(function (result) {
+            $scope.getMainBanner();
+        });
+    }
 
-
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/GetParentSports',
-    }).success(function (result) {
-        $scope.slides = result;
-        $scope.slides1 = result;
-
-        if(result.length%3 > 0){
-
-            angular.forEach(result, function(value, key){
-               $scope.slides.push(value);
-            });
-
-            angular.forEach(result, function(value, key){
-                $scope.slides.push(value);
-            });
-
-            angular.forEach(result, function(value, key){
-                $scope.slides.push(value);
-            });
-        }else{
+    $scope.GetParentSports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/GetParentSports',
+        }).success(function (result) {
             $scope.slides = result;
-        }
+            $scope.slides1 = result;
 
+            if(result.length%3 > 0){
 
-        for (i = 0; i < $scope.slides.length; i += many) {
-            second = {
-                image1: $scope.slides[i]
-            };
-            if (many == 1) {}
-            if ($scope.slides[i + 1] && (many == 2 || many == 3)) {
-                second.image2 = $scope.slides[i + 1];
+                angular.forEach(result, function(value, key){
+                    $scope.slides.push(value);
+                });
 
+                angular.forEach(result, function(value, key){
+                    $scope.slides.push(value);
+                });
+
+                angular.forEach(result, function(value, key){
+                    $scope.slides.push(value);
+                });
+            }else{
+                $scope.slides = result;
             }
-            if ($scope.slides[i + (many - 1)] && many == 3) {
-                second.image3 = $scope.slides[i + 2];
+
+
+            for (i = 0; i < $scope.slides.length; i += many) {
+                second = {
+                    image1: $scope.slides[i]
+                };
+                if (many == 1) {}
+                if ($scope.slides[i + 1] && (many == 2 || many == 3)) {
+                    second.image2 = $scope.slides[i + 1];
+
+                }
+                if ($scope.slides[i + (many - 1)] && many == 3) {
+                    second.image3 = $scope.slides[i + 2];
+                }
+                first.push(second);
             }
-            first.push(second);
-        }
-        $scope.groupedSlides = first;
-    });
+            $scope.groupedSlides = first;
+        }).error(function (result) {
+            $scope.GetParentSports();
+        });
+    }
 
 });
 
@@ -8596,45 +7856,65 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
-        data    : $.param({'userid':$scope.userId,sessUser:$scope.sessUser}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(result) {
-        $scope.userDet = result;
-        var sportsName1 = '';
-        var sportsName2 = '';
-        var sportsName3 = '';
-        if (typeof $scope.userDet.user_sports[0] != 'undefined') {
-            sportsName1 = $scope.userDet.user_sports[0].sport_name;
-        }
-        if (typeof $scope.userDet.user_sports[1] != 'undefined') {
-            sportsName2 = $scope.userDet.user_sports[1].sport_name;
-        }
-        if (typeof $scope.userDet.user_sports[2] != 'undefined') {
-            sportsName3 = $scope.userDet.user_sports[2].sport_name;
-        }
-        var user_str = $scope.userDet.fname+'-'+$scope.userDet.lname+'-'+sportsName1+'-'+$scope.userDet.city+'-'+$scope.userDet.state_name+'-'+sportsName2+'-'+sportsName3+'-track your route share with friends';
-        //user_str = $filter('lowercase')(user_str);
-        user_str = user_str.replace(/\s+/g, '-');
-        //user_str = encodeURI(user_str);
+    $timeout(function(){
+        $scope.getUserDetails();
+    },500);
 
-        var user_str1 = $scope.userDet.fname+'-'+$scope.userDet.lname;
-        user_str1 = user_str1.replace(/\s+/g, '-');
+    $scope.getUserDetails = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
+            data    : $.param({'userid':$scope.userId,sessUser:$scope.sessUser}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $scope.userDet = result;
+            var sportsName1 = '';
+            var sportsName2 = '';
+            var sportsName3 = '';
+            if (typeof $scope.userDet.user_sports[0] != 'undefined') {
+                sportsName1 = $scope.userDet.user_sports[0].sport_name;
+            }
+            if (typeof $scope.userDet.user_sports[1] != 'undefined') {
+                sportsName2 = $scope.userDet.user_sports[1].sport_name;
+            }
+            if (typeof $scope.userDet.user_sports[2] != 'undefined') {
+                sportsName3 = $scope.userDet.user_sports[2].sport_name;
+            }
+            var user_str = $scope.userDet.fname+'-'+$scope.userDet.lname+'-'+sportsName1+'-'+$scope.userDet.city+'-'+$scope.userDet.state_name+'-'+sportsName2+'-'+sportsName3+'-track your route share with friends';
+            user_str = user_str.replace(/\s+/g, '-');
 
-        user_str1 = user_str1.toLowerCase();
+            var user_str1 = $scope.userDet.fname+'-'+$scope.userDet.lname;
+            user_str1 = user_str1.replace(/\s+/g, '-');
+
+            user_str1 = user_str1.toLowerCase();
 
 
-        $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
-        return;
+            $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
+            return;
+        }).error(function (result) {
+            $scope.getUserDetails();
+        });
+    }
 
-        //window.location.href = $scope.subUrl+'/profile/'+$scope.userId+'/'+user_str1;
-    });
+
 
 });
-homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,MetaService,uiGmapGoogleMapApi,$interval,$compile) {
+homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,MetaService,$interval,$compile) {
+
+
+    $scope.ban2Height = 200;
+
+    $scope.widowWidth12 = $(window).width();
+    $scope.expWrapWidth = (($scope.widowWidth12*90)/100);
+    $scope.RconWidth = (($scope.expWrapWidth*39)/100);
+    $scope.RconWidth = (parseInt($scope.RconWidth)-16);
+
+    $scope.ban2Height = ($scope.RconWidth/3);
+    $scope.ban2Height = parseInt($scope.ban2Height);
+
+
+
 
     $scope.openBanner = function(url){
         window.open(url);
@@ -8642,14 +7922,13 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
     $scope.bannerslides11 = [];
 
-    $rootScope.widowWidth = $(window).width();
+
+
 
     $scope.elemload = 0;
     $scope.elemloadtime = 0;
 
     $scope.someMethod = function(){
-        //$scope.mapcommonfunc();
-       // $scope.bannerload();
 
         var d = new Date();
         var t = d.getTime();
@@ -8667,44 +7946,33 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
     }
 
+
+
     /*****************************************************************************/
 
     var canvasheight;
     var bannerheight;
 
     $(window).ready(function(){
-        //setbannerheight();
         $timeout(function(){
             $scope.setbannerheight55();
+
         },100);
-
-
-        console.log('window ready');
-
     });
-
-
-   /* $(window).load(function () {
-        $scope.mapcommonfunc();
-        $scope.bannerload();
-    });*/
-
-
     $( window ).resize(function() {
         $timeout(function(){
-           // setbannerheight1();
             $scope.setbannerheight55();
+            $scope.setbannerdim221();
         },1000);
     });
 
     $timeout(function(){
-       // setbannerheight();
         $scope.setbannerheight55();
+        $scope.setbannerdim221();
 
     },5000);
 
     $timeout(function(){
-       // setbannerheight();
         $scope.setbannerheight55();
     },10000);
 
@@ -8803,7 +8071,8 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
             if(ffheight > 0){
                 $('.bannerdiv22511').height(ffheight);
-                $('.bannerdiv22511').width($('.banner-add').width());
+              //  $('.bannerdiv22511').width($('.banner-add').width());
+                $('.bannerdiv22511').width(parseInt(ffheight) *.74);
             }else{
                 $timeout(function(){
                     $scope.setbannerheight55();
@@ -8821,34 +8090,64 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         });
     }
 
+    $scope.setbannerdim221 = function(){
+        $rootScope.widowWidth = $(window).width();
+        $scope.widowWidthPage = $(window).width();
+        $scope.bannerwidth = (($scope.widowWidthPage *90)/100);
+        $scope.bannerwidth = (($scope.bannerwidth *39)/100);
+        $scope.bannerwidth = parseInt($scope.bannerwidth);
+
+        $scope.bannerheight1 = (($scope.bannerwidth*142)/501);
+        $scope.bannerheight1 = parseInt($scope.bannerheight1);
+
+        $scope.bannerheight2 = (($scope.bannerwidth*282)/501);
+        $scope.bannerheight2 = parseInt($scope.bannerheight2);
+
+        console.log('$scope.bannerwidth : '+$scope.bannerwidth);
+        console.log('$scope.bannerheight1 : '+$scope.bannerheight1);
+        console.log('$scope.bannerheight2 : '+$scope.bannerheight2);
+
+        $('.banner2').find('.adspace').css("cssText", "height: "+$scope.bannerheight1+"px !important;");
+        $('.banner2').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight1+'px');
+
+        $('.banner3').find('.adspace').css("cssText", "height: "+$scope.bannerheight2+"px !important;");
+        $('.banner3').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight2+'px');
+
+    }
+
 
     /*****************************************************************************/
 
+    $timeout(function(){
+        $scope.getBanner1();
+        $scope.getUserDetails();
+        $scope.getFriendDet1();
+        $scope.getunFriendDet1();
+        $scope.getstatdetails();
+        $scope.getMainTv();
+        $scope.getlast3post();
+        $scope.getMainBanner();
+        $scope.alluserList55555();
 
+    },500)
 
+    $scope.getBanner1 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':3,'areaid':1,'sp_id':0}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.tempbannerslides = result[0];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getBanner',
-        data    : $.param({'pageid':3,'areaid':1,'sp_id':0}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.tempbannerslides = result[0];
-
-        $timeout(function(){
-            $scope.setbannerheight55();
-        },2000);
-    });
-
-
-
-
-
-
-
-
-
+            $timeout(function(){
+                $scope.setbannerheight55();
+            },2000);
+        }).error(function (result) {
+            $scope.getBanner1();
+        });
+    }
 
     $scope.isProfilePage = 1;
     $scope.sessUser = $rootScope.rootsessUser = 0;
@@ -8859,15 +8158,12 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
-    $scope.userDet = {
+   /* $scope.userDet = {
         profileImg : $scope.baseUrl+'/uploads/user_image/default_latest_user.jpg',
         backImg : $scope.baseUrl+'/uploads/user_image/default_latest_back.jpg'
-    }
-
+    }*/
 
     $scope.resizeTextarea1 = function(event){
-        //event.originalTarget.parentElement.parentElement.style.setProperty ("height", 'auto', "important");
-        //event.originalTarget.style.setProperty ("height", 'auto', "important");
 
         var target = event.target || event.srcElement || event.originalTarget;
 
@@ -9168,107 +8464,6 @@ $scope.matches = [];
     $scope.isMute = true;
     $scope.mainbanner = 'default.png';
 
-   // $scope.bannerslides1 = [];
-  //  $scope.bannerslides2 = [];
- //   $scope.bannerslides3 = [];
-
-/*
-    $rootScope.stateIsLoading = true;
-
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/profilecommon',
-        data    : $.param({'userid':$scope.userId,sessUser:$scope.sessUser}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(result) {
-
-        $rootScope.stateIsLoading = false;
-
-        $scope.userDet = result['userdetails'];
-
-        if($scope.sessUser > 0){
-            $cookieStore.put('user_is_admin',$scope.userDet.is_admin);
-            $rootScope.user_is_admin = $scope.userDet.is_admin;
-        }
-
-
-        var sportsName1 = '';
-        var sportsName2 = '';
-        var sportsName3 = '';
-        if (typeof $scope.userDet.user_sports[0] != 'undefined') {
-            sportsName1 = $scope.userDet.user_sports[0].sport_name;
-        }
-        if (typeof $scope.userDet.user_sports[1] != 'undefined') {
-            sportsName2 = $scope.userDet.user_sports[1].sport_name;
-        }
-        if (typeof $scope.userDet.user_sports[2] != 'undefined') {
-            sportsName3 = $scope.userDet.user_sports[2].sport_name;
-        }
-        var user_str = $scope.userDet.fname+', '+$scope.userDet.lname+', '+sportsName1+', '+$scope.userDet.city+', '+$scope.userDet.state_name+', '+sportsName2+', '+sportsName3;
-
-
-        $rootScope.metaservice = MetaService;
-        $rootScope.metaservice.set(user_str);
-
-
-
-        $scope.frnddet = result.frnddet;
-        $scope.unfrnddet = result.unfrnddet;
-        $scope.statDet = result.statDet;
-
-        $scope.maintv = result.maintv;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
-
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
-            <source src="'+$scope.maintvfile+'" type="video/mp4">\
-            </video>');
-        },10000);
-
-        $scope.forumList = result.forumList;
-        $scope.mainbanner = result.mainbanner;
-
-        $scope.taguserList = result.taguserList;
-        
-
-        $scope.bannerslides1 = result.bannerslides1;
-        $scope.bannerslides2 = result.bannerslides2;
-        $scope.bannerslides3 = result.bannerslides3;
-	
-
-
-        $scope.chatUser2 = result.frnddet;
-        $scope.chatUser1 = result.unfrnddet;
-
-
-        $timeout(function(){
-           // setbannerheight();
-           // setbannerheight1();
-
-            setbannerheight55();
-            setimgdim();
-
-            $scope.mapcommonfunc();
-
-        },5000);
-
-        $timeout(function(){
-           // setbannerheight();
-           // setbannerheight1();
-
-            
-            setimgdim();
-
-            
-
-        },15000);
-
-
-
-    });
-*/
     $scope.mapfullnotload = true;
     $scope.mapcommonfunc = function(){
         $scope.zoomlevel = 9;
@@ -9286,6 +8481,8 @@ $scope.matches = [];
             $scope.allmarker = result.marker;
             $scope.slicemarker = $scope.allmarker.slice($scope.markerIndex, 10);
 
+            //$scope.refreshMap = true;
+
 
             console.log($scope.slicemarker.length);
 
@@ -9293,7 +8490,7 @@ $scope.matches = [];
                 $scope.markerpush();
             },10000);
 
-            $scope.rootmap = {
+            $scope.profilemap = {
                 dragZoom: {options: {}},
                 control:{},
                 center: {
@@ -9305,10 +8502,10 @@ $scope.matches = [];
                 },
                 pan: true,
                 zoom: $scope.zoomlevel,
-                refresh: false,
+                refresh: true,
                 events: {
 
-                    idle: function (rootmap) {
+                    /*idle: function (profilemap) {
 
                         $timeout(function() {
 
@@ -9317,12 +8514,12 @@ $scope.matches = [];
 
                                 var visibleMarkers = [];
 
-                                if(typeof($scope.rootmap.bounds.southwest) != 'undefined' && typeof($scope.rootmap.bounds.northeast) != 'undefined'){
+                                if(typeof($scope.profilemap.bounds.southwest) != 'undefined' && typeof($scope.profilemap.bounds.northeast) != 'undefined'){
                                     angular.forEach(result.marker, function(marker, key) {
-                                        if ($scope.rootmap.bounds.southwest.latitude < marker.latitude
-                                            && marker.latitude < $scope.rootmap.bounds.northeast.latitude
-                                            && $scope.rootmap.bounds.southwest.longitude < marker.longitude
-                                            && marker.longitude < $scope.rootmap.bounds.northeast.longitude) {
+                                        if ($scope.profilemap.bounds.southwest.latitude < marker.latitude
+                                            && marker.latitude < $scope.profilemap.bounds.northeast.latitude
+                                            && $scope.profilemap.bounds.southwest.longitude < marker.longitude
+                                            && marker.longitude < $scope.profilemap.bounds.northeast.longitude) {
 
                                             visibleMarkers.push(marker);
                                         }
@@ -9334,7 +8531,7 @@ $scope.matches = [];
                                         $scope.zoomlevel = parseInt($scope.zoomlevel)-1;
 
 
-                                        $scope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
+                                        $scope.profilemap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
                                         // console.log($rootScope.map.zoom);
                                     }
                                 }
@@ -9348,7 +8545,7 @@ $scope.matches = [];
 
                         }, 0);
 
-                    }
+                    }*/
 
 
                 },
@@ -9364,7 +8561,7 @@ $scope.matches = [];
                     click:function(gMarker, eventName, model){
                         angular.element( document.querySelector( '#infoWin' ) ).html(model.infoHtml);
                         model.doShow = true;
-                        $scope.rootmap.openedCanadaWindows = model;
+                        $scope.profilemap.openedCanadaWindows = model;
                     }
                 }
 
@@ -9372,7 +8569,7 @@ $scope.matches = [];
             };
 
 
-            $scope.rootmap.markers.forEach(function(model){
+            $scope.profilemap.markers.forEach(function(model){
                 model.closeClick = function(){
                     model.doShow = false;
                 };
@@ -9382,157 +8579,208 @@ $scope.matches = [];
 
 
 
+        }).error(function (result) {
+            $scope.mapcommonfunc();
         });
 
     }
-
+    var promise;
     $scope.markerpush = function(){
-        var i;
-        for(i=$scope.markerIndex; i<($scope.markerIndex+10);i++){
-            if(typeof ($scope.allmarker[i]) != 'undefined')
-                $scope.slicemarker.push($scope.allmarker[i]);
-        }
 
-        $scope.markerIndex += 10;
-        console.log($scope.slicemarker.length);
-        if($scope.slicemarker.length < $scope.allmarker.length){
-            $timeout(function(){
-                $scope.markerpush();
-            },5000);
-        }else{
-            console.log('marker load complete');
-        }
+
+            var i;
+            for(i=$scope.markerIndex; i<($scope.markerIndex+10);i++){
+                if(typeof ($scope.allmarker[i]) != 'undefined')
+                    $scope.slicemarker.push($scope.allmarker[i]);
+            }
+
+            $scope.markerIndex += 10;
+            console.log($scope.slicemarker.length);
+            if($scope.slicemarker.length < $scope.allmarker.length){
+                promise = $timeout(function(){
+                    $scope.markerpush();
+                },5000);
+            }else{
+                console.log('marker load complete');
+            }
+
     }
+
+    $scope.$on('$locationChangeStart', function(){
+        $timeout.cancel(promise);
+    });
 
 $scope.bannerload = function(){
 
-    $scope.pageId = 0;
-    $scope.spId = 0;
-        $scope.pageId = 3;
-
-
-    $scope.bannerslides1 = [];
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getBanner',
-        data    : $.param({'pageid':$scope.pageId,'areaid':1,'sp_id':$scope.spId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.bannerslides11 = result;
-
-        $timeout(function(){
-            $scope.setbannerheight55();
-        },2000);
-    });
-
-    $scope.bannerslides2 = [];
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getBanner',
-        data    : $.param({'pageid':$scope.pageId,'areaid':2,'sp_id':$scope.spId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.bannerslides2 = result;
-
-        $timeout(function(){
-            $scope.setbannerheight55();
-        },2000);
-
-    });
-
-    $scope.bannerslides3 = [];
-
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getBanner',
-        data    : $.param({'pageid':$scope.pageId,'areaid':3,'sp_id':$scope.spId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.bannerslides3 = result;
-
-        $timeout(function(){
-            $scope.setbannerheight55();
-        },2000);
-
-    });
+    $scope.getban111();
+    $scope.getban222();
+    $scope.getban333();
 
 }
 
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
-        data    : $.param({'userid':$scope.userId,sessUser:$scope.sessUser}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(result) {
-        $scope.userDet = result;
-        console.log($scope.userDet);
+    $scope.getban111 = function(){
+        $scope.pageId = 0;
+        $scope.spId = 0;
+        $scope.pageId = 3;
+        $scope.bannerslides1 = [];
 
-        if($scope.sessUser > 0){
-            $cookieStore.put('user_is_admin',result.is_admin);
-            $rootScope.user_is_admin = result.is_admin;
-        }
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':1,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.bannerslides11 = result;
+
+            $timeout(function(){
+                $scope.setbannerheight55();
+
+            },2000);
+        }).error(function (result) {
+            $scope.getban111();
+        });
+
+    }
+
+    $scope.getban222 = function(){
+        $scope.pageId = 0;
+        $scope.spId = 0;
+        $scope.pageId = 3;
+        $scope.bannerslides2 = [];
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':2,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.bannerslides2 = result;
+
+            $timeout(function(){
+                $scope.setbannerheight55();
+                $scope.setbannerdim221();
+            },2000);
+
+        }).error(function (result) {
+            $scope.getban222();
+        });
+
+    }
+
+    $scope.getban333 = function(){
+        $scope.pageId = 0;
+        $scope.spId = 0;
+        $scope.pageId = 3;
+        $scope.bannerslides3 = [];
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getBanner',
+            data    : $.param({'pageid':$scope.pageId,'areaid':3,'sp_id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.bannerslides3 = result;
+
+            $timeout(function(){
+                $scope.setbannerheight55();
+                $scope.setbannerdim221();
+            },2000);
+
+        }).error(function (result) {
+            $scope.getban333();
+        });
+
+    }
+
+    $scope.getUserDetails =function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
+            data    : $.param({'userid':$scope.userId,sessUser:$scope.sessUser}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $scope.userDet = result;
+            console.log($scope.userDet);
+
+            if($scope.sessUser > 0){
+                $cookieStore.put('user_is_admin',result.is_admin);
+                $rootScope.user_is_admin = result.is_admin;
+            }
 
 
-        var sportsName1 = '';
-        var sportsName2 = '';
-        var sportsName3 = '';
-        if (typeof $scope.userDet.user_sports[0] != 'undefined') {
-            sportsName1 = $scope.userDet.user_sports[0].sport_name;
-        }
-        if (typeof $scope.userDet.user_sports[1] != 'undefined') {
-            sportsName2 = $scope.userDet.user_sports[1].sport_name;
-        }
-        if (typeof $scope.userDet.user_sports[2] != 'undefined') {
-            sportsName3 = $scope.userDet.user_sports[2].sport_name;
-        }
-        var user_str = $scope.userDet.fname+', '+$scope.userDet.lname+', '+sportsName1+', '+$scope.userDet.city+', '+$scope.userDet.state_name+', '+sportsName2+', '+sportsName3;
+            var sportsName1 = '';
+            var sportsName2 = '';
+            var sportsName3 = '';
+            if (typeof $scope.userDet.user_sports[0] != 'undefined') {
+                sportsName1 = $scope.userDet.user_sports[0].sport_name;
+            }
+            if (typeof $scope.userDet.user_sports[1] != 'undefined') {
+                sportsName2 = $scope.userDet.user_sports[1].sport_name;
+            }
+            if (typeof $scope.userDet.user_sports[2] != 'undefined') {
+                sportsName3 = $scope.userDet.user_sports[2].sport_name;
+            }
+            var user_str = $scope.userDet.fname+', '+$scope.userDet.lname+', '+sportsName1+', '+$scope.userDet.city+', '+$scope.userDet.state_name+', '+sportsName2+', '+sportsName3;
 
 
-        $rootScope.metaservice = MetaService;
-        $rootScope.metaservice.set(user_str);
+            $rootScope.metaservice = MetaService;
+            $rootScope.metaservice.set(user_str);
 
-      //  $scope.mapcommonfunc();
-        $timeout(function(){
-            $scope.setbannerheight55();
-        },5000);
+            //  $scope.mapcommonfunc();
+            $timeout(function(){
+                $scope.setbannerheight55();
+            },5000);
 
-    });
+        }).error(function (result) {
+            $scope.getUserDetails();
+        });
+    }
 
+    $scope.getFriendDet1 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getFriendDet1',
+            data    : $.param({'userid':$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.frnddet = result.frnddet;
+        }).error(function (result) {
+            $scope.getFriendDet1();
+        });
+    }
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getFriendDet1',
-        data    : $.param({'userid':$scope.userId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.frnddet = result.frnddet;
-    });
+    $scope.getunFriendDet1 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getunFriendDet1',
+            data    : $.param({'userid':$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.unfrnddet = result;
+        }).error(function (result) {
+            $scope.getunFriendDet1();
+        });
+    }
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getunFriendDet1',
-        data    : $.param({'userid':$scope.userId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.unfrnddet = result;
-    });
-
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getstatdetails',
-        data    : $.param({'userid':$scope.userId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.statDet = result;
-    });
+    $scope.getstatdetails = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getstatdetails',
+            data    : $.param({'userid':$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.statDet = result;
+        }).error(function (result) {
+            $scope.getstatdetails();
+        });
+    }
 
     $scope.blockpeople = function(){
         $rootScope.stateIsLoading = true;
@@ -9548,6 +8796,8 @@ $scope.bannerload = function(){
             $state.go('profile',{userId:$scope.sessUser});
             return;
 
+        }).error(function (result) {
+            $scope.blockpeople();
         });
     }
 
@@ -9565,6 +8815,8 @@ $scope.bannerload = function(){
             $scope.userDet.friendship_id = 0;
             $scope.userDet.friendship_type = 0;
 
+        }).error(function (result) {
+            $scope.removeFriend(id);
         });
     }
 
@@ -9580,6 +8832,8 @@ $scope.bannerload = function(){
             $rootScope.stateIsLoading = false;
             $scope.userDet.friendship_type = 4;
 
+        }).error(function (result) {
+            $scope.acceptreq55(id);
         });
     }
 
@@ -9597,44 +8851,56 @@ $scope.bannerload = function(){
             $scope.userDet.friendship_id = result;
             $scope.userDet.friendship_type = 1;
 
+        }).error(function (result) {
+            $scope.addFriend55();
         });
     }
 
+    $scope.getMainTv = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainTv',
+        }).success(function (result) {
+            $rootScope.maintv = result;
+            $rootScope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file);
+            $rootScope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file), type: "video/mp4"}];
 
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainTv',
-    }).success(function (result) {
-        $rootScope.maintv = result;
-        $rootScope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file);
-        $rootScope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$rootScope.maintv.file), type: "video/mp4"}];
-
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            setTimeout(function(){
+                angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" autoplay loop muted controls>\
             <source src="'+$rootScope.maintvfile+'" type="video/mp4">\
             </video>');
-        },2000);
+            },2000);
 
-    });
+        }).error(function (result) {
+            $scope.getMainTv();
+        });
+    }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $rootScope.forumList = result;
-    });
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $rootScope.forumList = result;
+        }).error(function (result) {
+            $scope.getlast3post();
+        });
+    }
 
+    $scope.getMainBanner = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+        }).success(function (result) {
+            $rootScope.mainbanner = result;
+        }).error(function (result) {
+            $scope.getMainBanner();
+        });
+    }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
-    }).success(function (result) {
-        $rootScope.mainbanner = result;
-    });
 
     $scope.addFriend = function(item){
         $rootScope.stateIsLoading = true;
@@ -10080,16 +9346,19 @@ $scope.bannerload = function(){
         return;
     }
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/alluserList55555',
-        data    : $.param({sess_id: $scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.taguserList = result;
-    });
-
+    $scope.alluserList55555 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/alluserList55555',
+            data    : $.param({sess_id: $scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.taguserList = result;
+        }).error(function (result) {
+            $scope.alluserList55555();
+        });
+    }
 
     $scope.loadUsers = function($query) {
         var sports = $scope.taguserList;
@@ -10098,8 +9367,6 @@ $scope.bannerload = function(){
         });
 
     };
-
-
 
 });
 
@@ -10119,32 +9386,50 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
     $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
     $scope.frnddet = [];
 
-   /* $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getsports1',
-    }).success(function (result) {
-        angular.element( document.querySelector( '#select-search' ) ).append(result);
-    });*/
-
     $scope.sportsList = [];
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/allsports',
-    }).success(function (result5) {
-        $scope.sportsList = result5;
-    });
 
+    $timeout(function(){
+        $scope.getAllSports();
+        $scope.getCountryList();
+    },500);
 
+    $scope.getAllSports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/allsports',
+        }).success(function (result5) {
+            $scope.sportsList = result5;
+        }).error(function (result) {
+            $scope.getAllSports();
+        });
+    }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getCountryList',
-    }).success(function (result) {
-        $scope.countrylist = result;
-    });
+    $scope.getCountryList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCountryList',
+        }).success(function (result) {
+            $scope.countrylist = result;
+        }).error(function (result) {
+            $scope.getCountryList();
+        });
+    }
+
+    $scope.getStateList = function(event){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStateList',
+            data    : $.param({'id':event}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (result) {
+            $scope.statelist = result;
+        }).error(function (result) {
+            $scope.getStateList(event);
+        });
+    }
 
     $scope.statelist = [];
 
@@ -10155,20 +9440,12 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
 
         if(typeof (event) != 'undefined'){
             $scope.statelist = [];
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':event}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result) {
-                $scope.statelist = result;
-            });
+            $scope.getStateList(event);
         }
 
     }
 
-    if($state.current.name == 'friendlist'){
+    $scope.getFriendDet11 = function(){
         $http({
             method: 'POST',
             async:   false,
@@ -10180,8 +9457,12 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
             $scope.user_image = result.user_image;
             $scope.frnddet = result.frnddet;
             $scope.frnddet1 = result.frnddet;
+        }).error(function (result) {
+            $scope.getFriendDet11();
         });
-    }else{
+    }
+
+    $scope.getFriendDet21 = function(){
         $http({
             method: 'POST',
             async:   false,
@@ -10193,7 +9474,15 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
             $scope.user_image = result.user_image;
             $scope.frnddet = result.frnddet;
             $scope.frnddet1 = result.frnddet;
+        }).error(function (result) {
+            $scope.getFriendDet21();
         });
+    }
+
+    if($state.current.name == 'friendlist'){
+        $scope.getFriendDet11();
+    }else{
+        $scope.getFriendDet21();
     }
 
     $scope.tooltipVal = function(item){
@@ -10249,15 +9538,7 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
         });
     }
 
-   /* $scope.sportList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getsports55',
-    }).success(function (result) {
-        $scope.sportList = result;
-    });*/
 
     $scope.loadSports = function($query) {
         var sports = $scope.sportList;
@@ -10315,11 +9596,6 @@ homeControllers1.controller('friendlist', function($scope,$state,$cookieStore,$h
         $scope.frnddet = $scope.frnddet1;
     }
 
-
-
-
-
-
 });
 
 homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
@@ -10333,17 +9609,26 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
 
     $scope.photoWindowWidth = $(window).width();
 
-    //$scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
+    $timeout(function(){
+        $scope.getUserDet();
+        $scope.getImage();
+        $scope.getVideo();
+    },500);
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getUserDet',
-        data    : $.param({'userid':$scope.userId }),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.user_image = result.userdet.user_image;
-    });
+    $scope.getUserDet = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getUserDet',
+            data    : $.param({'userid':$scope.userId }),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.user_image = result.userdet.user_image;
+        }).error(function (result) {
+            $scope.getUserDet();
+        });
+    }
+
 
     $scope.photoTabs = [{
         title: 'photo',
@@ -10369,23 +9654,29 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
     $scope.photoLimit = 0;
     $scope.videoLimit = 0;
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getImage',
-        data    : $.param({'userid':$scope.userId,sess_id:$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.photoList = result;
+    $scope.getImage = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getImage',
+            data    : $.param({'userid':$scope.userId,sess_id:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.photoList = result;
 
-        $scope.photoLimit = 10;
-        $scope.photoloading = true;
-        $timeout(function(){
-            $scope.photoloading = false;
-            $scope.photolimitinc();
-        },10000);
+            $scope.photoLimit = 10;
+            $scope.photoloading = true;
+            $timeout(function(){
+                $scope.photoloading = false;
+                $scope.photolimitinc();
+            },10000);
 
-    });
+        }).error(function (result) {
+            $scope.getImage();
+        });
+    }
+
+
 
     $scope.photolimitinc = function(){
         $scope.photoloading = true;
@@ -10401,23 +9692,28 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         }
     }
 
+    $scope.getVideo = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getVideo',
+            data    : $.param({'userid':$scope.userId,sess_id:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.videoList = result;
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getVideo',
-        data    : $.param({'userid':$scope.userId,sess_id:$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.videoList = result;
+            $scope.videoLimit = 10;
+            $scope.videoloading = true;
+            $timeout(function(){
+                $scope.videoloading = false;
+                $scope.videolimitinc();
+            },10000);
+        }).error(function (result) {
+            $scope.getVideo();
+        });
+    }
 
-        $scope.videoLimit = 10;
-        $scope.videoloading = true;
-        $timeout(function(){
-            $scope.videoloading = false;
-            $scope.videolimitinc();
-        },10000);
-    });
+
 
     $scope.videolimitinc = function(){
         $scope.videoloading = true;
@@ -10772,27 +10068,33 @@ homeControllers1.controller('photo', function($scope,$state,$cookieStore,$http,$
 
     $scope.photoLimit = 0;
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getAllImage',
-        data    : $.param({'sessUser':$scope.sessUser}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }).success(function (result) {
-        $rootScope.photoList = result;
+    $timeout(function(){
+        $scope.getAllImage();
+    },500);
 
-        console.log('total image :'+result.length);
+    $scope.getAllImage = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getAllImage',
+            data    : $.param({'sessUser':$scope.sessUser}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (result) {
+            $rootScope.photoList = result;
 
-        $scope.photoLimit = 10;
+            $scope.photoLimit = 10;
 
-        $scope.photoloading = true;
-        $timeout(function(){
-            $scope.photoloading = false;
-            $scope.photolimitinc();
-        },10000);
+            $scope.photoloading = true;
+            $timeout(function(){
+                $scope.photoloading = false;
+                $scope.photolimitinc();
+            },10000);
 
+        }).error(function (result) {
+            $scope.getAllImage();
+        });
+    }
 
-    });
 
 
     $scope.photolimitinc = function(){
@@ -10826,27 +10128,35 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
 
     $scope.videoLimit = 0;
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getAllVideo',
-        data    : $.param({'sess_id':$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.videoList = result;
+    $timeout(function(){
+        $scope.getAllVideo();
+    },500)
 
-        console.log('total video :'+result.length);
+    $scope.getAllVideo = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getAllVideo',
+            data    : $.param({'sess_id':$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.videoList = result;
 
-        $scope.videoLimit = 10;
+            $scope.videoLimit = 10;
 
-        $scope.videoloading = true;
-        $timeout(function(){
-            $scope.videoloading = false;
-            $scope.videolimitinc();
-        },10000);
+            $scope.videoloading = true;
+            $timeout(function(){
+                $scope.videoloading = false;
+                $scope.videolimitinc();
+            },10000);
 
 
-    });
+        }).error(function (result) {
+            $scope.getAllVideo();
+        });
+    }
+
+
 
     $scope.videolimitinc = function(){
         $scope.videoloading = true;
@@ -10998,62 +10308,77 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
     $scope.countrylist = [];
     $scope.statelist = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getCountryList',
-    }).success(function (result) {
-        $scope.countrylist = result;
-    });
+    $timeout(function(){
+        $scope.getCountryList();
+        $scope.getUserDetails();
+        $scope.getallsports();
+    },500);
 
+    $scope.getCountryList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCountryList',
+        }).success(function (result) {
+            $scope.countrylist = result;
+        }).error(function (result) {
+            $scope.getCountryList();
+        });
+    }
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
-        data    : $.param({'userid':$scope.userId,sessUser:0}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(result) {
-
-        $scope.form = {
-            id:result.id,
-            fname:result.fname,
-            lname:result.lname,
-            email:result.email,
-            location:result.location,
-            city:result.city,
-            country:{id:result.country},
-            state:{id:result.state},
-            gender:result.gender,
-        }
-
-        $scope.privacy = result.privacy;
-
-        $scope.userSports = result.user_sports;
-        $scope.userSports1 = result.user_sports1;
-        $scope.origprofileImg = result.profileOrigImgName;
-        $scope.origcoverImg = result.OrigbackImgName+'?version='+ctime;
-        $scope.profileImg = result.profileImg+'?version='+ctime;
-        $scope.coverImg = result.backImg+'?version='+ctime;
-        $scope.profileImgName = result.profileImgName;
-        $scope.coverImgName = result.backImgName;
-
+    $scope.getStateList = function(country){
         $http({
             method: 'POST',
             async:   false,
             url: $scope.baseUrl+'/user/ajs1/getStateList',
-            data    : $.param({'id':result.country}),  // pass in data as strings
+            data    : $.param({'id':country}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).success(function (result5) {
             $scope.statelist = result5;
+        }).error(function (result) {
+            $scope.getStateList(country);
+        });
+    }
+
+    $scope.getUserDetails = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getUserDetails',
+            data    : $.param({'userid':$scope.userId,sessUser:0}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+
+            $scope.form = {
+                id:result.id,
+                fname:result.fname,
+                lname:result.lname,
+                email:result.email,
+                location:result.location,
+                city:result.city,
+                country:{id:result.country},
+                state:{id:result.state},
+                gender:result.gender,
+            }
+
+            $scope.privacy = result.privacy;
+
+            $scope.userSports = result.user_sports;
+            $scope.userSports1 = result.user_sports1;
+            $scope.origprofileImg = result.profileOrigImgName;
+            $scope.origcoverImg = result.OrigbackImgName+'?version='+ctime;
+            $scope.profileImg = result.profileImg+'?version='+ctime;
+            $scope.coverImg = result.backImg+'?version='+ctime;
+            $scope.profileImgName = result.profileImgName;
+            $scope.coverImgName = result.backImgName;
+
+            $scope.getStateList(result.country);
+
+        }).error(function (result) {
+            $scope.getUserDetails();
         });
 
-
-
-
-
-    });
-
+    }
 
     $scope.passwordValidator = function(password) {
 
@@ -11066,33 +10391,29 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         return true;
     };
 
-
-
     $scope.changeCountry = function(countryval){
         if(typeof (countryval) != 'undefined'){
             $scope.statelist = [];
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':countryval.id}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result) {
-                $scope.statelist = result;
-            });
+
+            $scope.getStateList(countryval.id);
+
         }else{
             $scope.statelist = [];
         }
 
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/allsports',
-    }).success(function (result) {
-        $scope.sportsList = result;
-    });
+    $scope.getallsports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/allsports',
+        }).success(function (result) {
+            $scope.sportsList = result;
+        }).error(function (result) {
+            $scope.getallsports();
+        });
+    }
 
     $scope.editProfile = function(){
         $http({
@@ -11250,7 +10571,6 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         });
     }
 
-
     $scope.$watch('files1', function (files) {
         $scope.formUpload = false;
         if (files != null) {
@@ -11316,13 +10636,10 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         });
     }
 
-
     var modalInstance;
     $scope.modalClose = function(){
         modalInstance.dismiss('cancel');
     }
-
-
 
     $scope.cropProfileImg = function(){
         $scope.pLoad = true;
@@ -11350,12 +10667,9 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         },1000);
     }
 
-
     $scope.changepreview = function(){
         $scope.imagedata1 = $('.image-editor').cropit('export');
     }
-
-
 
     $scope.crop123 = function(){
 
@@ -11373,8 +10687,6 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
             modalInstance.dismiss('cancel');
         });
     }
-
-
 
     $scope.cropProfileBackImg = function(){
         $scope.pLoad = true;
@@ -11460,25 +10772,30 @@ homeControllers1.controller('eventdetails1', function($scope,$state,$cookieStore
         $scope.userId = $scope.userDet.id;
     }
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getEventDet',
-        data    : $.param({'id':$stateParams.eventId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
+    $timeout(function(){
+        $scope.getEventDet();
+    },500);
 
-        var user_str = result.name+'-Torqkd-'+result.sports_name+'-events-in-'+result.city+'-'+result.state+'-'+result.from_date1+'-find-incredible-'+result.sports_name+'-events-on-our-community-website!';
-        //user_str = $filter('lowercase')(user_str);
-        //user_str = encodeURI(user_str);
-        user_str = user_str.replace(/\s+/g, '-');
+    $scope.getEventDet = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getEventDet',
+            data    : $.param({'id':$stateParams.eventId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
 
-        $state.go('eventdetails1',{eventId:$stateParams.eventId,eventStr:user_str});
-        return;
+            var user_str = result.name+'-Torqkd-'+result.sports_name+'-events-in-'+result.city+'-'+result.state+'-'+result.from_date1+'-find-incredible-'+result.sports_name+'-events-on-our-community-website!';
+            //user_str = $filter('lowercase')(user_str);
+            //user_str = encodeURI(user_str);
+            user_str = user_str.replace(/\s+/g, '-');
 
-
-    });
-
+            $state.go('eventdetails1',{eventId:$stateParams.eventId,eventStr:user_str});
+            return;
+        }).error(function (result) {
+            $scope.getEventDet();
+        });
+    }
 
 });
 
@@ -11491,65 +10808,66 @@ homeControllers1.controller('eventdetails', function($scope,$state,$cookieStore,
         $scope.userId = $scope.userDet.id;
     }
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getEventDet',
-        data    : $.param({'id':$stateParams.eventId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.evetDet = result;
+    $timeout(function(){
+        $scope.getEventDet();
+    },500);
 
-        console.log(result);
+    $scope.getEventDet = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getEventDet',
+            data    : $.param({'id':$stateParams.eventId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.evetDet = result;
 
-        angular.element( document.querySelector( '#eImage' ) ).html($scope.evetDet.imageTag);
+            angular.element( document.querySelector( '#eImage' ) ).html($scope.evetDet.imageTag);
 
-        $scope.map = {
-            dragZoom: {options: {}},
-            control:{},
-            center: {
-                latitude: result.latitude,
-                longitude: result.longitude
-            },
-            pan: true,
-            zoom: 12,
-            refresh: false,
-            events: {},
-            bounds: {},
-            markers: result.marker,
-            openedCanadaWindows:{},
-            onWindowCloseClick: function(gMarker, eventName, model){
-                if(model.dowShow !== null && model.dowShow !== undefined)
-                    return model.doShow = false;
+            $scope.map = {
+                dragZoom: {options: {}},
+                control:{},
+                center: {
+                    latitude: result.latitude,
+                    longitude: result.longitude
+                },
+                pan: true,
+                zoom: 12,
+                refresh: false,
+                events: {},
+                bounds: {},
+                markers: result.marker,
+                openedCanadaWindows:{},
+                onWindowCloseClick: function(gMarker, eventName, model){
+                    if(model.dowShow !== null && model.dowShow !== undefined)
+                        return model.doShow = false;
 
-            },
-            markerEvents: {
-                click:function(gMarker, eventName, model){
-                    model.doShow = true;
-                    $scope.map.openedCanadaWindows = model;
+                },
+                markerEvents: {
+                    click:function(gMarker, eventName, model){
+                        model.doShow = true;
+                        $scope.map.openedCanadaWindows = model;
+                    }
                 }
-            }
-        };
-
-        $scope.map.markers.forEach(function(model){
-            model.closeClick = function(){
-                model.doShow = false;
             };
+
+            $scope.map.markers.forEach(function(model){
+                model.closeClick = function(){
+                    model.doShow = false;
+                };
+            });
+
+            var user_str = result.name+','+result.sports_name+','+result.city+','+result.state+','+result.from_date1+','+result.sports_name;
+
+            $rootScope.metaservice = MetaService;
+            $rootScope.metaservice.set(user_str);
+
+        }).error(function (result) {
+            $scope.getEventDet();
         });
+    }
 
 
-
-        var user_str = result.name+','+result.sports_name+','+result.city+','+result.state+','+result.from_date1+','+result.sports_name;
-
-
-        $rootScope.metaservice = MetaService;
-        $rootScope.metaservice.set(user_str);
-
-
-
-
-
-    });
 
 
 });
@@ -11565,37 +10883,59 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
 
     $scope.groupList = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getgroupList',
-    }).success(function (result) {
-        $scope.groupList = result;
-    });
+    $timeout(function(){
+        $scope.getgroupList();
+        $scope.getCountryList();
+        $scope.getallsports();
+    },500);
+
+    $scope.getgroupList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getgroupList',
+        }).success(function (result) {
+            $scope.groupList = result;
+        }).error(function (result) {
+            $scope.getgroupList();
+        });
+    }
 
     $scope.countrylist = [];
     $scope.statelist = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getCountryList',
-    }).success(function (result) {
-        $scope.countrylist = result;
-    });
+    $scope.getCountryList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCountryList',
+        }).success(function (result) {
+            $scope.countrylist = result;
+        }).error(function (result) {
+            $scope.getCountryList();
+        });
+    }
+
+    $scope.getStateList = function(countryval){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStateList',
+            data    : $.param({'id':countryval}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (result) {
+            $scope.statelist = result;
+        }).error(function (result) {
+            $scope.getStateList(countryval);
+        });
+    }
 
     $scope.changeCountry = function(countryval){
         if(typeof (countryval) != 'undefined'){
             $scope.statelist = [];
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':countryval.id}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result) {
-                $scope.statelist = result;
-            });
+
+            $scope.getStateList(countryval.id);
+
         }else{
             $scope.statelist = [];
         }
@@ -11604,13 +10944,19 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
 
     $scope.sportsList = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/allsports',
-    }).success(function (result) {
-        $scope.sportsList = result;
-    });
+    $scope.getallsports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/allsports',
+        }).success(function (result) {
+            $scope.sportsList = result;
+        }).error(function (result) {
+            $scope.getallsports();
+        });
+    }
+
+
 
     $scope.minDate = new Date();
     $scope.minDate1 = new Date();
@@ -11652,8 +10998,6 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
         all_day:0,
         user_id :$scope.userId
     };
-
-
 
     $scope.$watch('files', function (files) {
         $scope.formUpload = false;
@@ -11819,13 +11163,6 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
         });
     }
 
-
-
-
-
-
-
-
 });
 
 homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
@@ -11838,139 +11175,167 @@ homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$ht
     }
 
     $scope.heading = "Edit Event";
-
-
     $scope.groupList = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getgroupList',
-    }).success(function (result) {
-        $scope.groupList = result;
-    });
+    $timeout(function(){
+        $scope.getgroupList();
+        $scope.getallsports();
+        $scope.getCountryList();
+        $scope.getEventDet();
+    },500);
+
+    $scope.getgroupList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getgroupList',
+        }).success(function (result) {
+            $scope.groupList = result;
+        }).error(function (result) {
+            $scope.getgroupList();
+        });
+    }
 
     $scope.sportsList = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/allsports',
-    }).success(function (result) {
-        $scope.sportsList = result;
-    });
+    $scope.getallsports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/allsports',
+        }).success(function (result) {
+            $scope.sportsList = result;
+        }).error(function (result) {
+            $scope.getallsports();
+        });
+    }
 
     $scope.countrylist = [];
     $scope.statelist = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getCountryList',
-    }).success(function (result) {
-        $scope.countrylist = result;
-    });
+    $scope.getCountryList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getCountryList',
+        }).success(function (result) {
+            $scope.countrylist = result;
+        }).error(function (result) {
+            $scope.getCountryList();
+        });
+    }
+
+    $scope.getStateList = function(countryval){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getStateList',
+            data    : $.param({'id':countryval}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (result) {
+            $scope.statelist = result;
+        }).error(function (result) {
+            $scope.getStateList(countryval);
+        });
+    }
 
     $scope.changeCountry = function(countryval){
         if(typeof (countryval) != 'undefined'){
             $scope.statelist = [];
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':countryval.id}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result) {
-                $scope.statelist = result;
-            });
+
+            $scope.getStateList(countryval.id);
+
         }else{
             $scope.statelist = [];
         }
 
     }
 
+    $scope.getEventDet = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getEventDet',
+            data    : $.param({'id':$scope.evetId}),  // pass in data as strings  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            if(data.id){
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getEventDet',
-        data    : $.param({'id':$scope.evetId}),  // pass in data as strings  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(data) {
-        if(data.id){
+                $scope.minDate1 = new Date(data.from_date);
+                $scope.maxDate = new Date(data.to_date);
 
-            $scope.minDate1 = new Date(data.from_date);
-            $scope.maxDate = new Date(data.to_date);
+                var d = new Date();
+                d.setMinutes( 0 );
 
-            var d = new Date();
-            d.setMinutes( 0 );
+                if(data.all_day == 1){
+                    $scope.start_time5 = d;
+                    $scope.end_time5 = d;
+                }else{
+                    $scope.start_time5 = new Date(data.start_time1);
+                    $scope.end_time5 = new Date(data.end_time1);
+                }
 
-            if(data.all_day == 1){
-                $scope.start_time5 = d;
-                $scope.end_time5 = d;
+
+                $scope.form = {
+                    id: data.id,
+                    sports_id: data.sports_id,
+                    image: data.image,
+                    name: data.name,
+                    description: data.description,
+                    location: data.location,
+                    address: data.address,
+                    city: data.city,
+                    zip: data.zip,
+                    user_id :$scope.userId,
+                    from_date: new Date(data.from_date),
+                    to_date: new Date(data.to_date),
+                    start_time: $scope.start_time5,
+                    end_time: $scope.end_time5,
+                    group_id:{
+                        id: data.group_id
+                    },
+                    all_day: data.all_day,
+                    checked: data.all_day_chk,
+                    register_url: data.register_url,
+                    country:{
+                        id: data.country
+                    },
+                    state:{
+                        id: $scope.stateid
+                    },
+
+                };
+                if(data.image)
+                    $scope.eventImage = $scope.baseUrl+'/uploads/event_image/thumb/'+data.image;
+
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/user/ajs1/getStateList',
+                    data    : $.param({'id':data.country}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }).success(function (result5) {
+                    $scope.statelist = result5;
+                    angular.forEach($scope.statelist, function(val, key) {
+                        if(val['s_st_iso'].trim() == data.state || val['name'].trim() == data.state){
+                            angular.extend($scope.form, {'state':{
+                                id: val['id'],
+                                name: val['name'],
+                                s_st_iso: val['s_st_iso'],
+                            }});
+                        }
+                    });
+                });
+
             }else{
-                $scope.start_time5 = new Date(data.start_time1);
-                $scope.end_time5 = new Date(data.end_time1);
+                $state.go('profile',{userId:$scope.userId});
+                return
             }
 
-
-            $scope.form = {
-                id: data.id,
-                sports_id: data.sports_id,
-                image: data.image,
-                name: data.name,
-                description: data.description,
-                location: data.location,
-                address: data.address,
-                city: data.city,
-                zip: data.zip,
-                user_id :$scope.userId,
-                from_date: new Date(data.from_date),
-                to_date: new Date(data.to_date),
-                start_time: $scope.start_time5,
-                end_time: $scope.end_time5,
-                group_id:{
-                    id: data.group_id
-                },
-                all_day: data.all_day,
-                checked: data.all_day_chk,
-                register_url: data.register_url,
-                country:{
-                    id: data.country
-                },
-                state:{
-                    id: $scope.stateid
-                },
-
-            };
-            if(data.image)
-                $scope.eventImage = $scope.baseUrl+'/uploads/event_image/thumb/'+data.image;
-
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/getStateList',
-                data    : $.param({'id':data.country}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).success(function (result5) {
-                $scope.statelist = result5;
-                angular.forEach($scope.statelist, function(val, key) {
-                    if(val['s_st_iso'].trim() == data.state || val['name'].trim() == data.state){
-                        angular.extend($scope.form, {'state':{
-                            id: val['id'],
-                            name: val['name'],
-                            s_st_iso: val['s_st_iso'],
-                        }});
-                    }
-                });
-            });
-
-        }else{
-            $state.go('profile',{userId:$scope.userId});
-            return
-        }
-
-    });
+        }).error(function (result) {
+            $scope.getEventDet();
+        });
+    }
 
     $scope.minDate = new Date();
 
@@ -11998,7 +11363,6 @@ homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$ht
 
     $scope.hstep = 1;
     $scope.mstep = 15;
-
 
     $scope.submiteventForm = function() {
         $http({
@@ -12101,9 +11465,6 @@ homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$ht
         });
     }
 
-
-
-
     var modalInstance;
     $scope.modalClose = function(){
         modalInstance.dismiss('cancel');
@@ -12156,10 +11517,8 @@ homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$ht
         });
     }
 
-
-
-
 });
+
 homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
     $scope.sessUser = 0;
     $scope.userId = $stateParams.userId;
@@ -12184,32 +11543,45 @@ homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,
 
     $scope.user_image = $scope.baseUrl+"/uploads/user_image/thumb/default.jpg";
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getUserDet',
-        data    : $.param({'userid':$scope.userId }),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.user_image = result.userdet.user_image;
-    });
+    $timeout(function(){
+        $scope.getUserDet();
+        $scope.getRoutes();
+    },500);
+
+    $scope.getUserDet =function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getUserDet',
+            data    : $.param({'userid':$scope.userId }),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.user_image = result.userdet.user_image;
+        }).error(function (result) {
+            $scope.getUserDet();
+        });
+    }
 
     $rootScope.routeList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getRoutes',
-        data    : $.param({'userid':$scope.userId,'offset':0}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.routeList = result.routes;
-        $scope.routeListCount = $scope.routeList.length;
-        if(result.totalCount > $scope.routeList.length){
-            $scope.viewMore = 1;
-            $scope.offset = 5;
-        }
-    });
+    $scope.getRoutes = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getRoutes',
+            data    : $.param({'userid':$scope.userId,'offset':0}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.routeList = result.routes;
+            $scope.routeListCount = $scope.routeList.length;
+            if(result.totalCount > $scope.routeList.length){
+                $scope.viewMore = 1;
+                $scope.offset = 5;
+            }
+        }).error(function (result) {
+            $scope.getRoutes();
+        });
+    }
 
     $scope.viewMoreRoues = function(){
         $scope.viewMoreLoad = 1;
@@ -12228,10 +11600,13 @@ homeControllers1.controller('routes', function($scope,$state,$cookieStore,$http,
                 $scope.viewMore = 1;
                 $scope.offset = $scope.offset+5;
             }
+        }).error(function (result) {
+            $scope.viewMoreRoues();
         });
     }
 
 });
+
 homeControllers1.controller('grouproutes', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
     $scope.sessUser = 0;
     $scope.groupId = $stateParams.groupId;
@@ -12255,23 +11630,30 @@ homeControllers1.controller('grouproutes', function($scope,$state,$cookieStore,$
         }
     };
 
-
     $rootScope.routeList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getGrRoutes',
-        data    : $.param({'groupId':$scope.groupId,'offset':0}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.routeList = result.routes;
-        $scope.routeListCount = $scope.routeList.length;
-        if(result.totalCount > $scope.routeList.length){
-            $scope.viewMore = 1;
-            $scope.offset = 5;
-        }
-    });
+    $timeout(function(){
+        $scope.getGrRoutes();
+    },500);
+
+    $scope.getGrRoutes = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getGrRoutes',
+            data    : $.param({'groupId':$scope.groupId,'offset':0}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.routeList = result.routes;
+            $scope.routeListCount = $scope.routeList.length;
+            if(result.totalCount > $scope.routeList.length){
+                $scope.viewMore = 1;
+                $scope.offset = 5;
+            }
+        }).error(function (result) {
+            $scope.getGrRoutes();
+        });
+    }
 
     $scope.viewMoreRoues = function(){
         $scope.viewMoreLoad = 1;
@@ -12290,10 +11672,13 @@ homeControllers1.controller('grouproutes', function($scope,$state,$cookieStore,$
                 $scope.viewMore = 1;
                 $scope.offset = $scope.offset+5;
             }
+        }).error(function (result) {
+            $scope.viewMoreRoues();
         });
     }
 
 });
+
 homeControllers1.controller('allroutes', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
     $scope.sessUser = 0;
     $scope.userId = $stateParams.userId;
@@ -12305,20 +11690,28 @@ homeControllers1.controller('allroutes', function($scope,$state,$cookieStore,$ht
 
     $rootScope.routeList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getRoutes',
-        data    : $.param({'userid':0,'offset':0}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.routeList = result.routes;
-        $scope.routeListCount = $scope.routeList.length;
-        if(result.totalCount > $scope.routeList.length){
-            $scope.viewMore = 1;
-            $scope.offset = 5;
-        }
-    });
+    $timeout(function(){
+        $scope.getRoutes();
+    },500);
+
+    $scope.getRoutes = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getRoutes',
+            data    : $.param({'userid':0,'offset':0}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.routeList = result.routes;
+            $scope.routeListCount = $scope.routeList.length;
+            if(result.totalCount > $scope.routeList.length){
+                $scope.viewMore = 1;
+                $scope.offset = 5;
+            }
+        }).error(function (result) {
+            $scope.getRoutes();
+        });
+    }
 
     $scope.viewMoreRoues = function(){
         $scope.viewMoreLoad = 1;
@@ -12337,6 +11730,8 @@ homeControllers1.controller('allroutes', function($scope,$state,$cookieStore,$ht
                 $scope.viewMore = 1;
                 $scope.offset = $scope.offset+5;
             }
+        }).error(function (result) {
+            $scope.viewMoreRoues();
         });
     }
 });
@@ -12389,13 +11784,35 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
         $scope.opened = true;
     };
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getsports1',
-    }).success(function (result) {
-        angular.element( document.querySelector( '#sportsList' ) ).append(result);
-    });
+
+
+    $scope.getsports1 = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getsports1',
+        }).success(function (result) {
+            angular.element( document.querySelector( '#sportsList' ) ).append(result);
+        }).error(function (result) {
+            $scope.getsports1();
+        });
+    }
+
+    $scope.checkpoint12 = function(sports_id){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/checkPoint',
+            data    : $.param({'sp_id': sports_id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            if(result.point == 2){
+                $scope.isSinglePoint = 0;
+            }
+        }).error(function (result) {
+            $scope.checkpoint12(sports_id);
+        });
+    }
 
     $scope.sportsChange = function(){
         $scope.isFPoint = 0;
@@ -12418,23 +11835,14 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
 
 
         if($scope.form.sports_id != ''){
-            $http({
-                method: 'POST',
-                async:   false,
-                url: $scope.baseUrl+'/user/ajs1/checkPoint',
-                data    : $.param({'sp_id': $scope.form.sports_id}),
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function (result) {
-                if(result.point == 2){
-                    $scope.isSinglePoint = 0;
-                }
-            });
+            $scope.checkpoint12($scope.form.sports_id);
         }
     }
 
 
     $timeout(function(){
         $scope.mapnewload();
+        $scope.getsports1();
     },500);
 
 
@@ -12575,10 +11983,11 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
                 },
                 bounds:{},
             };
+        }).error(function (result) {
+            $scope.mapnewload();
         });
 
     }
-
 
     $scope.cancel=function(){
 
@@ -12654,7 +12063,6 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
 
     }
 
-
 });
 
 homeControllers1.controller('forumlist', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
@@ -12666,18 +12074,26 @@ homeControllers1.controller('forumlist', function($scope,$state,$cookieStore,$ht
 
     $scope.forumList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getForumList',
-        data    : $.param({'id':$scope.spId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.forumList = result;
-        if($scope.spId > 0){
-            $rootScope.headingArr.push({ id:result[0].id,value:result[0].sport_name,link:'/forum-list-by-sports/'+result[0].id})
-        }
-    });
+    $timeout(function(){
+        $scope.getForumList();
+    },500);
+
+    $scope.getForumList = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getForumList',
+            data    : $.param({'id':$scope.spId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.forumList = result;
+            if($scope.spId > 0){
+                $rootScope.headingArr.push({ id:result[0].id,value:result[0].sport_name,link:'/forum-list-by-sports/'+result[0].id})
+            }
+        }).error(function (result) {
+            $scope.getForumList();
+        });
+    }
 
     $scope.submitloginForm = function() {
         $rootScope.stateIsLoading = true;
@@ -12725,17 +12141,25 @@ homeControllers1.controller('forumlist', function($scope,$state,$cookieStore,$ht
 homeControllers1.controller('forumdetails', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
     $scope.forumId = $stateParams.forumId;
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getForumTopicList',
-        data    : $.param({'id':$scope.forumId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.forumDet = result;
-        $scope.headingArr.push({ id:result.parent_id,value:result.parent_name,link:'/forum-list-by-sports/'+result.parent_id},{id:result.id,value:result.name,link:'/forum-details/'+result.id});
+    $timeout(function(){
+        $scope.getForumTopicList();
+    },500);
 
-    });
+    $scope.getForumTopicList = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getForumTopicList',
+            data    : $.param({'id':$scope.forumId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.forumDet = result;
+            $scope.headingArr.push({ id:result.parent_id,value:result.parent_name,link:'/forum-list-by-sports/'+result.parent_id},{id:result.id,value:result.name,link:'/forum-details/'+result.id});
+
+        }).error(function (result) {
+            $scope.getForumTopicList();
+        });
+    }
 
     $scope.submitloginForm = function() {
         $rootScope.stateIsLoading = true;
@@ -12790,51 +12214,68 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
         $scope.seesuser1 = $scope.sessUserDet1.id;
     }
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getTopicHArr',
-        data    : $.param({'id':$scope.topicId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }) .success(function(result) {
-        $scope.topicTitle = result.topic_title;
-        $scope.headingArr.push({ id:result.forum_category_id,value:result.forum_category_name,link:'/forum-list-by-sports/'+result.forum_category_id},{id:result.forum_id,value:result.forum_name,link:'/forum-details/'+result.forum_id},{ id:$scope.topicId,value:result.topic_title,link:'/topic-details/'+$scope.topicId});
-    });
+    $timeout(function(){
+        $scope.getTopicHArr();
+        $scope.postaddView();
+        $scope.getTopicDetails();
+    },500);
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/addView',
-        data    : $.param({'id':$scope.topicId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }) .success(function(result) {
-    });
+    $scope.getTopicHArr = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getTopicHArr',
+            data    : $.param({'id':$scope.topicId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }) .success(function(result) {
+            $scope.topicTitle = result.topic_title;
+            $scope.headingArr.push({ id:result.forum_category_id,value:result.forum_category_name,link:'/forum-list-by-sports/'+result.forum_category_id},{id:result.forum_id,value:result.forum_name,link:'/forum-details/'+result.forum_id},{ id:$scope.topicId,value:result.topic_title,link:'/topic-details/'+$scope.topicId});
+        }).error(function (result) {
+            $scope.getTopicHArr();
+        });
+    }
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getTopicDetails',
-        data    : $.param({'id':$scope.topicId,sess_id:$scope.seesuser1}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }) .success(function(result) {
-        $scope.topicDet = result;
-        $scope.topicDet.description = $sce.trustAsHtml($scope.topicDet.description);
+    $scope.postaddView = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/addView',
+            data    : $.param({'id':$scope.topicId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }) .success(function(result) {
+            console.log('1');
+        }).error(function (result) {
+            $scope.postaddView();
+        });
+    }
 
-        $scope.form = {
-            title:'Re: '+result.title,
-            parentId:result.id,
-            forumId:result.forum_id,
-            user_id:$scope.seesuser1,
-            description:'',
-        }
+    $scope.getTopicDetails = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getTopicDetails',
+            data    : $.param({'id':$scope.topicId,sess_id:$scope.seesuser1}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }) .success(function(result) {
+            $scope.topicDet = result;
+            $scope.topicDet.description = $sce.trustAsHtml($scope.topicDet.description);
 
-        $scope.gettoipcreplyrec();
+            $scope.form = {
+                title:'Re: '+result.title,
+                parentId:result.id,
+                forumId:result.forum_id,
+                user_id:$scope.seesuser1,
+                description:'',
+            }
 
-
-    });
+            $scope.gettoipcreplyrec();
+        }).error(function (result) {
+            $scope.getTopicDetails();
+        });
+    }
 
     $scope.offset = 0;
-    $scope.gettoipcreplyrec = function(){
+        $scope.gettoipcreplyrec = function(){
         $scope.loadingtreply = true;
         $http({
             method  : 'POST',
@@ -12843,27 +12284,38 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
             data    : $.param({'id':$scope.topicId,sess_id:$scope.seesuser1,offset:$scope.offset}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }) .success(function(result1) {
-            $scope.loadingtreply = false;
-            $scope.offset = $scope.offset+10;
+            $scope.offset = $scope.offset+3;
 
             if($scope.topicDet.topic_reply.length)
                 $scope.topicDet.topic_reply=$scope.topicDet.topic_reply.concat(result1);
             else
                 $scope.topicDet.topic_reply = result1;
 
-            angular.forEach(result1,function(value){
-                $scope.gettoipcreply1(value);
-            })
+
 
             if($scope.topicDet.topic_reply_count > $scope.topicDet.topic_reply.length){
-                $scope.gettoipcreplyrec();
+                $timeout(function(){
+                    $scope.gettoipcreplyrec();
+                },5000);
+            }else{
+                $scope.loadingtreply = false;
+
+                angular.forEach($scope.topicDet.topic_reply,function(value){
+                    $scope.gettoipcreply1(value);
+                })
+
             }
+        }).error(function (result) {
+
+            $timeout(function () {
+                $scope.gettoipcreplyrec();
+            }, 3000);
 
         });
     }
 
     $scope.gettoipcreply1 = function(result){
-
+        $scope.loadingtreply = true;
         $http({
             method  : 'POST',
             async:   false,
@@ -12871,24 +12323,21 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
             data    : $.param({'id':result.id,sess_id:$scope.seesuser1}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }) .success(function(result2) {
-
+            $scope.loadingtreply = false;
             result.topic_reply1 = result2;
+
+        }).error(function (result2) {
+
+            $timeout(function () {
+                $scope.gettoipcreply1(result);
+            }, 5000);
 
         });
     }
 
 
     $scope.setHighlight123 = function(){
-        /*if ( $( '#Reply_description' ).length ) {
-            setTimeout(function(){
-                $('#Reply_description').highlightTextarea({
-                    id : 'Reply_description1',
-                    words:[]
-                });
-            },5000);
-        }else{
-            $scope.setHighlight123();
-        }*/
+
     }
 
     $scope.resizeTextarea1 = function(event){
@@ -13097,7 +12546,6 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
 
     $scope.addTopicForm1 = function(index,item){
         $('#error111'+item.id).hide();
-       // var replyval = $('#Reply_description'+index).val();
         var replyval = $('#topicreplydiv1'+item.id).html();
         if(replyval == '' || replyval == '<br>') {
             $('#error111'+item.id).show();
@@ -13128,8 +12576,6 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
             });
         }
     }
-
-
 
     $scope.likeTopic = function(item){
         if($scope.sessUser >0){
@@ -13304,7 +12750,6 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
         });
     };
 
-
     $scope.emoinsert2 = function(emoitem){
 
         $scope.showError = false;
@@ -13320,40 +12765,6 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
 
         $scope.form.description = prevval+emoval;
 
-
-        /*var emoval = ':'+emoitem+':';
-
-
-         $scope.form.description = emoval;
-
-
-         $rootScope.stateIsLoading = true;
-         $http({
-         method  : 'POST',
-         async:   false,
-         url     : $scope.baseUrl+'/user/ajs1/addnewTopic',
-         data    : $.param($scope.form),  // pass in data as strings
-         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-         }) .success(function(result) {
-         $rootScope.stateIsLoading = false;
-
-         $scope.isReply = false;
-         $scope.form = {
-         title:result.title,
-         parentId:result.parent_id,
-         forumId:result.forum_id,
-         user_id:$scope.seesuser1,
-         description:'',
-         }
-
-         $scope.ReplyForm.reset();
-
-         if($scope.topicDet.topic_reply.length > 0){
-         $scope.topicDet.topic_reply.push(result);
-         }else{
-         $scope.topicDet.topic_reply = [result];
-         }
-         });*/
     }
 
     $scope.emoinsert5 = function(emoitem){
@@ -13384,26 +12795,6 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
 
         $('#topicreplydiv1'+item.id).html(prevval+emoval);
 
-       /* var emoval = ':'+emoitem+':';
-
-
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/addnewTopic',
-            data    : $.param({'title':item.title,'description':emoval,'parentId':item.id,'forumId':item.forum_id,user_id:$scope.seesuser1}),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(result) {
-            $rootScope.stateIsLoading = false;
-
-            if($scope.topicDet.topic_reply.length > 0){
-                item.topic_reply1.push(result);
-            }else{
-                item.topic_reply1 = [result];
-            }
-        });*/
-
-
     }
 
     $scope.settopicreplyval = function(event){
@@ -13415,8 +12806,6 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
         var target = event.target || event.srcElement || event.originalTarget;
         $scope.form1.replyeditarea = target.innerHTML;
     }
-
-
 
 });
 
@@ -13452,37 +12841,6 @@ homeControllers1.controller('newtopic', function($scope,$state,$cookieStore,$htt
     $scope.urlextract = function(event,div_id){
         var target = event.target || event.srcElement || event.originalTarget;
         var strss = target.innerHTML;
-
-        /*var div_id112225 = $('#descriptionssdas').find('textarea').attr('id');
-
-        var re = /(?:^|\W)#(\w+)(?!\w)/g, match, matches ;
-
-        if(event.keyCode == 32){
-            var n = strss.split(" ");
-            var resdsfs = n[n.length - 2];
-
-            if(match = re.exec(resdsfs)) {
-                var hastag = '#' + match[1];
-                console.log(hastag);
-                console.log(strss);
-                strss = strss.replace(hastag, '<span style="color:rgb(255,255,255);background-color:rgb(247,147,29); z-index: 9; position: relative;">' + hastag + '</span></p><p>');
-                console.log(strss);
-                event.originalTarget.innerHTML = strss;
-            }
-
-        }*/
-
-        /*while (match = re.exec(strss)) {
-            var hastag = '#'+match[1];
-            //$('div #'+div_id112225).html($('div #'+div_id112225).html().replace(hastag,'<span style="color:#fff;background-color:#F7931D; z-index: 9; position: relative;">'+hastag+'</span>'));
-            strss = strss.replace(hastag,'<span style="color:rgb(255,255,255);background-color:rgb(247,147,29); z-index: 9; position: relative;">'+hastag+'</span>');
-
-            console.log(strss);
-
-            event.originalTarget.innerHTML = strss
-        }*/
-
-
 
 
         var match_url = /\b(https?):\/\/([\-A-Z0-9.]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;]*)?/i;
@@ -13547,9 +12905,6 @@ homeControllers1.controller('newtopic', function($scope,$state,$cookieStore,$htt
         }
     }
 
-
-
-
     $scope.submitloginForm = function() {
         $rootScope.stateIsLoading = true;
         $scope.msgFlag = false;
@@ -13607,25 +12962,31 @@ homeControllers1.controller('edittopic', function($scope,$state,$cookieStore,$ht
         user_id:$scope.seesuser1
     }
 
+    $timeout(function(){
+        $scope.getTopicDetails();
+    },500);
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getTopicDetails',
-        data    : $.param({'id':$scope.topicId,sess_id:$scope.seesuser1}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }) .success(function(result) {
-        $scope.topicDet = result;
-        $scope.forumId = result.forum_id;
+    $scope.getTopicDetails = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getTopicDetails',
+            data    : $.param({'id':$scope.topicId,sess_id:$scope.seesuser1}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }) .success(function(result) {
+            $scope.topicDet = result;
+            $scope.forumId = result.forum_id;
 
-        $scope.form = {
-            id:result.id,
-            title:result.title,
-            description:result.description,
-        }
+            $scope.form = {
+                id:result.id,
+                title:result.title,
+                description:result.description,
+            }
 
-    });
-
+        }).error(function (result) {
+            $scope.getTopicDetails();
+        });
+    }
 
     $scope.addTopicForm = function(){
         $rootScope.stateIsLoading = true;
@@ -13683,9 +13044,7 @@ homeControllers1.controller('edittopic', function($scope,$state,$cookieStore,$ht
         });
     };
 
-
 });
-
 
 homeControllers1.controller('settings', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
     $scope.userId = 0;
@@ -13700,15 +13059,23 @@ homeControllers1.controller('settings', function($scope,$state,$cookieStore,$htt
     $scope.searchkey = '';
     $scope.userList = [];
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/getBlockpeople',
-        data    : $.param({cuser:$scope.userId}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(result) {
-        $scope.blockList = result;
-    });
+    $timeout(function(){
+        $scope.getBlockpeople();
+    },500);
+
+    $scope.getBlockpeople = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getBlockpeople',
+            data    : $.param({cuser:$scope.userId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $scope.blockList = result;
+        }).error(function (result) {
+            $scope.getBlockpeople();
+        });
+    }
 
     var modalInstance;
     $scope.modalClose = function(){
@@ -13761,6 +13128,8 @@ homeControllers1.controller('settings', function($scope,$state,$cookieStore,$htt
                 $scope.blockList.push(result.udet);
             }
 
+        }).error(function (result) {
+            $scope.blockpeople(uid);
         });
     }
 
@@ -13779,6 +13148,8 @@ homeControllers1.controller('settings', function($scope,$state,$cookieStore,$htt
 
             $scope.blockList.splice(idx,1);
 
+        }).error(function (result) {
+            $scope.unblockpeople(item);
         });
     }
 
@@ -13792,23 +13163,30 @@ homeControllers1.controller('groupdetail1', function($scope,$state,$cookieStore,
         $scope.userId= $scope.sessUser =$rootScope.rootsessUser = $scope.userDet.id;
     }
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getGroupDet',
-        data    : $.param({'id':$scope.groupId,sess_id:$scope.userId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-       // var user_str = result.name+'-'+result.sp_name;
-        var user_str = result.name;
-        user_str = $filter('lowercase')(user_str);
-        user_str = user_str.replace(/\s+/g, '-');
-        //user_str = encodeURI(user_str);
+    $timeout(function(){
+        $scope.getGroupDet();
+    },500);
 
-        $state.go('groupdetail1',{groupId:$scope.groupId,groupStr:user_str});
-        return;
-    });
+    $scope.getGroupDet = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getGroupDet',
+            data    : $.param({'id':$scope.groupId,sess_id:$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            // var user_str = result.name+'-'+result.sp_name;
+            var user_str = result.name;
+            user_str = $filter('lowercase')(user_str);
+            user_str = user_str.replace(/\s+/g, '-');
+            //user_str = encodeURI(user_str);
 
+            $state.go('groupdetail1',{groupId:$scope.groupId,groupStr:user_str});
+            return;
+        }).error(function (result) {
+            $scope.getGroupDet();
+        });
+    }
 
 });
 
@@ -13841,6 +13219,52 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         return;
     }
 
+    $( window ).resize(function() {
+        $timeout(function(){
+            $scope.setbannerdim221();
+        },1000);
+    });
+
+
+    $timeout(function(){
+        $scope.setbannerdim221();
+    },100);
+
+    $scope.setbannerdim221 = function(){
+
+        var ban2no = $('.banner2').find('simple-slider').find('a').length;
+        var ban3no = $('.banner3').find('simple-slider').find('a').length;
+
+        if(ban2no > 0 && ban3no >0){
+
+            $rootScope.widowWidth = $(window).width();
+            $scope.widowWidthPage = $(window).width();
+            $scope.bannerwidth = (($scope.widowWidthPage *90)/100);
+            $scope.bannerwidth = (($scope.bannerwidth *39)/100);
+            $scope.bannerwidth = parseInt($scope.bannerwidth);
+
+            $scope.bannerheight1 = (($scope.bannerwidth*142)/501);
+            $scope.bannerheight1 = parseInt($scope.bannerheight1);
+
+            $scope.bannerheight2 = (($scope.bannerwidth*282)/501);
+            $scope.bannerheight2 = parseInt($scope.bannerheight2);
+
+            console.log('$scope.bannerwidth : '+$scope.bannerwidth);
+            console.log('$scope.bannerheight1 : '+$scope.bannerheight1);
+            console.log('$scope.bannerheight2 : '+$scope.bannerheight2);
+
+            $('.banner2').find('.adspace').css("cssText", "height: "+$scope.bannerheight1+"px !important;");
+            $('.banner2').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight1+'px');
+
+            $('.banner3').find('.adspace').css("cssText", "height: "+$scope.bannerheight2+"px !important;");
+            $('.banner3').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight2+'px');
+        }else{
+            $timeout(function(){
+                $scope.setbannerdim221();
+            },100);
+        }
+
+    }
 
     /************************************************************************/
     $scope.mapfullnotload = true;
@@ -13958,8 +13382,8 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
 
             $scope.mapfullnotload = false;
 
-
-
+        }).error(function (result) {
+            $scope.mapcommonfunc();
         });
 
     }
@@ -13983,11 +13407,19 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
     }
 
     $scope.bannerload = function(){
+        $rootScope.bannerslides2 = [];
+        $rootScope.bannerslides3 = [];
 
+        $timeout(function(){
+            $scope.getbanner2();
+            $scope.getbanner3();
+        },500);
+    }
+
+    $scope.getbanner2 = function(){
         $scope.spId = $scope.sportId;
         $scope.pageId = 4;
 
-        $rootScope.bannerslides2 = [];
         $http({
             method: 'POST',
             async:   false,
@@ -13996,10 +13428,15 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.bannerslides2 = result;
-
+        }).error(function (result) {
+            $scope.getbanner2();
         });
 
-        $rootScope.bannerslides3 = [];
+    }
+
+    $scope.getbanner3 = function(){
+        $scope.spId = $scope.sportId;
+        $scope.pageId = 4;
 
         $http({
             method: 'POST',
@@ -14009,9 +13446,9 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.bannerslides3 = result;
-
+        }).error(function (result) {
+            $scope.getbanner3();
         });
-
     }
 
     $rootScope.openBanner = function(url){
@@ -14029,24 +13466,33 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
 
     $scope.isMute = true;
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainTv',
-    }).success(function (result) {
-        $scope.maintv = result;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+    $timeout(function(){
+        $scope.getMainTv();
+        $scope.getlast3post();
+        $scope.getMainBanner();
+        $scope.getGroupDet();
+    },500);
+
+    $scope.getMainTv = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainTv',
+        }).success(function (result) {
+            $scope.maintv = result;
+            $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
+            $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
 
 
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            setTimeout(function(){
+                angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" autoplay loop muted controls>\
             <source src="'+$scope.maintvfile+'" type="video/mp4">\
             </video>');
-        },2000);
-
-
-    });
+            },2000);
+        }).error(function (result) {
+            $scope.getMainTv();
+        });
+    }
 
     $scope.resizeTextarea1 = function(event){
         var target = event.target || event.srcElement || event.originalTarget;
@@ -14055,61 +13501,74 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         target.style.setProperty ("height", target.scrollHeight+'px', "important");
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $scope.forumList = result;
-    });
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $scope.forumList = result;
+        }).error(function (result) {
+            $scope.getlast3post();
+        });
+    }
 
     $scope.mainbanner = 'default.png';
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
-    }).success(function (result) {
-        $scope.mainbanner = result;
-    });
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getGroupDet',
-        data    : $.param({'id':$scope.groupId,sess_id:$scope.userId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        if(typeof result.id == 'undefined'){
-            $state.go('index');
-            return
-        }else{
-            $scope.groupDet = result;
-            $scope.isMember = result.is_member;
-            if(jQuery.inArray( $scope.userId, result.admin ) >= 0){
-                $scope.isAdmin = 1;
-                $scope.settings =  {
-                    title: 'settings',
-                    url: 'settings.tpl.html'
-                };
+    $scope.getMainBanner = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+        }).success(function (result) {
+            $scope.mainbanner = result;
+        }).error(function (result) {
+            $scope.getMainBanner();
+        });
+    }
 
-                $rootScope.tabs.splice(1,0,$scope.settings);
+    $scope.getGroupDet = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getGroupDet',
+            data    : $.param({'id':$scope.groupId,sess_id:$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            if(typeof result.id == 'undefined'){
+                $state.go('index');
+                return
+            }else{
+                $scope.groupDet = result;
+                $scope.isMember = result.is_member;
+                if(jQuery.inArray( $scope.userId, result.admin ) >= 0){
+                    $scope.isAdmin = 1;
+                    $scope.settings =  {
+                        title: 'settings',
+                        url: 'settings.tpl.html'
+                    };
 
+                    $rootScope.tabs.splice(1,0,$scope.settings);
+
+                }
+                $scope.form = {
+                    id: result.id,
+                    name: result.name,
+                    description: result.description,
+                    notify:0
+                }
+
+
+                var user_str = result.name+','+result.sp_name;
+
+
+                $rootScope.metaservice = MetaService;
+                $rootScope.metaservice.set(user_str);
             }
-            $scope.form = {
-                id: result.id,
-                name: result.name,
-                description: result.description,
-                notify:0
-            }
-
-
-            var user_str = result.name+','+result.sp_name;
-
-
-            $rootScope.metaservice = MetaService;
-            $rootScope.metaservice.set(user_str);
-        }
-    });
+        }).error(function (result) {
+            $scope.getGroupDet();
+        });
+    }
 
     $scope.joingroup = function(id){
         $rootScope.stateIsLoading = true;
@@ -14898,11 +14357,34 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         });
     }
 
+    $scope.removeGroup = function(item){
+        var idx = $scope.groupDet.member_det.indexOf(item);
 
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/removegroup',
+            data    : $.param({'group_id':$scope.groupId,user_id:$scope.groupDet.member_det[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.groupDet.member_det.splice(idx,1);
+        });
+    }
 
+    $scope.joinGroup555  = function(item){
+        var idx = $scope.groupDet.notmember_det.indexOf(item);
 
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/joingroup',
+            data    : $.param({'groupid':$scope.groupId,user_id:$scope.groupDet.notmember_det[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.groupDet.notmember_det.splice(idx,1);
+        });
+    }
 });
-
 
 homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$interval) {
 
@@ -14918,32 +14400,93 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
         $scope.bannerload()
     }
 
+    $( window ).resize(function() {
+        $timeout(function(){
+            $scope.setbannerdim221();
+        },1000);
+    });
+
+
+    $timeout(function(){
+        $scope.setbannerdim221();
+    },100);
+
+    $scope.setbannerdim221 = function(){
+
+        var ban2no = $('.banner2').find('simple-slider').find('a').length;
+        var ban3no = $('.banner3').find('simple-slider').find('a').length;
+
+        if(ban2no > 0 && ban3no >0){
+
+            $rootScope.widowWidth = $(window).width();
+            $scope.widowWidthPage = $(window).width();
+            $scope.bannerwidth = (($scope.widowWidthPage *90)/100);
+            $scope.bannerwidth = (($scope.bannerwidth *39)/100);
+            $scope.bannerwidth = parseInt($scope.bannerwidth);
+
+            $scope.bannerheight1 = (($scope.bannerwidth*142)/501);
+            $scope.bannerheight1 = parseInt($scope.bannerheight1);
+
+            $scope.bannerheight2 = (($scope.bannerwidth*282)/501);
+            $scope.bannerheight2 = parseInt($scope.bannerheight2);
+
+            console.log('$scope.bannerwidth : '+$scope.bannerwidth);
+            console.log('$scope.bannerheight1 : '+$scope.bannerheight1);
+            console.log('$scope.bannerheight2 : '+$scope.bannerheight2);
+
+            $('.banner2').find('.adspace').css("cssText", "height: "+$scope.bannerheight1+"px !important;");
+            $('.banner2').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight1+'px');
+
+            $('.banner3').find('.adspace').css("cssText", "height: "+$scope.bannerheight2+"px !important;");
+            $('.banner3').find('.adspace').find('.bannerdiv225').css('height',$scope.bannerheight2+'px');
+        }else{
+            $timeout(function(){
+                $scope.setbannerdim221();
+            },100);
+        }
+
+    }
+
+
     $scope.content = '';
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/sportDet',
-        data    : $.param({'id':$scope.sportId}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(data) {
-        $scope.banaerImages = data.bImage;
-        $scope.communityUsers = data.community_pople;
-        $scope.sportDet = data.sport_det;
 
-        $scope.content = (data.sport_det.sport_desc);
+    $timeout(function(){
+        $scope.getsportDet();
+        $scope.getlast3post();
+        $scope.getspImagelist();
+    },100);
 
-        $('.color3').removeClass('ng-hide');
+    $scope.getsportDet = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/sportDet',
+            data    : $.param({'id':$scope.sportId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $scope.banaerImages = data.bImage;
+            $scope.communityUsers = data.community_pople;
+            $scope.sportDet = data.sport_det;
 
+            $scope.content = (data.sport_det.sport_desc);
 
-    });
+            $('.color3').removeClass('ng-hide');
+        }).error(function (result) {
+            $scope.getsportDet();
+        });
+    }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $scope.forumList = result;
-    });
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $scope.forumList = result;
+        }).error(function (result) {
+            $scope.getlast3post();
+        });
+    }
 
     $scope.slides = [];
 
@@ -14953,14 +14496,15 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
         second, third;
     var many = 3;
 
-    $http({
-        method  : 'POST',
-        async:   false,
-        url     : $scope.baseUrl+'/user/ajs1/spImagelist',
-        data    : $.param({'id':$scope.sportId}),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }) .success(function(result) {
-        //$scope.slides = result;
+    $scope.getspImagelist = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/spImagelist',
+            data    : $.param({'id':$scope.sportId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            //$scope.slides = result;
             if(result.length > 3){
                 if(result.length%3 > 0){
 
@@ -14998,7 +14542,10 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
             }else{
                 $scope.slides = result;
             }
-    });
+        }).error(function (result) {
+            $scope.getspImagelist();
+        });
+    }
 
     $scope.mapfullnotload = true;
     $scope.mapcommonfunc = function(){
@@ -15065,7 +14612,7 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
                                         $scope.zoomlevel = parseInt($scope.zoomlevel)-1;
 
 
-                                        $rootScope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
+                                        $scope.rootmap.zoom = parseFloat(parseInt($scope.zoomlevel)-1);
                                         // console.log($rootScope.map.zoom);
                                     }
                                 }
@@ -15113,6 +14660,8 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
 
 
 
+        }).error(function (result) {
+            $scope.mapcommonfunc();
         });
 
     }
@@ -15136,11 +14685,19 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
     }
 
     $scope.bannerload = function(){
+        $rootScope.bannerslides2 = [];
+        $rootScope.bannerslides3 = [];
 
+        $timeout(function(){
+            $scope.getbanner2();
+            $scope.getbanner3();
+        },200);
+    }
+
+    $scope.getbanner2 = function(){
         $scope.spId = $scope.sportId;
         $scope.pageId = 2;
 
-        $rootScope.bannerslides2 = [];
         $http({
             method: 'POST',
             async:   false,
@@ -15149,11 +14706,14 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.bannerslides2 = result;
-
+        }).error(function (result) {
+            $scope.getbanner2();
         });
+    }
 
-        $rootScope.bannerslides3 = [];
-
+    $scope.getbanner3 = function(){
+        $scope.spId = $scope.sportId;
+        $scope.pageId = 2;
         $http({
             method: 'POST',
             async:   false,
@@ -15162,9 +14722,9 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.bannerslides3 = result;
-
+        }).error(function (result) {
+            $scope.getbanner3();
         });
-
     }
 
     $rootScope.openBanner = function(url){
@@ -15174,7 +14734,6 @@ homeControllers1.controller('sportdetail', function($scope,$state,$cookieStore,$
 
 });
 
-
 homeControllers1.controller('groupalbum', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
     $scope.sessUser = $rootScope.rootsessUser = 0;
     $scope.groupId = $stateParams.groupId;
@@ -15183,6 +14742,11 @@ homeControllers1.controller('groupalbum', function($scope,$state,$cookieStore,$h
         $scope.sessUser = $scope.userDet.id;
         $rootScope.rootsessUser = $scope.userDet.id;
     }
+
+    $scope.photoWindowWidth = $(window).width();
+
+    $scope.photoLimit = 0;
+    $scope.videoLimit = 0;
 
     $scope.photoTabs = [{
         title: 'photo',
@@ -15205,26 +14769,82 @@ homeControllers1.controller('groupalbum', function($scope,$state,$cookieStore,$h
     $rootScope.photoList = [];
     $rootScope.videoList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getgroupimage',
-        data    : $.param({'groupId':$scope.groupId,sess_id:$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.photoList = result;
-    });
+    $timeout(function(){
+        $scope.getgroupimage();
+        $scope.getgroupvideo();
+    },200);
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getgroupvideo',
-        data    : $.param({'groupId':$scope.groupId,sess_id:$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $rootScope.videoList = result;
-    });
+    $scope.getgroupimage = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getgroupimage',
+            data    : $.param({'groupId':$scope.groupId,sess_id:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.photoList = result;
 
+            $scope.photoLimit = 10;
+            $scope.photoloading = true;
+            $timeout(function(){
+                $scope.photoloading = false;
+                $scope.photolimitinc();
+            },10000);
+
+        }).error(function (result) {
+            $scope.getgroupimage();
+        });
+    }
+
+    $scope.photolimitinc = function(){
+        $scope.photoloading = true;
+        if($rootScope.photoList.length > $scope.photoLimit){
+            $scope.photoLimit = $scope.photoLimit+10;
+
+            $timeout(function(){
+                $scope.photoloading = false;
+                $scope.photolimitinc();
+            },10000);
+        }else{
+            $scope.photoloading = false;
+        }
+    }
+
+    $scope.getgroupvideo = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getgroupvideo',
+            data    : $.param({'groupId':$scope.groupId,sess_id:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.videoList = result;
+
+            $scope.videoLimit = 10;
+            $scope.videoloading = true;
+            $timeout(function(){
+                $scope.videoloading = false;
+                $scope.videolimitinc();
+            },10000);
+
+        }).error(function (result) {
+            $scope.getgroupvideo();
+        });
+    }
+
+    $scope.videolimitinc = function(){
+        $scope.videoloading = true;
+        if($rootScope.videoList.length > $scope.videoLimit){
+            $scope.videoLimit = $scope.videoLimit+10;
+
+            $timeout(function(){
+                $scope.videoloading = false;
+                $scope.videolimitinc();
+            },10000);
+        }else{
+            $scope.videoloading = false;
+        }
+    }
 
 });
 
@@ -15252,13 +14872,22 @@ homeControllers1.controller('addgroup', function($scope,$state,$cookieStore,$htt
         sess_user:$scope.sessUser
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/allsports',
-    }).success(function (result) {
-        $scope.sportsList = result;
-    });
+    $timeout(function(){
+        $scope.getallsports();
+        $scope.getalluserList();
+    },200);
+
+    $scope.getallsports = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/allsports',
+        }).success(function (result) {
+            $scope.sportsList = result;
+        }).error(function (result) {
+            $scope.getallsports();
+        });
+    }
 
     $scope.selsp = function(){
         $('.activeimg').removeClass('activeimg');
@@ -15266,15 +14895,19 @@ homeControllers1.controller('addgroup', function($scope,$state,$cookieStore,$htt
 
     $scope.userList = [];
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/alluserList',
-        data    : $.param({sess_id:$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.userList = result;
-    });
+    $scope.getalluserList = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/alluserList',
+            data    : $.param({sess_id:$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.userList = result;
+        }).error(function (result) {
+            $scope.getalluserList();
+        });
+    }
 
     $scope.userclick = function(id){
         var idx = $scope.form.users.indexOf(id);
@@ -15422,8 +15055,6 @@ homeControllers1.controller('addgroup', function($scope,$state,$cookieStore,$htt
 
     }
 
-
-
     var modalInstance;
     $scope.modalClose = function(){
         modalInstance.dismiss('cancel');
@@ -15476,29 +15107,53 @@ homeControllers1.controller('addgroup', function($scope,$state,$cookieStore,$htt
         });
     }
 
-
-
-
-
-
 });
-
 
 homeControllers1.controller('groupuser', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
     $scope.ismember = 1;
+    $scope.isAdmin = 0;
     if($state.current.name == 'groupnonmember')
         $scope.ismember = 0;
 
     $rootScope.tabBodyLoad = true;
     $scope.userId = 0;
     $scope.groupId = $rootScope.rootgroupId = $stateParams.groupId;
+
+
+    $scope.getGroupDet = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getGroupDet',
+            data    : $.param({'id':$scope.groupId,sess_id:$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            if(jQuery.inArray( $scope.userId, result.admin ) >= 0){
+                $scope.isAdmin = 1;
+            }
+        }).error(function (result) {
+            $scope.getGroupDet();
+        });
+    }
+
+
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
         $scope.userDet = $cookieStore.get('rootuserdet');
         $scope.userId= $scope.sessUser =$rootScope.rootsessUser = $scope.userDet.id;
+
+        $timeout(function(){
+            $scope.getGroupDet();
+        },200);
     }
 
-    $scope.userList = [];
+    $timeout(function(){
+        $scope.getGroupDet();
+    },200);
 
+
+
+    $scope.userList = [];
+/*
     $http({
         method: 'POST',
         async:   false,
@@ -15536,14 +15191,23 @@ homeControllers1.controller('groupuser', function($scope,$state,$cookieStore,$ht
         }
 
     }
-
+*/
     $scope.tooltipVal = function(item){
         var fsgs ='<h2>'+item.user_name+'</h2><p>'+item.user_address+'</p>';
         return  fsgs;
     }
 
     if($state.current.name == 'groupnonmember'){
-        $scope.tabBodyLoad = false;
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/groupNonMember',
+            data    : $.param({'group_id':$scope.groupId,user_id:$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.tabBodyLoad = false;
+            $scope.userList = result;
+        });
     }else{
         $http({
             method: 'POST',
@@ -15554,6 +15218,34 @@ homeControllers1.controller('groupuser', function($scope,$state,$cookieStore,$ht
         }).success(function (result) {
             $scope.tabBodyLoad = false;
             $scope.userList = result;
+        });
+    }
+
+    $scope.removeGroup = function(item){
+        var idx = $scope.userList.indexOf(item);
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/removegroup',
+            data    : $.param({'group_id':$scope.groupId,user_id:$scope.userList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.userList.splice(idx,1);
+        });
+    }
+
+    $scope.joinGroup = function(item){
+        var idx = $scope.userList.indexOf(item);
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/joingroup',
+            data    : $.param({'groupid':$scope.groupId,user_id:$scope.userList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.userList.splice(idx,1);
         });
     }
 
@@ -15574,51 +15266,74 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainTv',
-    }).success(function (result) {
-        $scope.maintv = result;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+    $timeout(function(){
+        $scope.getMainTv();
+        $scope.getlast3post();
+        $scope.getMainBanner();
+        $scope.gethastagStatus();
+    },200);
+
+    $scope.getMainTv = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainTv',
+        }).success(function (result) {
+            $scope.maintv = result;
+            $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
+            $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
 
 
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            setTimeout(function(){
+                angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" autoplay loop muted controls>\
             <source src="'+$scope.maintvfile+'" type="video/mp4">\
             </video>');
-        },2000);
+            },2000);
 
+        }).error(function (result) {
+            $scope.getMainTv();
+        });
+    }
 
-    });
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $scope.forumList = result;
-    });
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $scope.forumList = result;
+        }).error(function (result) {
+            $scope.getlast3post();
+        });
+    }
 
     $scope.mainbanner = 'default.png';
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
-    }).success(function (result) {
-        $scope.mainbanner = result;
-    });
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/gethastagStatus',
-        data    : $.param({'hastag':$scope.hastag,'sess_user_id':$rootScope.rootsessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.statusList = result.status;
-    });
+    $scope.getMainBanner = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+        }).success(function (result) {
+            $scope.mainbanner = result;
+        }).error(function (result) {
+            $scope.getMainBanner();
+        });
+    }
+
+    $scope.gethastagStatus = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/gethastagStatus',
+            data    : $.param({'hastag':$scope.hastag,'sess_user_id':$rootScope.rootsessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.statusList = result.status;
+        }).error(function (result) {
+            $scope.gethastagStatus();
+        });
+    }
 
     $scope.showYoutubevdo = function(id,value){
         angular.element( document.querySelector( '#youtubeBody'+id ) ).html('<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+value+'?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
@@ -16279,8 +15994,6 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
         }
     };
 
-
-
 });
 
 homeControllers1.controller('allmessages', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook,$filter) {
@@ -16306,59 +16019,80 @@ homeControllers1.controller('allmessages', function($scope,$state,$cookieStore,$
         ($filter('map')(arr, 'id'));
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainTv',
-    }).success(function (result) {
-        $scope.maintv = result;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+    $timeout(function(){
+        $scope.getMainTv();
+        $scope.getlast3post();
+        $scope.getMainBanner();
+        $scope.getMessageList
+    },200);
+
+    $scope.getMainTv = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainTv',
+        }).success(function (result) {
+            $scope.maintv = result;
+            $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
+            $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
 
 
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            setTimeout(function(){
+                angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" autoplay loop muted controls>\
             <source src="'+$scope.maintvfile+'" type="video/mp4">\
             </video>');
-        },2000);
+            },2000);
 
+        }).error(function (result) {
+            $scope.getMainTv();
+        });
+    }
 
-    });
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $scope.forumList = result;
-    });
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $scope.forumList = result;
+        }).error(function (result) {
+            $scope.getlast3post();
+        });
+    }
 
     $scope.mainbanner = 'default.png';
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
-    }).success(function (result) {
-        $scope.mainbanner = result;
-    });
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMessageList',
-        data    : $.param({'cid':$scope.sessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.CmessageList1 = result;
-        if(result.length){
-            $scope.curFrndId=result[0].user_id;
-            //$scope.getUserMsgListfn(result[0].user_id);
+    $scope.getMainBanner = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+        }).success(function (result) {
+            $scope.mainbanner = result;
+        }).error(function (result) {
+            $scope.getMainBanner();
+        });
+    }
 
-            $scope.getUserMsgListfn($scope.curFrndId);
+    $scope.getMessageList = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMessageList',
+            data    : $.param({'cid':$scope.sessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.CmessageList1 = result;
+            if(result.length){
+                $scope.curFrndId=result[0].user_id;
 
-        }
-    });
+                $scope.getUserMsgListfn($scope.curFrndId);
 
+            }
+        }).error(function (result) {
+            $scope.getMessageList();
+        });
+    }
 
     $scope.getUserMsgListfn1 = function(fid){
         $scope.curFrndId = fid;
@@ -16379,12 +16113,13 @@ homeControllers1.controller('allmessages', function($scope,$state,$cookieStore,$
                 $timeout(function(){
                     $scope.getUserMsgListfn($scope.curFrndId);
                 },5000);
+            }).error(function (result) {
+                $scope.getUserMsgListfn($scope.curFrndId);
             });
         }else{
             $scope.getUserMsgListfn($scope.curFrndId);
         }
     }
-
 
     $scope.reply = '';
     $scope.addReply = function(){
@@ -16452,46 +16187,60 @@ homeControllers1.controller('allnotification', function($scope,$state,$cookieSto
         ($filter('map')(arr, 'id'));
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainTv',
-    }).success(function (result) {
-        $scope.maintv = result;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+    $timeout(function(){
+        $scope.getMainTv();
+        $scope.getlast3post();
+        $scope.getMainBanner();
+    },500);
 
+    $scope.getMainTv = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainTv',
+        }).success(function (result) {
+            $scope.maintv = result;
+            $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
+            $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
 
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            setTimeout(function(){
+                angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" autoplay loop muted controls>\
             <source src="'+$scope.maintvfile+'" type="video/mp4">\
             </video>');
-        },2000);
+            },2000);
 
+        }).error(function (result) {
+            $scope.getMainTv();
+        });
+    }
 
-    });
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $scope.forumList = result;
-    });
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $scope.forumList = result;
+        }).error(function (result) {
+            $scope.getlast3post();
+        });
+    }
 
     $scope.mainbanner = 'default.png';
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
-    }).success(function (result) {
-        $scope.mainbanner = result;
-    });
 
-
+    $scope.getMainBanner = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+        }).success(function (result) {
+            $scope.mainbanner = result;
+        }).error(function (result) {
+            $scope.getMainBanner();
+        });
+    }
 
 });
-
 
 homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook) {
     $scope.postid = $stateParams.id;
@@ -16505,60 +16254,81 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
         $rootScope.rootsessUser = $scope.userDet.id;
     }
 
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainTv',
-    }).success(function (result) {
-        $scope.maintv = result;
-        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
-        $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
+    $timeout(function(){
+        $scope.getMainTv();
+        $scope.getlast3post();
+        $scope.getMainBanner();
+        $scope.getsingleStatus();
+    },200);
+
+    $scope.getMainTv = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainTv',
+        }).success(function (result) {
+            $scope.maintv = result;
+            $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file);
+            $scope.vidsources = [{src: $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+$scope.maintv.file), type: "video/mp4"}];
 
 
-        setTimeout(function(){
-            angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%" height="100%" autoplay loop muted controls>\
+            setTimeout(function(){
+                angular.element( document.querySelector( '#maintvDiv' ) ).html('<video id="maintvVideo" volume="0" width="100%"  autoplay loop muted controls>\
             <source src="'+$scope.maintvfile+'" type="video/mp4">\
             </video>');
-        },2000);
+            },2000);
 
+        }).error(function (result) {
+            $scope.getMainTv();
+        });
+    }
 
-    });
-
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getlast3post',
-    }).success(function (result) {
-        $scope.forumList = result;
-    });
+    $scope.getlast3post = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlast3post',
+        }).success(function (result) {
+            $scope.forumList = result;
+        }).error(function (result) {
+            $scope.getlast3post();
+        });
+    }
 
     $scope.mainbanner = 'default.png';
-    $http({
-        method: 'GET',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getMainBanner',
-    }).success(function (result) {
-        $scope.mainbanner = result;
-    });
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getsingleStatus',
-        data    : $.param({'id':$scope.postid,'sess_user_id':$rootScope.rootsessUser}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.statusList = result.status;
-
-        angular.forEach($scope.statusList, function(item, key) {
-            var itemcomlist = item.comment;
-            itemcomlist = itemcomlist.slice(-5);
-            item.commentSliceList = itemcomlist;
+    $scope.getMainBanner = function(){
+        $http({
+            method: 'GET',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getMainBanner',
+        }).success(function (result) {
+            $scope.mainbanner = result;
+        }).error(function (result) {
+            $scope.getMainBanner();
         });
+    }
 
-    });
+    $scope.getsingleStatus = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getsingleStatus',
+            data    : $.param({'id':$scope.postid,'sess_user_id':$rootScope.rootsessUser}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.statusList = result.status;
 
+            angular.forEach($scope.statusList, function(item, key) {
+                var itemcomlist = item.comment;
+                itemcomlist = itemcomlist.slice(-5);
+                item.commentSliceList = itemcomlist;
+            });
 
+        }).error(function (result) {
+            $scope.getsingleStatus();
+        });
+    }
 
     $scope.showYoutubevdo = function(id,value){
         angular.element( document.querySelector( '#youtubeBody'+id ) ).html('<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+value+'?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>');
@@ -16595,8 +16365,6 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
 
         });
     }
-
-
 
     $scope.delStatus = function(index){
         $scope.confirmDialog = ngDialog.open({
@@ -17189,37 +16957,45 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
 
 });
 
-
-
-
-
-
-
 homeControllers1.controller('mysports', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook) {
     $scope.userId = $stateParams.id;
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/getUserDet',
-        data    : $.param({'userid':$scope.userId }),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.user_image = result.userdet.user_image;
-    });
+    $timeout(function(){
+        $scope.getUserDet();
+        $scope.getusersports();
+    },200);
 
+    $scope.getUserDet = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getUserDet',
+            data    : $.param({'userid':$scope.userId }),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.user_image = result.userdet.user_image;
+        }).error(function (result) {
+            $scope.getUserDet();
+        });
+    }
 
     $scope.sportsList = [];
 
-    $http({
-        method: 'POST',
-        async:   false,
-        url: $scope.baseUrl+'/user/ajs1/usersports',
-        data    : $.param({'userid':$scope.userId}),
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    }).success(function (result) {
-        $scope.sportsList = result;
-    });
+    $scope.getusersports = function(){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/usersports',
+            data    : $.param({'userid':$scope.userId}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $scope.sportsList = result;
+        }).error(function (result) {
+            $scope.getusersports();
+        });
+    }
+
+
 
 
 });

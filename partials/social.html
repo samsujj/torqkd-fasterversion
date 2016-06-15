@@ -333,13 +333,13 @@
 
             <div class="socialimg254" ng-if="item.type=='image'" style="background-image: url({{baseUrl}}/uploads/user_image/blank.png); background-size: cover; min-height:200px;">
                 <!--<img src="http://torqkd.com/user/ajs1/createimage?windowwidth={{widowWidth}}&image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%; " alt="">-->
-                <img src="{{baseUrl}}/uploads/user_image/blank.png" lazy-img="http://torqkd.com/user/ajs1/createimage?windowwidth={{widowWidth}}&image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%;" alt="">
+                <img src="{{baseUrl}}/uploads/user_image/blank.png" lazy-img="{{baseUrl}}/user/ajs1/createimage?windowwidth={{widowWidth}}&image={{baseUrl}}/uploads/status_img/{{item.value}}"   ng-click="showPhoto(item,$index)" style="cursor: pointer; max-width:100%;" alt="">
             </div>
 
             <div ng-if="item.type=='mp4'">
 
                 <div style="max-height: 430px; overflow: hidden; position: relative;" class="socialimg254" id="youtubeBody{{item.id}}">
-                    <img src="http://torqkd.com/user/ajs1/createimage?image={{item.s_img}}" width="100%">
+                    <img src="{{baseUrl}}/user/ajs1/createimage?image={{item.s_img}}" width="100%">
                     <div  ng-click="showmp4video(item.id,item.value)" style="cursor:pointer; width: 50px; height: 50px; position: absolute; left: 48%; top: 48%; z-index: 9; background: rgba(0, 0, 0, 0) url('../images/startb.png') no-repeat scroll left top; background-size: cover;"></div>
                 </div>
 
@@ -353,7 +353,7 @@
 
             <div class="embed-responsive embed-responsive-16by9 video-wrapper socialimg254" ng-if="item.type=='youtube'" id="youtubeBody{{item.id}}" style="position:relative; display:block; background:#000;">
 
-                <img class="youtubeimg225" src="http://torqkd.com/user/ajs1/createimage?image=https://i.ytimg.com/vi/{{item.value}}/hqdefault.jpg" width="100%">
+                <img class="youtubeimg225" src="{{baseUrl}}/user/ajs1/createimage?image=https://i.ytimg.com/vi/{{item.value}}/hqdefault.jpg" width="100%">
 
                 <div  class="paly_video"  ng-click="showYoutubevdo(item.id,item.value)" style="cursor:pointer;"></div>
 
@@ -417,7 +417,7 @@
 
                 <div  class="text2">
 
-                    <div id="commentarea00{{item.id}}" style=" border-radius:5px!important;  width:98%; height: auto; position:relative;  background: #fff !important; border:solid 2px #97989a!important;">
+                    <div id="commentarea00{{item.id}}" style=" border-radius:5px!important;  width:98%; height: auto; position:relative;  background: #fff !important; border:solid 2px #97989a!important; font-size: 16px;">
 
                         <!--<textarea class="commentArea12" id="comment00{{item.id}}" ng-model="item.commpostval" placeholder="Write a comment..." ng-keypress="resizeTextarea555($event); commentEmo($event,item); postComment($event,item);" ng-keyup="resizeTextarea555($event); commentEmo($event,item)" ng-keydown="resizeTextarea555($event); commentEmo($event,item)" style="width:100%; background-color:#fff!important; background:#fff!important; border:none;"  rows="1"></textarea>-->
 

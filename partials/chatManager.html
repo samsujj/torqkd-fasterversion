@@ -1,0 +1,53 @@
+<div style="display: block;" id="chat-wrapper" data-original-title="">
+    <div class="chat-box" ng-repeat="item in activeChatUsers | limitTo:3">
+        <div class="chat-topbox">
+            <div class="leftneme loginicon" ng-style="{ background: item.is_login == 1 ? 'rgba(0, 0, 0, 0) url(\'../images/fbactive.png\') no-repeat scroll left center / 10px auto' : 'none' }" >
+                <a href="javascript:void(0)">{{item.name}}</a>
+            </div>
+            <div class="righticon">
+                <a href="javascript:void(0);" ng-click="closeChatBox(item); textArfocus(item)" title="Clost tab">
+                    <img src="images/fbicon4.png"  alt="#" />
+                </a>
+            </div>
+            <div class="clear"></div>
+            <div class="chat-settings">
+                <a href="javascript:void(0);" ng-click="turnOff(item)" title="Options">
+                    <img src="images/fbicon3.png"  alt="#" />
+                </a>
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" ng-click="turnOff(item)">{{item.thtml}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="chat-main">
+            <div class="scrollbars" ng-scrollbar scroll="item.msgarr" style="width:100%;" >
+                   <!--<div ng-bind-html="item.msgList"></div>-->
+                <div ng-repeat="item1 in item.msgarr">
+                    <div class="chat_box_me ng-emoticons" ng-if="item1.sender_id == rootsessUser123" ng-bind-html="item1.message | newlines | emoticons:{'linkTarget':'_blank','newLine':true}"></div>
+                    <img src="{{item.user_image}}"  ng-if="item1.sender_id == item.id" alt="#" class="chat-pimg" />
+                    <div class="chat_box_me2 ng-emoticons"  ng-if="item1.sender_id == item.id" ng-bind-html="item1.message | newlines | emoticons:{'linkTarget':'_blank','newLine':true}"></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="chat-typebox">
+                <!--<textarea class="chattype" ng-model="item.postmsg" ng-focus="textArfocus(item)" ng-keypress="sendMsg($event,item)" style="background:#fff!important;"></textarea>-->
+                <div id="chatdiv000{{item.id}}" class="chattype" ng-focus="textArfocus(item)" ng-keyup="setchatval($event,item)" ng-keypress="sendMsg($event,item)" style="background:#fff!important; float: left; width: 213px !important; overflow: hidden;"  contentEditable="true"></div>
+                <div style="position: relative; float: left;">
+                    <a href="javascript:void(0)" ng-click="hsuifhskjd(item.id)"><img src="images/emo.png"  style=" margin:5px 0 0 16px; width:20px"/></a>
+                    <div id="chatEmodiv{{item.id}}" style="display: none; bottom: 25px; position: absolute; right: 0; width: 265px; background-color: #FFFFFF; padding: 5px; top: auto !important; left: auto !important; border: 2px solid #97989a !important; border-radius: 5px !important;">
+                        <div class="chatemojisdiv">
+                            <a href="javascript:void(0)" ng-repeat="emoitem in chatemojisArr" ng-click="chatemoinsert(item,emoitem);" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:" ></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+
+
+</div>

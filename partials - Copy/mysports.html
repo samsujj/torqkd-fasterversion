@@ -1,0 +1,68 @@
+<style>
+
+    .ngdialog-content{
+        border: 5px solid #f7941e !important;
+        border-radius: 0 !important;
+        padding:25px 15px!important;
+    }
+
+    .ngdialog-content p{
+        font:13px/18px Arial,Helvetica,sans-serif;
+    }
+
+</style>
+<div class="mobile-top-con" ng-include="'partials/header.html'"></div>
+  
+  
+<div id="sp-nav" ng-include="'partials/menu.html'"></div>
+
+  
+<div id="sp-page" >
+<div class="experience-wrapper">
+
+
+
+<div class="Sports-mobile">
+	<h4>Sports</h4>
+	
+	<div style="border: 4px solid #fff;
+    box-shadow: 0 0 2px #888;
+    float: right;
+    margin-top: 2px;
+    width: 88px;">
+		<img  src="{{user_image}}" style="width:100%;">
+	</div>
+    
+    <div class="clear"></div>
+
+    <div class="sports-table-mobile">
+	  
+		<div ng-repeat="n in sportsList" ng-init="spLength= (spLength+1)">
+	  
+		<h3> {{n.name}}</h3>
+		<ul>
+			<li ng-repeat="m in n.ch">
+				<a href="javascript:void(0);" style="margin-bottom: 0px;" ><img  alt="#" src="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
+				<strong> {{m.name}}</strong>
+			</li>
+		</ul>
+		<div class="clear"></div>
+		
+		</div>
+</div>
+        
+</div>
+
+<div class="footer-menu1">
+<span>&copy;TORQK'D</span>
+<span>|</span>
+<span>
+<a href="javascript:void(0);" ng-click="showtermsploicy('terms')">TERMS </a>
+</span>
+<span>|</span>
+<span>
+<a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a>
+</span>
+</div>
+</div>
+</div>

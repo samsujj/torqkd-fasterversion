@@ -1,0 +1,211 @@
+<style>
+
+
+
+    .ngdialog-content{
+
+        border: 5px solid #f7941e !important;
+
+        border-radius: 0 !important;
+
+        padding:25px 15px!important;
+
+    }
+
+
+
+    .ngdialog-content p{
+
+        font:13px/18px Arial,Helvetica,sans-serif;
+
+    }
+
+ body{background-image: url("../images/jumper_sign.jpg");  background-size: cover; background-position: center; background-attachment: fixed; }
+ 
+ .activities-submit{ text-shadow:0 1px 2px #fff;}
+ 
+.connect_blogdiv {
+    float: left;
+    margin: 0 10px 8px 0;
+    width: 105px;
+	 border: 4px solid #ebebeb;
+	
+}
+
+.connect_blogdiv:hover{ border: 4px solid #f8931f;
+    box-shadow: 0 0 5px #888;}
+	
+ .active-pic{ border: 4px solid #f8931f;
+    box-shadow: 0 0 5px #888;}
+
+.connect_blogdiv a{ display:block;}
+
+.connect_imgdiv{ width:100%; display:block;   height: 110px;
+    overflow: hidden;}
+
+.connect_imgdiv img{ width:100%;}
+
+.connect_textdiv {
+    background: #f5f5f5 none repeat scroll 0 0;
+    border: 1px solid #d1d1d1;
+    font-size: 12px !important;
+    line-height: 18px;
+    padding: 4px;
+    height: 52px;
+    word-wrap: break-word;
+    overflow: hidden;
+	
+}
+.connect_textdiv span{ color:#f7931e; font-weight:bold; padding:0!important;  font-size:12px!important;}
+.tooltip.customTooltip .tooltip-inner {
+
+		color: #fff!important;
+
+		background-color: #f8941e;
+
+		box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+		width:200px;
+
+		max-width:200px;
+
+	}
+
+
+
+	.tooltip.customTooltip .tooltip-arrow {
+
+		border-bottom-color : #f8941e !important;
+
+	}
+	
+	.tooltip.customTooltip .tooltip-inner h2{ font-size:22px; font-weight:normal!important;  font-family: "veneerregular"; margin:0!important; padding: 0!important;} 
+
+.tooltip.customTooltip .tooltip-inner p{ font-size:14px; color: #fff!important; margin:0!important; padding:0!important; line-height:18px;}
+
+
+
+</style>
+
+
+
+<div class="connect-body" style="background:none;">
+    <div class="register_wrapper">
+        <div class="logo" >
+            <a ui-sref="index">
+                <img  alt="" src="images/logo_main.png" />
+            </a>
+        </div>
+        <div class="form-contain">
+            <div class="left-img">
+                <img id="limg" src="images/bgimage3.png"  alt="" style="width: 100%;" />
+            </div>
+            <div class="right-form">
+                <div class="activities_contain">
+                    <h1 style="margin:0; padding:4px 0 14px 0;"><img  alt="" src="images/ctop.jpg" id="connectH"></h1>
+                    <p style="font-size:12px;" data-original-title="">Click on the profile pictures to connect with other outdoor sports enthusiasts.</p>
+                    <div class="search-new" style="margin-bottom:40px;">
+                        <div style="float: none; width:100%; margin-bottom:10px;">
+                            <label style="display: block; padding-bottom:4px;
+
+    width: 100%; float:none; font-weight:normal; color:#333;">Search By Name :</label> <input type="text" ng-model="searchText.user_name" style="  background: #fff!important;
+
+    border: 2px solid #ccc !important;
+
+    border-radius: 4px !important;
+
+    height: 34px !important;
+
+     width: 100% !important; float:none; padding:0 5px;">
+                            <div class="clear"></div>
+                        </div>
+                        <div style="float: none; width:100%; margin-bottom:10px;">
+                            <label style="display: block; padding-bottom:4px;
+
+    width: 100%; float:none; font-weight:normal; color:#333;"> Search By Country :    </label>
+                            <select id="select-search-country"  ng-model="searchText.user_country" ng-change="changeCountry(searchText.user_country)" style="  background: #fff!important;
+
+    border: 2px solid #ccc !important;
+
+    border-radius: 4px !important;
+
+    height: 34px !important;
+
+    width: 100% !important; float:none; padding:0 5px;">
+                                <option value="" >Select Country</option>
+                                <option ng-repeat="item in countrylist  track by item.id" value="{{item.id}}" ng-selected="item.id == defCountry">{{item.name}}</option>
+                            </select>
+                            <div class="clear"></div>
+                        </div>
+                       <div style="float: none; width:100%; margin-bottom:10px;">
+                            <label style="display: block; padding-bottom:4px;
+
+    width: 100%; float:none; font-weight:normal; color:#333;"> Search By State :    </label>
+                            <select id="select-search-state select-search"   ng-model="searchText.user_state"  style="  background: #fff!important; border: 2px solid #ccc !important; border-radius: 4px !important; height: 34px !important; width: 100% !important; float:none; padding:0 5px;">
+                                <option value="" selected="selected" >Select State</option>
+                                <option ng-repeat="item in statelist track by item.id" value="{{item.id}}" ng-selected="item.id == defState">{{item.name}}</option>
+                            </select>
+                            <div class="clear"></div>
+                        </div>
+                       <div style="float: none; width:100%;">
+                            <label style="display: block; padding-bottom:4px;width: 100%; float:none; font-weight:normal; color:#333;">Search By Sports : </label>
+                            <select id="select-search"  ng-model="searchText.spList" style="  background: #fff!important;
+
+    border: 2px solid #ccc !important;
+
+    border-radius: 4px !important;
+
+    height: 34px !important;
+
+    width: 100% !important; float:none; padding:0 5px;">
+                                <option value="" selected="selected" >SELECT ONE</option>
+                            </select>
+                            <div class="clear"></div>
+                        </div>
+                        <div style="float: none; width:100%; margin-bottom:10px;">
+                            <label style="display: block; padding-bottom:4px;
+
+    width: 100%; float:none; font-weight:normal; color:#333;">Search By Sport :</label>
+                            <tags-input style="background: #fff!important; border: 2px solid #ccc !important; border-radius: 4px !important; height: 100px !important; width: 100% !important; float:none; padding:0 5px;" ng-model="sdf" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Search By Sports">
+                                <auto-complete source="loadSports($query)" min-length="1"></auto-complete>
+                            </tags-input>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="top-text">
+                        <h4 style="color:#f8931f; margin: 10px auto;  font-family: reservation; font-size: 13px; font-weight: normal; font-style: normal; ">
+                            <span id="friend-count" style="color:##f8931f;">{{count}}</span>Friendship requested
+                        </h4>
+                    </div>
+
+                    <div ng-show="tabBodyLoad" class="viewMore" style="width:100%; text-align:center; padding:10px 0;"><img src="images/loading_list.gif" /></div>
+                    <div class="connect-img2" ng-show="!tabBodyLoad">
+                        <!--<div ng-repeat="n in userList | filter:searchText" class="connect_blogdiv" ng-click="selectUser(n.id); actClass = !actClass"  ng-class="actClass ? 'active-pic' : ''">-->
+                        <div ng-repeat="n in userList | filter:search" class="connect_blogdiv" ng-click="selectUser(n.id); actClass = !actClass"  ng-class="actClass ? 'active-pic' : ''">
+
+                        <div class="connect_imgdiv" >
+                            <a href="javascript:void(0)"  >
+                                <img alt="" src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/user_image/thumb/{{n.image}}">
+                            </a>
+                            </div>
+                            <div class="connect_textdiv">
+                            <a uib-tooltip-html="tooltipVal(n)" tooltip-class="customTooltip" tooltip-placement="bottom">
+                                <span>{{ n.user_name | limitTo: 30 }}{{n.user_name.length > 30 ? '...' : ''}}</span><br />
+                                {{ n.user_address | limitTo: 30 }}{{n.user_address.length > 30 ? '...' : ''}}
+                            </a>
+                              </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <input  class="activities-submit" type="button" ng-click="next_c()" value="next step" >
+                    <div class="skip connectskip" style="width:100px; float:none; margin-top:30px;">
+                        <a href="javascript:void(0);" ng-click="skip()"  style="width:100%;">SKIP »</a>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="footer-menu1"> <span>&copy;TORKQ</span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('terms')">TERMS </a> </span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a> </span> </div>

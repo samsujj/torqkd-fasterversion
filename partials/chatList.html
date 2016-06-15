@@ -1,0 +1,39 @@
+<div class="link3" ng-show="rootsessUser">CHAT</div>
+
+<div class="caht1" ng-show="rootsessUser">
+    <div class="scrollbars" ng-scrollbar>
+
+        <ul>
+            <li class="chat_li" ng-repeat="item in chatUser1">
+                <a href="javascript:void(0)" ng-click="openChatbox(item.id)">
+                    <img src="images/checkered.png" lazy-img="http://torqkd.com/user/ajs1/createimage?width=41&image={{item.user_image}}" width="41" height="45" alt="" />
+                    <span>{{item.name}}</span>
+                    <a class="log_act" ng-if="item.is_login == 1">
+                        <img src="images/fbactive.png" width="10" height="10" alt=""  class="fbactive"/>
+                    </a>
+                </a>
+                <div class="clear"></div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="caht2" ng-show="rootsessUser">
+    <div class="scrollbars" ng-scrollbar>
+
+        <ul>
+            <li class="chat_li" ng-repeat="item in chatUser2">
+                <a href="javascript:void(0)" ng-click="openChatbox(item.id)">
+                    <img src="images/checkered.png" lazy-img="http://torqkd.com/user/ajs1/createimage?width=41&image={{item.user_image}}" width="41" height="45" alt="" />
+                    <span>{{item.name}}</span>
+                    <a class="log_act" ng-if="item.is_login == 1">
+                        <img src="images/fbactive.png" width="10" height="10" alt=""  class="fbactive"/>
+                    </a>
+                </a>
+                <div class="clear"></div>
+            </li>
+        </ul>
+    </div>
+
+</div>

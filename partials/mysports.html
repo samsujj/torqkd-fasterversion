@@ -1,0 +1,39 @@
+<style>
+    h1{
+        color: #f7931e;
+        font-family: "veneerregular" !important;
+        font-size: 24px;
+        font-weight: normal;
+        line-height: 26px;
+    }
+</style>
+<div class="experience-body" style="margin-top: 0px;">
+    <div class="experience-wrapper">
+        <!--Top Contain[start]-->
+        <div ng-include="'partials/header.html'"></div>
+        <!--Top Contain[end]-->
+        <div class="photos-body11" style="margin-top: 10px;">
+            <h1>Sports</h1>
+            <div class="image-text" style="float:right;border:solid 4px #fff;margin-top:-32px; width:88px; box-shadow:0 0 2px #888;">
+                <img  src="{{user_image}}" style="width:100%">
+            </div>
+            <div class="clear"></div>
+            <div class="sports-table-mobile">
+
+                <div ng-repeat="n in sportsList" ng-init="spLength= (spLength+1)">
+
+                    <h3> {{n.name}}</h3>
+                    <ul>
+                        <li ng-repeat="m in n.ch">
+                            <a href="javascript:void(0);" style="margin-bottom: 0px;" ><img  alt="#" src="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
+                            <strong> {{m.name}}</strong>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

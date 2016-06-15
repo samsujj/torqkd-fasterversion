@@ -1,0 +1,91 @@
+<style>
+
+    .ngdialog-content{
+        border: 5px solid #f7941e !important;
+        border-radius: 0 !important;
+        padding:25px 15px!important;
+    }
+
+    .ngdialog-content p{
+        font:13px/18px Arial,Helvetica,sans-serif;
+    }
+
+</style>
+<div class="addimage-body">
+  <div class="register_wrapper">
+    <div class="logo" > <a href="#/index"> <img  alt="#" src="images/logo_main.png" /> </a> </div>
+    <div class="menupart5"></div>
+    <div class="activities_contain">
+      <h2><img  alt="#" src="images/your-profile.jpg" id="addImageH"></h2>
+      
+      <p style="font-size: 12px;" data-original-title="">Select photos for your profile and profile background.</p>
+     
+      <h4>Add Profile Photo</h4>
+        
+    <div class="imglist-div1">
+        <div class="imglist">
+
+<img ng-src="{{(profileImage != '')?profileImage:'images/default.jpg'}}" alt="#"  >
+
+</div>
+<div class="img-btn-div" style="clear:both; overflow:hidden; position:inherit; bottom:0;">
+<input ng-show="!isMobileApp" type="button" value="+" class="upload-btn1" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+    <input ng-show="isMobileApp" type="button" value="+" class="upload-btn1" ng-click="andriodUp()">
+    <img src="images/help.png" alt="#" class="help-icon" style="margin-top:-3px;">
+    <div class="clear"></div>   
+</div>
+
+<div class="progress" ng-show="files[0].progress >= 0">
+	<div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div>
+</div>
+
+        <input class="imgBtnCls" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Crop" ng-if="profileImageName != 'default.jpg'" ng-click="cropProfileImg()">
+
+        <input class="imgBtnCls" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Delete" ng-if="profileImageName != 'default.jpg'"  ng-click="profileImgDel(1)">
+
+  </div>
+    <div class="clear"></div>
+       
+     <h4>Add Background Photo</h4>    
+       
+       
+       <div class="imglist-div2">
+        <div class="imglist2">
+
+<img name="" src="{{(profileBackImage != '')?profileBackImage:'images/defaultbg.jpg'}}" alt="#" >
+
+</div>
+
+  <div class="img-btn-div" style="clear:both; overflow:hidden; position:inherit; bottom:0;">
+<input ng-show="!isMobileApp" type="button" value="+" class="upload-btn2" ngf-drop ngf-select ng-model="files1" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box"ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+      <input ng-show="isMobileApp" type="button" value="+" class="upload-btn2" ng-click="andriodUp1()">
+      <img src="images/help.png" alt="#" class="help-icon" style="margin-top:-3px;">
+    <div class="clear"></div>   
+</div> 
+
+<div class="progress" ng-show="files1[0].progress >= 0">
+	<div style="width:{{files1[0].progress}}%; background:#F69830;" ng-bind="files1[0].progress + '%'"></div>
+</div>
+
+           <input class="imgBtnCls" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Crop" ng-if="profileBackImageName != 'default.jpg'" ng-click="cropProfileBackImg()">
+
+           <input class="imgBtnCls" style="margin-top: 10px; margin-bottom: 0;" type="button" value="Delete" ng-if="profileBackImageName != 'default.jpg'" ng-click="profileImgDel(2)">
+             <div class="clear"></div>
+       </div>
+       
+     
+       
+       <div  class="skipfinished" style="margin-top: 20px;">
+<a href="javascript:void(0);" ng-click="signUpfinish()">FINISH AND GET STARTED</a>
+</div>
+
+
+
+						
+		  
+
+ 
+    </div>
+  </div>
+  <div class="footer-menu2"> <span>&copy;TORQK'D</span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('terms')">TERMS </a> </span> <span>|</span> <span> <a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a> </span> </div>
+</div>

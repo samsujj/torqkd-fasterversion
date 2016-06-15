@@ -1,0 +1,216 @@
+<style type="text/css">
+.has-error {
+    color: #f8931f !important;
+    display: block !important;
+    font-family: arial !important;
+    font-size: 12px !important;
+    font-weight: normal;
+    margin: 0 !important;
+    overflow: hidden;
+    text-align: left !important;
+    width: 100% !important;
+}
+</style>
+<div class="experience-body">
+
+    <div class="experience-wrapper" style="overflow:hidden;">
+
+        <!--Top Contain[start]-->
+
+        <div ng-include="'partials/header.html'"></div>
+
+        <!--Top Contain[end]-->
+
+
+
+        <div class="forumpress-table" style="min-height: 500px;">
+
+            <h2><a ui-sref="forumlist">Discussion Forums</a></h2>
+
+            <!--Log In Section[start]-->
+
+            <div class="top-heading" style="margin-top: 15px;" ng-if="sessUser == 0">Guest</div>
+
+            <!--<div class="top-heading" style="margin-top: 15px;" ng-if="sessUser > 0">Welcome {{sessUserDet.fname}} {{sessUserDet.lname}}</div>
+
+            <div class="rowone" ng-if="sessUser > 0">
+
+                <div class="left-img1"><img style="width: 60px; height: 60px;" src="{{profileImage}}"  alt=""  width="100px"/></div>
+
+                <p style=" padding:4% 0 0 10px;  float:left; font-size:11px;"></p>
+
+                <div class="clear"></div>
+
+            </div>-->
+
+
+
+            <div class="rowone" ng-show="sessUser == 0" style="margin-bottom:22px;">
+
+                <table width="100%" class="wpf-table" id="profileHeader">
+
+                    <tbody>
+
+                    <tr id="upshrinkHeader">
+
+                        <td valign="top">
+
+                            <div id="forumLogin">
+
+                                <p style="padding-bottom:10px;">Welcome Guest, posting in this forum requires <a href="javascript:void(0);">registration.</a></p>
+
+                                <div class="clear"></div>
+
+                                <label class="has-error" ng-show="msgFlag" style="width:86%; display:block; margin:0 auto; padding:0 0 10px 0;">Incorrect Login Information..</label>
+
+                                <div class="forum-login-main">
+
+                                    <form angular-validator-submit="submitloginForm()" name="loginForm" class="form-horizontal" novalidate angular-validator>
+
+                                        <div class="forum-login">
+
+                                            <label for="UserManager_email" class="required">Email <span class="required">*</span></label>
+
+                                            <input type="email" id="UserManager_email"   style="height: 37px!important; width:70%!important; background:#f1f1f3!important; font-size:14px!important; color: #717171 !important;" class="UserManager_inputl" name="email" placeholder="EMAIL"
+
+                                                   validate-on="blur"
+
+                                                   class = "form-control UserLogIn_email"
+
+                                                   ng-model = "form.email"
+
+                                                   required-message="'Email cannot be blank.'"
+
+                                                   invalid-message="'Enter valid email address.'"
+
+                                                   required>
+
+                                        </div>
+
+                                        <div class="forum-login">
+
+                                            <label for="UserManager_password" class="required">Password <span class="required">*</span></label>
+
+                                            <input type="password"  style="height: 37px!important; width:70%!important; background:#f1f1f3; color: #717171 !important; font-size:14px!important;" id="UserManager_password" class="UserManager_input2" name="UserManager[password]" placeholder="PASSWORD"
+
+                                                   validate-on="dirty"
+
+                                                   class = "form-control UserLogIn_password"
+
+                                                   ng-model = "form.password"
+
+                                                   required-message="'Password cannot be blank.'"
+
+                                                   required>
+
+                                        </div>
+
+                                        <input class="button" type="submit" name="yt0" value="Log In">
+
+                                        <div class="clear"></div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+
+        <!--Log In Section[start]-->
+
+            <h2 style="font-size:20px; letter-spacing:0px; padding:12px 0 0 0; width: 60%">
+
+                <span style="font-size:20px; letter-spacing:0px; padding:12px 0 0 0;" ng-repeat="h in headingArr" ng-show="headingArr.length > 1">
+
+                    <a href="{{h.link}}">{{h.value}}</a>
+
+                    <label ng-show="!$last">&raquo;</label>
+
+                </span>
+
+            </h2>
+
+            <div ng-repeat="item in forumList">
+
+                <div class="top-row" style="height: 17px; margin-bottom:5px;">
+
+                    <div class="div1" style="border:none; "><a ui-sref="spforumlist({spId:item.id})" style="color: #f7941e;">{{item.sport_name}}</a></div>
+
+                    <div class="div3" style="border:none;">POST</div>
+
+                    <div class="div4" style="border:none;">LATEST POST</div>
+
+                    <div class="clear"></div>
+
+                </div>
+
+
+
+                <div class="table-row2" style="min-height: 20px;" ng-repeat="forum in item.forumL">
+
+                    <div class="div1" style="min-height:58px;">
+
+                        <div class="teable-text">
+
+                            <strong><a ui-sref="forumdetails({forumId:forum.id})">{{forum.name}}</a></strong>
+
+                            <br/>
+
+                            <div ng-bind-html="forum.description"></div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="div3">
+
+                        <div class="teable-text" style="display:block; line-height: 54px; ">{{forum.no_post}}</div>
+
+                    </div>
+
+
+
+                    <div class="div4" style="border-right:none;" >
+
+                        <div class="teable-text">
+
+                            <div ng-show="!forum.lpost" style="color: #333!important; font-size: 11px!important;">No topics yet</div>
+
+                            <div ng-show="forum.lpost">
+
+                                <a class="forumlink" style="font-size:14px;" ui-sref="topicdetails({topicId:forum.lpostArr.id})">{{forum.lpostArr.title}}</a>
+
+                                <div class="forumdate"><strong>{{forum.lpostArr.time}} - </strong>{{forum.lpostArr.user_name}}</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+
+</div>

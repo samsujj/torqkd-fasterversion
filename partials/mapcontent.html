@@ -1,0 +1,145 @@
+<style>
+    .angular-google-map-container {
+        width: 100%;
+        height: 400px;
+    }
+    .angular-google-map img {
+        max-width: none;
+    }
+    .angular-google-map {
+        top: 80px;
+    }
+    .shrink {
+        font-size: 8;
+    }
+    .true:hover {
+        background-color: lightgreen;
+    }
+    .false:hover {
+        background-color: lightpink;
+    }
+    .marker-labels {
+        color: red;
+        background-color: white;
+        font-family: "Lucida Grande", "Arial", sans-serif;
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+        border: 1px solid black;
+        white-space: nowrap;
+    }
+    .custom-info-window{
+        background: rgba(0,0,0,0.5);
+        color: white;
+        padding: 20px;
+        /*border: 1px solid white;*/
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+        border-radius: 5px;
+        width: 200px;
+        margin-top: 15px;
+        margin-left: -130px;
+    }
+    .custom-info-window a{
+        color: white;
+        text-decoration: underline;
+    }
+    .custom-info-window:after{
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 15px 15px;
+        border-color: rgba(0,0,0,0.5) transparent;
+        display: block;
+        width: 0;
+        z-index: 1;
+        top: -15px;
+        left: 118px;
+    }
+
+</style>
+
+
+
+
+<div style="width:100%; height:20px; overflow:hidden;"></div>
+<div class="mapcontain" style="border: solid 8px #fff;  position: relative; min-height: 444px;">
+
+
+
+   <div class="iframe_h2">Events</div>
+
+    <div ng-show="mapfullnotload" class="viewMore" style="width:100%; position: absolute; z-index: 99!important; height: 90%; background: url('../images/img-transparent.png'); text-align:center; padding:0;"> <img src="images/videoloader.gif"  style="display: block; margin:0 auto; margin-top: 20%;"/></div>
+
+   <div id="map-canvas">
+
+		<ui-gmap-google-map id="rootmap"
+
+                        center="rootmap.center"
+
+                        pan="rootmap.pan"
+
+                        zoom="rootmap.zoom"
+
+                            bounds="rootmap.bounds"
+
+                            events="rootmap.events"
+
+                        draggable="true"
+                            options="rootmap.options"
+
+                        >
+
+		<ui-gmap-markers models="rootmap.markers" coords="'self'" icon="'icon'" idkey='id' events="rootmap.markerEvents" >
+        </ui-gmap-markers>
+           <!-- <ui-gmap-markers models="map.dynamicMarkers" coords="'self'" icon="'icon'" idkey='id' events="map.markerEvents" >
+            </ui-gmap-markers>-->
+
+
+
+
+
+            <ui-gmap-window
+
+                    idKey="rootmap.openedCanadaWindows.id"
+
+                    coords ='rootmap.openedCanadaWindows'
+
+                    show="rootmap.openedCanadaWindows.doShow"
+
+                    closeclick="rootmap.openedCanadaWindows.closeClick">
+
+                <div id="infoWin">
+
+                    <div event_id="1450" red_link="{{baseUrl}}/user/default/event-details/id/" class="infow" onclick="ssss(this)" style="cursor:pointer;">
+
+                        <h1 class="firstHeading" id="firstHeading">
+
+                            {{rootmap.openedCanadaWindows.name}}<br>
+
+                            <span>{{rootmap.openedCanadaWindows.address}}</span><br>
+
+                            <span>{{rootmap.openedCanadaWindows.date}}</span>
+
+                        </h1>
+
+                    </div>
+
+                </div>
+
+            </ui-gmap-window>
+
+		
+
+		
+
+    </ui-gmap-google-map>
+
+	
+
+	
+
+</div>
+
+
+
+</div>

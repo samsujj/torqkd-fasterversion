@@ -1,0 +1,141 @@
+<style>
+    .angular-google-map-container {
+        width: 200px;
+        height: 200px;
+    }
+    .angular-google-map img {
+        max-width: none;
+    }
+    .angular-google-map {
+        top: 80px;
+    }
+    .confirmPopup .ngdialog-content {
+        position:relative;
+        margin:0 auto;
+        width:80%;
+        padding:3px 12px;
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+    }
+</style>
+
+<div class="experience-body" style="margin-top: 0px;">
+
+    <div class="experience-wrapper">
+
+        <!--Top Contain[start]-->
+
+        <div ng-include="'partials/header.html'"></div>
+
+        <!--Top Contain[end]-->
+
+        <div class="routes-body-contain">
+
+
+
+            <div style="width:96%; padding:2%; background:#ebebeb;">
+
+
+
+                <div style="width: 100%;">
+                    <h4 style="width:100px; float:left;">Routes</h4>
+                    <div class="right-btn" style="margin-top: 0px;" ng-if="userId == sessUser"><a ui-sref="addroute">+ Route</a></div>
+                </div>
+                <div class="clear"></div>
+                <div style="width: 100%; ">
+                    <div class="top-text"> <p style="color:#4f4f51;font-size: 13px;margin: 0px; line-height:22px;font-family: 'helvetica', 'arial';font-weight:normal;text-transform:none;letter-spacing:normal;">Below are listed the routes  recorded through either the online system or the Torkq mobile app. Click on the map for a larger view of the route recorded.</p></div>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="routes-wrapper">
+
+
+                    <div class="routes-row" style="float: left; position: relative" ng-repeat="item in routeList">
+                        <div class="rowone rownewone">
+                            {{item.sport_name}}<br />
+                            <img src="{{item.sport_image}}" style="max-width: 46px;"  alt="" />
+                        </div>
+                        <div class="rowtwo rowtwo-div rownewone" style="padding-top:3px;">
+                            <h2>{{item.route_name}}</h2>
+                            <div class="date-contain">
+                                <h5>
+                                    <span>DATE</span><br />
+                                    {{item.date}}
+                                </h5>
+                                <h5>
+                                    <span>TIME</span><br />
+                                    {{item.duration}}
+                                </h5>
+                                <h5>
+                                    <span>DISTANCE</span><br />
+                                    {{item.distance}} miles
+                                </h5>
+
+                            </div>
+                        </div>
+
+                        <div class="rowthree" id="map{{item.id}}">
+                            <ui-gmap-google-map center="item.map.center" zoom="item.map.zoom" pan="true" draggable="true">
+                                <ui-gmap-markers models="item.marker" coords="'self'" icon="'icon'" idkey='id' ></ui-gmap-markers>
+                                    <ui-gmap-polyline ng-if="item.location.length" path="item.location" draggable="false" geodesic="true" stroke="item.map.lineStyle" fit="true"></ui-gmap-polyline>
+                            </ui-gmap-google-map>
+                        </div>
+
+
+                        <div style="display:block; margin-right: 11px; text-align: right; padding-top:10px;" class="sdiv">
+                            <a href="javascript:void(0);" ng-click="createImage(item.id,'fb')"><img src="images/newsicon1.png" width="25"  alt="" /></a>
+                            <a href="javascript:void(0);" ng-click="createImage(item.id,'tw')"><img src="images/newsicon2.png" width="25"  alt="" /></a>
+                            <a href="javascript:void(0);" ng-click="createImage(item.id,'pr')"><img src="images/newsicon3.png" width="25"  alt="" /></a>
+
+                            <a ng-if="item.user_id==sessUser" href="javascript:void(0)" ng-click="delRoute(item.id,$index)" style="color: #616564; font-family: 'veneerregular'; font-size: 22px; padding:0px 0; text-decoration: none; ">&#10006;</a>
+                        </div>
+
+                        <div id="mapcon{{item.id}}" style="display: none;">
+
+
+                            <div class="rowtwo " style="float: none; width: 170px; margin:0; padding:0;  ">
+                                <h2 style="  word-wrap: break-word; width: 170px; margin-bottom: 2px; padding-bottom: 2px;color:#000!important">{{item.route_name}}</h2>
+                                <div class="date-contain" style="padding-top: 0px; margin-top: -3px;color:#000!important">
+                                    <h5 style="padding: 0px 0; margin-top: -8px;color:#000!important" >
+                                        <span style="color:#616564!important">DATE</span><br />
+                                        {{item.date}}
+                                    </h5>
+                                    <h5 style="padding: 0px 0; margin-top: -8px;color:#000!important">
+                                        <span style="color:#616564!important">TIME</span><br />
+                                        {{item.duration}}
+                                    </h5>
+                                    <h5 style="padding: 0px 0; margin-top: -8px;color:#000!important">
+                                        <span style="color:#616564!important">DISTANCE</span><br />
+                                        {{item.distance}} miles
+                                    </h5>
+                                </div>
+                            </div>
+
+
+
+                            <img src="{{item.sport_image}}" style="width:40px; display: block; margin: 0;"  alt="" />
+                        </div>
+
+                        <div class="clear"></div>
+
+
+                    </div>
+
+                    <div class="empty" ng-show="routeListCount==0">No results found.</div>
+                    <div ng-show="viewMore && routeListCount" class="viewMore view_more_link"><a href="javascript:void(0);" ng-click="viewMoreRoues()">View More</a></div>
+                    <div ng-show="viewMoreLoad" class="viewMore view_more_link"><img src="images/loading_list.gif" /></div>
+
+                    <div class="back-btn"><a ui-sref="groupdetail({groupId:groupId})">BACK</a></div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style=" width:170px; height:204px;" id="mapconmain" >
+
+</div>
