@@ -1,0 +1,282 @@
+<style type="text/css">
+    .ngdialog-content{
+        background-color: #f6f9fa !important;
+        border: 5px solid #f7941e !important;
+        border-radius: 0 !important;
+        padding:0!important;
+        width:99%;
+        margin:0 auto!important;
+    }
+    .ngdialog-content p{
+        font:13px/18px Arial,Helvetica,sans-serif;
+        margin:0 15px;
+    }
+    .ngdialog-content h2{
+        margin-left:15px;
+        margin-right:15px;
+    }
+    .confirmPopup .ngdialog-content{
+        position:relative;
+        margin:0 auto;
+        width:80%;
+        padding:3px 12px;
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+    }
+    .youtubePopup1{
+        top: 20px;
+        overflow: visible !important;
+    }
+    .youtubePopup .ngdialog-content{
+        position:relative;
+        margin:0 auto;
+        width:80%;
+        padding:3px 12px;
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+    }
+    .youtubePopup1 .ngdialog-content{
+        position:relative;
+        margin:0 auto;
+        width:80%;
+        padding:3px 12px;
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+    }
+    .youtubeVideo1{
+        position:relative;
+    }
+    .youtubeVideo1 .ngdialog-close{
+        position: absolute;
+        top:-25px;
+        right: -10px;
+        font-weight: bold;
+        font-size: 30px;
+        height: 30px;
+    }
+    .browsebtntab{
+        background: #f8931f!important;
+        border: 4px solid #fff !important;
+        color: #434142 !important;
+        cursor: pointer !important;
+        font-family: "veneerregular" !important;
+        font-size: 24px !important;
+        height: 41px !important;
+        line-height: 29px !important;
+        margin-top: -1px;
+        text-transform: uppercase !important;
+        width: 131px !important;
+        float:right!important;
+    }
+    .photos-body ul li {
+        height: 150px!important;
+        width: 21.8%!important;
+    }
+    .album-tab .nav-tabs{ margin:0px!important;}
+    .album-tab .nav-tabs li{ color:#505050!important; font-size:22px!important; margin-top:10px!important; font-family: "veneerregular"!important;}
+    .popupbox_social_box{ width:100%!important; position:relative!important; padding:0!important;}
+    .cancelbtn1{
+        position: absolute!important;
+        right: -5px !important;
+        top: 0px !important;
+    }
+    .modal-content .left_body {
+        float: left;
+        width: 65%;
+        padding-right:20px;
+    }
+    .modal-content .poprt {
+        float: left;
+        width: 32%;
+    }
+    .popupbox_social_box .comment-area .commendboxpro .popup-text-box1 {
+        float: left;
+        width: 80%;
+    }
+    .popupbox_social_box .comment-area .commendboxpro .popup-text-box1 textarea { background: #fff!important;}
+    .commend-box{ background:#dee1e2!important; margin:0!important; font-size: 12px!important;}
+    .modal.fade .modal-dialog { width:900px;}
+    .browsebtntab2:hover{ color:#fff!important;}
+    .popupbox_social_box .comment_top .profile-text .name-text{ color:#333!important;}
+    .delconfmsg{ padding-top:10px;}
+
+    .fsdfsd {
+        background: rgb(255, 255, 255) none repeat scroll 0 0 !important;
+    }
+</style>
+<div class="experience-body" style="margin-top: 0px;">
+    <div class="experience-wrapper">
+        <!--Top Contain[start]-->
+        <div ng-include="'partials/header.html'"></div>
+        <!--Top Contain[end]-->
+        <div class="photos-body" style="margin-top: 10px;">
+            <div class="top-text" style="font-size:24px; line-height: 19px; margin-right:5px; padding: 11px 10px 8px 10px; float:left">Photos & Videos</div>
+            <span ng-show="currentphotoTab == 'photo.tpl.html' && userId == sessUser">
+                <input type="button" class="browsebtn browsebtntab" value="UPLOAD" ngf-drop ngf-select ng-model="image" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+            </span>
+            <a href="javascript:void(0);" ng-show="currentphotoTab == 'video.tpl.html' && userId == sessUser" ng-click="videoUploadDivOpen()" class="browsebtntab browsebtntab2" style="border: 4px solid #fff;
+
+    display: block;
+
+    float: right !important;
+
+    height: 34px !important;
+
+    line-height: 38px !important;
+
+    margin-top: -2px !important;
+
+    padding: 0 !important;
+
+    width: 123px !important;" >Add</a>
+            <div style="clear:both;"></div>
+            <div class="progress" style="margin-bottom: 5px !important; margin-top: 5px !important;" ng-show="image[0].progress >= 0">	<div style="width:{{image[0].progress}}%; background:#F69830; font-size: 16px;padding-left:10px;" ng-bind="image[0].progress + '%'"></div></div>
+            <div class="status-input" ng-show="isStatusInput" style="overflow:hidden;" >
+                <div style="padding: 5px;">
+                    <textarea class="fsdfsd" ng-keyup="tetshigh($event)" ng-model="statusText" placeholder="STATUS UPDATE" style="border: 1px solid #ccc !important; border-radius: 0 !important; background: #FFFFFF none repeat scroll 0 0 !important; width: 100% !important; color:#000!important; margin: 0 auto !important;" ></textarea>
+                </div>
+                <div ng-if="photoval">
+                    <img ng-if="photovaloading" src="images/fileloader.gif" />
+                    <img ng-if="photoval && !photovaloading" src="{{baseUrl}}/uploads/community_image/{{photoval}}"  style="margin:5px auto; width:94%"  />
+                </div>
+                <div ng-if="photoval1">
+                    <img ng-if="photoval1" src="{{baseUrl}}/uploads/status_img/{{photoval1}}"  style="margin:5px auto; width:94%" />
+                </div>
+                <div ng-if="videoval1"  style="margin:5px auto; width:94%;">
+                    <div style="margin-bottom:10px;" class="embed-responsive embed-responsive-16by9 video-wrapper">
+                        <youtube-video class="embed-responsive-item" video-id="videoval1"></youtube-video>
+                    </div>
+                </div>
+                <div ng-if="videoval2"  style="margin:5px 0;">
+                    <img ng-if="videoval2 == 'images/fileloader.gif'" src="{{videoval2}}" />
+                    <videogular ng-if="videoval2 != 'images/fileloader.gif'" ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+videoval2), type: 'video/mp4'}]" >
+                        <vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
+                    </videogular>
+                </div>
+                <div>
+                    <div>
+                        <select id="share_with" ng-model="share_with">
+                            <option value="1">Community</option>
+                            <option value="2">Friends</option>
+                            <option value="3">Friends Of Friends</option>
+                            <option value="4">Private Me Only</option>
+                        </select>
+                        <input class="lrotbtn" type="button" ng-show="isRotateBtn" ng-click="imgRotate(1)" style="background: url({{baseUrl}}/torqkd_demo/images/rtal.png) no-repeat 1px 1px !important;  box-shadow: 0 0 2px #888 !important;
+    display: block;
+    float: left;
+    height: 34px !important;
+    margin: 10px 0 0 10px !important;
+    padding: 0 !important;
+    width: 114px !important; border:none!important;">
+                        <input class="rrotbtn" type="button" ng-show="isRotateBtn" ng-click="imgRotate(2)" style="background: url({{baseUrl}}/torqkd_demo/images/rtar.png) no-repeat  1px 1px!important; box-shadow: 0 0 2px #888 !important;
+    display: block;
+    float: right;
+    height: 34px !important;
+    margin: 10px 10px 0 0 !important;
+    padding: 0 !important;
+    width: 114px !important; border:none!important;">
+                        <div style="clear:both;"></div>
+                        <input type="button" value="cancel" class="postbtn1 albumpost" ng-click="cancelStatus()" style="
+
+    background: #f7931e!important;
+
+    border: 3px solid #fff !important;
+
+    box-shadow: 0 0 2px #888 !important;
+
+    color: #414151 !important;
+
+    display: block;
+
+    float: left !important;
+
+    font-size: 16px !important;
+
+    font-style: normal;
+
+    font-weight: normal !important;
+
+    height: 34px !important;
+
+    margin: 10px 0 12px 10px !important;
+
+    padding: 0 !important;
+
+    width: 114px !important; line-height:31px!important;" >
+                        <input type="button" value="POST" ng-click="postStatus()"  class="postbtn2 albumpost" style="background: #f7931e !important;
+
+    border: 3px solid #fff !important;
+
+    box-shadow: 0 0 2px #888 !important;
+
+    color: #414151 !important;
+
+    display: block;
+
+    float: right !important;
+
+    font-size: 16px !important;
+
+    font-style: normal;
+
+    font-weight: normal !important;
+
+    height: 34px !important;
+
+    margin: 10px 10px 12px 0 !important;
+
+    padding: 0 !important;
+
+    width: 114px !important; line-height:31px!important;">
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="link-option" style="margin:17px 0;"><a ui-sref="profile({userId:userId})" style=" color: #333; font-size: 20px; text-decoration: none;"> Back to Profile</a></div>
+            <div class="image-text" style="float:right;border:solid 4px #fff;margin-top:-32px; width:88px; box-shadow:0 0 2px #888;">
+                <img src="images/checkered.png"  lazy-img="{{user_image}}" style="width:100%">
+            </div>
+            <div class="album-tab" style="min-height: 500px;">
+                <div id="tab-id">
+                    <ul class="nav nav-tabs">
+                        <li ng-repeat="tab in photoTabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickphotoTab(tab)">{{tab.title}}</li>
+                    </ul>
+                    <div id="mainView">
+                        <div ng-include="currentphotoTab"></div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/ng-template" id="photo.tpl.html">
+                <div id="viewOne" ng-include="'partials/photo.html'" class="tabphoto"></div>
+            </script>
+            <script type="text/ng-template" id="video.tpl.html">
+                <div id="viewTwo" ng-include="'partials/video.html'" class="tabphoto"></div>
+            </script>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="upVidDiv">
+    <div class="ngdialog-message">
+        <div class="Videopopup" style="padding:18px 0;">
+            <input type="text" placeholder="Type to search YouTube" ng-model="youtubeTxt" id="youtubeTxt" class="searchbox" ng-enter="youtubeSearch()" style=" width:90%!important; height:35px!important;   display: block!important; float: none!important; margin: 0 auto!important; padding: 0 5px !important; font-size:12px!important;" >
+            <span style="display:block; margin:12px auto; text-align:center;">Or</span>
+            <input class="browsebtn addbrowsebtn" type="button" value="Drop files here to upload or click to browse" ngf-drop ngf-select ng-model="video123" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'video/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+            <div class="progress" style=" margin:10px auto!important; width:90%!important; display:block;" ng-show="video123[0].progress  >= 0">	<div style="width:{{video123[0].progress}}%; background:#F69830;" ng-bind="video123[0].progress + '%'"></div></div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="youtubeVideo">
+    <div class="ngdialog-message">
+        <h4 style="padding:22px 0;"></h4>
+        <div class="youtubeVideo">
+            <img class="videopopupclose ngdialog-close" alt="" style="cursor: pointer;" src="images/youtube_close.png">
+            <div ng-repeat="c in vids">
+                <div style="margin-bottom:10px;" class="embed-responsive embed-responsive-16by9 video-wrapper" >
+                    <youtube-video class="embed-responsive-item" video-id="c.id.videoId"></youtube-video>
+                </div>
+                <h1>{{c.snippet.title}}</h1>
+                <a href="javascript:void(0)" ng-click="addYtVideo(c)" class="vidAddBtn">ADD</a>
+            </div>
+        </div>
+    </div>
+</script>

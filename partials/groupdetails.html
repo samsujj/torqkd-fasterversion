@@ -1,0 +1,515 @@
+<?php
+
+Yii::app()->clientScript->registerScriptFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('user').'/assets/js/jquery.Jcrop.js'), CClientScript::POS_HEAD);
+Yii::app()->clientScript->registerCSSFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('user').'/assets/css/uploadify.css'));
+Yii::app()->clientScript->registerCSSFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('user').'/assets/css/jquery.Jcrop.css'));
+Yii::app()->clientScript->registerCSSFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('user').'/assets/css/facebox.css'));
+Yii::app()->clientScript->registerCSSFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('user').'/assets/css/uploader.css'));
+
+
+$themeUrl = Yii::app()->theme->baseUrl;
+
+
+$useriphone=0;
+$useragent=$_SERVER['HTTP_USER_AGENT'];
+//var_dump($useragent);
+//exit;
+if(strpos($useragent,'iPhone') !== false){
+
+$useriphone=1;
+//echo 'inserted';
+//echo $useriphone;
+//exit;
+
+}
+
+
+
+
+$cs = Yii::app()->getClientScript();
+
+$sess = Yii::app()->session['sess_user'];
+$adv_banner_arr = array();
+
+
+
+$cur_tm = time();
+
+$dif = $cur_tm-$res['last_active_time'];
+
+$pds = array('second','minute','hour','day','week','month','year');
+
+$lngh = array(1,60,3600,86400,604800,2630880,31570560);
+
+
+
+for($v = sizeof($lngh)-1; ($v >= 0)&&(($no = $dif/$lngh[$v])<=1); $v--); if($v < 0) $v = 0; $_tm = $cur_tm-($dif%$lngh[$v]);
+
+$no = floor($no);
+
+if($no <> 1)
+
+$pds[$v] .='s';
+
+$time_diff = sprintf("%d %s ",$no,$pds[$v]);
+
+
+?>
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function() {
+
+
+
+
+        $('.myParent').hover(function() {
+
+                    $(this).children('.hover_img').show();
+
+                },
+
+                function() {
+
+                    $(this).children('.hover_img').hide();
+
+                });
+
+
+        var popflag=0;
+
+        if(hxrw=="com.torkqd"){
+            $('.myParent2').hover(function() {
+                //alert(2);
+
+                $(this).next('.hover_img30').css('display','block').css('z-index','99999');
+                $(this).next('.hover_img30').find('img').click(function(){
+
+                    //alert(9);
+
+                    setTimeout(function(){
+
+                        //$(this).next('.hover_img30').hide();
+
+                    },2000);
+                    /*{
+                     var index=($(this).index());
+                     if(index==1 && popflag==0)
+                     {
+                     window.location.href="https://twitter.com/intent/tweet?original_referer=http://torqkd.com/&url=http://torqkd.com/";
+                     popflag=1;
+                     setTimeout(function(){
+                     popflag=0;
+                     },3000);
+                     }
+                     if(index==2 && popflag==0) {
+                     var media = $(this).attr('s_img');
+                     window.location.href="http://pinterest.com/pin/create/button/?url=http://torqkd.com/&media="+media+"&description=";
+                     popflag=1;
+                     setTimeout(function(){
+                     popflag=0;
+                     },3000);
+                     }*/
+                });
+            },function() {
+                //$(this).next('.hover_img30').hide();
+            });
+
+        }else{
+            $('.myParent2').hover(function() {
+
+                        $(this).children('.hover_img3').show();
+                        $(this).children('.hover_img3').find('img').one("click",function()
+                        {
+                            var index=($(this).index());
+                            if(index==1 && popflag==0)
+                            {
+                                window.open("https://twitter.com/intent/tweet?original_referer=http://torqkd.com/&url=http://torqkd.com/");
+                                popflag=1;
+                                setTimeout(function(){
+                                    popflag=0;
+                                },3000);
+                            }
+                            if(index==2 && popflag==0) {
+
+                                var media = $(this).attr('s_img');
+
+                                window.open("http://pinterest.com/pin/create/button/?url=http://torqkd.com/&media="+media+"&description=")
+
+                                popflag=1;
+                                setTimeout(function(){
+                                    popflag=0;
+                                },3000);
+                            }
+                        });
+
+
+
+
+
+                    },
+
+                    function() {
+
+
+
+                        $(this).children('.hover_img3').hide();
+
+                    });
+
+        }
+
+
+
+
+
+
+
+    });
+
+
+
+</script>
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+    function show_comment()
+
+
+
+    {
+
+
+
+        //$.facebox('dsf dsf ds fdsf ds fds fdsfds f');
+
+
+
+        $.facebox($('#showcomment').html());
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+<style type="text/css">
+
+
+    #leaveGroup{ margin-left:10px;}
+
+
+
+    @media screen and (max-width:1150px) {
+
+        .top-banner-contain h2{ margin-left:110px;}
+
+        .top-banner-contain  #item-meta{ margin-left:120px;}
+        #leaveGroup{ margin-left:-10px;}
+    }
+
+    @media screen and (max-width:1024px) {
+        .top-banner-contain{ display: block;}
+
+        .top-banner-contain h2{ margin-left:110px;}
+
+        .top-banner-contain  #item-meta{ margin-left:120px;}
+
+
+        #leaveGroup{ margin-left:-10px;}
+        .highlight{ margin-right:10px;}
+
+
+    }
+
+
+</style>
+
+
+
+<div class="experience-body">
+
+    <div class="experience-wrapper">
+
+        <!--top-contain-->
+
+
+
+        <div class="top-contain">
+
+
+
+            <div style="width: 313px; float: left;">
+
+
+
+                <div class="logo">
+
+
+
+                    <a href="<?php echo yii::app()->getBaseUrl(true) ?>">
+
+
+
+                        <img src="<?php echo $themeUrl;?>/assets/images/logo.png"  alt="#" /></a></div>
+
+
+
+                <div class="clear"></div>
+
+
+
+            </div>
+
+            <div class="top-menu" <?php if(count($sess)>0) { ?>
+
+
+
+            style="width:320px"
+
+
+
+
+
+
+
+            <?php } else { ?>
+
+
+
+            style="width:242px"
+
+
+
+            <?php } ?>
+
+
+
+            ;>
+
+
+
+            <ul id="menu">
+
+
+
+
+
+
+
+                <?php if(count($sess) > 0){?>
+
+
+
+                <li>
+
+
+
+                    <a href="<?php echo yii::app()->getBaseUrl(true) ?>/profile" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'"
+
+
+
+                       onMouseOut="this.style.color='#F7931D'">Profile</a>
+
+
+
+
+
+
+
+                </li>
+
+
+
+                <?php } ?>
+
+
+
+
+
+                <li>
+
+
+
+                    <a href="<?php echo yii::app()->getBaseUrl(true) ?>/experience" style="color:#F7931D;"  onMouseOver="this.style.color='#5a5b5d'"
+
+
+
+                       onMouseOut="this.style.color='#F7931D'">Experience</a>
+
+
+
+
+
+
+
+                </li>
+
+
+
+
+
+                <li><a href="#">Sports</a>
+
+
+
+
+
+
+
+                    <ul class="sub-menu">
+
+
+
+                        <?php $this->renderPartial('user.views.default.menu',array('model'=>new Sport())); ?>
+
+
+
+                    </ul>
+
+
+
+                </li>
+
+
+
+
+                <?php if(count($sess) > 0){?>
+
+
+
+                <li><a href="<?php echo yii::app()->getBaseUrl(true) ?>/user/default/logout" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'"
+
+
+
+                       onMouseOut="this.style.color='#5A5B5D'">Logout</a></li>
+
+                <li> <a href="<?php echo  yii::app()->getBaseUrl(true)  ?>/user/profile/editprofile"><img src="<?php echo $themeUrl;?>/images/gear.png"  alt="#" /></a></li>
+
+
+
+                <?php }else{?>
+
+
+
+                <li> <a href="<?php echo yii::app()->getBaseUrl(true) ?>/login" style="color:#5A5B5D;"  onMouseOver="this.style.color='#F7931D'"
+
+
+
+                        onMouseOut="this.style.color='#5A5B5D'">Login</a></li>
+
+
+
+                <?php }?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </ul>
+
+
+
+            <?php if(count($sess) == 0){?>
+
+
+
+            <div class="join-btn"><a href="<?php echo yii::app()->getBaseUrl(true) ?>/register">JOIN</a></div>
+
+
+
+            <?php } ?>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="clear"></div>
+
+
+
+    </div>
+
+
+
+    <!--top-contain end -->
+
+
+
+    <div class="experience-leftcontain">
+
+        <div class="top-banner-contain" style="margin-top: 0px; padding-top: 0px; width: 100%; margin-bottom: 0;">
+
+            <div class="user-contain2" style=" position: inherit; float: left;">
+
+                <div class="img-contain cngcondiv"><img id="grpimage" src="<?php echo Yii::app()->getBaseUrl(true);?>/uploads/group_image/thumb/<?php echo $res['image'];?>" alt="<?php echo $res['name'];?>" class="avatar group-49-avatar" width="100px" height="100px" <?php if(in_array(intval($sess['id']),$res['admin'])){ ?> onclick="cropgrimage('<?php echo $res['image'];?>')" style="cursor: pointer;" <?php } ?> />
+                    <?php if(in_array(intval($sess['id']),$res['admin'])){ ?>
+                    <input type="file" id="group_cover_up1" group_id="<?php echo $res['id'];?>">
+                    <?php } ?>
+                </div>
+
+                <a href="javascript:void(0);" title="<?php echo $res['sp_name'];?>"><img width="40" alt="#" style=" margin:4px 4px 4px 0; overflow: hidden;" src="<?php echo Yii::app()->getBaseUrl(true);?>/uploads/sports_image/thumb/<?php echo $res['sp_image'];?>" data-original-title=""></a>
+
+
+
+            </div>
+
+
+
+            <div class="banner-image cngcondiv" id="banner-group">
+
+
+
+
+
+                <div id="item-header

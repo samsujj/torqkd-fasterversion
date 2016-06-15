@@ -1,0 +1,58 @@
+<ul>
+
+    <div role="main" class="item-list" ng-repeat="item in groupMmber track by item.id">
+
+        <div class="clear"></div>
+
+        <div style="padding-bottom:25px;" class="groups-body">
+
+            <div style="width:50px!important; float:left; margin-left: 0px;" class="left-img" data-original-title="">
+
+                <a ui-sref="profile({userId:item.user_id})">
+
+                    <img style="margin:-4px 0 0 0; max-width:50px;max-height:50px;" alt="" src="{{item.user_image}}">
+
+                </a>
+
+            </div>
+
+            <div class="righttext1">
+
+                <h5 style="padding:0; font-size:18px;">
+
+                    <a ui-sref="profile({userId:item.user_id})" style="font-size: 16px;font-weight: normal;">{{item.user_name}}</a>
+
+                </h5>
+
+                <span style="font-size:12px;" class="activity" >joined {{item.time}} ago</span>
+
+
+
+                <a ng-repeat="item1 in item.sports" style="margin: 2px;display: inline-block;" href="javascript:void(0);"><img width="25" alt="" src="{{item1.spimage}}"></a>
+
+
+
+                <div style="clear: both;height: 15px;width: 100%">&nbsp;</div>
+
+
+
+                <p style="font-size:14px; display: inline;" ng-show="item.is_admin==1">Admin</p>
+
+                <p style="font-size:14px; display: inline; cursor:pointer;  margin-right: 25px;" ng-show="isAdmin > 0 && item.is_admin==0" ng-click="addAsAdmin(item)">Add This Member As Admin</p>
+                <div style="clear:both;"></div>
+
+                <p class="concls" style="font-size:14px; cursor:pointer;  display: inline; margin-top:20px; color:#333;" ng-show="item.sess_id > 0 && item.user_id != item.sess_id && item.frndship==0" ng-click="addFriend(item)" >CONNECT +</p>
+
+                <br /> <br />
+
+                <div class="action"></div>
+
+            </div>
+
+            <div class="clear"> </div>
+
+        </div>
+
+    </div>
+
+</ul>

@@ -1,0 +1,363 @@
+<style type="text/css">
+    .btn2{ display:none;}
+    .button { margin:20px 0 20px  0;}
+	
+		.experience-wrapper {
+    margin: 0 auto !important;
+    padding-top: 10px;
+    width: 1000px;
+}
+
+.createevent-body { width: 1000px;}
+
+#Group_name {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    color: #888888!important;
+    font-size: 13px !important;
+    height: 45px !important;
+    padding: 5px !important;
+    width: 95% !important;
+}
+
+#Group_description {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    height: 80px !important;
+    width: 95% !important;
+	    color: #888888!important;
+		 font-size: 13px !important;
+}
+
+.form-group{ margin: 0!important; padding:0!important; width:100%!important;}
+
+.redio-text{ padding:0; margin:0;}
+
+.submitbtn{background: #f8931f;
+    border: 4px solid #fff;
+    border-radius: 0;
+    color: #434142;
+    cursor: pointer;
+    float: left;
+    font-family: "veneerregular";
+    font-size: 24px;
+    line-height: 24px;
+  
+    outline: medium none !important;
+    padding: 7px 10px 2px;
+    text-transform: uppercase; text-shadow:0 1px 1px #fff !important;}
+	
+	.submitbtn:hover{background: #f8931f;
+    border: 4px solid #fff;
+    border-radius: 0;
+    color: #434142;
+    cursor: pointer;
+    float: left;
+    font-family: "veneerregular";
+    font-size: 24px;
+    line-height: 24px;
+  
+    outline: medium none !important;
+    padding: 7px 10px 2px;
+    text-transform: uppercase;}
+	
+	.ngdialog-content{background-color: #f6f9fa;
+    border: 5px solid #f7941e !important;
+    border-radius: 0 !important;     font-family: "veneerregular"!important;
+    font-size: 20px!important;
+  }
+
+    @media screen and (max-width:1069px) {
+        .btn1{ display:none;}
+        .btn2{ display:block; margin-left:5px;}
+    }
+
+    @media screen and (max-width:1024px) {
+        .createevent-body{ width:90%; margin:0 auto; margin-top:30px;}
+
+    }
+    @media screen and (max-width:980px) {
+        .createevent-body{ width:80%; margin:0 auto;}
+        #Group_name {
+            background: none repeat scroll 0 0 #fff !important;
+            border: 2px solid #97989a !important;
+            width: 103% !important;
+        }
+        #Group_description {
+            background: none repeat scroll 0 0 #fff !important;
+            border: 2px solid #97989a !important;
+            height: 80px !important;
+            width: 102% !important;
+        }
+
+    }
+
+    @media screen and (max-width:560px) {
+
+        #Group_name {
+            background: none repeat scroll 0 0 #fff !important;
+            border: 2px solid #97989a !important;
+            width: 101% !important;
+        }
+        #Group_description {
+            background: none repeat scroll 0 0 #fff !important;
+            border: 2px solid #97989a !important;
+            height: 80px !important;
+            width: 100% !important;
+        }
+    }
+    @media screen and (max-width:500px) {
+        .mobile-top-con .mobile-menu{ margin-top:-50px;}
+        .mobile-top-con  .logout{ margin-top:-48px; }
+    }
+
+    @media screen and (max-width:400px) {
+        .mobile-top-con .mobile-menu{ margin-top:-43px;}
+        .mobile-top-con  .logout{ margin-top:-40px; }
+        .createevent-body .left-part h2{ font-size:26px;}
+        .select-box-contain .thumbnails > li{ width:100%;}
+        .select-box-contain{ width:100%;}
+        .createevent-body .right-part{ width:80%;}
+        #Group_name {
+            background: none repeat scroll 0 0 #fff !important;
+            border: 2px solid #97989a !important;
+            width: 98% !important;
+        }
+        #Group_description {
+            background: none repeat scroll 0 0 #fff !important;
+            border: 2px solid #97989a !important;
+            height: 80px !important;
+            width: 97% !important;
+        }
+
+
+    }
+
+
+    .mymodalimg .modal-lg{
+        width: 860px !important;
+    }
+
+
+    .modal-lg {
+        background-clip: padding-box;
+        background-color: #ffffff;
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        outline: medium none;
+        border: 5px solid #f7941e;
+        border-radius: 0;
+    }
+
+    .modal-footer .btn-primary{
+        -webkit-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+        box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
+        text-shadow:0 1px 1px #fff;
+    }
+
+    .modal-footer .btn-primary:hover{
+        border-color:#fff;
+    }
+
+    .image-editor .cropit-image-preview {
+        background: #f8f8f8;
+        background-size: cover;
+        border: none;
+        border-radius: 0px;
+
+        width: 300px;
+        height: 300px;
+        cursor: move;
+        margin:0 0 0 25px;
+    }
+
+
+    .cropit-image-background {
+        opacity: .2;
+        cursor: auto;
+    }
+
+    .image-size-label {
+        margin-top: 10px;
+    }
+
+    .export {
+        margin-top: 10px;
+    }
+
+
+
+</style>
+
+<div class="experience-body" >
+    <div class="experience-wrapper">
+        <div ng-include="'partials/header.html'"></div>
+    </div>
+</div>
+
+<div class="createevent-body">
+    <div class="left-part">
+        <form angular-validator-submit="addGroupForm()" name="signUpForm" class="form-horizontal" novalidate angular-validator>
+            <h2 style="padding-top:6px;">Create a Group</h2>
+            <p style="padding-bottom:20px;">Create a group and invite your friends to join by filling out the form below. </p>
+
+            <div class="form-group" style="margin-bottom:12px;">
+                <div class="col-sm-10" style="width:100%; padding:0; margin-bottom: 20px !important;">
+                    <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:15px;">*</span>
+                    <input type="text" id="Group_name" name="Group[name]" placeholder="GROUP NAME" ng-blur="setCookie()"
+                           validate-on="blur"
+                           class = "form-control"
+                           ng-model = "form.name"
+                           required-message="'Name cannot be blank.'"
+                           required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10" style="width:100%; padding:0; margin-bottom: 20px !important;">
+                    <span style="float: right; display:block; width: 10px; color:#fb992c; margin-top:15px;">*</span>
+                    <textarea style="margin-bottom: 0 !important;" id="Group_description" name="Group[description]" placeholder="DESCRIPTION" ng-blur="setCookie()" class="form-control" validate-on="blur" ng-model="form.description" required-message="'Description cannot be blank.'"
+                              required></textarea>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="redio-text">
+                <div class="form-group">
+                    <div class="col-sm-10" style="width:100%; padding:0;">
+                        <label style="display: block;
+    float: left;
+    padding: 2px 0 0;
+    width: 100px;" class="rediolabel" >
+                            <input type="radio" ng-model="form.type" value="1" ng-click="setCookie()" style="width:20px; float:left;  margin-top:3px;">
+                            <span style="display:block; width:auto; font-weight:normal; float:left;">Public</span>
+                            <div style="clear:both;"></div>
+                        </label>
+                        <label style="display: block;
+    float: left;
+    padding: 2px 0 0;
+    width: 100px;" class="rediolabel" >
+                            <input type="radio" ng-model="form.type" value="2" ng-click="setCookie()" style="width:20px; float:left; margin-top:3px;">
+                            <span style="display:block;  width:auto; font-weight:normal; float:left;">Private</span>
+                            <div style="clear:both;"></div>
+                        </label>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <h3 style="margin-top:45px;">Group Photo </h3>
+            <div class="uploadbox" style="position:relative;">
+                <div id="blah" style="width: 170px; height:170px;  border: 2px solid #97989a; background:#fff; overflow:hidden;" > <img src="{{groupImage}}" ng-show="groupImage" style="width:100%;"></div>
+                <input type="button" value="+" class="upload-btn btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+                <div class="progress" ng-show="files[0].progress >= 0">	<div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div></div>
+
+
+            </div>
+
+            <h3>INVITE GROUP MEMBERS </h3>
+
+            <div class="select-box-menu">
+            
+            <img style="box-shadow: none; border: none; cursor: pointer; margin:0 30px 0 0;" ng-click="checkAll()"  alt="Select All" src="images/select_all.png">
+             <img style="box-shadow: none; border: none; cursor: pointer;" ng-click="uncheckAll()"  alt="Select All" src="images/select_none.png">
+          <!--      <div ng-click="checkAll()" >Select All</div>
+                <div ng-click="uncheckAll()">Select None</div>-->
+            </div>
+            <div class="clear"></div>
+            <div class="select-box-contain" style="padding:20px!important; width:90%;">
+                <ul>
+                    <li ng-repeat="item in userList track by item.id" style="height: 55px; width:95%!important; padding:10px 0; background:none; border:none; font-family:Arial, Helvetica, sans-serif!important; text-align:left!important; cursor:auto!important;" >
+                        <input type="checkbox" name="users[]" ng-click="userclick(item.id)" ng-checked="allCheck">
+                        <img style="float: left; max-width:50px; max-height:50px;" alt="" src="images/checkered.png" lazy-img="{{item.user_image}}" data-original-title="">
+                        <span>{{item.user_name}}</span>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="btn1">
+                <input type="submit" value="Submit" class="button btn submitbtn" />
+                <div style="clear:both;"></div>
+                <a href="javascript:history.go(-1)" style="overflow:hidden; clear:both; margin:25px 0 0 0;  font-family: 'veneerregular';
+	font-size: 22px;
+	color:#585b60;
+	padding:0 0;" >BACK</a>
+            </div>
+        </form>
+    </div>
+
+            <div class="right-part">
+                <h1> Sport</h1>
+                <div class="sports-table">
+                    <div ng-repeat="n in sportsList">
+                        <h3> {{n.name}}</h3>
+                        <ul>
+                            <li ng-repeat="m in n.ch">
+                                <a href="javascript:void(0);" style="margin-bottom: 0px;" ng-click="form.sports_id = m.id; selsp(); actClass = !actClass" ng-class="(actClass || form.sports_id == m.id) ? 'activeimg' : ''" ><img  alt="" src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
+                                <strong> {{m.name}}</strong>
+                            </li>
+                        </ul>
+
+                        <div class="clear"></div>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+    </div>
+            <div class="clear"></div>
+
+
+</div>
+
+
+
+<script type="text/ng-template" id="mymodal">
+    <div class="modal-header">
+        <a class="close" ng-click="modalClose()">&times;</a>
+        <h4>&nbsp;</h4>
+    </div>
+    <div class="modal-body">
+        <div ng-show="pLoad">Loading Image...<img src="images/ajax_loading.gif" ></div>
+
+
+        <div class="image-editor">
+
+
+            <div style="overflow:hidden; width:400px; margin:0 auto;">
+                <div class="cropit-image-preview-container">
+                    <div class="cropit-image-preview" ng-mousemove="changepreview()"></div>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;"><input type="range" class="cropit-image-zoom-input" name="range" ng-model="range" ng-change="changepreview()"></div>
+
+        </div>
+
+        <div style="overflow:hidden; margin:10px auto; margin-top:14px; display:block; width:300px;">
+            <img src="{{imagedata1}}" ng-show="imagedata1">
+        </div>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <div style="width:200px; margin:0 auto;">
+            <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop123()" data-original-title="" style="width:100px; margin:4px;">Crop & Save</a>
+            <!--<a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="" style="width:62px; margin:4px;">Close</a>-->
+        </div>
+    </div>
+
+
+
+</script>
+
+

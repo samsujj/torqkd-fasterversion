@@ -1,0 +1,167 @@
+<title>Torqkd</title>
+
+
+<style type="text/css">
+
+    @font-face {
+        font-family: 'capture_itregular';
+        src: url('<?php echo $themeUrl;?>/font/capture_it-webfont.eot');
+        src: url('<?php echo $themeUrl;?>/font/capture_it-webfont.eot?#iefix') format('embedded-opentype'),  url('<?php echo $themeUrl;?>/font/capture_it-webfont.woff') format('woff'),  url('<?php echo $themeUrl;?>/font/capture_it-webfont.ttf') format('truetype'),  url('<?php echo $themeUrl;?>/font/capture_it-webfont.svg#capture_itregular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'veneerregular';
+        src: url('<?php echo $themeUrl;?>/font/veneer-webfont.eot');
+        src: url('<?php echo $themeUrl;?>/font/veneer-webfont.eot?#iefix') format('embedded-opentype'),  url('<?php echo $themeUrl;?>/font/veneer-webfont.woff') format('woff'),  url('<?php echo $themeUrl;?>/font/veneer-webfont.ttf') format('truetype'),  url('<?php echo $themeUrl;?>/font/veneer-webfont.svg#veneerregular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'reservation_wideregular';
+        src: url('<?php echo $themeUrl;?>/font/reservationwide-regular-webfont.eot');
+        src: url('<?php echo $themeUrl;?>/font/reservationwide-regular-webfont.eot?#iefix') format('embedded-opentype'),  url('<?php echo $themeUrl;?>/font/reservationwide-regular-webfont.woff') format('woff'),  url('<?php echo $themeUrl;?>/font/reservationwide-regular-webfont.ttf') format('truetype'),  url('<?php echo $themeUrl;?>/font/reservationwide-regular-webfont.svg#reservation_wideregular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'reservation_wideblack';
+        src: url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black-webfont.eot');
+        src: url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black-webfont.eot?#iefix') format('embedded-opentype'),  url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black-webfont.woff') format('woff'),  url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black-webfont.ttf') format('truetype'),  url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black-webfont.svg#reservation_wideblack') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family:reservation;
+        src: url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.eot');
+        src: url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.eot?#iefix') format('embedded-opentype'),  url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.woff') format('woff'),  url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.ttf') format('truetype');
+        font-weight: normal !important;
+        font-style: normal !important;
+        -webkit-font-smoothing: antialiased !important;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    }
+    @font-face {
+        font-family:'reservation';
+        src: url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.eot');
+        src: url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.eot?#iefix') format('embedded-opentype'),  url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.woff') format('woff'),  url('<?php echo $themeUrl;?>/font/ufonts.com_reservationwide-black.ttf') format('truetype');
+        font-weight: normal !important;
+        font-style: normal !important;
+        -webkit-font-smoothing: antialiased !important;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    }
+
+    body{ background:url(../images/addimage-bg.jpg) no-repeat center center fixed; margin:0; padding:0; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; }
+    .main-body{ width:99%; margin:0 auto; padding:0.5%;  }
+
+    .main-body .banner-wrapper{ width:98%; padding:1%; padding-bottom:0px; border-radius:10px; border:solid 2px #f7941d; background:rgba(255,255,255, 0.3); clear:both; overflow:hidden; }
+
+    .main-body .banner-wrapper .left-side{ width:46%; float:left;}
+    .main-body .banner-wrapper .right-side{ width:50%; float:right;}
+
+    .main-body .banner-wrapper .right-side img{ width:100%; }
+
+
+    .main-body .banner-wrapper .left-side h1{font-family: "veneerregular"; font-size:96px; color:#161616; font-weight:normal; line-height:94px; margin:30px 0 0 10%; padding:0; width:400px;}
+
+
+    .main-body .banner-wrapper .left-side p{ font-family: "veneerregular";font-size:33px; color:#161616; margin:20px 0 0 10%; padding:0; font-weight:normal; line-height:38px; width:640px;}
+
+    .main-body .banner-wrapper .left-side .menudiv{ width:auto; overflow:hidden; clear:both; margin:30px 0 0 10%;}
+    .main-body .banner-wrapper .left-side .menudiv a{ margin-right:30px;}
+
+    @media screen and (max-width:1560px) {
+
+
+        .main-body .banner-wrapper .left-side h1{font-family: "veneerregular"; font-size:90px;  line-height:94px; margin:30px 0 0 10%; padding:0; }
+
+
+        .main-body .banner-wrapper .left-side p{  font-size:28px;  width:600px;}
+    }
+
+
+
+    @media screen and (max-width:1460px) {
+
+
+        .main-body .banner-wrapper .left-side{ width:48%; float:left;}
+        .main-body .banner-wrapper .right-side{ width:50%; float:right;}
+
+
+        .main-body .banner-wrapper .left-side h1{font-family: "veneerregular"; font-size:88px;  line-height:94px; margin:20px 0 0 10%; padding:0; width:auto; }
+
+
+        .main-body .banner-wrapper .left-side p{  font-size:26px; width:auto;   margin:20px 0 0 10%;  }
+
+        .main-body .banner-wrapper .left-side .menudiv{ margin:20px 0 0 10%; }
+    }
+
+
+    @media screen and (max-width:1340px) {
+        .main-body .banner-wrapper .left-side h1{font-family: "veneerregular"; font-size:80px;  line-height:80px; margin:20px 0 0 5%; padding:0; width:auto; }
+
+
+        .main-body .banner-wrapper .left-side p{  font-size:26px; width:auto;   margin:10px 0 0 5%;  }
+
+        .main-body .banner-wrapper .left-side .menudiv{ margin:20px 0 0 5%; }
+
+    }
+
+    @media screen and (max-width:1250px) {
+
+        .main-body .banner-wrapper .left-side{ width:100%; float:none; padding-top:20px; text-align: center;}
+
+        .main-body .banner-wrapper .left-side p{  font-size:26px; width:auto;   margin:10px 0 0 0;  }
+        .main-body .banner-wrapper .left-side .menudiv{ margin:20px 0 0 0; }
+
+
+        .main-body .banner-wrapper .left-side h1{ margin:20px 0 0 0;}
+
+
+        .main-body .banner-wrapper .right-side{ width:60%; float:none; margin:0 auto; padding-top:50px;}
+
+    }
+
+
+    @media screen and (max-width:800px) {
+
+        .main-body .banner-wrapper .right-side{ width:80%;}
+    }
+
+    @media screen and (max-width:600px) {
+
+        .main-body .banner-wrapper .left-side .menudiv a{ width:257px; display:block; margin:10px auto;}
+
+
+        .main-body .banner-wrapper .right-side{ width:94%;}
+
+        .main-body .banner-wrapper .left-side h1{ font-size:54px; line-height:54px;}
+        .main-body .banner-wrapper .left-side p{ font-size:18px; line-height:25px;}
+    }
+</style>
+
+
+
+<div class="main-body">
+    <div class="banner-wrapper" style="margin-top:17px;">
+
+        <div class="left-side">
+            <h1>Torkq Mobile App</h1>
+
+            <p>Bring the consciousness of outdoor sports to a new progressive social media realm with the Torkq mobile app.</p>
+            <p>Now go get it!! Time to connect, track and explore.</p>
+
+            <div class="menudiv">
+                <a href="javascript:void(0);"><img src="images/app.png" alt="" /></a>
+                <a href="javascript:void(0);"><img src="images/gplay.png" alt="" /></a>
+
+            </div>
+
+        </div>
+        <div class="right-side">
+            <img src="images/mobileimg.png"  alt=""/>
+        </div>
+
+
+    </div>
+
+</div>

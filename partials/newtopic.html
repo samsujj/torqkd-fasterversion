@@ -1,0 +1,138 @@
+<style>
+    .confirmPopup .ngdialog-content{
+        position:relative;
+        margin:0 auto;
+        width:80%;
+        padding:3px 12px;
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+    }
+	
+	.form-group{ margin:0!important; padding:0!important;}
+	
+	
+</style>
+
+
+<div class="experience-body">
+    <div class="experience-wrapper" style="overflow:hidden;">
+        <!--Top Contain[start]-->
+        <div ng-include="'partials/header.html'"></div>
+        <!--Top Contain[end]-->
+
+        <div class="forumpress-table">
+            <h2><a ui-sref="forumlist">Discussion Forums</a></h2>
+            <!--Log In Section[start]-->
+            <div class="top-heading" style="margin-top: 15px;" ng-if="sessUser == 0">Guest</div>
+            <!--<div class="top-heading" style="margin-top: 15px;" ng-if="sessUser > 0">Welcome {{sessUserDet.fname}} {{sessUserDet.lname}}</div>
+            <div class="rowone" ng-if="sessUser > 0">
+                <div class="left-img1"><img style="width: 60px; height: 60px;" src="{{profileImage}}"  alt=""  width="100px"/></div>
+                <p style=" padding:4% 0 0 10px;  float:left; font-size:11px;"></p>
+                <div class="clear"></div>
+            </div>-->
+
+            <div class="rowone" ng-show="sessUser == 0" style="margin-bottom:22px;">
+                <table width="100%" class="wpf-table" id="profileHeader">
+                    <tbody>
+                    <tr id="upshrinkHeader">
+                        <td valign="top">
+                            <div id="forumLogin">
+                                <p style="padding-bottom:10px;">Welcome Guest, posting in this forum requires <a href="javascript:void(0);">registration.</a></p>
+                                <div class="clear"></div>
+                                <label class="has-error" ng-show="msgFlag" style="width:86%; display:block; margin:0 auto; padding:0 0 10px 0;">Incorrect Login Information..</label>
+                                <div class="forum-login-main">
+                                    <form angular-validator-submit="submitloginForm()" name="loginForm" class="form-horizontal" novalidate angular-validator>
+                                        <div class="forum-login">
+                                            <label for="UserManager_email" class="required">Email <span class="required">*</span></label>
+                                            <input type="email" id="UserManager_email"   class="UserManager_inputl" name="email" placeholder="EMAIL"
+                                                   validate-on="blur"
+                                                   class = "form-control UserLogIn_email"
+                                                   ng-model = "form.email"
+                                                   required-message="'Email cannot be blank.'"
+                                                   invalid-message="'Enter valid email address.'"
+                                                   required>
+                                        </div>
+                                        <div class="forum-login">
+                                            <label for="UserManager_password" class="required">Password <span class="required">*</span></label>
+                                            <input type="password" style="height: 37px!important; width:78%!important; margin:0 auto!important; background-color: #fff!important;" id="UserManager_password" class="UserManager_input2" name="UserManager[password]" placeholder="PASSWORD"
+                                                   validate-on="dirty"
+                                                   class = "form-control UserLogIn_password"
+                                                   ng-model = "form.password"
+                                                   required-message="'Password cannot be blank.'"
+                                                   required>
+                                        </div>
+                                        <input class="button" type="submit" name="yt0" value="Log In">
+                                        <div class="clear"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        <!--Log In Section[end]-->
+        <!--heading Section[start]-->
+            <h2 style="font-size:20px; letter-spacing:0px; padding:12px 0 12px 0px; width: 60%">
+                <span style="font-size:20px; letter-spacing:0px; padding:12px 0 0 0;">
+                    <a ui-sref="forumlist">forum</a>
+                    <label>&raquo;</label>
+                </span>
+                <span style="font-size:20px; letter-spacing:0px; padding:12px 0 0 0;">
+                    <a href="javascript:void(0)">New topic</a>
+                </span>
+            </h2>
+            <!--heading Section[end]-->
+
+            <div class="top-heading" data-original-title=""> <span style="display:inline-block;" data-original-title="">Post new Topic</span></div>
+
+            <form angular-validator-submit="addTopicForm()" name="signUpForm" class="form-horizontal" novalidate angular-validator>
+
+                <div class="form-group">
+                    <div class="col-sm-10" style="width:100%; padding:0;">
+                        <label class="required" style="width: auto!important;
+display: block;
+
+font-size: 16px !important;
+color: #f79213!important;
+overflow: hidden!important;
+padding-top: 30px; font-weight:normal;">Subject <span>*</span></label>
+                        <input type="text" style="font-size: 15px !important;
+height: 36px !important;
+padding: 4px 7px !important;
+width: 250px!important;
+border: 2px solid #97989a !important;
+border-radius: 5px !important; float:none !important; background-color:#fff !important; margin:10px 0 0 0; " id="Topic_title" name="Topic[title]" placeholder="TITLE"
+                               validate-on="blur"
+                               class = "form-control"
+                               ng-model = "form.title"
+                               required-message="'Subject cannot be blank.'"
+                               required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10" style="width:100%; padding:0;">
+                        <label class="required" style="width: auto!important;
+display: inline-block;
+padding-right: 20px!important;
+font-size: 16px !important;
+color: #f79213!important;
+overflow: hidden!important;
+padding-top: 28px; font-weight:normal;">Message <span>*</span></label>
+                        <div text-angular id="descriptionssdas" ng-keyup="urlextract($event,'extracted_url')"  ng-model="form.description" style="border:solid 1px #b2b2b2; margin:7px 0 0 0; background:#fff;" name="demo-editor" ta-text-editor-class="border-around container" ta-html-editor-class="border-around" required-message="'Description cannot be blank.'" required></div>
+                        <!--<textarea ng-keyup="urlextract($event)" ng-model="form.description"></textarea>-->
+
+                    </div>
+                </div>
+                <div id="extracted_url"></div>
+
+                <button type="submit" class="topicbtn">Submit</button>
+
+            </form>
+
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

@@ -1,0 +1,333 @@
+<style>
+    .confirmPopup .ngdialog-content{
+        position:relative;
+        margin:0 auto;
+        width:80%;
+        padding:3px 12px;
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+    }
+    .editpost .ngdialog-content{
+        position:relative;
+        margin:30px auto;
+		background:#f6f9fa!important;
+        width:55%;
+        padding:20px!important;
+		border:solid 5px #f7941e!important;
+        animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+    }
+    .editpost .ngdialog-content h2{
+        margin:0;
+        padding:0;
+        color: #f7941e;
+        font-size:22px!important;
+    }
+    .editpost .ngdialog-content  .textarea.form-control{
+        background-color:#fff!important;
+        width:100%!important;
+    }
+    .editpost .ngdialog-content .ngdialog-close{
+        position:absolute;
+        right:0;
+        top:0;
+    }
+    .editpost .ngdialog-content .ngdialog-close:before {
+        font-family: 'Helvetica', Arial, sans-serif;
+        content:url('images/gtk-close.png') ;
+        cursor: pointer;
+    }
+    .forumpress-table span a {
+        font-size: 11px !important;
+    }
+    .has-error {
+        color: #f8931f !important;
+        display: block !important;
+        font-family: arial !important;
+        font-size: 12px !important;
+        font-weight: normal;
+        margin: 0 !important;
+        overflow: hidden;
+        text-align: left !important;
+        width: 100% !important;
+    }
+    #Reply_description{
+        background: #fff !important;
+        border: 2px solid #97989a;
+        border-radius: 5px;
+        font-family:Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        padding: 6px;
+        width: 1000px!important; resize:none;
+    }
+    textarea{
+        color:#888888!important;
+    }
+    textarea::-webkit-input-placeholder {
+        color:#888888!important;
+        opacity:0.9;
+    }
+    textarea:-moz-placeholder {
+        color:#888888!important;
+        opacity:0.9;
+    }
+    textarea::-moz-placeholder {
+        color:#888888!important;
+        opacity:0.9;
+    }
+    textarea:-ms-input-placeholder {
+        color:#888888!important;
+        opacity:0.9;
+    }
+
+    @media screen and (max-width:1330px){
+        #Reply_description{
+            width: 980px!important;
+        }
+    }
+
+    @media screen and (max-width:1300px){
+        #Reply_description{
+            width: 960px!important;
+        }
+    }
+
+    @media screen and (max-width:1275px){
+        #Reply_description{
+            width: 900px!important;
+        }
+    }
+
+    @media screen and (max-width:1200px){
+        #Reply_description{
+            width: 860px!important;
+        }
+    }
+
+    @media screen and (max-width:1160px){
+        #Reply_description{
+            width: 800px!important;
+        }
+    }
+
+    @media screen and (max-width:1050px){
+        #Reply_description{
+            width: 740px!important;
+        }
+    }
+
+    [contenteditable=true]:empty:before{
+        content: attr(placeholder);
+        display: block; /* For Firefox */
+        color: #a7a9aa;
+    }
+
+
+</style>
+
+<div class="experience-body">
+    <div class="experience-wrapper" style="overflow:hidden;">
+        <!--Top Contain[start]-->
+        <div ng-include="'partials/header.html'"></div>
+        <!--Top Contain[end]-->
+        <div class="forumpress-table">
+            <h2><a ui-sref="forumlist">Discussion Forums</a></h2>
+            <!--Log In Section[start]-->
+            <div class="top-heading" style="margin-top: 15px;" ng-if="sessUser == 0">Guest</div>
+            <!--<div class="top-heading" style="margin-top: 15px;" ng-if="sessUser > 0">Welcome {{sessUserDet.fname}} {{sessUserDet.lname}}</div>
+            <div class="rowone" ng-if="sessUser > 0">
+            <div class="left-img1"><img style="width: 60px; height: 60px;" src="{{profileImage}}"  alt=""  width="100px"/></div>
+            <p style=" padding:4% 0 0 10px;  float:left; font-size:11px;"></p>
+            <div class="clear"></div>
+            </div>-->
+            <div class="rowone" ng-show="sessUser == 0" style="margin-bottom:22px;">
+                <table width="100%" class="wpf-table" id="profileHeader">
+                    <tbody>
+                    <tr id="upshrinkHeader">
+                        <td valign="top">
+                            <div id="forumLogin">
+                                <p style="padding-bottom:10px;">Welcome Guest, posting in this forum requires <a href="javascript:void(0);">registration.</a></p>
+                                <div class="clear"></div>
+                                <label class="has-error" ng-show="msgFlag" style="width:86%; display:block; margin:0 auto; padding:0 0 10px 0;">Incorrect Login Information..</label>
+                                <div class="forum-login-main">
+                                    <form angular-validator-submit="submitloginForm()" name="loginForm" class="form-horizontal" novalidate angular-validator>
+                                        <div class="forum-login">
+                                            <label for="UserManager_email" class="required">Email <span class="required">*</span></label>
+                                            <input type="email" id="UserManager_email"  style="height: 37px!important; width:70%!important; background:#f1f1f3!important; font-size:14px!important; color: #717171 !important;"  class="UserManager_inputl" name="email" placeholder="EMAIL" validate-on="blur" class = "form-control UserLogIn_email" ng-model = "form.email" required-message="'Email cannot be blank.'" invalid-message="'Enter valid email address.'" required>
+                                        </div>
+                                        <div class="forum-login">
+                                            <label for="UserManager_password" class="required">Password <span class="required">*</span></label>
+                                            <input type="password" style="height: 37px!important; width:70%!important; background:#f1f1f3!important; font-size:14px!important; color: #717171 !important;" id="UserManager_password" class="UserManager_input2" name="UserManager[password]" placeholder="PASSWORD" validate-on="dirty" class = "form-control UserLogIn_password" ng-model = "form.password" required-message="'Password cannot be blank.'" required>
+                                        </div>
+                                        <input class="button" type="submit" name="yt0" value="Log In">
+                                        <div class="clear"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--Log In Section[end]-->
+            <!--heading Section[start]-->
+            <h2 style="font-size:20px; letter-spacing:0px; padding:16px 0 20px 0px; width: 60%">
+                <span style="font-size:20px; letter-spacing:0px; padding:12px 0 0 0;" ng-repeat="h in headingArr">
+                    <a href="{{h.link}}">{{h.value}}</a>
+                    <label ng-show="!$last">&raquo;</label>
+                </span>
+            </h2>
+            <!--heading Section[end]-->
+            <div class="top-heading" > <span style=" display:inline-block; padding-top: 5px;">Topic: {{topicTitle}} </span></div>
+            <div class="new-contain-row" style="background: #ECEFF5; margin-bottom:10px;" >
+                <div class="left-img-block">
+                    <img src="images/checkered.png" lazy-img="{{baseUrl}}/user/ajs1/createimage?width=60&image={{topicDet.user_image}}"  alt="" />
+                </div>
+                <div class="right-text-block" style="margin-bottom:6px!important;">
+                    <strong>{{topicDet.user_name}}</strong>
+                    <div class="clear"></div>
+                    <h5 style="font-size: 16px; color: #000; padding: 10px 0; font-weight:bold;">{{topicDet.title}}</h5>
+                    <div ng-bind-html="topicDet.description" style="font-weight:normal; font-size:12px; color:#333;"></div>
+                    <br/>
+                    <span>{{topicDet.time}}</span>
+                    <span>
+                        <a href="javascript:void(0)" ng-click="likeTopic(topicDet)">{{(topicDet.likeStatus == 1)?'Unlike':'Like'}}</a>
+                        <span class="like_no">({{topicDet.likeNo}})</span>
+                    </span>
+                    <span class="flink2" ng-show="sessUser == topicDet.user_id">
+                        <a href="javascript:void(0)" ng-click="delTopicReply2(topicDet.id,topicDet.forum_id)" style=" color: #F7941E;display: inline-block; float: right; font-weight: bold; font-size:13px!important;  ">DELETE&nbsp;POST</a>
+                        <span style="float:right;">&nbsp;|&nbsp;</span>
+                        <a ui-sref="edittopic({topicId:topicDet.id})" style="color: #F7941E; display: inline-block; float: right;   font-weight: bold; font-size:13px!important;" >EDIT&nbsp;POST</a>
+                    </span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="viewMore" ng-show="loadingtreply" style="width:100%; text-align:center; padding:5px 0;"><img src="images/loading_list.gif" /></div>
+            <div class="new-contain-row" ng-repeat="item in topicDet.topic_reply">
+                <div class="left-img-block">
+                    <img  alt="" src="images/checkered.png" lazy-img="{{baseUrl}}/user/ajs1/createimage?width=60&image={{item.user_image}}">
+                </div>
+                <div class="right-text-block">
+                    <strong>{{item.user_name}}</strong>
+                    <div class="clear" style="margin-top: 8px;"></div>
+                    <div ng-bind-html="item.description | newlines | emoticons:{'linkTarget':'_blank','newLine':true} " class="ng-emoticons"></div>
+                    <div class="clear" style="margin-top: 8px;"></div>
+                    <span>{{item.time}}</span>
+                    <span>
+                        <a href="javascript:void(0)" ng-click="likeTopic(item)">{{(item.likeStatus == 1)?'Unlike':'Like'}}</a>
+                        <span class="like_no">({{item.likeNo}})</span>
+                    </span>
+                    <span class="flink1" ng-show="sessUser == item.user_id && item.user_id > 0">
+                        <a href="javascript:void(0)" ng-click="delTopicReply(item.id,$index,item)" style=" color: #F7941E;display: inline-block; float: right;padding-right: 18px; font-weight: bold;  ">DELETE&nbsp;POST</a>
+                        <span style="float:right;">&nbsp;|&nbsp;</span>
+                        <a href="javascript:void(0)" ng-click="replyedit(item)" style="color: #F7941E; display: inline-block; float: right;   font-weight: bold; ">EDIT&nbsp;POST</a>
+                        <div class="clear"></div>
+                    </span>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="new-contain-row" style="margin-left: 7%; width:90%; background: #ddd;" ng-repeat="item1 in item.topic_reply1">
+                    <div class="left-img-block">
+                        <img  alt="" src="images/checkered.png" lazy-img="{{baseUrl}}/user/ajs1/createimage?width=60&image={{item1.user_image}}">
+                    </div>
+                    <div class="right-text-block">
+                        <strong>{{item1.user_name}}</strong>
+                        <div class="clear" style="margin-top: 8px;"></div>
+                        <div ng-bind-html="item1.description | newlines | emoticons:{'linkTarget':'_blank','newLine':true} " class="ng-emoticons"></div>
+                        <div class="clear" style="margin-top: 8px;"></div>
+                        <span>{{item1.time}}</span>
+                        <span>
+                            <a href="javascript:void(0);" ng-click="likeTopic(item1)">{{(item1.likeStatus == 1)?'Unlike':'Like'}}</a>
+                            <span class="like_no">({{item1.likeNo}})</span>
+                        </span>
+                        <span ng-show="sessUser == item1.user_id && item1.user_id > 0" class="flink3">
+                            <a href="javascript:void(0);" ng-click="delTopicReply1(item1.id,$index,item)" style="  color: #F7941E;display: inline-block; float: right;  font-weight: bold; " >DELETE&nbsp;POST</a>
+                            <span style="float:right;">&nbsp;|&nbsp;</span>
+                            <a href="javascript:void(0);" ng-click="replyedit(item1)" style="color: #F7941E; display: inline-block; float: right;  font-weight: bold; ">EDIT&nbsp;POST</a>
+                        </span>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="new-contain-row" style="margin-left: 7%; width:90%; background: #ddd;">
+                    <form angular-validator-submit="addTopicForm1($index,item)" name="signUpForm" class="form-horizontal" novalidate angular-validator>
+                        <div class="form-group">
+                            <div class="col-sm-10" style="width:100%; padding:0;">
+                                <div style=" border:solid 2px #97989a; border-radius:5px;   width: 80%!important; background: #fff none repeat scroll 0 0 !important; margin-left:14px!important; position:relative; overflow:hidden; min-height:34px;">
+                                    <!--<textarea ng-keypress="resizeTextarea2($event);" ng-keydown="resizeTextarea2($event);" ng-keyup="resizeTextarea2($event);" id="Reply_description{{$index}}" class="form-control" placeholder="Write reply here" style="	  font-family: Arial, Helvetica, sans-serif; font-size: 16px; padding:0px; background:none!important; box-shadow:none!important; padding-right:33px!important;  resize:none; border-radius: 5px !important; overflow: hidden !important; border: none!important; "></textarea>-->
+                                    <div id="topicreplydiv1{{item.id}}"  style="padding: 0px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;   background:none!important; height:auto !important; min-height: 34px;  box-shadow:none!important; padding-right:33px!important; overflow: hidden !important; padding: 5px;" contentEditable="true" placeholder="Write reply here"></div>
+                                    <a href="javascript:void(0)" ng-click="showemojisdivsfs51465(item.id)"><img src="images/emo.png"  style="position:absolute; right:6px; top:8px; width:20px"/></a>
+                                    <div class="clear"></div>
+                                </div>
+                                <label class="control-label validationMessage" style="display: none; color: #f8931f !important; font-family: arial !important; font-size: 12px !important; font-weight: normal; margin: 0 !important; overflow: hidden; text-align: left !important; width: 100% !important;" id="error111{{item.id}}">Reply cannot be blank.</label>
+                                <div class="clear"></div>
+                                <div>
+                                    <div id="emojisdiv787{{item.id}}" style="display: none;">
+                                        <div class="emojisdiv">
+                                            <a href="javascript:void(0)" ng-repeat="emoitem in emojisArr" ng-click="emoinsert3($index,item,emoitem)" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:" ></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="extracted_url{{item.id}}"></div>
+                        <button type="submit" class="btn5">Submit</button>
+                    </form>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div  class="new-contain-row">
+                <input ng-show="sessUser > 0 && !isReply" ng-click="isReply = !isReply" value="New Reply" type="button" class="btn5">
+                <form ng-show="isReply" angular-validator-submit="addTopicForm()" name="ReplyForm" class="form-horizontal" novalidate angular-validator >
+                    <div class="form-group">
+                        <div class="col-sm-10" >
+                            <div style=" border:solid 2px #97989a; border-radius:5px;  height: auto; position:relative; overflow:hidden; background:#fff; min-height:35px;">
+                                <!--<textarea ng-keyup="resizeTextarea1($event); urlextract($event,'extracted_url0')" ng-keypress="resizeTextarea1($event);" ng-keydown="resizeTextarea1($event);"  id="Reply_description" name="Reply[description]" placeholder="Write reply here" class="form-control" validate-on="blur" ng-model="form.description" required-message="'Reply cannot be blank.'" required style="padding: 0px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;   background:none!important; height:30px !important;  box-shadow:none!important; padding-right:33px!important; overflow: hidden !important;" ></textarea>-->
+                                <div id="topicreplydiv" ng-keyup="settopicreplyval($event)"  style="padding: 0px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;   background:none!important; height:auto !important; min-height: 35px;  box-shadow:none!important; padding-right:33px!important; overflow: hidden !important; padding: 5px;" contentEditable="true" placeholder="Write reply here"></div>
+                                <div class="clear"></div>
+                                <a href="javascript:void(0)" ng-click="showemojisdivsfs()"><img src="images/emo.png"  style="position:absolute; right:6px; top:8px; width:20px"/></a>
+                            </div>
+                            <label class="control-label has-error validationMessage" ng-show="showError">Reply cannot be blank.</label>
+                            <div class="clear"></div>
+                            <div>
+                                <div id="emojisdiv787" style="display: none;">
+                                    <div class="emojisdiv">
+                                        <a href="javascript:void(0)" ng-repeat="emoitem in emojisArr" ng-click="emoinsert2(emoitem)" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:" ></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div id="extracted_url0"></div>
+                    <button type="submit" class="btn5">Submit</button>
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="editpost">
+    <div class="ngdialog-message">
+        <h2>Edit:</h2>
+        <div>
+            <form angular-validator-submit="replyeditform()" name="signUpForm" class="form-horizontal" novalidate angular-validator >
+                <div style="border:solid 2px #97989a; border-radius:5px; margin:10px 0; margin-bottom:15px;  height: auto; width: 100%!important; background: #fff!important; position:relative;">
+                    <!--<textarea id="editReply222" ng-keypress="resizeTextarea2($event);" ng-keydown="resizeTextarea2($event);" ng-keyup="resizeTextarea2($event);" ng-model="form1.replyeditarea" class="form-control" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;padding: 6px;width: 100%!important;  resize:none; border-radius: 5px !important; border: none!important; min-height: 100px !important; background: #fff!important;" required-message="'Post cannot be blank.'" required></textarea>-->
+                    <div id="editReply222" ng-bind-html="editReply222html" ng-keyup="settopicreplyval55($event)" style="padding: 0px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;   background:none!important; height:auto !important; min-height: 34px;  box-shadow:none!important; padding-right:33px!important; overflow: hidden !important; padding: 5px;" contentEditable="true"></div>
+                    <div class="clear"></div>
+                    <a href="javascript:void(0)" ng-click="showemojisdivsfs5252()"><img src="images/emo.png"  style="position:absolute; right:6px; top:8px; width:20px"/></a>
+                </div>
+                <div>
+                    <div id="emojisdiv787555" style="display: none;">
+                        <div class="emojisdiv">
+                            <a href="javascript:void(0)" ng-repeat="emoitem in emojisArr" ng-click="emoinsert5(emoitem)" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:" ></a>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn5" style="box-shadow:0 0 2px #888;">SAVE</button>
+            </form>
+        </div>
+    </div>
+</script>

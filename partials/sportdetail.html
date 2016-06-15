@@ -1,0 +1,292 @@
+<style>
+    .vertical .carousel-inner {
+        height: 100%;
+    }
+    .vertical .carousel-inner > .item {
+        -webkit-transition: .6s ease-in-out top;
+        -o-transition: .6s ease-in-out top;
+        transition: .6s ease-in-out top;
+    }
+    @media all and (transform-3d),
+    (-webkit-transform-3d) {
+        .vertical .carousel-inner > .item {
+            -webkit-transition: -webkit-transform .6s ease-in-out;
+            -o-transition: -o-transform .6s ease-in-out;
+            transition: transform .6s ease-in-out;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-perspective: 1000;
+            perspective: 1000;
+        }
+        .vertical .carousel-inner > .item.next,
+        .vertical .carousel-inner > .item.active.right {
+            top: 0;
+            -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+        }
+        .vertical .carousel-inner > .item.prev,
+        .vertical .carousel-inner > .item.active.left {
+            top: 0;
+            -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+        }
+        .vertical .carousel-inner > .item.next.left,
+        .vertical .carousel-inner > .item.prev.right,
+        .vertical .carousel-inner > .item.active {
+            top: 0;
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    .vertical .carousel-inner > .active {
+        top: 0;
+    }
+    .vertical .carousel-inner > .next,
+    .vertical .carousel-inner > .prev {
+        top: 0;
+        height: 100%;
+        width: auto;
+    }
+    .vertical .carousel-inner > .next {
+        left: 0;
+        top: 100%;
+    }
+    .vertical .carousel-inner > .prev {
+        left: 0;
+        top: -100%
+    }
+    .vertical .carousel-inner > .next.left,
+    .vertical .carousel-inner > .prev.right {
+        top: 0;
+    }
+    .vertical .carousel-inner > .active.left {
+        left: 0;
+        top: -100%;
+    }
+    .vertical .carousel-inner > .active.right {
+        left: 0;
+        top: 100%;
+    }
+
+    .carousel-control.left { background-image: none;}
+    .carousel-control.right { background-image: none;}
+
+    .verticalsliderwrapper {
+        height: 1220px;
+        padding: 55px 0;
+        position: relative;
+    }
+
+
+    .glyphicon-chevron-left{ background:  url("../images/prev-vertical.png") no-repeat; position: absolute!important; left: 268px!important;
+        top: -30px!important; width: 37px!important; height: 37px!important; display: block!important; opacity: 9!important;}
+    .glyphicon-chevron-left::before{content:"";}
+
+
+
+    .glyphicon-chevron-right{ background:  url("../images/next-vertical.png") no-repeat; position: absolute!important; right: 268px!important;
+        top: 1238px!important;   width: 37px!important; height: 37px!important; display: block!important; opacity:9!important;}
+    .glyphicon-chevron-right::before{content:"";}
+
+
+    .verticalsliderwrapper carousel{ height: 100%;}
+
+    .scrolldiv{ width: 100%;  margin: 12px 0; position: relative;}
+
+    .scrolldiv img{ border: 5px solid #fff;
+        height: 382px;
+        margin: 0 !important;
+        overflow: hidden;
+        padding: 0 !important;
+        width: 98%;}
+
+    .scrolldiv h2{ color: #fff;
+    font-family: "veneerregular" !important;
+    font-size: 38px;
+    font-weight: normal;
+    left: 10px;
+    letter-spacing: 5px;
+    position: absolute;
+    text-shadow: 2px 2px 5px #333;
+    text-transform: uppercase;
+    top: 7px;
+    width: 100px;}
+
+
+    .scrolldiv .more {
+        bottom: 9px;
+        color: #f39221 !important;
+        font-family: "veneerregular" !important;
+        font-size: 17px !important;
+        position: absolute;
+        right: 5px;
+        width: 64px !important;
+    }
+    .scrolldiv .more a {
+        color: #f39221 !important;
+        font-weight: normal;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 5px #333;
+    }
+
+    .verticalsliderwrapper-list{ padding: 0px 0;}
+
+    .verticalsliderwrapper .carousel-control{ width: 0;}
+    
+    .top-banner-contain{
+        height: auto;
+    }
+
+
+
+</style>
+
+
+<div class="experience-body" elem-ready="someMethod()">
+    <div class="experience-wrapper">
+        <div ng-include="'partials/header.html'"></div>
+
+
+        <div class="top-banner-contain" style="margin-bottom:7px; display:block;  position:relative; overflow:hidden;">
+            <!--<simple-slider class="" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
+                <img ng-repeat="item in banaerImages" src="{{baseUrl}}/uploads/sports_image/default_sp_2.jpg" lazy-img="{{baseUrl}}/user/ajs1/createimage?image={{item}}"  style="position:relative!important; width:100%;"/>
+            </simple-slider>-->
+            <uib-carousel active="0" interval="5000" no-wrap="false">
+                <uib-slide ng-repeat="item in banaerImages" index="$index">
+                    <img src="{{baseUrl}}/user/ajs1/createimage?image={{item}}" style="margin:auto; width: 100%;">
+                </uib-slide>
+            </uib-carousel>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="people-div" style="margin-top: 3px;">
+            <h4 style="font-weight:normal;">Community:</h4>
+            <ul style="padding:10px 0 20px 0; margin:0;">
+                <li class="u_list meParent" ng-repeat="uItem in communityUsers" ng-mouseenter="showFrndDiv = true" ng-mouseleave="showFrndDiv = false">
+                    <!--<img src="http://torqkd.com/user/ajs1/createimage?image={{uItem.image}}" alt=""  class="pimg1" style="margin:0; height:40px;" />-->
+                    <div style="width: 40px; height: 44px; background-image: url({{baseUrl}}/user/ajs1/createimage?width=40&image={{uItem.image}}); background-size: cover;"></div>
+                    <span class="hover_img" ng-show="showFrndDiv" style="display: block;">
+                        <ul>
+                            <li style="width:98px; float: left;  display:block; height: 110px; background-image: url({{baseUrl}}/user/ajs1/createimage?width=98&image={{uItem.image}}); background-size: cover;" class="mobpimg">
+                               <!-- <img src="http://torqkd.com/user/ajs1/createimage?image={{uItem.image}}" style="max-height:100%; max-width:98%;"  alt="" class="mobpimg" />-->
+                            </li>
+                            <li class="holist2">
+                                <a ui-sref="profile({userId:uItem.id})">{{uItem.name}}</a>
+                                <div class="clear"></div>
+                                <!--<img ng-repeat="item1 in uItem.spimage" src="{{item1}}" width="25"  alt="" />-->
+                                <div ng-repeat="item1 in uItem.spimage | limitTo:6" style="float: left; margin-bottom:4px; margin-right: 4px; height: 25px; width: 25px; background-image: url({{baseUrl}}/user/ajs1/createimage?width=25&image={{item1}}); background-size: cover;"></div>
+                                <div class="plno" ng-show="uItem.spCount > 0">+{{uItem.spCount}}</div>
+                                <div class="clear"></div>
+                                <a ui-sref="profile({userId:uItem.id})" class="view-btn1" style="color:#f79213;"> View Profile</a>
+                                <div class="clear"></div>
+                            </li>
+                        </ul>
+                    </span>
+                </li>
+                <div class="clear"></div>
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="connect-div">CONNECT&nbsp;&nbsp;>&nbsp;&nbsp;TRACK&nbsp;&nbsp;>&nbsp;&nbsp;EXPLORE </div>
+
+        <div class="experience-leftcontain">
+            <div class="sport-text-contain">
+                <h2>{{sportDet.sport_name}}</h2>
+                <article read-more  ng-model="content" words="true" length="50"></article>
+            </div>
+
+            <div ng-include="'partials/mapcontent.html'" ></div>
+            <div ng-include="'partials/social_tab.html'"></div>
+
+        </div>
+
+        <div class="experience-rightcontain">
+            <div ng-if="groupedSlides.length > 0">
+                <div class="verticalsliderwrapper">
+                    <carousel class="vertical" interval="7000">
+                        <slide ng-repeat="slideCollection in groupedSlides" active="slide.active">
+                            <div class="scrolldiv">
+                                <img src="{{baseUrl}}/uploads/sports_image/default_sp_1.jpg" lazy-img="{{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide1.image}}"   alt="#" />
+                                <h2>{{slideCollection.slide1.sport_name}}</h2>
+                                <span style="z-index: 999 !important;">
+                                    <div class="more" style="z-index: 999 !important;">
+                                        <a class="slink" ui-sref="sportdetail({sportId:slideCollection.slide1.id})">MORE &raquo;</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </span>
+                            </div>
+                            <div class="scrolldiv">
+                                <img src="{{baseUrl}}/uploads/sports_image/default_sp_1.jpg" lazy-img="{{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide2.image}}"   alt="#" />
+                                <h2>{{slideCollection.slide2.sport_name}}</h2>
+                                <span style="z-index: 999 !important;">
+                                    <div class="more" style="z-index: 999 !important;">
+                                        <a class="slink" ui-sref="sportdetail({sportId:slideCollection.slide2.id})">MORE &raquo;</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </span>
+                            </div>
+                            <div class="scrolldiv">
+                                <img src="{{baseUrl}}/uploads/sports_image/default_sp_1.jpg" lazy-img="{{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide3.image}}"   alt="#" />
+                                <h2>{{slideCollection.slide3.sport_name}}</h2>
+                                <span style="z-index: 999 !important;">
+                                    <div class="more" style="z-index: 999 !important;">
+                                        <a class="slink" ui-sref="sportdetail({sportId:slideCollection.slide3.id})">MORE &raquo;</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </span>
+                            </div>
+                        </slide>
+                    </carousel>
+                </div>
+            </div>
+            <div ng-if="groupedSlides.length == 0" class="verticalsliderwrapper-list">
+                <div ng-repeat="item in slides">
+                    <div class="scrolldiv">
+                        <img src="{{baseUrl}}/uploads/sports_image/default_sp_1.jpg" lazy-img="{{baseUrl}}//uploads/sports_image/additional/thumb/{{item.image}}"   alt="#" />
+                        <h2>{{item.sport_name}}</h2>
+                                <span>
+                                    <div class="more">
+                                        <a class="slink" ui-sref="sportdetail({sportId:item.id})">MORE &raquo;</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </span>
+                    </div>
+                </div>
+            </div>
+
+           <div class="link2" style="margin-bottom:0;"><a ui-sref="forumlist">FORUMS</a></div>
+            <div class="foroms-contain">
+                <div ng-repeat="item in forumList"> <strong><a style="padding-left: 0 !important;" href="javascript:void(0);">{{item.title}}</a></strong><br />
+                    <span style="padding-left: 30px !important;">{{item.time}} ({{item.reply_no}} Replies)</span><br>
+                </div>
+            </div>
+
+            <div class="banner2" style="height: auto;">
+                <div class="adspace">
+                    <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
+                        <div class="bannerdiv225" style=" background-image: url({{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                    </a>
+                    </simple-slider>
+                </div>
+            </div>
+
+            <div class="banner3" style="height: auto">
+                <div class="adspace">
+                    <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides3 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                       <!-- <img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
+                        <div class="bannerdiv225" style=" background-image: url({{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
+                    </a>
+                    </simple-slider>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
