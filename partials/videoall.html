@@ -325,7 +325,7 @@
                     <youtube-video class="embed-responsive-item" video-id="videoDet.value"></youtube-video>
                 </div>
 
-                <videogular ng-if="videoDet.videoType=='mp4' && videoDet.basepath==''" ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+videoDet.value), type: 'video/mp4'}]" >
+                <videogular  ng-if="videoDet.videoType=='mp4' && videoDet.basepath==''" ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+videoDet.value), type: 'video/mp4'}]" >
                     <vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
                 </videogular>
 

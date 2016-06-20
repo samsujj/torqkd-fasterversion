@@ -5,10 +5,11 @@ var homeControllers1 = angular.module('torqdTest', ['ui.router','angularHighligh
 
 
 homeControllers1.config(['$facebookProvider', function($facebookProvider) {
-    $facebookProvider.setAppId('821649631217712').setPermissions(['email','user_friends']);
+   // $facebookProvider.setAppId('821649631217712').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('434078603403320').setPermissions(['public_profile','user_friends','email','manage_pages','publish_pages','publish_actions','publish_stream']);
 }]);
 
-homeControllers1.run(['$rootScope', '$window','$state', function($rootScope, $window,$state) {
+/*homeControllers1.run(['$rootScope', '$window','$state', function($rootScope, $window,$state) {
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
@@ -22,6 +23,22 @@ homeControllers1.run(['$rootScope', '$window','$state', function($rootScope, $wi
             $window.dispatchEvent(new Event('fb.load'));
         }
     });
+}]);*/
+
+homeControllers1.run(['$window','$state', function($window,$state) {
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    /*$rootScope.$on('fb.load', function() {
+        if($state.current.name != 'home'){
+            $window.dispatchEvent(new Event('fb.load'));
+        }
+    });*/
 }]);
 
 homeControllers1.run(['$rootScope', '$state','$cookieStore','$q','$http','$window','$timeout',function($rootScope, $state,$cookieStore,$q,$http,$window,$timeout){
@@ -36,7 +53,7 @@ homeControllers1.run(['$rootScope', '$state','$cookieStore','$q','$http','$windo
             || navigator.userAgent.match(/BlackBerry/i)
             || navigator.userAgent.match(/Windows Phone/i)
         ) {
-            window.location.href = 'http://torqkd.com/torqkd_demo';
+            window.location.href = 'http://m.torkq.com/';
         }
 
         if(to.name == 'groupdetail' && from.name == 'groupdetail1'){
@@ -1252,7 +1269,7 @@ homeControllers1.config(function($stateProvider, $urlRouterProvider,$locationPro
             views: {
                 'content': {
                     templateUrl: 'partials/mobpopup.html' ,
-                    // controller: 'addgroup'
+                     controller: 'mobpopup'
                 },
                 'footer': {
                     templateUrl: 'partials/footer.html' ,
@@ -1412,6 +1429,27 @@ homeControllers1.directive('imageonload', function() {
     };
 });
 
+homeControllers1.directive("showOnceBackgroundLoaded", function () {
+    return {
+        restrict: "A",
+       // scope: true,
+        link: function (scope, element, attributes) {
+            element.parent().parent().parent().parent().parent().addClass("ng-hide");
+            element.parent().addClass("ng-hide");
+            var image = new Image();
+            image.onload = function () {
+                // the image must have been cached by the browser, so it should load quickly
+                scope.$apply(function () {
+                    element.css({ backgroundImage: 'url("' + attributes.showOnceBackgroundLoaded + '")' });
+                    element.parent().parent().parent().parent().parent().removeClass("ng-hide");
+                    element.parent().removeClass("ng-hide");
+                });
+            };
+            image.src = attributes.showOnceBackgroundLoaded;
+        }
+    };
+});
+
 homeControllers1.config(["$provide", function ($provide) {
 
     $provide.decorator('$http', ["$delegate", "$q", function ($delegate, $q) {
@@ -1472,7 +1510,7 @@ homeControllers1.controller('index', function($scope,$state,$cookieStore,$rootSc
         || navigator.userAgent.match(/BlackBerry/i)
         || navigator.userAgent.match(/Windows Phone/i)
     ) {
-        window.location.href = 'http://torqkd.com/torqkd_demo';
+        window.location.href = 'http://m.torkq.com';
     }
 
 
@@ -3037,7 +3075,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -3057,7 +3095,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -4074,7 +4112,7 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -4094,7 +4132,7 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -4978,7 +5016,7 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -4998,7 +5036,7 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -5529,7 +5567,7 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -7008,7 +7046,7 @@ homeControllers1.controller('next', function($scope,$state,$cookieStore,$http,$r
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accesstoken,'id':$cookieStore.get('user_insert_id')}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -7253,25 +7291,42 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
         });
 
         file.upload.then(function (response) {
-            file.result = response.data;
+            if(response.data.error == 0){
 
-            var ctime = (new Date).getTime();
+                file.result = response.data.msg;
 
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/profileimgresize',
-                data    : $.param({'filename':response.data,'height':156,'width':142,'foldername':'thumb'}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function(data) {
+                var ctime = (new Date).getTime();
+
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : $scope.baseUrl+'/user/ajs1/profileimgresize',
+                    data    : $.param({'filename':response.data.msg,'height':156,'width':142,'foldername':'thumb'}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(data) {
+                    $('.progress').addClass('ng-hide');
+                    $scope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data.msg+'?version='+ctime;
+                    $scope.profileImageName = response.data.msg;
+                    $scope.origprofileImageName = response.data.msg+'?version='+ctime;
+
+
+                    $scope.cropProfileImg();
+                });
+            }else{
                 $('.progress').addClass('ng-hide');
-                $scope.profileImage = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data+'?version='+ctime;
-                $scope.profileImageName = response.data;
-                $scope.origprofileImageName = response.data+'?version='+ctime;
+                var modalInstance1;
+                modalInstance1 = $modal.open({
+                    animation: true,
+                    template: '<div class="errorModal">'+response.data.msg+'</div>',
+                    size: 'lg',
+                    scope : $scope
+                });
 
+                $timeout(function(){
+                    modalInstance1.dismiss('cancel');
+                },5000);
 
-                $scope.cropProfileImg();
-            });
+            }
 
         }, function (response) {
             if (response.status > 0)
@@ -7318,25 +7373,40 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
         });
 
         file.upload.then(function (response) {
-            file.result = response.data;
+            if(response.data.error == 0){
+                file.result = response.data.msg;
 
-            var ctime = (new Date).getTime();
+                var ctime = (new Date).getTime();
 
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/profileBackimgresize',
-                data    : $.param({'filename':response.data,'height':536,'width':1175,'foldername':'thumb'}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function(data) {
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : $scope.baseUrl+'/user/ajs1/profileBackimgresize',
+                    data    : $.param({'filename':response.data.msg,'height':536,'width':1175,'foldername':'thumb'}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(data) {
+                    $('.progress').addClass('ng-hide');
+                    $scope.profileBackImage = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data.msg+'?version='+ctime;
+                    $scope.profileBackImageName = response.data.msg;
+                    $scope.origprofileBackImageName = response.data.msg+'?version='+ctime;
+
+                    $scope.cropProfileBackImg();
+                });
+            }else{
                 $('.progress').addClass('ng-hide');
-                $scope.profileBackImage = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data+'?version='+ctime;
-                $scope.profileBackImageName = response.data;
-                $scope.origprofileBackImageName = response.data+'?version='+ctime;
+                var modalInstance1;
+                modalInstance1 = $modal.open({
+                    animation: true,
+                    template: '<div class="errorModal">'+response.data.msg+'</div>',
+                    size: 'lg',
+                    scope : $scope
+                });
 
+                $timeout(function(){
+                    modalInstance1.dismiss('cancel');
+                },5000);
 
-                $scope.cropProfileBackImg();
-            });
+            }
 
         }, function (response) {
             if (response.status > 0)
@@ -7802,8 +7872,10 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
             async:   false,
             url: $scope.baseUrl+'/user/ajs1/GetParentSports',
         }).success(function (result) {
-            $scope.slides = result;
+            $scope.slides = [];
             $scope.slides1 = result;
+
+
 
             if(result.length%3 > 0){
 
@@ -7822,7 +7894,6 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
                 $scope.slides = result;
             }
 
-
             for (i = 0; i < $scope.slides.length; i += many) {
                 second = {
                     image1: $scope.slides[i]
@@ -7837,6 +7908,7 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
                 }
                 first.push(second);
             }
+
             $scope.groupedSlides = first;
         }).error(function (result) {
             $scope.GetParentSports();
@@ -8505,7 +8577,7 @@ $scope.matches = [];
                 refresh: true,
                 events: {
 
-                    /*idle: function (profilemap) {
+                    idle: function (profilemap) {
 
                         $timeout(function() {
 
@@ -8545,7 +8617,7 @@ $scope.matches = [];
 
                         }, 0);
 
-                    }*/
+                    }
 
 
                 },
@@ -10217,7 +10289,7 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
         $rootScope.videoDet.cUserImage = item.cUserImage;
         $rootScope.videoDet.videoType = item.type;
         $rootScope.videoDet.cUserId = item.cUserId;
-        $rootScope.videoDet.basepath = item.basepath;
+        $rootScope.videoDet.basepath = '';
 
         $rootScope.stateIsLoading = true;
         $http({
@@ -10536,25 +10608,41 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         });
 
         file.upload.then(function (response) {
-            file.result = response.data;
+            if(response.data.error == 0){
 
-            $scope.profileImgName = response.data;
+                file.result = response.data.msg;
 
-            var ctime = (new Date).getTime();
+                $scope.profileImgName = response.data.msg;
 
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/profileimgresize',
-                data    : $.param({'filename':response.data,'height':156,'width':142,'foldername':'thumb'}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function(data) {
+                var ctime = (new Date).getTime();
+
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : $scope.baseUrl+'/user/ajs1/profileimgresize',
+                    data    : $.param({'filename':response.data.msg,'height':156,'width':142,'foldername':'thumb'}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(data) {
+                    $('.progress').addClass('ng-hide');
+                    $scope.profileImg = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data.msg+'?version='+ctime;
+                    $scope.origprofileImg = response.data.msg+'?version='+ctime;
+
+                    $scope.cropProfileImg();
+                });
+            }else{
                 $('.progress').addClass('ng-hide');
-                $scope.profileImg = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data+'?version='+ctime;
-                $scope.origprofileImg = response.data+'?version='+ctime;
+                var modalInstance1;
+                modalInstance1 = $modal.open({
+                    animation: true,
+                    template: '<div class="errorModal">'+response.data.msg+'</div>',
+                    size: 'lg',
+                    scope : $scope
+                });
 
-                $scope.cropProfileImg();
-            });
+                $timeout(function(){
+                    modalInstance1.dismiss('cancel');
+                },5000);
+            }
 
         }, function (response) {
             if (response.status > 0)
@@ -10601,25 +10689,40 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         });
 
         file.upload.then(function (response) {
-            file.result = response.data;
+            if(response.data.error == 0){
+                file.result = response.data.msg;
 
-            $scope.coverImgName = response.data;
+                $scope.coverImgName = response.data.msg;
 
-            var ctime = (new Date).getTime();
+                var ctime = (new Date).getTime();
 
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : $scope.baseUrl+'/user/ajs1/profileBackimgresize',
-                data    : $.param({'filename':response.data,'height':536,'width':1175,'foldername':'thumb'}),  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-            }).success(function(data) {
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : $scope.baseUrl+'/user/ajs1/profileBackimgresize',
+                    data    : $.param({'filename':response.data.msg,'height':536,'width':1175,'foldername':'thumb'}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(data) {
+                    $('.progress').addClass('ng-hide');
+                    $scope.coverImg = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data.msg+'?version='+ctime;
+                    $scope.origcoverImg = response.data.msg+'?version='+ctime;
+
+                    $scope.cropProfileBackImg();
+                });
+            }else{
                 $('.progress').addClass('ng-hide');
-                $scope.coverImg = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data+'?version='+ctime;
-                $scope.origcoverImg = response.data+'?version='+ctime;
+                var modalInstance1;
+                modalInstance1 = $modal.open({
+                    animation: true,
+                    template: '<div class="errorModal">'+response.data.msg+'</div>',
+                    size: 'lg',
+                    scope : $scope
+                });
 
-                $scope.cropProfileBackImg();
-            });
+                $timeout(function(){
+                    modalInstance1.dismiss('cancel');
+                },5000);
+            }
 
         }, function (response) {
             if (response.status > 0)
@@ -10703,7 +10806,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         $timeout(function(){
 
             $('.image-editor1').cropit({
-                exportZoom:1,
+                exportZoom:.25,
                 imageBackground: true,
                 imageBackgroundBorderWidth: 30,
                 imageState: {
@@ -10711,7 +10814,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                 },
             });
             $scope.pLoad = false;
-        },1000);
+        },5000);
     }
 
     $scope.changepreview1 = function(){
@@ -15830,7 +15933,7 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -15850,7 +15953,7 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -16789,7 +16892,7 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -16809,7 +16912,7 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken1',
+            url     : $scope.baseUrl+'/user/ajs1/updateAccessToken',
             data    : $.param({'accesstoken':accessToken,'id':$rootScope.rootsessUser}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
@@ -16997,6 +17100,20 @@ homeControllers1.controller('mysports', function($scope,$state,$cookieStore,$htt
 
 
 
+
+});
+
+homeControllers1.controller('mobpopup', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook) {
+
+    $scope.backwindow = function(){
+        if(window.opener == null){
+            $state.go('index');
+            return
+        }else{
+            window.opener.location.reload();
+            close();
+        }
+    }
 
 });
 

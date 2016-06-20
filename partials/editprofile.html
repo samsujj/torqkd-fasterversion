@@ -226,6 +226,13 @@
 
     }
 
+    .errorModal{
+        font-family: "veneerregular" !important;
+        font-size: 24px;
+        padding: 20px;
+        text-align: center;
+    }
+
 </style>
 
 
@@ -694,7 +701,7 @@ border-image: initial; height:40px!important; background:#fff!important;"  id="U
 
                             <input type="button" value="+" class="upload-btn1 btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
 
-                            <img src="images/help.png" alt="" class="help-icon" style="margin-left:8px;">
+                            <img src="images/help.png" alt="" uib-tooltip="Please Upload An Image Bigger Than 142X156 For Best Effects" class="help-icon" style="margin-left:8px;">
 
                             <div class="clear"></div>
 
@@ -732,7 +739,7 @@ border-image: initial; height:40px!important; background:#fff!important;"  id="U
 
                                 <input type="button" value="+" class="upload-btn1 btnuptext" ngf-drop ngf-select ng-model="files1" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
 
-                                <img src="images/help.png" alt="" class="help-icon" style="margin-left:8px;">
+                                <img src="images/help.png" alt="" class="help-icon" uib-tooltip="Please Upload An Image Bigger Than 1156X576 For Best Effects" style="margin-left:8px;">
 
                                 <div class="clear"></div>
 
