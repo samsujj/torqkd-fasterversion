@@ -7974,6 +7974,16 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
 });
 homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,MetaService,$interval,$compile) {
 
+    $scope.openTerms = function () {
+        ngDialog.open({
+            template: 'termsDialogId',
+        });
+    };
+    $scope.openPrivacy = function () {
+        ngDialog.open({
+            template: 'policyDialogId',
+        });
+    };
 
     $scope.ban2Height = 200;
 
@@ -10794,27 +10804,54 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
     $scope.cropProfileBackImg = function(){
         $scope.pLoad = true;
 
-        $scope.animationsEnabled = true;
-        modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'mymodal1',
-            windowClass: 'mymodalimg',
-            size: 'lg',
-            scope : $scope
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getimgsize',
+            data    : $.param({'image':'/uploads/user_image/background/'+$scope.origcoverImg}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function(data22) {
+            if(data22 == 0){
+
+                var modalInstance1;
+                modalInstance1 = $modal.open({
+                    animation: true,
+                    template: '<div class="errorModal">This Image Is Too Small To Crop! Please Upload Bigger Image 1175X536.</div>',
+                    size: 'lg',
+                    scope : $scope
+                });
+
+                $timeout(function(){
+                    modalInstance1.dismiss('cancel');
+                },5000);
+
+
+            }else{
+                $scope.animationsEnabled = true;
+                modalInstance = $modal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'mymodal1',
+                    windowClass: 'mymodalimg',
+                    size: 'lg',
+                    scope : $scope
+                });
+
+                $timeout(function(){
+
+                    $('.image-editor1').cropit({
+                        exportZoom:1.5,
+                        imageBackground: true,
+                        imageBackgroundBorderWidth: 30,
+                        imageState: {
+                            src: $scope.subUrl+'/uploads/user_image/background/'+$scope.origcoverImg,
+                        },
+                    });
+                    $scope.pLoad = false;
+                },5000);
+            }
         });
 
-        $timeout(function(){
 
-            $('.image-editor1').cropit({
-                exportZoom:.25,
-                imageBackground: true,
-                imageBackgroundBorderWidth: 30,
-                imageState: {
-                    src: $scope.subUrl+'/uploads/user_image/background/'+$scope.origcoverImg,
-                },
-            });
-            $scope.pLoad = false;
-        },5000);
     }
 
     $scope.changepreview1 = function(){
@@ -11177,6 +11214,8 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
         //$('.activeimg').removeClass('activeimg');
     }
 
+    var modalInstance;
+
     $scope.submiteventForm = function(){
         if($scope.form.sports_id == 0){
             ngDialog.open({
@@ -11186,6 +11225,9 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
                 closeByDocument: false,
                 closeByEscape: false
             });
+
+
+
         }else{
             $http({
                 method  : 'POST',
