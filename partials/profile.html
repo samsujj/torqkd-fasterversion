@@ -208,7 +208,7 @@
 
 
 
-<div class="experience-body" elem-ready="someMethod()" style="margin-top: 0px;">
+<div class="experience-body"  elem-ready="someMethod()" style="margin-top: 0px;">
 
     <div class="experience-wrapper" elem-ready="someMethod()" style="min-height: 700px;">
 
@@ -222,13 +222,15 @@
 
         <!--Profile Banner Area[start]-->
 
-        <div ng-show="imgageLoadf==1" class="top-banner-contain" elem-ready="someMethod()">
+        <div class="top-banner-contain" ng-show="imgageLoadf==1" elem-ready="someMethod()">
 
             <div class="user-contain">
 
                 <div class="img-contain cngcondiv" elem-ready="someMethod()">
 
-                    <img  src="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}" style="max-height: 120px;" alt=""  />
+                   <!-- <img  src="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}&version={{ctime222}}" style="max-height: 120px;" alt=""  />-->
+
+                    <loaded-img style="max-height: 120px;" isrc="userDetImage[0].path" onloadimg="item.callback(item)"></loaded-img>
 
                     <a class="pic cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Edit Profile Picture</a>
 
@@ -254,7 +256,9 @@
 
             <div class="banner-image cngcondiv" elem-ready="someMethod()">
 
-                <img style="height: auto; max-width: 100%" src="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}" imageonload  />
+                <!--<img style="height: auto; max-width: 100%" src="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}&version={{ctime222}}" imageonload  />-->
+
+                <loaded-img style="height: auto; max-width: 100%" isrc="userDetImage[1].path" onloadimg="item.callback(item)" imageonload></loaded-img>
 
                 <a class="changecover cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Change Cover</a>
 
@@ -293,7 +297,7 @@
 
         <!--Profile Freiend & stat Area[Start]-->
 
-        <div ng-show="imgageLoadf==1" class="spot-search-contain" elem-ready="someMethod()">
+        <div class="spot-search-contain" ng-show="imgageLoadf==1" elem-ready="someMethod()">
 
             <div class="search-left">
 

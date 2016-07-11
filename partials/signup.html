@@ -18,32 +18,106 @@ body {
 }
 
 .register_wrapper .form-contain .right-form .input1{
-    height:42px!important;
+    height:26px!important;
     border: 2px solid #97989a !important;
-    width:92%!important;
+    width:241!important;
+    color:#717171 !important;
+    font-size: 13px!important;
+    background:#fff!important; width:240px!important;
+}
+
+
+
+.register_wrapper .form-contain .right-form .input1{
+    height:26px!important;
+    border: 2px solid #97989a !important;
+    width:240!important;
+    color:#717171 !important;
+    font-size: 13px!important;
+    background:#fff!important;
+}
+.UserManager_inputl{
+    height:26px!important;
+    border: 2px solid #97989a !important;
+      width:241!important;
+    color:#717171 !important;
+    font-size: 13px!important;
+    background:#fff!important;
+}
+.emailconfirm.emailconfirm {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 2px solid #97989a !important;
+    color: #717171 !important;
+    font-size: 13px !important;
+    height: 26px !important;
+    width: 238px !important;
+    border-radius: 5px!important;
+    padding: 5px!important;
+}
+  
+
+ #UserManager_email{
+    height:26px!important;
+    border: 2px solid #97989a !important;
+      width:238px!important;
+    color:#717171 !important;
+    font-size: 13px!important;
+    background:#fff!important; margin-bottom: 0 !important;
+}
+
+
+
+
+.UserManager_input2{
+    height:26px!important;
+    border: 2px solid #97989a !important;
+     width:241!important;
     color:#717171 !important;
     font-size: 13px!important;
     background:#fff!important;
 }
 
-#UserManager_password2{
-    background:#fff!important;
+
+ #UserManager_password{
+ width:236px!important;
+    height:25px!important;
     border: 2px solid #97989a !important;
-    height:42px!important;
-    width:92%!important;
+     
     color:#717171 !important;
     font-size: 13px!important;
+    background:#fff!important;   
+} 
+
+
+#UserManager_password2{
+ height:26px!important;
+    border: 2px solid #97989a !important;
+     width:241!important;
+    color:#717171 !important;
+    font-size: 13px!important;
+    background:#fff!important;  width:240px!important;}
+
+
+
+#UserManager_country{
+    height:38px!important;
+    border: 2px solid #97989a !important;
+    width:252px!important;
+    color:#717171 !important;
+    font-size: 13px!important;
+    background:#fff!important;
 }
 
 #UserManager_state{
+    height:38px!important;
     border: 2px solid #97989a !important;
-    height:42px!important;
-    width: 92% !important;
-}
-
-select{
+  width:252px!important;
+    color:#717171 !important;
+    font-size: 13px!important;
     background:#fff!important;
 }
+
+#UserManager_city{ width:240px!important;}
 
 input::-webkit-input-placeholder { color:#717171 !important;  opacity: 1 !important; }
 input:-moz-placeholder { color:#717171 !important;  opacity: 1 !important;}
@@ -112,7 +186,7 @@ textarea:-ms-input-placeholder { color:#717171 !important;  opacity: 1 !importan
                         </div>
 
                         <div style="margin-bottom:20px!important; overflow: hidden;">
-                            <input type="email"  class="input1"  style="background-color:#fff!important;color: #717171 !important; "  name="UserManager[email2]" placeholder="CONFIRM YOUR EMAIL"
+                            <input type="email"  class=" emailconfirm"  style="background-color:#fff!important;color: #717171 !important; "  name="UserManager[email2]" placeholder="CONFIRM YOUR EMAIL"
                                    class = "form-control register_input"
                                    ng-model = "form.email2"
                                    validator = "form.email === form.email2 || form.email == ''"
@@ -121,7 +195,7 @@ textarea:-ms-input-placeholder { color:#717171 !important;  opacity: 1 !importan
 
                         <div style="margin-bottom: 16px !important; display:block; overflow:hidden">
                             <span style="float: right;  display:block; width: 10px; color:#fb992c; margin-top:0px;">*</span>
-                            <input type="password"  class="input1"  style="background-color:#fff!important;"  id="UserManager_password" name="UserManager[password]" placeholder="PASSWORD"
+                            <input type="password"  class=""  style="background-color:#fff!important; width:240px;"  id="UserManager_password" name="UserManager[password]" placeholder="PASSWORD"
                                    class = "form-control register_input"
                                    ng-model = "form.password"
                                    required-message="'Password cannot be blank.'"
@@ -160,7 +234,7 @@ textarea:-ms-input-placeholder { color:#717171 !important;  opacity: 1 !importan
                         </div>
 
                         <div style="margin-bottom:20px!important; overflow: hidden;">
-                            <select class = "register_select form-control" ng-model = "form.gender" style="background: #fff none repeat scroll 0 0 !important; border: 2px solid #97989a   !important; border-radius: 5px !important;  float: left; height: 42px !important;  width: 92%!important; padding: 0 0 0 0px!important;  color: #717171 !important;">
+                            <select class = "register_select form-control" ng-model = "form.gender" style="background: #fff none repeat scroll 0 0 !important; border: 2px solid #97989a   !important; border-radius: 5px !important;  float: left; height: 38px !important;  width: 92%!important; padding: 0 0 0 0px!important;  color: #717171 !important;">
                                 <option value="0" style="padding-left:5px;">MALE</option>
                                 <option value="1" style="padding-left:5px;">FEMALE</option>
                             </select>

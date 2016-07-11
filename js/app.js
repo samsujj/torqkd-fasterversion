@@ -6,7 +6,7 @@ var homeControllers1 = angular.module('torqdTest', ['ui.router','angularHighligh
 
 homeControllers1.config(['$facebookProvider', function($facebookProvider) {
    // $facebookProvider.setAppId('821649631217712').setPermissions(['email','user_friends']);
-    $facebookProvider.setAppId('434078603403320').setPermissions(['public_profile','user_friends','email','manage_pages','publish_pages','publish_actions','publish_stream']);
+    $facebookProvider.setAppId('434078603403320').setPermissions(['public_profile','user_friends','email','manage_pages','publish_pages','publish_actions']);
 }]);
 
 /*homeControllers1.run(['$rootScope', '$window','$state', function($rootScope, $window,$state) {
@@ -1446,6 +1446,25 @@ homeControllers1.directive("showOnceBackgroundLoaded", function () {
                 });
             };
             image.src = attributes.showOnceBackgroundLoaded;
+        }
+    };
+});
+
+homeControllers1.directive('loadedImg', function(){
+    return {
+        restrict: 'E',
+        scope: {
+            isrc: '=',
+            onloadimg: '&'
+        },
+        replace: true,
+        template: '<img ng-src="{{isrc}}" class="none"/>',
+        link: function(scope, ele, attr){
+            ele.on('load', function(){
+                console.log(scope.isrc, 'loaded');
+                ele.removeClass('none');
+                scope.onloadimg();
+            });
         }
     };
 });
@@ -6980,7 +6999,7 @@ homeControllers1.controller('next', function($scope,$state,$cookieStore,$http,$r
     $scope.isSocialShare = 0;
 
     $scope.form = {
-        mailBody: "I just joined Torqkd.com. Check it out.\n\nTorqk'd brings the consciousness of outdoor sports to a new, progressive social media realm. Torqk'd is a collective of runners, jumpers, climbers, riders, hikers, surfers and all who dare to smack the terrain from land, sky, powder and H2O. Now go get it!! Time to connect, track and explore. I use Torqk'd to connect, track and explore my favorite sports."
+        mailBody: "I just joined Torkq.com. Check it out.\n\n Torkq brings the consciousness of outdoor sports to a new, progressive social media realm.  Torkq is a collective of runners, jumpers, climbers, riders, hikers, surfers and all who dare to smack the terrain from land, sky, powder and H2O. Now go get it!! Time to connect, track and explore. I use Torkq to connect, track and explore my favorite sports."
     };
 
     $scope.next_n = function() {
@@ -7056,7 +7075,7 @@ homeControllers1.controller('next', function($scope,$state,$cookieStore,$http,$r
 
         $facebook.ui({
                 method: 'feed',
-                link: 'http://torqkd.com',
+                link: 'http://torkq.com',
             },
             function(response) {
 
@@ -7919,6 +7938,7 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
 
 homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$filter) {
 
+
     $scope.isProfilePage = 1;
     $scope.sessUser = $rootScope.rootsessUser = 0;
     $scope.userId = $stateParams.userId;
@@ -7972,7 +7992,8 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
 
 
 });
-homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,MetaService,$interval,$compile) {
+homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,MetaService,$interval,$compile,$q) {
+
 
     $scope.openTerms = function () {
         ngDialog.open({
@@ -7995,8 +8016,7 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
     $scope.ban2Height = ($scope.RconWidth/3);
     $scope.ban2Height = parseInt($scope.ban2Height);
 
-
-
+    $scope.ctime222 = new Date().getTime();
 
     $scope.openBanner = function(url){
         window.open(url);
@@ -8777,6 +8797,11 @@ $scope.bannerload = function(){
 
     }
 
+    var deferred;
+    var dArr = [];
+    var imgpaths = [];
+    $scope.hideall = true;
+
     $scope.getUserDetails =function(){
         $http({
             method  : 'POST',
@@ -8787,6 +8812,22 @@ $scope.bannerload = function(){
         }) .success(function(result) {
             $scope.userDet = result;
             console.log($scope.userDet);
+
+
+            deferred = $q.defer();
+            imgpaths.push({
+                path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.profileImg+'&version='+$scope.ctime222,
+                callback: deferred.resolve
+            });
+            dArr.push(deferred.promise);
+            deferred = $q.defer();
+            imgpaths.push({
+                path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$scope.ctime222,
+                callback: deferred.resolve
+            });
+            dArr.push(deferred.promise);
+
+            $scope.userDetImage = imgpaths;
 
             if($scope.sessUser > 0){
                 $cookieStore.put('user_is_admin',result.is_admin);
@@ -8821,6 +8862,11 @@ $scope.bannerload = function(){
             $scope.getUserDetails();
         });
     }
+
+    $q.all(dArr).then(function() {
+        $scope.hideall = false;
+        console.log('all loaded');
+    });
 
     $scope.getFriendDet1 = function(){
         $http({
@@ -10498,6 +10544,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
     }
 
     $scope.editProfile = function(){
+        $rootScope.stateIsLoading = true;
         $http({
             method  : 'POST',
             async:   false,
@@ -10505,6 +10552,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
             data    : $.param($scope.form),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
             $state.go('profile',{userId:$scope.userId});
             return;
         });
@@ -10925,7 +10973,7 @@ homeControllers1.controller('eventdetails1', function($scope,$state,$cookieStore
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
 
-            var user_str = result.name+'-Torqkd-'+result.sports_name+'-events-in-'+result.city+'-'+result.state+'-'+result.from_date1+'-find-incredible-'+result.sports_name+'-events-on-our-community-website!';
+            var user_str = result.name+'-Torkq-'+result.sports_name+'-events-in-'+result.city+'-'+result.state+'-'+result.from_date1+'-find-incredible-'+result.sports_name+'-events-on-our-community-website!';
             //user_str = $filter('lowercase')(user_str);
             //user_str = encodeURI(user_str);
             user_str = user_str.replace(/\s+/g, '-');
@@ -15689,7 +15737,7 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
 
             });
         }else{
-            window.open('http://pinterest.com/pin/create/button/?url=http://torqkd.com/&media='+item.s_img+'&description=','_blank');
+            window.open('http://pinterest.com/pin/create/button/?url=http://torkq.com/&media='+item.s_img+'&description=','_blank');
         }
     }
 
@@ -16630,7 +16678,7 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
 
                                         var shareImage = 'http://torqkd.com/fbshare/img/'+res;
                                         $('#mapconmain').hide();
-                                        window.open("http://pinterest.com/pin/create/button/?url=http://torqkd.com/&media="+shareImage+"&description=","_blank");
+                                        window.open("http://pinterest.com/pin/create/button/?url=http://torkq.com/&media="+shareImage+"&description=","_blank");
 
 
                                     });
@@ -16648,7 +16696,7 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
 
             });
         }else{
-            window.open('http://pinterest.com/pin/create/button/?url=http://torqkd.com/&media='+item.s_img+'&description=','_blank');
+            window.open('http://pinterest.com/pin/create/button/?url=http://torkq.com/&media='+item.s_img+'&description=','_blank');
         }
     }
 
