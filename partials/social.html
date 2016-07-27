@@ -1,4 +1,8 @@
 <style>
+
+    .angular-google-map img {
+        max-width: none;
+    }
     .embed-responsive {
         position: relative;
         display: block;
@@ -52,10 +56,8 @@
     .angular-google-map-container img {
         background: none !important;
     }
-    .angular-google-map-container {
-        height: 400px;
-        width: 400px;
-    }
+
+
     .modal-lg {
         width:100%!important;
     }
@@ -123,19 +125,19 @@
                 </a>
                 <span class="dropdown" ng-if="rootsessUser == item.user_id" style="width:auto; display:inline-block; float:none; padding:0 4px; width:48px;">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none; outline:none;">
-                    
-                    
+
+
                         <strong uib-tooltip="Community" tooltip-placement="bottom" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1" class="share1_icon_active" ></strong>
-                        
+
                        <strong uib-tooltip="Friends" tooltip-placement="bottom" style="width:15px; margin-top:0px;"  ng-show="item.share_with==2" class="share2_icon_active" ></strong>
-                       
+
                        <strong uib-tooltip="Friends Of Friends" tooltip-placement="bottom" style="width:18px; margin-top:0px;" ng-show="item.share_with==3" class="share3_icon_active" ></strong>
-                       
+
                         <strong uib-tooltip="Private Me Only" tooltip-placement="bottom" style="width:12px; margin-top:0px;" ng-show="item.share_with==4" class="share4_icon_active" ></strong>
-                        
-                        
+
+
                         <strong  style="padding-left:4px;" class="ad2new" ></strong>
-                        
+
 
              <!--           <img src="images/share1_icon_active.png" uib-tooltip="Community" tooltip-placement="bottom" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1">
 
@@ -166,20 +168,20 @@
                 <span class="dropdown" ng-if="rootsessUser != item.user_id" style="width:auto; display:inline-block; float:none; padding:0 4px;">
 
                     <a href="javascript:void(0)" class="dropdown-toggle" style="text-decoration:none; outline:none;">
-                    
-                    
+
+
                      <div  uib-tooltip="Community" tooltip-placement="bottom" style="margin-top:-2px;"  ng-show="item.share_with==1" class="share1_icon_active2" ></div>
-                        
+
                        <div uib-tooltip="Friends" tooltip-placement="bottom"  style="margin-top:-2px;"  ng-show="item.share_with==2" class="share2_icon_active2" ></div>
-                       
+
                        <div uib-tooltip="Friends Of Friends"  tooltip-placement="bottom"  style="margin-top:-2px;" ng-show="item.share_with==3" class="share3_icon_active2" ></div>
-                       
+
                         <div uib-tooltip="Private Me Only" tooltip-placement="bottom" style="margin-top:-2px;"  ng-show="item.share_with==4" class="share4_icon_active" ></div>
-                        
-                        
-                     
-                        
-                        
+
+
+
+
+
 <!--
                         <img src="images/share1_icon_active.png" uib-tooltip="Community" tooltip-placement="bottom" style="width:18px; margin-top:-2px;" ng-show="item.share_with==1">
 
@@ -205,9 +207,9 @@
 
         <div class="text-contain" style="{{(item.msg != '')?'padding:15px 0;':''}}" ng-bind-html="trustAsHtml(item.msg)" ></div>-->
 
-        <div ng-bind-html="item.msg | newlines" class="text-contain"></div>
+        <div ng-bind-html="item.msg | newlines" class="text-contain" style="margin-left: 0;"></div>
 
-        <img ng-if="item.type" src="images/arrow.png" alt="" width="54" height="28" style=" margin-top: -2px;position: absolute; z-index:9;" />
+        <img ng-if="item.type && item.type != 'route'" src="images/arrow.png" alt="" width="54" height="28" style=" margin-top: -2px;position: absolute; z-index:9;" />
 
         <div class="blogimg">
 
@@ -241,19 +243,44 @@
                 <!--       <img src="images/`youtube-playbtn.png" class="paly_video"  ng-click="showYoutubevdo(item.id,item.value)" style="cursor:pointer;">-->
 
             </div>
+            <div class="routes-wrapper2 " ng-if="item.type=='route'" style="background-color: #fff; margin: 0; padding: 30px;">
 
-            <div class="rowthree" id="map{{item.id}}" ng-if="item.type=='route'">
+            <div class="rowone2 rownewone">
+                {{item.routes.sport_name}}<br />
+                <img src="{{item.routes.sport_image}}" style="max-width: 46px;"  alt="" />
+            </div>
+            <div class="rowtwo2 rowtwo-div rownewone" style="padding-top:3px;">
+                <h2>{{item.routes.route_name}}</h2>
+                <div class="date-contain2">
+                    <h5>
+                        <span>DATE</span><br />
+                        {{item.routes.date}}
+                    </h5>
+                    <h5>
+                        <span>TIME</span><br />
+                        {{item.routes.duration}}
+                    </h5>
+                    <h5>
+                        <span>DISTANCE</span><br />
+                        {{item.routes.distance}} miles
+                    </h5>
+                </div>
+            </div>
 
-                <ui-gmap-google-map center="item.routes.map.center" zoom="item.routes.map.zoom" pan="true" draggable="true" options="item.routes.map.options">
+            <div class="rowthree2" id="map{{item.id}}" >
 
-                    <ui-gmap-markers models="item.routes.marker" coords="'self'" icon="'icon'" idkey='id' >
 
-                        <ui-gmap-polyline ng-if="item.routes.location.length" path="item.routes.location" draggable="false" geodesic="true" stroke="item.routes.map.lineStyle" fit="true"></ui-gmap-polyline>
+                 <ui-gmap-google-map center="item.routes.map.center" zoom="item.routes.map.zoom" draggable="true" control="item.routes.map.control">
+
+                    <ui-gmap-markers models="item.routes.marker" coords="'self'" icon="'icon'" idkey='id' ></ui-gmap-markers>
+                    <ui-gmap-polyline ng-if="item.routes.location.length" path="item.routes.location" draggable="false" geodesic="true" stroke="item.routes.map.lineStyle" fit="true"></ui-gmap-polyline>
 
                 </ui-gmap-google-map>
 
             </div>
+                <div style="clear: both;"></div>
 
+            </div>
         </div>
 
         <div class="mobcomment">
@@ -304,7 +331,7 @@
 
                         <div id="commentdiv000{{item.id}}" ng-keyup="setcommentval($event,item)" ng-keypress="postComment($event,item);"  style="height: auto; min-height: 35px; padding: 5px; padding-right: 38px;" contentEditable="true"></div>
 
-                        <a href="javascript:void(0)" ng-click="showemojisdiv123(item.id)"> <img src="images/emo.png" width="20" height="20" style="position:absolute; right:18px; top:8px; width:20px"/></a>
+                        <a href="javascript:void(0)" ng-click="showemojisdiv123(item.id,item)"> <img src="images/emo.png" width="20" height="20" style="position:absolute; right:18px; top:8px; width:20px"/></a>
 
                         <div class="clear"></div>
 
@@ -318,11 +345,7 @@
 
                             <!--<div ng-bind-html="emojisHtml" class="ng-emoticons emojisdiv"></div>-->
 
-                            <div class="emojisdiv">
 
-                                <a href="javascript:void(0)" ng-repeat="emoitem in emojisArr" ng-click="emoinsert(item,emoitem)" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:" ></a>
-
-                            </div>
 
                         </div>
 
@@ -513,6 +536,8 @@
 
 
 <div style=" width:170px; height:204px; display: none;" id="mapconmain" > </div>
+
+<img src="images/emojis.png" style="display: none;">
 
 
 

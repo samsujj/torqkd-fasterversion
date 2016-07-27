@@ -211,7 +211,8 @@
 
         <div class="map_left-con">
 
-            <form name="eventForm" id="addRouteMap" class="form-horizontal" method="post">
+          <!--  <form name="eventForm" id="addRouteMap" class="form-horizontal" method="post">-->
+            <form angular-validator-submit="addRoutes()" name="signUpForm" class="form-horizontal" novalidate angular-validator>
 
                 <input type="hidden" name="distance" id="distance">
 
@@ -323,7 +324,7 @@
 
 
 
-                <input id="duration-hours" name="duration-hours" autocomplete="off" placeholder="HH" class="duration" type="text" maxlength="3" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;"/>&nbsp;&nbsp;<input id="duration-minutes" name="duration-minutes" placeholder="MM" autocomplete="off" class="duration" type="text" maxlength="2" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />&nbsp;&nbsp;<input id="duration-seconds" name="duration-seconds" placeholder="SS" autocomplete="off" class="duration" type="text" maxlength="2" size="2" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />
+                <input id="duration-hours" ng-model = "form.durationhours" name="duration-hours" autocomplete="off" placeholder="HH" class="duration" type="text" maxlength="3" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;"/>&nbsp;&nbsp;<input id="duration-minutes" ng-model = "form.durationminutes" name="duration-minutes" placeholder="MM" autocomplete="off" class="duration" type="text" maxlength="2" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />&nbsp;&nbsp;<input id="duration-seconds" name="duration-seconds" ng-model = "form.durationseconds" placeholder="SS" autocomplete="off" class="duration" type="text" maxlength="2" size="2" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />
 
                 <br><br>
 
@@ -343,7 +344,8 @@
 
                     <br />
 
-                    <input type="button" ng-click="addRoutes()" value="Save" class="savebtn">
+                  <!--  <input type="button" ng-click="addRoutes()" value="Save" class="savebtn">-->
+                    <input type="submit" value="Save" class="savebtn">
 
                 </div>
 

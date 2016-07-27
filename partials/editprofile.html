@@ -138,7 +138,7 @@
 
         cursor: move;
 
-        margin:0 0 0 25px;
+        margin:0;
 
     }
 
@@ -152,7 +152,7 @@
 
         border-radius: 0px;
 
-        margin: 0 0 0 18px;
+        margin: 0;
 
         width: 783px;
 
@@ -709,7 +709,7 @@ border-image: initial; height:26px!important; background:#fff!important;"  id="U
 
                         <div class="progress" ng-show="files[0].progress >= 0">
 
-                            <div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div>
+                            <div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progresstext"></div>
 
                         </div>
 
@@ -747,7 +747,7 @@ border-image: initial; height:26px!important; background:#fff!important;"  id="U
 
                             <div class="progress" ng-show="files1[0].progress >= 0">
 
-                                <div style="width:{{files1[0].progress}}%; background:#F69830;" ng-bind="files1[0].progress + '%'"></div>
+                                <div style="width:{{files1[0].progress}}%; background:#F69830;" ng-bind="files1[0].progresstext"></div>
 
                             </div>
 
@@ -965,7 +965,7 @@ text-align: center; margin-top:20px;">
 
         <div class="image-editor">
 
-            <div style="overflow:hidden; width:340px; margin:0 auto;">
+            <div style="overflow:hidden; width:284px; margin:0 auto;">
 
                 <div class="cropit-image-preview-container">
 
@@ -1021,7 +1021,7 @@ text-align: center; margin-top:20px;">
 
         <div class="image-editor1">
 
-            <div style="overflow:hidden; width:796px; margin:0 auto;">
+            <div style="overflow:hidden; width:783px; margin:0 auto;">
 
                 <div class="cropit-image-preview-container">
 

@@ -3,7 +3,6 @@
 /* App Module */
 var homeControllers1 = angular.module('torqdTest', ['ui.router','angularHighlightTextarea','angularValidator','ngDialog','ngCookies','ngFileUpload','ngAnimate', 'ngTouch','uiGmapgoogle-maps','ngSanitize','com.2fdevs.videogular','youtube-embed','highcharts-ng','shoppinpal.mobile-menu','ui.bootstrap','colorpicker.module', 'wysiwyg.module','readMore','ngFacebook','ImageCropper','widget.scrollbar','textAngular','angularLazyImg','ngTagsInput','ngEmoticons','angular.filter','myApp.services']);
 
-
 homeControllers1.config(['$facebookProvider', function($facebookProvider) {
    // $facebookProvider.setAppId('821649631217712').setPermissions(['email','user_friends']);
     $facebookProvider.setAppId('434078603403320').setPermissions(['public_profile','user_friends','email','manage_pages','publish_pages','publish_actions']);
@@ -101,6 +100,9 @@ homeControllers1.run(['$rootScope', '$state','$cookieStore','$q','$http','$windo
 
 }]);
 
+
+
+
 homeControllers1.service('MetaService', function() {
     var metaKeywords = 'torqkd';
     return {
@@ -110,6 +112,7 @@ homeControllers1.service('MetaService', function() {
         metaKeywords: function() { return metaKeywords; }
     }
 });
+
 
 homeControllers1.directive('scroll', function($timeout) {
     return {
@@ -2116,7 +2119,13 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
 })
 
-homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
+homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal,$compile) {
+
+    var api;
+    uiGmapGoogleMapApi.then(function (googleMaps) {
+        api = googleMaps;
+    });
+
     $rootScope.isExp = false;
     $rootScope.isProfile = false;
     $rootScope.widowWidth = $(window).width();
@@ -2226,7 +2235,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
     $rootScope.tabBodyLoad = true;
     $timeout(function(){
         $scope.getStatus();
-    },500);
+    },10000);
 
 
 
@@ -2248,6 +2257,19 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
+
+
+
             });
 
             if(result.totalCount > $rootScope.statusList.length){
@@ -2255,6 +2277,9 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 $rootScope.offset = 5;
             }
             $rootScope.tabBodyLoad = false;
+
+
+
 
 
 
@@ -2460,6 +2485,16 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
             });
 
             if(result.totalCount > $rootScope.statusList.length){
@@ -3313,12 +3348,43 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         item.commentSliceList = item.commentList;
     }
 
-    $rootScope.showemojisdiv123 = function(id){
+    $rootScope.showemojisdiv123 = function(id,item){
+
+        var emoidx = $rootScope.statusList.indexOf(item);
+
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($rootScope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert5('+emoidx+',\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv'+id ) ).html(emohtml);
+
+        $compile($el)($scope);
+
         if ($('#emojisdiv'+id).is(':hidden')) {
             $('#emojisdiv'+id).show();
         }else{
             $('#emojisdiv'+id).hide();
         }
+
+
+    }
+
+    $scope.emoinsert5 = function(emoidx,emoitem){
+        var item = $rootScope.statusList[emoidx];
+        var emoval2 = ' :'+emoitem+': ';
+        var emoval = '<input title="'+emoitem+'" style="border:none; margin-left: 3px; margin-right: 3px;" class="emoticon emoticon-'+emoitem+'" />';
+
+        var prevval = $('#commentdiv000'+item.id).html();
+
+        if(prevval.substr(prevval.length - 4) == '<br>')
+            prevval = prevval.substring(0, prevval.length - 4);
+
+        $('#commentdiv000'+item.id).html(prevval+emoval);
+        item.commpostval = prevval+emoval;
     }
 
     $rootScope.showemojisdivsada112 = function(id){
@@ -3434,6 +3500,15 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
             });
 
             if(result.totalCount > $rootScope.statusList.length){
@@ -3561,6 +3636,15 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
             });
 
             if(result.totalCount > $rootScope.statusList.length){
@@ -4412,6 +4496,20 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
+
+
+
+
             });
 
             if(result.totalCount > $rootScope.statusList.length){
@@ -4520,6 +4618,16 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
+
             });
 
             if(result.totalCount > $rootScope.statusList.length){
@@ -5854,13 +5962,16 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
     }
 
 });
-homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal) {
+homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$rootScope,$http,$timeout,$stateParams,uiGmapGoogleMapApi,ngDialog,$facebook,$modal,$compile) {
     $rootScope.sessUser = 0;
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
         $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
         $rootScope.sessUser = $rootScope.sessUserDet.id;
 
-        $scope.getPImage();
+
+        $timeout(function(){
+            $scope.getPImage();
+        },100);
     }
 
     $scope.getPImage = function(){
@@ -5892,6 +6003,18 @@ homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$
     $rootScope.emojisArr = ["bowtie","smile","laughing","blush","smiley","relaxed","smirk","heart_eyes","kissing_heart","kissing_closed_eyes","flushed","relieved","satisfied","grin","wink","stuck_out_tongue_winking_eye","stuck_out_tongue_closed_eyes","grinning","kissing","winky_face","kissing_smiling_eyes","stuck_out_tongue","sleeping","worried","frowning","anguished","open_mouth","grimacing","confused","hushed","expressionless","unamused","sweat_smile","sweat","wow","disappointed_relieved","weary","pensive","disappointed","confounded","fearful","cold_sweat","persevere","cry","sob","joy","astonished","scream","neckbeard","tired_face","angry","rage","triumph","sleepy","yum","mask","sunglasses","dizzy_face","imp","neutral_face","no_mouth","innocent","alien","yellow_heart","blue_heart","purple_heart","heart","green_heart","broken_heart","heartbeat","heartpulse","two_hearts","revolving_hearts","cupid","sparkling_heart","sparkles","star","star2","dizzy","boom","anger","exclamation","question","grey_exclamation","grey_question","zzz","dash","sweat_drops","notes","musical_note","fire","hankey","thumbsup","thumbsdown","ok_hand","punch","fist","v","wave","hand","open_hands","point_up","point_down","point_left","point_right","raised_hands","pray","point_up_2","clap","muscle","metal","fu","walking","runner","couple","family","two_men_holding_hands","two_women_holding_hands","dancer","dancers","ok_woman","no_good","information_desk_person","raising_hand","bride_with_veil","person_with_pouting_face","person_frowning","bow","couplekiss","couple_with_heart","massage","haircut","nail_care","boy","girl","woman","man","baby","older_woman","older_man","person_with_blond_hair","man_with_gua_pi_mao","man_with_turban","construction_worker","cop","angel","princess","smiley_cat","smile_cat","heart_eyes_cat","kissing_cat","smirk_cat","scream_cat","crying_cat_face","joy_cat","pouting_cat","japanese_ogre","japanese_goblin","see_no_evil","hear_no_evil","speak_no_evil","guardsman","skull","feet","lips","kiss","droplet","ear","eyes","nose","tongue","love_letter","bust_in_silhouette","busts_in_silhouette","speech_balloon","thought_balloon","feelsgood","finnadie","goberserk","godmode","hurtrealbad","rage1","rage2","rage3","rage4","suspect","trollface","sunny","umbrella","cloud","snowflake","snowman","zap","cyclone","foggy","ocean","cat","dog","mouse","hamster","rabbit","wolf","frog","tiger","koala","bear","pig","pig_nose","cow","boar","monkey_face","monkey","horse","racehorse","camel","sheep","elephant","panda_face","snake","bird","baby_chick","hatched_chick","hatching_chick","chicken","penguin","turtle","bug","honeybee","ant","beetle","snail","octopus","tropical_fish","fish","whale","whale2","dolphin","cow2","ram","rat","water_buffalo","tiger2","rabbit2","dragon","goat","rooster","dog2","pig2","mouse2","ox","dragon_face","blowfish","crocodile","dromedary_camel","leopard","cat2","poodle","paw_prints","bouquet","cherry_blossom","tulip","four_leaf_clover","rose","sunflower","hibiscus","maple_leaf","leaves","fallen_leaf","herb","mushroom","cactus","palm_tree","evergreen_tree","deciduous_tree","chestnut","seedling","blossom","ear_of_rice","shell","globe_with_meridians","sun_with_face","full_moon_with_face","new_moon_with_face","new_moon","waxing_crescent_moon","first_quarter_moon","waxing_gibbous_moon","full_moon","waning_gibbous_moon","last_quarter_moon","waning_crescent_moon","last_quarter_moon_with_face","first_quarter_moon_with_face","moon","earth_africa","earth_americas","earth_asia","volcano","milky_way","partly_sunny","octocat","squirrel","bamboo","gift_heart","dolls","school_satchel","mortar_board","flags","fireworks","sparkler","wind_chime","rice_scene","jack_o_lantern","ghost","santa","christmas_tree","gift","bell","no_bell","tanabata_tree","tada","confetti_ball","balloon","crystal_ball","cd","dvd","floppy_disk","camera","video_camera","movie_camera","computer","tv","iphone","phone","telephone_receiver","pager","fax","minidisc","vhs","sound","mute","loudspeaker","mega","hourglass","hourglass_flowing_sand","alarm_clock","watch","radio","satellite","loop","mag","mag_right","unlock","lock","lock_with_ink_pen","closed_lock_with_key","key","bulb","flashlight","high_brightness","low_brightness","electric_plug","battery","calling","email","mailbox","postbox","bath","bathtub","shower","toilet","wrench","nut_and_bolt","hammer","seat","moneybag","yen","dollar","pound","euro","credit_card","money_with_wings","e-mail","inbox_tray","outbox_tray","envelope","incoming_envelope","postal_horn","mailbox_closed","mailbox_with_mail","mailbox_with_no_mail","door","smoking","bomb","gun","hocho","pill","syringe","page_facing_up","page_with_curl","bookmark_tabs","bar_chart","chart_with_upwards_trend","chart_with_downwards_trend","scroll","clipboard","calendar","date","card_index","file_folder","open_file_folder","scissors","pushpin","paperclip","black_nib","pencil2","straight_ruler","triangular_ruler","closed_book","green_book","blue_book","orange_book","notebook","notebook_with_decorative_cover","ledger","books","bookmark","name_badge","microscope","telescope","newspaper","football","basketball","soccer","baseball","tennis","8ball","rugby_football","bowling","golf","mountain_bicyclist","bicyclist","horse_racing","snowboarder","swimmer","surfer","ski","spades","hearts","clubs","diamonds","gem","ring","trophy","musical_score","musical_keyboard","violin","space_invader","video_game","black_joker","flower_playing_cards","game_die","dart","mahjong","clapper","memo","pencil","book","art","microphone","headphones","trumpet","saxophone","guitar","shoe","sandal","high_heel","lipstick","boot","shirt","necktie","womans_clothes","dress","running_shirt_with_sash","jeans","kimono","bikini","ribbon","tophat","crown","womans_hat","mans_shoe","closed_umbrella","briefcase","handbag","pouch","purse","eyeglasses","fishing_pole_and_fish","coffee","tea","sake","baby_bottle","beer","beers","cocktail","tropical_drink","wine_glass","fork_and_knife","pizza","hamburger","fries","poultry_leg","meat_on_bone","spaghetti","curry","fried_shrimp","bento","sushi","fish_cake","rice_ball","rice_cracker","rice","ramen","stew","oden","dango","egg","bread","doughnut","custard","icecream","ice_cream","shaved_ice","birthday","cake","cookie","chocolate_bar","candy","lollipop","honey_pot","apple","green_apple","tangerine","lemon","cherries","grapes","watermelon","strawberry","peach","melon","banana","pear","pineapple","sweet_potato","eggplant","tomato","corn","house","house_with_garden","school","office","post_office","hospital","bank","convenience_store","love_hotel","hotel","wedding","church","department_store","european_post_office","city_sunrise","city_sunset","japanese_castle","european_castle","tent","factory","tokyo_tower","japan","mount_fuji","sunrise_over_mountains","sunrise","stars","statue_of_liberty","bridge_at_night","carousel_horse","rainbow","ferris_wheel","fountain","roller_coaster","ship","speedboat","boat","rowboat","anchor","rocket","airplane","helicopter","steam_locomotive","tram","mountain_railway","bike","aerial_tramway","suspension_railway","mountain_cableway","tractor","blue_car","oncoming_automobile","car","red_car","taxi","oncoming_taxi","articulated_lorry","bus","oncoming_bus","rotating_light","police_car","oncoming_police_car","fire_engine","ambulance","minibus","truck","train","station","train2","bullettrain_side","light_rail","monorail","railway_car","trolleybus","ticket","fuelpump","vertical_traffic_light","traffic_light","warning","construction","beginner","atm","slot_machine","busstop","barber","hotsprings","checkered_flag","crossed_flags","izakaya_lantern","moyai","circus_tent","performing_arts","round_pushpin","triangular_flag_on_post","jp","kr","cn","us","fr","es","it","ru","uk","de","one","two","three","four","five","six","seven","eight","nine","keycap_ten","1234","zero","hash","symbols","arrow_backward","arrow_down","arrow_forward","arrow_left","capital_abcd","abcd","abc","arrow_lower_left","arrow_lower_right","arrow_right","arrow_up","arrow_upper_left","arrow_upper_right","arrow_double_down","arrow_double_up","arrow_down_small","arrow_heading_down","arrow_heading_up","leftwards_arrow_with_hook","arrow_right_hook","left_right_arrow","arrow_up_down","arrow_up_small","arrows_clockwise","arrows_counterclockwise","rewind","fast_forward","information_source","ok","twisted_rightwards_arrows","repeat","repeat_one","new","top","up","cool","free","ng","cinema","koko","signal_strength","u5272","u5408","u55b6","u6307","u6708","u6709","u6e80","u7121","u7533","u7a7a","u7981","sa","restroom","mens","womens","baby_symbol","no_smoking","parking","wheelchair","metro","baggage_claim","accept","wc","potable_water","put_litter_in_its_place","secret","congratulations","m","passport_control","left_luggage","customs","ideograph_advantage","cl","sos","id","no_entry_sign","underage","no_mobile_phones","do_not_litter","non-potable_water","no_bicycles","no_pedestrians","children_crossing","no_entry","eight_spoked_asterisk","eight_pointed_black_star","heart_decoration","vs","vibration_mode","mobile_phone_off","chart","currency_exchange","aries","taurus","gemini","cancer","leo","virgo","libra","scorpius","sagittarius","capricorn","aquarius","pisces","ophiuchus","six_pointed_star","negative_squared_cross_mark","a","b","ab","o2","diamond_shape_with_a_dot_inside","recycle","end","on","soon","clock1","clock130","clock10","clock1030","clock11","clock1130","clock12","clock1230","clock2","clock230","clock3","clock330","clock4","clock430","clock5","clock530","clock6","clock630","clock7","clock730","clock8","clock830","clock9","clock930","heavy_dollar_sign","copyright","registered","tm","x","heavy_exclamation_mark","bangbang","interrobang","o","heavy_multiplication_x","heavy_plus_sign","heavy_minus_sign","heavy_division_sign","white_flower","100","heavy_check_mark","ballot_box_with_check","radio_button","link","curly_loop","wavy_dash","part_alternation_mark","trident","black_square","white_square","white_check_mark","black_square_button","white_square_button","black_circle","white_circle","red_circle","large_blue_circle","large_blue_diamond","large_orange_diamond","small_blue_diamond","small_orange_diamond","small_red_triangle","small_red_triangle_down","shipit"];
 
     $rootScope.showemojisdivsfs = function(){
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($rootScope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert2(\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv787' ) ).html(emohtml);
+
+        $compile($el)($rootScope);
+
         if ($('#emojisdiv787').is(':hidden')) {
             $('#emojisdiv787').show();
         }else{
@@ -5901,12 +6024,24 @@ homeControllers1.controller('forumcommon', function($scope,$state,$cookieStore,$
     }
 
     $rootScope.showemojisdivsfs5252 = function(){
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($rootScope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert5(\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv787555' ) ).html(emohtml);
+
+        $compile($el)($rootScope);
+
+
         if ($('#emojisdiv787555').is(':hidden')) {
             $('#emojisdiv787555').show();
         }else{
             $('#emojisdiv787555').hide();
         }
-
     }
 
     $rootScope.showemojisdivsfs51465 = function(id){
@@ -6359,6 +6494,8 @@ homeControllers1.controller('footer', function($scope,$state,$cookieStore,$http,
 
     $scope.showtermsploicy = function(id){
 
+        $rootScope.stateIsLoading = true;
+
         var header = '';
         if(id=='policy')
             header = 'Privacy Policy';
@@ -6411,6 +6548,7 @@ homeControllers1.controller('home', function($scope,$state,$cookieStore,$http,$r
     $scope.openDefault = function () {
         ngDialog.open({
             template: 'firstDialogId',
+           // className : 'firstDialogId',
         });
     };
 });
@@ -7355,6 +7493,12 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -7435,6 +7579,13 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
+
         });
 
         file.upload.xhr(function (xhr) {
@@ -7551,6 +7702,16 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
         $scope.password = $cookieStore.get('login_password');
         if (typeof ($scope.email) != 'undefined' && typeof ($scope.password) != 'undefined') {
             $rootScope.stateIsLoading = true;
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : $scope.baseUrl+'/user/ajs1/sendWelcomeMail',
+                data    : $.param({'email':$scope.email}),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(data) {
+                
+            });
+
             $http({
                 method  : 'POST',
                 async:   false,
@@ -7936,7 +8097,7 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
 
 });
 
-homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$filter) {
+homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$filter,$q) {
 
 
     $scope.isProfilePage = 1;
@@ -7952,6 +8113,16 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
         $scope.getUserDetails();
     },500);
 
+
+    var deferred;
+    var dArr = [];
+    var imgpaths = [];
+    $scope.hideall = true;
+
+    $scope.user_str1 = '';
+
+    $rootScope.ctime222 = new Date().getTime();
+
     $scope.getUserDetails = function(){
         $http({
             method  : 'POST',
@@ -7961,6 +8132,24 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(result) {
             $scope.userDet = result;
+            console.log($scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.profileImg+'&version='+$rootScope.ctime222);
+
+            deferred = $q.defer();
+            imgpaths.push({
+                path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.profileImg+'&version='+$rootScope.ctime222,
+                callback: deferred.resolve
+            });
+            dArr.push(deferred.promise);
+            deferred = $q.defer();
+            imgpaths.push({
+                path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$rootScope.ctime222,
+                callback: deferred.resolve
+            });
+            dArr.push(deferred.promise);
+
+            $scope.imgpaths = imgpaths;
+
+
             var sportsName1 = '';
             var sportsName2 = '';
             var sportsName3 = '';
@@ -7981,12 +8170,36 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
 
             user_str1 = user_str1.toLowerCase();
 
+            $scope.user_str1 = user_str1;
 
-            $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
-            return;
+
+         //   $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
+         //   return;
         }).error(function (result) {
             $scope.getUserDetails();
         });
+    }
+
+
+    $q.all(dArr).then(function() {
+        $scope.hideall = false;
+        console.log('all loaded');
+        $timeout(function(){
+            $scope.statego();
+        },1000);
+    });
+
+    $scope.statego = function(){
+        if($scope.user_str1 != ''){
+            // $state.go('profile1',{userId:$scope.userId,userStr:$scope.user_str1});
+           //  return;
+            window.location.href='/profile/'+$scope.userId+'/'+$scope.user_str1;
+        }else{
+            console.log('user_str1');
+            $timeout(function(){
+                $scope.statego();
+            },2000);
+        }
     }
 
 
@@ -7994,17 +8207,43 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
 });
 homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,MetaService,$interval,$compile,$q) {
 
+    $scope.mapcontrol = {
+            refresh : {
+                latitude: 32.779680,
+                longitude: -79.935493
+            }
+        };
 
-    $scope.openTerms = function () {
-        ngDialog.open({
-            template: 'termsDialogId',
+
+    $scope.showtermsploicy = function(id){
+
+        $rootScope.stateIsLoading = true;
+
+        var header = '';
+        if(id=='policy')
+            header = 'Privacy Policy';
+        if(id=='terms')
+            header = 'Terms And Condition';
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/cms/admin/conditionmanager1/bringcondition',
+            data    : $.param({'id':id}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            ngDialog.open({
+                template: '<div><strong style="font-size: 16px; color:#C97413; font-weight: normal; text-align:center; display:block; font-weight:bold; text-transform:uppercase; font-size:22px;">'+header+'</strong></div>'+data,
+                plain:true,
+                showClose:true,
+                closeByDocument: true,
+                closeByEscape: true
+            });
+        }).error(function (result) {
+            $scope.showtermsploicy(id);
         });
-    };
-    $scope.openPrivacy = function () {
-        ngDialog.open({
-            template: 'policyDialogId',
-        });
-    };
+    }
 
     $scope.ban2Height = 200;
 
@@ -8065,7 +8304,7 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         $timeout(function(){
             $scope.setbannerheight55();
             $scope.setbannerdim221();
-        },1000);
+        },10);
     });
 
     $timeout(function(){
@@ -8165,7 +8404,12 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
     $scope.setbannerheight55 = function(){
 //            var ffheight = $('.top-banner-contain').height();
-            var ffheight = $('.banner-image').height();
+            var ffheight1 = $('.banner-image').height();
+            var ffheight = $('.banner-image img').height();
+
+        if(ffheight > ffheight1){
+            ffheight = ffheight1;
+        }
 
 
 
@@ -8822,7 +9066,8 @@ $scope.bannerload = function(){
             dArr.push(deferred.promise);
             deferred = $q.defer();
             imgpaths.push({
-                path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$scope.ctime222,
+              //  path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$scope.ctime222,
+                path: $scope.userDet.backImg+'?version='+$scope.ctime222,
                 callback: deferred.resolve
             });
             dArr.push(deferred.promise);
@@ -9282,6 +9527,11 @@ $scope.bannerload = function(){
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
 
         });
 
@@ -9370,6 +9620,11 @@ $scope.bannerload = function(){
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -9946,6 +10201,11 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
 
         });
 
@@ -10021,6 +10281,11 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -10710,6 +10975,12 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -10790,6 +11061,12 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -10896,6 +11173,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                     });
                     $scope.pLoad = false;
                 },5000);
+
             }
         });
 
@@ -11251,6 +11529,11 @@ homeControllers1.controller('addevent', function($scope,$state,$cookieStore,$htt
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -11651,6 +11934,11 @@ homeControllers1.controller('editevent', function($scope,$state,$cookieStore,$ht
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -11947,6 +12235,7 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
     $scope.lastPoint = '';
     $scope.firstPoint = '';
     $scope.location = [];
+    $scope.location123 = [];
     $scope.location1 = [];
 
     $scope.markerc = {
@@ -11956,6 +12245,8 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
     $scope.form = {
         sports_id : '',
         address : '',
+        distance:0,
+        user_id: $scope.userId,
         end_point:[]
     }
 
@@ -12013,6 +12304,7 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
         $scope.firstPoint = '';
         $scope.isSinglePoint = 1;
         $scope.location = [];
+        $scope.location123 = [];
         $scope.location1 = [];
         $scope.distancearr = [];
 
@@ -12105,6 +12397,7 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
 
                                 $scope.firstPoint = pos;
                                 $scope.location.push(pos);
+                                $scope.location123.push({'latitude' :lat,'longitude' :lon});
                                 $scope.location1.push($scope.location.length);
                                 $scope.distancearr.push(0);
                                 $scope.form.end_point.push(pos);
@@ -12152,6 +12445,8 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
                                         if (status == google.maps.DirectionsStatus.OK) {
                                             for(var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
                                                 $scope.location.push(result.routes[0].overview_path[i]);
+                                                var pos1 = result.routes[0].overview_path[i];
+                                                $scope.location123.push({'latitude' :pos1.lat(),'longitude' :pos1.lng()});
                                                 $scope.form.end_point.push(result.routes[0].overview_path[i]);
                                             }
 
@@ -12188,6 +12483,7 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
         $scope.lastPoint = '';
         $scope.firstPoint = '';
         $scope.location = [];
+        $scope.location123 = [];
         $scope.location1 = [];
         $scope.distancearr = [];
 
@@ -12216,6 +12512,9 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
             $scope.distance = $scope.distancearr[$scope.distancearr.length-1]
 
            $scope.location.splice(maxvalue,(difval+1));
+           $scope.location123.splice(maxvalue,(difval+1));
+
+            $scope.lastPoint = $scope.location[$scope.location.length-1]
 
 
 
@@ -12229,9 +12528,11 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
     $scope.outback = function(){
         if($scope.location1.length > 1){
             var maxv = $scope.location.length;
+            var maxv123 = $scope.location123.length;
             var j;
             for(j=(maxv-2);j>=0;j-- ){
                 $scope.location.push($scope.location[j]);
+                $scope.location123.push($scope.location123[j]);
             }
 
             $scope.distance = $scope.distance *2;
@@ -12240,7 +12541,7 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
         }
     }
 
-    $scope.addRoutes = function(){
+    /*$scope.addRoutes = function(){
         $('#user_id').val($scope.userId);
         $('#distance').val($scope.distance);
         angular.forEach($scope.location, function(val2, key) {
@@ -12253,6 +12554,29 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
 
         $('#addRouteMap').attr('action',$scope.baseUrl+'/user/ajs1/addroute');
         $('#addRouteMap').submit();
+
+    }*/
+
+
+
+    $scope.addRoutes = function(){
+
+
+        $scope.form.end_point = $scope.location123;
+        $scope.form.distance = $scope.distance;
+
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/addroute123',
+            data    : $.param($scope.form),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $state.go('routes',{userId:$scope.userId});
+            return;
+        }).error(function (result) {
+            $scope.addRoutes();
+        });
 
     }
 
@@ -12397,7 +12721,7 @@ homeControllers1.controller('forumdetails', function($scope,$state,$cookieStore,
 
 });
 
-homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$templateCache) {
+homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$templateCache,$compile) {
     $scope.topicId = $stateParams.topicId;
     $scope.loadingtreply = false;
 
@@ -12943,6 +13267,71 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
         });
     };
 
+    $scope.showemojisdivsfs1 = function(){
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($rootScope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert2(\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv787' ) ).html(emohtml);
+
+        $compile($el)($scope);
+
+        if ($('#emojisdiv787').is(':hidden')) {
+            $('#emojisdiv787').show();
+        }else{
+            $('#emojisdiv787').hide();
+        }
+
+    }
+
+    $scope.showemojisdivsfs52521 = function(){
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($rootScope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert5(\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv787555' ) ).html(emohtml);
+
+        $compile($el)($scope);
+
+
+        if ($('#emojisdiv787555').is(':hidden')) {
+            $('#emojisdiv787555').show();
+        }else{
+            $('#emojisdiv787555').hide();
+        }
+    }
+
+    $scope.showemojisdivsfs514651 = function(id){
+
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($rootScope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert3(0,'+id+',\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv787'+id ) ).html(emohtml);
+
+        $compile($el)($scope);
+
+
+        if ($('#emojisdiv787'+id).is(':hidden')) {
+            $('#emojisdiv787'+id).show();
+        }else{
+            $('#emojisdiv787'+id).hide();
+        }
+
+    }
+
     $scope.emoinsert2 = function(emoitem){
 
         $scope.showError = false;
@@ -12976,17 +13365,17 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
         $scope.form1.replyeditarea = prevval+emoval;
     }
 
-    $scope.emoinsert3 = function(index,item,emoitem){
-        $('#error111'+item.id).hide();
+    $scope.emoinsert3 = function(index,itemid,emoitem){
+        $('#error111'+itemid).hide();
 
         var emoval = '<input title="'+emoitem+'" style="border:none; margin-left: 3px; margin-right: 3px;" class="emoticon emoticon-'+emoitem+'" />';
 
-        var prevval = $('#topicreplydiv1'+item.id).html();
+        var prevval = $('#topicreplydiv1'+itemid).html();
 
         if(prevval.substr(prevval.length - 4) == '<br>')
             prevval = prevval.substring(0, prevval.length - 4);
 
-        $('#topicreplydiv1'+item.id).html(prevval+emoval);
+        $('#topicreplydiv1'+itemid).html(prevval+emoval);
 
     }
 
@@ -14136,6 +14525,11 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
 
         });
 
@@ -14224,6 +14618,11 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -14396,6 +14795,11 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -14446,6 +14850,11 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -15197,6 +15606,11 @@ homeControllers1.controller('addgroup', function($scope,$state,$cookieStore,$htt
         file.upload.progress(function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            if(file.progress <100){
+                file.progresstext = file.progress + '%';
+            }else{
+                file.progresstext = '99%';
+            }
         });
 
         file.upload.xhr(function (xhr) {
@@ -15523,6 +15937,25 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $scope.statusList = result.status;
+
+
+            angular.forEach($scope.statusList, function(item, key) {
+
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
+
+
+
+            });
+
+
         }).error(function (result) {
             $scope.gethastagStatus();
         });
@@ -16516,6 +16949,15 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+                if(typeof(item.routes.id) !='undefined'){
+                    item.routes.map.refresh =  function () {
+                        item.routes.map.control.refresh(item.routes.map.center);
+                    };
+                    $timeout(function(){
+                        item.routes.map.refresh();
+                    },500);
+                }
             });
 
         }).error(function (result) {

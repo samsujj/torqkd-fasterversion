@@ -222,7 +222,7 @@
 
         <!--Profile Banner Area[start]-->
 
-        <div class="top-banner-contain" ng-show="imgageLoadf==1" elem-ready="someMethod()">
+        <div class="top-banner-contain"  elem-ready="someMethod()">
 
             <div class="user-contain">
 
@@ -230,7 +230,7 @@
 
                    <!-- <img  src="http://torqkd.com/user/ajs1/createimage?image={{userDet.profileImg}}&version={{ctime222}}" style="max-height: 120px;" alt=""  />-->
 
-                    <loaded-img style="max-height: 120px;" isrc="userDetImage[0].path" onloadimg="item.callback(item)"></loaded-img>
+                    <loaded-img style="max-height: 120px;" lazy-img="{{userDetImage[0].path}}" src="images/tr_bg_142_156.png" onloadimg="item.callback(item)"></loaded-img>
 
                     <a class="pic cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Edit Profile Picture</a>
 
@@ -258,7 +258,9 @@
 
                 <!--<img style="height: auto; max-width: 100%" src="http://torqkd.com/user/ajs1/createimage?image={{userDet.backImg}}&version={{ctime222}}" imageonload  />-->
 
+               <!-- <loaded-img style="height: auto; max-width: 100%" lazy-img="{{userDetImage[1].path}}" src="images/tr_bg_1175_536.png" onloadimg="item.callback(item)" imageonload></loaded-img>-->
                 <loaded-img style="height: auto; max-width: 100%" isrc="userDetImage[1].path" onloadimg="item.callback(item)" imageonload></loaded-img>
+
 
                 <a class="changecover cnghidpic" ng-if="sessUser==userId" ui-sref="editprofile">Change Cover</a>
 
@@ -498,7 +500,7 @@
 
         <!--Profile Left Content Area[start]-->
 
-        <div ng-hide="stateIsLoading" class="experience-leftcontain" elem-ready="someMethod()">
+        <div class="experience-leftcontain" elem-ready="someMethod()">
 
             <div class="status-menu" ng-if="sessUser==userId" style="margin-top:20px!important; background-color: #fff;">
 
@@ -564,7 +566,7 @@
 
                         <div class="progress" ng-show="statusImage[0].progress >= 0">
 
-                            <div style="width:{{statusImage[0].progress}}%; background:#F69830;" ng-bind="statusImage[0].progress + '%'"></div>
+                            <div style="width:{{statusImage[0].progress}}%; background:#F69830;" ng-bind="statusImage[0].progresstext"></div>
 
                             <div style="clear:both;"></div>
 
@@ -594,7 +596,7 @@
 
                         <div class="progress" ng-show="statusVideo[0].progress >= 0">
 
-                            <div style="width:{{statusVideo[0].progress}}%; background:#F69830;" ng-bind="statusVideo[0].progress + '%'"></div>
+                            <div style="width:{{statusVideo[0].progress}}%; background:#F69830;" ng-bind="statusVideo[0].progresstext"></div>
 
                         </div>
 
@@ -691,7 +693,7 @@
 
         <!--Profile Right Content Area[start]-->
 
-        <div ng-hide="stateIsLoading" class="experience-rightcontain profileRightCon" elem-ready="someMethod()" style="margin-top:20px;">
+        <div class="experience-rightcontain profileRightCon" elem-ready="someMethod()" style="margin-top:20px;">
 
             <div class="link1" ng-if="sessUser==userId" style="margin-top:0px;">
 
@@ -828,11 +830,11 @@
     <span>&copy;TORKQ</span>
     <span>|</span>
 <span>
-<a href="javascript:void(0);" ng-click="openTerms()">TERMS </a>
+<a href="javascript:void(0);" ng-click="showtermsploicy('terms')">TERMS </a>
 </span>
     <span>|</span>
 <span>
-<a href="javascript:void(0);" ng-click="openPrivacy()">PRIVACY</a>
+<a href="javascript:void(0);" ng-click="showtermsploicy('policy')">PRIVACY</a>
 </span>
 </div>
 

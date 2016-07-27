@@ -251,7 +251,7 @@
             <div class="uploadbox" style="position:relative;">
                 <div id="blah" style="width: 170px; height:170px;  border: 2px solid #97989a; background:#fff; overflow:hidden;" > <img src="{{groupImage}}" ng-show="groupImage" style="width:100%;"></div>
                 <input type="button" value="+" class="upload-btn btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
-                <div class="progress" ng-show="files[0].progress >= 0">	<div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div></div>
+                <div class="progress" ng-show="files[0].progress >= 0">	<div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progresstext"></div></div>
 
 
             </div>

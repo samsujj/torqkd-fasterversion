@@ -1,30 +1,45 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" ng-app="torqdTest" >
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <base href="/fasterversion/">
+    <meta property="og:title" content="Torkq" />
 
-<script type="text/javascript">
-    var base_url = 'http://torqkd.com';
-    FileAPI = {
-      debug: true,
-      forceLoad: true, html5: false, //to debug flash in HTML5 browsers
-      wrapInsideDiv: true, //experimental for fixing css issues
-      //only one of jsPath or jsUrl.
-      //jsPath: '/js/FileAPI.min.js/folder/',
-      jsUrl: 'js/FileAPI.min.js',
+    <meta property="og:site_name" content="Torkq.com"/>
+    <meta property="og:image" content="http://torqkd.com/uploads/gallery/image/thumb/image11425980241.jpg" />
 
-      //only one of staticPath or flashUrl.
-      //staticPath: '/flash/FileAPI.flash.swf/folder/'
-      flashUrl: 'js/FileAPI.flash.swf'
-    };
-  </script>
+    <meta property="og:image" content="http://torqkd.com/uploads/gallery/image/thumb/image-21425980281.jpg" />
 
-  <title>::TORQKD::</title>
+    <meta property="og:image" content="http://torqkd.com/uploads/gallery/image/thumb/image-31425980348.jpg" />
+
+    <meta property="og:image" content="http://torqkd.com/uploads/gallery/image/thumb/image-41425980438.jpg" />
+
+    <meta property="og:image" content="http://torqkd.com/uploads/gallery/image/thumb/image-51425980523.jpg" />
+
+    <meta property="og:description" content="Torkq brings the consciousness of outdoor sports to a new, progressive social media realm. Torkq is a collective of runners, jumpers, climbers, riders, hikers, surfers and all who dare to smack the terrain from land, sky, powder and H2O. Now go get it!! Time to connect, track and explore." />
+    <meta name="description" content="Torkq brings the consciousness of outdoor sports to a new, progressive social media realm. Torkq is a collective of runners, jumpers, climbers, riders, hikers, surfers and all who dare to smack the terrain from land, sky, powder and H2O. Now go get it!! Time to connect, track and explore." />
+
+    <meta name="keywords" content="{{ metaservice.metaKeywords() }}">
+
+    <meta property="fb:app_id" content="821649631217712" />
+
+
+    <base href="/">
+
+
+
+  <title>::TORKQ::</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link href="css/style.css" type="text/css" rel="stylesheet" media="all" />
   <link href="css/media.css" type="text/css" rel="stylesheet" media="all" />
+  <!--<link href="css/combine.css" type="text/css" rel="stylesheet" media="all" />-->
+    <link href="css/videogular.css" type="text/css" rel="stylesheet" media="all" />
+    <!-- <link href="css/style_5beac71defbad4284566bf9156a607a1.css" type="text/css" rel="stylesheet" media="all" />
+    <link href="css/media_38b9f21291fbe52f0c2d496b3513a5ee.css" type="text/css" rel="stylesheet" media="all" />-->
+  <link href="css/combine_8659f3d5d80aed46f9917891a8fa0775.css" type="text/css" rel="stylesheet" media="all" />
+    <!--<link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/jquery.highlighttextarea.min.css">
   <link rel="stylesheet" href="css/popupwindow.css">
   <link rel="stylesheet" href="css/ngDialog.css">
   <link rel="stylesheet" href="css/ngDialog-theme-default.css">
@@ -36,23 +51,20 @@
   <link rel="stylesheet" href="css/jquery.Jcrop.css">
   <link rel="stylesheet" href="css/textAngular.css">
   <link rel="stylesheet" href="css/ng-tags-input.css">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/ng-emoticons.css">-->
 
     <!--<link rel="stylesheet" href="css/ng-img-crop.css">
     <!--<link rel="stylesheet" href="css/jquery.guillotine.css">-->
-  <link href="css/font-awesome.css" rel="stylesheet">
 
 
-<style>
-        #sp-page {
-            background-color: #DFE2E2;
-        }
-        #sp-page > p {
-            padding: 10px;
-        }
-    </style>
-  <script src="js/jquery.min.js"></script>
 
+<!--
     <script src="js/angular.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.highlighttextarea.min.js"></script>
+    <script src="js/angular-highlight-textarea.min.js"></script>
     <script src="js/angular-ui-router.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap.bootbox.min.js"></script>
@@ -90,7 +102,10 @@
     <script src="js/textAngularSetup.js"></script>
     <script src="js/angular-lazy-img.js"></script>
     <script src="js/ng-tags-input.js"></script>
-    <!--<script src="js/jquery.guillotine.min.js"></script>-->
+    <script src="js/ng-emoticons.js"></script>
+    <script src="js/jquery.cropit.js"></script>
+    <script src="js/pica.min.js"></script>
+    <script src="js/angular-filter.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
 
@@ -102,15 +117,19 @@
    <script src="js/bootstrap-colorpicker-module.js"></script>
    <script src="js/angular-wysiwyg.js"></script>
 
+    -->
+
 
 
 
 
 
  </head>
- <body  ng-app="torqdTest" ng-init="baseUrl = 'http://torqkd.com'; subUrl='http://fasterversion.torqkd.com/'">
+ <body  ng-init="baseUrl = 'http://torqkd.com'; subUrl='http://torkq.com'">
  <div id="fb-root"></div>
  <input type="hidden" value="0" id="c_current_user">
+
+ <div class="fixed_wrapper">
 
  <div ui-view="header"></div>
  <div ui-view="coommon"></div>
@@ -121,11 +140,17 @@
  <div ui-view="mapcommon"></div>
  <div ui-view="tabcommon"></div>
  <div ui-view="profilecommon"></div>
+ <div ui-view="chatManager"></div>
  <div ui-view></div>
+
+ </div>
+
 
  <div class="modal fade " id="pollmodal" data-original-title="" style="display: none;" aria-hidden="true" >
      <div class="popupbody2">
-         <a href="javascript:void(0);" data-dismiss="modal" aria-hidden="true" onclick="js:$('.modal-backdrop').remove();" class="closepopup"><img src="images/close.png"></a>
+         <a href="javascript:void(0);" data-dismiss="modal" aria-hidden="true" onclick="js:$('.modal-backdrop').remove();" class="closepopup">
+             <img src="images/close.png" height="45" width="45">
+         </a>
 
          <div style="padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; " class="modal-body" data-original-title="">
 
@@ -136,6 +161,115 @@
  <div id="pollAll">
 
  </div>
+
+
+
+ <script src="js/combine_74fdd1bd0cde280e941f7495d31b81d9.js"></script>
+ <!--<script src="http://cdn.torqkd.com/js/combine_74fdd1bd0cde280e941f7495d31b81d9.js"></script>-->
+ <!--<script src="https://apis.google.com/js/client.js"></script>-->
+ <script src="js/client.js"></script>
+
+ <!--<script src="//cdn.jsdelivr.net/satellizer/0.14.0/satellizer.min.js"></script>-->
+ <script src="js/satellizer.min.js"></script>
+ <script src="js/services.js"></script>
+ <script src="js/app.js"></script>
+ <script src="js/common.js"></script>
+ <script src="js/poll.js"></script>
+
+ <!--<script src="js/optimize_version/angular_ae8539c465f27ce30a9f77f1a1adb74c.js"></script>
+ <script src="js/optimize_version/jquery.min_6734a237fe5686a02a355f396fb9e9e4.js"></script>
+ <script src="js/optimize_version/jquery-ui.min_abc34e2477c8a9025d3f4a8caceb89b5.js"></script>
+ <script src="js/optimize_version/jquery.highlighttextarea.min_2c8cb1111bd9edad1bbff96b6a62486d.js"></script>
+ <script src="js/angular-highlight-textarea.min.js"></script>
+ <script src="js/optimize_version/angular-ui-router_6f2d42fc48c433300b637210479d54eb.js"></script>
+ <script src="js/optimize_version/bootstrap.min_ffbd60eea57dea402c4b294b066b6ec6.js"></script>
+ <script src="js/optimize_version/bootstrap.bootbox.min_1ddf79063b3c63830ad972a392cbe406.js"></script>
+ <script src="js/optimize_version/ui-bootstrap-tpls-0.14.3.min_6ad30a71d96028a1a43cea4b89a418a1.js"></script>
+ <script src="js/imgLiquid-min.js"></script>
+ <script src="js/optimize_version/angular-mobile_799459eb30c288cde3cd866645f5a252.js"></script>
+ <script src="js/optimize_version/angular-cookies_7e4cb4312f9afebb01f0d66213987580.js"></script>
+ <script src="js/optimize_version/angular-animate.min_9976b36463588938954bf1d2b1f585d7.js"></script>
+ <script src="js/optimize_version/angular-touch.min_f736235dc5c5f3f210226b521f3346d3.js"></script>
+ <script src="js/optimize_version/TweenMax.min_30dbeec6a6795252cff1430252dea96f.js"></script>
+ <script src="js/optimize_version/angular-route_3960241ab44558c68843b873f2516d60.js"></script>
+ <script src="js/optimize_version/lodash.underscore_7efd17d8fcea72082c1a7a496df48045.js"></script>
+ <script src="js/optimize_version/angular-google-maps-dev-mapped_0273fb0a41b1024e97c35b0d03359944.js"></script>
+ <script src="js/optimize_version/angular-sanitize.min_ed76657473e2c8674040a2d16e146832.js"></script>
+ <script src="js/optimize_version/videogular_457243fb055059b0ea72aa30505e395d.js"></script>
+ <script src="js/optimize_version/ng-file-upload_396b8bcbcde780932ac06f75e33d1303.js"></script>
+ <script src="js/optimize_version/ngDialog_300443e12898a62a80d9cf65757da121.js"></script>
+
+ <script src="js/optimize_version/angular-youtube-embed_51398799ab07df06f84ab31f6ca6c092.js"></script>
+ <script src="js/optimize_version/highstock.src_2ad3a38a42a69953ab653053aa9c01d2.js"></script>
+ <script src="js/optimize_version/highcharts-ng_8ac724ea356d85a32d26547b5c837312.js"></script>
+ <script src="js/optimize_version/highlight.min_c0acbaa5e88a038c8fa98e6ebc5f1717.js"></script>
+ <script src="js/optimize_version/angular-highlightjs.min_abbdd305ce1ce4b0a69a9da2a61560ae.js"></script>
+ <script src="js/optimize_version/angular-simple-slider_daaf5550450e4f687585f9daafb59a8b.js"></script>
+ <script src="js/optimize_version/ng-mobile-menu_52dfecc1cfc53adf360693b0cd863b37.js"></script>
+ <script src="js/optimize_version/html2canvas_5271857620a126dce753cb99b360bd7b.js"></script>
+ <script src="js/optimize_version/image-crop_317f39575ccbb572ca4412477fc42579.js"></script>
+ <script src="js/optimize_version/readmore_e9f0d759812af59cdfab8b25eea2c83c.js"></script>
+ <script src="js/optimize_version/ngFacebook_7730bdc6fdd1f944e6412d70363b4eb5.js"></script>
+ <script src="js/optimize_version/ngscrollbar_3b46b7220ab5d5c4d44da06c6e5befef.js"></script>
+ <script src="js/optimize_version/jquery.Jcrop_6defbab4289cf96a2a94c943f56ad757.js"></script>
+ <script src="js/optimize_version/textAngular-rangy.min_5c24966ec7985d608eaa841b8a1e733e.js"></script>
+ <script src="js/optimize_version/textAngular-sanitize.min_a3658b74ec4ee8b284d03929d0e1e327.js"></script>
+ <script src="js/optimize_version/textAngular.min_efa740953f2e577a53facee5830470a0.js"></script>
+ <script src="js/optimize_version/textAngularSetup_8c4f49a62b506896acdbfc4ddcce168a.js"></script>
+ <script src="js/optimize_version/angular-lazy-img_06e9c2d65a37b80dae8cdc30dd43e933.js"></script>
+ <script src="js/optimize_version/ng-tags-input_1e7a48b5b63498d28a88a46beea0fbac.js"></script>
+ <script src="js/optimize_version/ng-emoticons_c8ce5cbad6f522cccf8250da53336515.js"></script>
+ <script src="js/optimize_version/jquery.cropit_7aee6f49c3a45ba3f0ccc82573c6fa4c.js"></script>
+ <script src="js/optimize_version/pica.min_fd03bba7f38ff05217141a6c13002656.js"></script>
+ <script src="js/optimize_version/angular-filter.min_2af54d47f9f9c6a2b9572fbb17c8911e.js"></script>
+
+
+
+ <script src="js/app.js"></script>
+ <script src="js/optimize_version/Chart.min_5e057532efcb1f12c3004279f46495c1.js"></script>
+ <script src="js/common.js"></script>
+ <script src="js/poll.js"></script>
+ <script src="js/optimize_version/angular-validator_6f48db51a8074d6ccae2870eb553b6d8.js"></script>
+ <script src="js/optimize_version/bootstrap-colorpicker-module_58f6627cc664b89b8b50e244cb9e5d4f.js"></script>
+ <script src="js/optimize_version/angular-wysiwyg_9d73a741c3cb8dfcb104b97569e2d3e1.js"></script>-->
+
+ <script type="text/javascript">
+
+     if( navigator.userAgent.match(/Android/i)
+             || navigator.userAgent.match(/webOS/i)
+             || navigator.userAgent.match(/iPhone/i)
+             || navigator.userAgent.match(/iPad/i)
+             || navigator.userAgent.match(/iPod/i)
+             || navigator.userAgent.match(/BlackBerry/i)
+             || navigator.userAgent.match(/Windows Phone/i)
+     ) {
+         window.location.href = 'http://m.torkq.com';
+     }
+
+
+     var base_url = 'http://torqkd.com';
+     FileAPI = {
+         debug: true,
+         forceLoad: true, html5: false, //to debug flash in HTML5 browsers
+         wrapInsideDiv: true, //experimental for fixing css issues
+         //only one of jsPath or jsUrl.
+         //jsPath: '/js/FileAPI.min.js/folder/',
+         jsUrl: 'js/FileAPI.min.js',
+
+         //only one of staticPath or flashUrl.
+         //staticPath: '/flash/FileAPI.flash.swf/folder/'
+         flashUrl: 'js/FileAPI.flash.swf'
+     };
+
+     $(window).bind("load", function() {
+        $('body').append('<script src="https://www.youtube.com/iframe_api"><\/script>');
+        //$('body').append('<script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"><\/script>');
+     });
+
+
+ </script>
+
+
 
 
  </body>

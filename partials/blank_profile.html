@@ -9,7 +9,13 @@
         <!--Top Contain[end]-->
 
         <div style="height: 500px; display: block;">
-            &nbsp;
+            <div style="width: 100%; text-align: center; padding: 10px 0px;" class="viewMore">
+                <img width="118" height="9" src="images/loading_list.gif">
+            </div>
+            <div ng-repeat="item in imgpaths" style="display: none;">
+                {{item.path}}
+                <img src="{{item.path}}">
+            </div>
         </div>
 
 
