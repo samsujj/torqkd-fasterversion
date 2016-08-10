@@ -231,7 +231,7 @@
                     <div class="right-text-block">
                         <strong>{{item1.user_name}}</strong>
                         <div class="clear" style="margin-top: 8px;"></div>
-                        <div ng-bind-html="item1.description | newlines | emoticons:{'linkTarget':'_blank','newLine':true} " class="ng-emoticons"></div>
+                      <div ng-bind-html="item1.description | newlines | emoticons:{'linkTarget':'_blank','newLine':true} " class="ng-emoticons"></div>
                         <div class="clear" style="margin-top: 8px;"></div>
                         <span>{{item1.time}}</span>
                         <span>
@@ -275,6 +275,7 @@
                 </div>
                 <div class="clear"></div>
             </div>
+            <div class="viewMore" ng-show="loadingtreply" style="width:100%; text-align:center; padding:5px 0;"><img src="images/loading_list.gif" /></div>
             <div  class="new-contain-row">
                 <input ng-show="sessUser > 0 && !isReply" ng-click="isReply = !isReply" value="New Reply" type="button" class="btn5">
                 <form ng-show="isReply" angular-validator-submit="addTopicForm()" name="ReplyForm" class="form-horizontal" novalidate angular-validator >
@@ -315,7 +316,7 @@
             <form angular-validator-submit="replyeditform()" name="signUpForm" class="form-horizontal" novalidate angular-validator >
                 <div style="border:solid 2px #97989a; border-radius:5px; margin:10px 0; margin-bottom:15px;  height: auto; width: 100%!important; background: #fff!important; position:relative;">
                     <!--<textarea id="editReply222" ng-keypress="resizeTextarea2($event);" ng-keydown="resizeTextarea2($event);" ng-keyup="resizeTextarea2($event);" ng-model="form1.replyeditarea" class="form-control" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;padding: 6px;width: 100%!important;  resize:none; border-radius: 5px !important; border: none!important; min-height: 100px !important; background: #fff!important;" required-message="'Post cannot be blank.'" required></textarea>-->
-                    <div id="editReply222" ng-bind-html="editReply222html" ng-keyup="settopicreplyval551($event)" style="padding: 0px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;   background:none!important; height:auto !important; min-height: 34px;  box-shadow:none!important; padding-right:33px!important; overflow: hidden !important; padding: 5px;" contentEditable="true"></div>
+                    <div id="editReply222" ng-bind-html="editReply222html" ng-keyup="settopicreplyval55($event)" style="padding: 0px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;   background:none!important; height:auto !important; min-height: 34px;  box-shadow:none!important; padding-right:33px!important; overflow: hidden !important; padding: 5px;" contentEditable="true"></div>
                     <div class="clear"></div>
                     <a href="javascript:void(0)" ng-click="showemojisdivsfs52521()"><img src="images/emo.png"  style="position:absolute; right:6px; top:8px; width:20px"/></a>
                 </div>

@@ -14905,7 +14905,7 @@ a:active, a:focus {
 	border: 5px solid #f6921c!important;
 	clear:both;
 	overflow-y: scroll;
-	height:505px;
+	height:590px;
 	padding:0 10px;
 	margin-bottom:20px;
 }
@@ -14916,7 +14916,7 @@ a:active, a:focus {
 .youtubePopup .ngdialog-content .ng-scope {
 	background: #e2e2e2;
 	float: left;
-	height: 430px;
+	height: 510px;
 	margin: 5px;
 	padding: 10px 1% 10px 1%;
 	width: 46%;

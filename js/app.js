@@ -61,8 +61,10 @@ homeControllers1.run(['$rootScope', '$state','$cookieStore','$q','$http','$windo
         }
 
         if(to.name == 'profile' && from.name == 'profile1'){
-            ev.preventDefault();
-            $window.history.back();
+            if(toParams.userId == fromParams.userId){
+                ev.preventDefault();
+                $window.history.back();
+            }
         }
 
         if(to.name == 'eventdetails' && from.name == 'eventdetails1'){
@@ -2246,7 +2248,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
     $scope.getStatus = function(){
         $http({
             method: 'POST',
-            async:   false,
+            async:   false, 
             url: $scope.baseUrl+'/user/ajs1/getStatus',
             data    : $.param({'userid':$scope.currentUser,'sess_user_id':$rootScope.rootsessUser,'offset':$rootScope.offset}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
@@ -2358,7 +2360,8 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                     series: [{
                         data: val.data,
                         name : '<div style="color:#555555;">Month</div>',
-                        color : '#F79213'
+                        color : '#F79213',
+
                     }],
                     title: {
                         text: '<div style="color:#555555;">Last 6 Months</div>'
@@ -2366,18 +2369,33 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                     loading: false,
 
                     xAxis: {
-                        categories: val.mon
+                        categories: val.mon,
+                        labels: {
+                            style: {
+                                color: '#555555',
+                                font: '12px "veneerregular"',
+                            }
+                        }
                     },
 
                     yAxis : {
                         title: {
-                            text :  '<div style="color:#555555;">Activity</div>',
+                            text :  '<div style="color:#555555; font-size: 12px; font-weight: bold;">Activity</div>',
+                        },
+                        labels: {
+                            style: {
+                                color: '#555555',
+                                font: '12px "veneerregular"',
+                            }
                         }
                     },
 
                     tooltip : {
                         valueSuffix : ''
                     },
+                    exporting :{
+                        enabled : true
+                    }
                 }
 
                 var chartdata = {
@@ -2394,6 +2412,13 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
                 $rootScope.highchartsNG.push(highchartsNG);
                 $rootScope.chartdata.push(chartdata);
+
+
+
+
+
+
+
             });
             $rootScope.tabBodyLoad = false;
 
@@ -2417,31 +2442,55 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                     options: {
                         chart: {
                             type: 'line'
+                        },
+
+                    },
+                    plotOptions: {
+                        series: {
+                            marker: {
+                                radius: 10,
+                                symbol: 'circle',enabled:true
+                            }
                         }
                     },
                     series: [{
                         data: val.data,
                         name : '<div style="color:#555555;">Month</div>',
-                        color : '#F79213'
+                        color : '#F79213',
                     }],
                     title: {
-                        text: '<div style="color:#555555;">Last 6 Months</div>'
+                        text: '<div style="color:#555555; font-size: 12px; font-weight: bold;">Last 6 Months</div>'
                     },
                     loading: false,
 
                     xAxis: {
-                        categories: val.mon
+                        categories: val.mon,
+                        labels: {
+                            style: {
+                                color: '#555555',
+                                font: '12px "veneerregular"',
+                            }
+                        },
+
                     },
 
                     yAxis : {
                         title: {
-                            text :  '<div style="color:#555555;">Activity</div>',
+                            text :  '<div style="color:#555555; font-size: 12px; font-weight: bold;">Activity</div>',
+                        },
+                        labels: {
+                            style: {
+                                color: '#555555',
+                                font: '12px "veneerregular"',
+                            }
                         }
                     },
 
                     tooltip : {
                         valueSuffix : ''
                     },
+
+
                 }
 
                 var chartdata = {
@@ -3401,7 +3450,11 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
         user_str1 = user_str1.toLowerCase();
 
-        window.location.href = $scope.subUrl+'/profile/'+uid+'/'+user_str1;
+      //  window.location.href = $scope.subUrl+'/profile/'+uid+'/'+user_str1;
+       // window.location.href = $scope.subUrl+'/profile1/'+uid;
+
+        $state.go('profile',{'userId':uid});
+        return
     }
 
 });
@@ -6373,6 +6426,14 @@ homeControllers1.controller('chatcommon', function($scope,$state,$cookieStore,$r
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.chatUser1 = result;
+
+
+            $timeout(function(){
+                if($rootScope.rootsessUser > 0){
+                    $scope.chatUserList1();
+                }
+            },10000);
+
         }).error(function (result) {
             $scope.chatUserList1();
         });
@@ -6387,6 +6448,11 @@ homeControllers1.controller('chatcommon', function($scope,$state,$cookieStore,$r
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
             $rootScope.chatUser2 = result;
+            $timeout(function(){
+                if($rootScope.rootsessUser > 0){
+                    $scope.chatUserList2();
+                }
+            },10000);
         }).error(function (result) {
             $scope.chatUserList2();
         });
@@ -6578,10 +6644,25 @@ homeControllers1.controller('login', function($scope,$state,$cookieStore,$http,$
                 $cookieStore.put('login_email1',$scope.form.email);
                 $cookieStore.put('login_password1',$scope.form.password);
 
-                $cookieStore.put('rootuserdet',data);
+                //$rootScope.rootUserImage = data.user_image;
+                //$rootScope.rootUserCoverImage = data.user_cover_image;
+                $scope.alldata = data;
 
-                $state.go('profile',{userId:data.id});
+                //$scope.alldata.user_image = '';
+                // $scope.alldata.user_cover_image = '';
+
+                $cookieStore.put('rootuserdet',$scope.alldata);
+
+                var user_str1 = $scope.alldata.fname+'-'+$scope.alldata.lname;
+                user_str1 = user_str1.replace(/\s+/g, '-');
+
+                user_str1 = user_str1.toLowerCase();
+
+                $state.go('profile1',{userId:data.id,userStr:user_str1});
                 return;
+
+//                $state.go('profile',{userId:data.id});
+//                return;
 
             }else{
                 $scope.msgFlag = true;
@@ -6615,6 +6696,7 @@ homeControllers1.controller('logout', function($scope,$state,$cookieStore,$http,
     $cookieStore.remove('user_is_admin');
     $cookieStore.remove('activeChat')
     $rootScope.rootsessUser = 0;
+    $rootScope.userdetnew = "";
     $state.go('index');
     return;
 });
@@ -7725,14 +7807,29 @@ homeControllers1.controller('addimage', function($scope,$state,$cookieStore,$htt
                     $cookieStore.put('login_email1',$scope.email);
                     $cookieStore.put('login_password1',$scope.password);
 
-                    $cookieStore.put('rootuserdet',data);
+                    //$rootScope.rootUserImage = data.user_image;
+                    //$rootScope.rootUserCoverImage = data.user_cover_image;
+                    $scope.alldata = data;
+
+                    //$scope.alldata.user_image = '';
+                    // $scope.alldata.user_cover_image = '';
+
+                    $cookieStore.put('rootuserdet',$scope.alldata);
 
                     $cookieStore.remove('login_email');
                     $cookieStore.remove('login_password');
                     $cookieStore.remove('user_insert_id');
 
-                    $state.go('profile',{userId:data.id});
+
+                    var user_str1 = $scope.alldata.fname+'-'+$scope.alldata.lname;
+                    user_str1 = user_str1.replace(/\s+/g, '-');
+
+                    user_str1 = user_str1.toLowerCase();
+
+                    $state.go('profile1',{userId:data.id,userStr:user_str1});
                     return;
+//                    $state.go('profile',{userId:data.id});
+//                    return;
 
                 }else{
                     $state.go('index');
@@ -8097,7 +8194,7 @@ homeControllers1.controller('experience', function($scope,$state,$cookieStore,$h
 
 });
 
-homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$filter,$q) {
+homeControllers1.controller('profile5', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$filter,$q) {
 
 
     $scope.isProfilePage = 1;
@@ -8132,22 +8229,22 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(result) {
             $scope.userDet = result;
-            console.log($scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.profileImg+'&version='+$rootScope.ctime222);
+            /*console.log($scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.profileImg+'&version='+$rootScope.ctime222);
 
-            deferred = $q.defer();
-            imgpaths.push({
-                path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.profileImg+'&version='+$rootScope.ctime222,
-                callback: deferred.resolve
-            });
-            dArr.push(deferred.promise);
-            deferred = $q.defer();
-            imgpaths.push({
-                path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$rootScope.ctime222,
-                callback: deferred.resolve
-            });
-            dArr.push(deferred.promise);
+             deferred = $q.defer();
+             imgpaths.push({
+             path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.profileImg+'&version='+$rootScope.ctime222,
+             callback: deferred.resolve
+             });
+             dArr.push(deferred.promise);
+             deferred = $q.defer();
+             imgpaths.push({
+             path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$rootScope.ctime222,
+             callback: deferred.resolve
+             });
+             dArr.push(deferred.promise);
 
-            $scope.imgpaths = imgpaths;
+             $scope.imgpaths = imgpaths;*/
 
 
             var sportsName1 = '';
@@ -8173,8 +8270,8 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
             $scope.user_str1 = user_str1;
 
 
-         //   $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
-         //   return;
+            $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
+            return;
         }).error(function (result) {
             $scope.getUserDetails();
         });
@@ -8191,9 +8288,9 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
 
     $scope.statego = function(){
         if($scope.user_str1 != ''){
-            // $state.go('profile1',{userId:$scope.userId,userStr:$scope.user_str1});
-           //  return;
-            window.location.href='/profile/'+$scope.userId+'/'+$scope.user_str1;
+            $state.go('profile1',{userId:$scope.userId,userStr:$scope.user_str1});
+            return;
+            //  window.location.href='/profile/'+$scope.userId+'/'+$scope.user_str1;
         }else{
             console.log('user_str1');
             $timeout(function(){
@@ -8205,7 +8302,154 @@ homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$htt
 
 
 });
+
+homeControllers1.controller('profile1', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$filter,$q) {
+
+
+    $scope.isProfilePage = 1;
+    $scope.sessUser = $rootScope.rootsessUser = 0;
+    $scope.userId = $stateParams.userId;
+/*
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined') {
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet.id;
+        $rootScope.rootsessUser = $scope.userDet.id;
+
+        if($scope.sessUser != $scope.userId){
+            $timeout(function(){
+                $scope.getUserDetails();
+            },10);
+        }else{
+
+            var user_str1 = $scope.userDet.fname+'-'+$scope.userDet.lname;
+            user_str1 = user_str1.replace(/\s+/g, '-');
+
+            user_str1 = user_str1.toLowerCase();
+
+            $scope.user_str1 = user_str1;
+
+            $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
+            return;
+        }
+    }else{
+        $timeout(function(){
+            $scope.getUserDetails();
+        },10);
+    }
+
+
+*/
+
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined') {
+        $scope.userDet = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet.id;
+
+
+    }
+
+    $timeout(function(){
+        $scope.getUserDetails();
+    },10);
+
+    $scope.getUserDetails1 = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getuserdetailsnew',
+            data    : $.param({'user_id':$scope.userId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $scope.userDet = result;
+
+            $cookieStore.put('rootuserdet',result);
+        }).error(function (result) {
+            $scope.getUserDetails1();
+        });
+    }
+
+    $scope.getUserDetails = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getuserdetailsnew',
+            data    : $.param({'user_id':$scope.userId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $scope.userDet = result;
+
+            $cookieStore.put('rootcurrentuserdet',result);
+
+            var user_str1 = $scope.userDet.fname+'-'+$scope.userDet.lname;
+            user_str1 = user_str1.replace(/\s+/g, '-');
+
+            user_str1 = user_str1.toLowerCase();
+
+            $scope.user_str1 = user_str1;
+
+
+            $state.go('profile1',{userId:$scope.userId,userStr:user_str1});
+            return;
+        }).error(function (result) {
+            $scope.getUserDetails();
+        });
+    }
+
+});
 homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,MetaService,$interval,$compile,$q) {
+
+
+    $scope.isProfilePage = 1;
+    $scope.sessUser = $rootScope.rootsessUser = 0;
+    $scope.userId = $stateParams.userId;
+
+    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet1 = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet1.id;
+        $rootScope.rootsessUser = $scope.userDet1.id;
+    }
+    
+    
+    if(typeof ($cookieStore.get('rootcurrentuserdet')) != 'undefined') {
+        $scope.userDet2 = $cookieStore.get('rootcurrentuserdet');
+        if($scope.userDet2.id == $scope.userId){
+            $scope.userDet = $scope.userDet2;
+        }else{
+            $timeout(function(){
+                $scope.getUserDetailsnew();
+            },10);
+        }
+    }else if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
+        $scope.userDet1 = $cookieStore.get('rootuserdet');
+        $scope.sessUser = $scope.userDet1.id;
+        $rootScope.rootsessUser = $scope.userDet1.id;
+
+        $scope.userDet = $scope.userDet1;
+
+    }else{
+        $timeout(function(){
+            $scope.getUserDetailsnew();
+        },10);
+    }
+
+    $scope.getUserDetailsnew = function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getuserdetailsnew',
+            data    : $.param({'user_id':$scope.userId}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $scope.userDet = result;
+            $timeout(function(){
+                $scope.setbannerheight55();
+            },10);
+        }).error(function (result) {
+            $scope.getUserDetailsnew();
+        });
+    }
+
+
+
 
     $scope.mapcontrol = {
             refresh : {
@@ -8466,7 +8710,8 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
     $timeout(function(){
         $scope.getBanner1();
-        $scope.getUserDetails();
+      //  $scope.getUserDetailsnew1();
+        $scope.getUserDetailsnew1();
         $scope.getFriendDet1();
         $scope.getunFriendDet1();
         $scope.getstatdetails();
@@ -8475,7 +8720,7 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         $scope.getMainBanner();
         $scope.alluserList55555();
 
-    },500)
+    },10)
 
     $scope.getBanner1 = function(){
         $http({
@@ -8493,15 +8738,6 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
         }).error(function (result) {
             $scope.getBanner1();
         });
-    }
-
-    $scope.isProfilePage = 1;
-    $scope.sessUser = $rootScope.rootsessUser = 0;
-    $scope.userId = $stateParams.userId;
-    if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
-        $scope.userDet = $cookieStore.get('rootuserdet');
-        $scope.sessUser = $scope.userDet.id;
-        $rootScope.rootsessUser = $scope.userDet.id;
     }
 
    /* $scope.userDet = {
@@ -8818,7 +9054,7 @@ $scope.matches = [];
             method: 'POST',
             async:   false,
             url: $scope.baseUrl+'/user/ajs1/getCurLocation',
-            data    : $.param({'userid':$scope.sessUser}),
+            data    : $.param({'userid':$scope.userId,'sessuser':$scope.sessUser}),
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function (result) {
 
@@ -9046,6 +9282,27 @@ $scope.bannerload = function(){
     var imgpaths = [];
     $scope.hideall = true;
 
+    $scope.getUserDetailsnew1 =function(){
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.baseUrl+'/user/ajs1/getUserDetailsnew1',
+            data    : $.param({'userid':$scope.userId,sessUser:$scope.sessUser}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(result) {
+            $scope.userDet5 = result;
+            console.log($scope.userDet5);
+
+            if($scope.sessUser > 0){
+                $cookieStore.put('user_is_admin',result.is_admin);
+                $rootScope.user_is_admin = result.is_admin;
+            }
+
+        }).error(function (result) {
+            $scope.getUserDetailsnew1();
+        });
+    }
+
     $scope.getUserDetails =function(){
         $http({
             method  : 'POST',
@@ -9066,7 +9323,7 @@ $scope.bannerload = function(){
             dArr.push(deferred.promise);
             deferred = $q.defer();
             imgpaths.push({
-              //  path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$scope.ctime222,
+                //  path: $scope.baseUrl+'/user/ajs1/createimage?image='+$scope.userDet.backImg+'&version='+$scope.ctime222,
                 path: $scope.userDet.backImg+'?version='+$scope.ctime222,
                 callback: deferred.resolve
             });
@@ -9427,6 +9684,11 @@ $scope.bannerload = function(){
                         window.open(targeturl);
                     })
                 },2000);
+
+
+                $timeout(function(){
+                    $('html, body').animate({ scrollTop:  $('#tabs').offset().top  }, 1000);
+                },1000);
 
             });
         /*}else{
@@ -10682,9 +10944,6 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
 
 homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
 
-
-
-
     $scope.userId = 0;
     if(typeof ($cookieStore.get('rootuserdet')) != 'undefined'){
         $scope.userDet = $cookieStore.get('rootuserdet');
@@ -10943,7 +11202,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                     method  : 'POST',
                     async:   false,
                     url     : $scope.baseUrl+'/user/ajs1/profileimgresize',
-                    data    : $.param({'filename':response.data.msg,'height':156,'width':142,'foldername':'thumb'}),  // pass in data as strings
+                    data    : $.param({'filename':response.data.msg,'height':156,'width':142,'foldername':'thumb','userid':$scope.userId}),  // pass in data as strings
                     headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(data) {
                     $('.progress').addClass('ng-hide');
@@ -11029,7 +11288,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                     method  : 'POST',
                     async:   false,
                     url     : $scope.baseUrl+'/user/ajs1/profileBackimgresize',
-                    data    : $.param({'filename':response.data.msg,'height':536,'width':1175,'foldername':'thumb'}),  // pass in data as strings
+                    data    : $.param({'filename':response.data.msg,'height':536,'width':1175,'foldername':'thumb','userid':$scope.userId}),  // pass in data as strings
                     headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(data) {
                     $('.progress').addClass('ng-hide');
@@ -11112,7 +11371,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
     $scope.crop123 = function(){
 
         var imagedata = $('.image-editor').cropit('export');
-
+        $scope.cropsaving = true;
 
         $http({
             method  : 'POST',
@@ -11121,6 +11380,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
             data    : $.param({'user_id':$scope.userId,'imagedata':imagedata}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function(data) {
+            $scope.cropsaving = false;
             $scope.profileImg = data;
             modalInstance.dismiss('cancel');
         });
@@ -11187,7 +11447,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
     $scope.crop1 = function(){
 
         var imagedata = $('.image-editor1').cropit('export');
-
+        $scope.cropsaving = true;
 
         $http({
             method  : 'POST',
@@ -11196,6 +11456,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
             data    : $.param({'user_id':$scope.userId,'imagedata':imagedata}),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         }).success(function(data) {
+            $scope.cropsaving = false;
             $scope.coverImg = data;
             modalInstance.dismiss('cancel');
         });
@@ -11288,6 +11549,8 @@ homeControllers1.controller('eventdetails', function($scope,$state,$cookieStore,
         }).success(function (result) {
             $scope.evetDet = result;
 
+            console.log($scope.evetDet);
+
             angular.element( document.querySelector( '#eImage' ) ).html($scope.evetDet.imageTag);
 
             $scope.map = {
@@ -11316,6 +11579,8 @@ homeControllers1.controller('eventdetails', function($scope,$state,$cookieStore,
                     }
                 }
             };
+
+            console.log($scope.map);
 
             $scope.map.markers.forEach(function(model){
                 model.closeClick = function(){
@@ -12580,6 +12845,25 @@ homeControllers1.controller('addroute', function($scope,$state,$cookieStore,$htt
 
     }
 
+
+    $scope.getloc = function(adrr){
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/getlocbyaddr',
+            data    : $.param({'address': adrr}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            if(result.error == 0){
+                $scope.map.center = {
+                    latitude: result.lat,
+                    longitude: result.long
+                }
+                $scope.map.zoom= 14;
+            }
+        })
+    }
+
 });
 
 homeControllers1.controller('forumlist', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
@@ -12629,7 +12913,14 @@ homeControllers1.controller('forumlist', function($scope,$state,$cookieStore,$ht
                 $cookieStore.put('login_email1',$scope.form.email);
                 $cookieStore.put('login_password1',$scope.form.password);
 
-                $cookieStore.put('rootuserdet',data);
+                //$rootScope.rootUserImage = data.user_image;
+                //$rootScope.rootUserCoverImage = data.user_cover_image;
+                $scope.alldata = data;
+
+                //$scope.alldata.user_image = '';
+               // $scope.alldata.user_cover_image = '';
+
+                $cookieStore.put('rootuserdet',$scope.alldata);
 
                 $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
                 $rootScope.sessUser = $rootScope.sessUserDet.id;
@@ -12695,7 +12986,14 @@ homeControllers1.controller('forumdetails', function($scope,$state,$cookieStore,
                 $cookieStore.put('login_email1',$scope.form.email);
                 $cookieStore.put('login_password1',$scope.form.password);
 
-                $cookieStore.put('rootuserdet',data);
+                //$rootScope.rootUserImage = data.user_image;
+                //$rootScope.rootUserCoverImage = data.user_cover_image;
+                $scope.alldata = data;
+
+                //$scope.alldata.user_image = '';
+                // $scope.alldata.user_cover_image = '';
+
+                $cookieStore.put('rootuserdet',$scope.alldata);
 
                 $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
                 $rootScope.sessUser = $rootScope.sessUserDet.id;
@@ -13243,7 +13541,14 @@ homeControllers1.controller('topicdetails', function($scope,$state,$cookieStore,
                 $cookieStore.put('login_email1',$scope.form.email);
                 $cookieStore.put('login_password1',$scope.form.password);
 
-                $cookieStore.put('rootuserdet',data);
+                //$rootScope.rootUserImage = data.user_image;
+                //$rootScope.rootUserCoverImage = data.user_cover_image;
+                $scope.alldata = data;
+
+                //$scope.alldata.user_image = '';
+                // $scope.alldata.user_cover_image = '';
+
+                $cookieStore.put('rootuserdet',$scope.alldata);
 
                 $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
                 $rootScope.sessUser = $rootScope.sessUserDet.id;
@@ -13504,7 +13809,14 @@ homeControllers1.controller('newtopic', function($scope,$state,$cookieStore,$htt
                 $cookieStore.put('login_email1',$scope.form.email);
                 $cookieStore.put('login_password1',$scope.form.password);
 
-                $cookieStore.put('rootuserdet',data);
+                //$rootScope.rootUserImage = data.user_image;
+                //$rootScope.rootUserCoverImage = data.user_cover_image;
+                $scope.alldata = data;
+
+                //$scope.alldata.user_image = '';
+                // $scope.alldata.user_cover_image = '';
+
+                $cookieStore.put('rootuserdet',$scope.alldata);
 
                 $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
                 $rootScope.sessUser = $rootScope.sessUserDet.id;
@@ -13602,7 +13914,14 @@ homeControllers1.controller('edittopic', function($scope,$state,$cookieStore,$ht
                 $cookieStore.put('login_email1',$scope.form.email);
                 $cookieStore.put('login_password1',$scope.form.password);
 
-                $cookieStore.put('rootuserdet',data);
+                //$rootScope.rootUserImage = data.user_image;
+                //$rootScope.rootUserCoverImage = data.user_cover_image;
+                $scope.alldata = data;
+
+                //$scope.alldata.user_image = '';
+                // $scope.alldata.user_cover_image = '';
+
+                $cookieStore.put('rootuserdet',$scope.alldata);
 
                 $rootScope.sessUserDet = $cookieStore.get('rootuserdet');
                 $rootScope.sessUser = $rootScope.sessUserDet.id;

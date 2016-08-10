@@ -1,8 +1,23 @@
 /* CSS Document */
 
 
+@media screen and (max-width:1660px) {
+    .youtubePopup .ngdialog-content .youtubeVideo{
+        height:510px;}
+
+    .youtubePopup .ngdialog-content .ng-scope{height:440px;}
+
+}
 
 
+
+@media screen and (max-width:1380px) {
+    .youtubePopup .ngdialog-content .youtubeVideo{
+        height:470px;}
+
+    .youtubePopup .ngdialog-content .ng-scope{height:400px;}
+
+}
 
 
 @media screen and (max-width:1400px) {

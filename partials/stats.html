@@ -24,6 +24,7 @@
     <tr>
         <td  valign="top" align="left" width="100%"  colspan="5">
            <highchart id="chart1" config="item"></highchart>
+          <!--  <highchart id="chart2" config="chartConfig" class="span10"></highchart>-->
         </td>
     </tr>
     <tr>
@@ -44,18 +45,18 @@
         <div style="width: 98%; height:auto; overflow: auto;" class="modal-bodytable">
             <div style="width: 100%;" >
                 <span style="width: 20%; display:block; float: left; ">Sr. No.</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">Distance</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">Time</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">Date</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">User Name</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">Distance</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">Time</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">Date</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">User Name</span>
             </div>
 
             <div style="width: 100%;" ng-repeat="sitem in statDet1 track by sitem.id">
                 <span style="width: 20%; display:block; float: left; ">{{$index+1}}</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.distance}}</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.duration}}</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.date}}</span>
-                <span style="width: 25%; display:block; float: left; text-align: center;">{{sitem.user_name}}</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">{{sitem.distance}}</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">{{sitem.duration}}</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">{{sitem.date}}</span>
+                <span style="width: 20%; display:block; float: left; text-align: center;">{{sitem.user_name}}</span>
                 <div class="clear"></div>
             </div>
         </div>

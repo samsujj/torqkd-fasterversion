@@ -1,298 +1,628 @@
 <style>
 
+
+
     .ngdialog-content{
+
         background-color: #f6f9fa !important;
+
         border: 5px solid #f7941e !important;
+
         border-radius: 0 !important;
+
         padding:0!important;
+
         width:99%;
+
         margin:0 auto!important;
+
     }
+
     .ngdialog-content p{
+
         font:13px/18px Arial,Helvetica,sans-serif;
+
         margin:0 15px;
+
     }
+
     .ngdialog-content h2{
+
         margin-left:15px;
+
         margin-right:15px;
+
     }
+
     .newPopup .ngdialog-content{
+
         animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
+
         position:relative !important;
+
         margin:0 auto !important;
+
         width:291px !important;
+
         height:189px !important;
+
         border: none !important;
+
         background: url({{baseUrl}}/torqkd_demo/images/hover_mobile.png) no-repeat !important;
+
     }
+	
+	.community .bottom-img{ width:auto;}
+
+.community .right-text{ margin-right:70px;}
+
+
     .community .bottom-img .img-con {
-        width: 134px !important;
-        height:228px!important;
-        margin-left:0px!important;
-        border: 4px solid #ebebeb;
-    }
+    border: 4px solid #ebebeb;
+    margin: 0 0.34% 0 0!important;
+    min-height: 198px !important;
+    width: 9.9%;
+}
+
     .community .bottom-img .img-con img{
+
         max-width:inherit!important;
+
         max-height:inherit!important;
+
     }
+
     .community .bottom-img .img-con .imgdiv {
+
         width: 100%;
+
     }
+
     .community .bottom-img .img-con .imgdiv img{
-        height: 142px;
+
+        min-height: 100%;
+
         width: 100%;
+
     }
+
     .fr_request {
+
         border: 4px solid #ffa500 !important;
+
         width: 134px !important;
+
         height:228px!important;
+
         box-shadow: 0 0 5px #888;
+
     }
+
+
 
     .hover_img4{
+
         top:135px!important;
+
     }
+
     .hover_img4 ul li img {
+
         box-shadow: none;
+
         float: left;
+
         margin: 0 4px 0 -3px!important;
+
     }
+
     .community .bottom-img .img-con .friend_detail {
+
         background: #f5f5f5 none repeat scroll 0 0;
+
         border: 1px solid #d1d1d1;
+
         color: #333;
+
         display: block;
+
         font-size: 12px;
+
         height: 70px;
+
         line-height: 18px;
+
         text-align: left;
+
         width: 89%;
+
         padding: 5%;
+
         word-wrap: break-word;
+
         overflow:hidden;
+
     }
+
     .community .bottom-img .img-con .friend_detail span {
+
         color: #f7931e;
+
         display: inline-block;
+
         font-size: 12px;
+
         padding: 0 2px 0 0;
+
         font-weight: bold;
+
     }
+
     .tooltip.customTooltip .tooltip-inner {
+
         color: #fff!important;
+
         background-color: #f8941e;
+
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
         width:200px;
+
         max-width:200px;
+
     }
+
     .tooltip.customTooltip .tooltip-arrow {
+
         border-bottom-color : #f8941e !important;
+
     }
+
     .tooltip.customTooltip .tooltip-inner h2{
+
         font-size:22px;
+
         font-weight:normal!important;
+
         font-family: "veneerregular";
+
         margin:0;
+
         padding:5px 0;
+
     }
+
     .tooltip.customTooltip .tooltip-inner p{
+
         font-size:14px;
+
         color: #fff!important;
+
         margin:0;
+
         padding:0;
+
         line-height:18px;
+
     }
+
     input[type="text"], input[type="password"], .ui-autocomplete-input, textarea, .uneditable-input{
+
         background: #fff!important;
+
         border: 2px solid #ccc !important;
+
         border-radius: 4px !important;
+
         float: none;
+
         height: 34px !important;
+
         padding: 0 5px;
+
         width: 99% !important;
+
         color:#000!important;
+
     }
+
     input::-webkit-input-placeholder {
+
         color:#000 !important;
+
         opacity: 1 !important;
+
     }
+
     input:-moz-placeholder {
+
         color:#000 !important;
+
         opacity: 1 !important;
+
     }
+
     input::-moz-placeholder {
+
         color:#000 !important;
+
         opacity: 1 !important;
+
     }
+
     input:-ms-input-placeholder {
+
         color:#000 !important;
+
         opacity: 1 !important;
+
     }
+	
+	
+	@media(max-width:1680px) {
+	
+	.community .right-text{ margin-right:60px;}
+
+
+    .community .bottom-img .img-con {
+    border: 4px solid #ebebeb;
+    margin: 0 0.34% 0 0!important;
+    min-height: 174px !important;
+    width: 9.83%;
+}
+
+	
+	}
+	
+	
+	@media(max-width:1660px) {
+	
+	
+
+
+    .community .bottom-img .img-con {
+    border: 4px solid #ebebeb;
+    margin: 0 0.34% 0 0!important;
+    min-height: 174px !important;
+    width: 9.82%;
+}
+
+	
+	}	
+	
+	
+		@media(max-width:1600px) {
+	
+
+
+
+    .community .bottom-img .img-con {
+    border: 4px solid #ebebeb;
+    margin: 0 0.34% 0 0!important;
+    min-height: 160px !important;
+    width: 9.8%;
+}
+
+	
+	}	
+	
+	
+			@media(max-width:1500px) {
+	
+		
+	.community .bottom-img {
+    width: auto;
+  padding-left: 9.9%;
+    padding-right: 5.4%;
+}
+
+
+    .community .bottom-img .img-con {
+    border: 4px solid #ebebeb;
+    margin: 0 0.34% 0 0!important;
+    min-height: 120px !important;
+    width: 9%;
+}
+
+	
+	}	
+
+
+
+			@media(max-width:1360px) {
+	.community .right-text{ margin-right:50px;}
+  .community .bottom-img .img-con {
+    border: 4px solid #ebebeb;
+    margin: 0 0.34% 0 0!important;
+    min-height: 112px !important;
+    width: 9.13%;
+}
+
+	
+	}	
+	
+			@media(max-width:1300px) {
+	
+  .community .bottom-img .img-con {
+    border: 4px solid #ebebeb;
+    margin: 0 0.34% 0 0!important;
+    min-height: 100px !important;
+    width: 8.88%;
+}
+
+	
+	}	
+	
+
+
 </style>
 
+
+
 <div class="experience-body" >
+
     <div class="experience-wrapper">
+
         <div ng-include="'partials/header.html'"></div>
+
     </div>
+
 </div>
 
+
+
 <div class="community">
+
     <h4 ng-show="isConnection">Community</h4>
+
     <h4 ng-hide="isConnection">Friends</h4>
+
     <br /><br />
+
+
 
     <div ng-show="isConnection" class="left-text">Below are individuals that participate in the Torqkd community. To view the sports they follow, place your mouse on their image. Click "connect" to initate a friendship request. </div>
 
+
+
     <div ng-hide="isConnection" class="left-text">Below are all of your Torqkd friends. To remove a friendship connection, place your mouse over the friend's profile picture and click "remove" on the pop-up window. </div>
 
+
+
     <div class="right-text">
+
         <img  src="{{user_image}}" style="float: left;">
+
         <p>
+
             <strong>Pending Friendship</strong><br/>Orange border indicates a pending friendship request
+
         </p>
+
         <div class="clear"></div>
+
     </div>
+
     <div class="clear"></div>
+
     <a ui-sref="profile({userId:userId})" class="back"> Back</a>
 
+
+
     <div class="search-new" style="margin-bottom:50px;">
+
         <div style="float: left;  width:48%;">
+
             <div style="float: none; width:100%; margin-top:0;">
-                <label style="display: block; padding-bottom:4px; width: 100%; float:none; font-weight:normal; color:#333;">Search By Name :</label>
-                <input type="text" ng-model="searchText.user_name" style=" color:#333!important; font-size:13px!important;  background: #fff!important;
 
+                <label style="display: block; padding-bottom:4px; width:100%; float:none; font-weight:normal; color:#333;">Search By Name :</label>
 
+                <input type="text" ng-model="searchText.user_name" style=" color:#333!important; font-size:13px!important;  background: #fff!important;  border: 2px solid #ccc !important; border-radius: 4px !important;  height: 34px !important; width:97.8% !important; float:none; padding:0 5px;">
 
-
-
-
-
-    border: 2px solid #ccc !important;
-
-
-
-
-
-
-
-    border-radius: 4px !important;
-
-
-
-
-
-
-
-    height: 34px !important;
-
-
-
-
-
-
-
-     width: 100% !important; float:none; padding:0 5px;">
                 <div class="clear"></div>
+
             </div>
 
+
+
             <div style="float: none; width:100%; margin-top:30px;">
+
                 <label style="display: block; padding-bottom:4px; width: 100%; float:none; font-weight:normal; color:#333;"> Search By Country :    </label>
-                <select id="select-search-country select-search"  ng-model="searchText.user_country" ng-change="changeCountry(searchText.user_country)" style="background: #fff!important; border: 2px solid #ccc !important; color:#333!important; font-size:13px!important;  border-radius: 4px !important;  height: 34px !important; width: 100% !important; float:none; padding:0 5px;">
+
+                <select id="select-search-country select-search"  ng-model="searchText.user_country" ng-change="changeCountry(searchText.user_country)" style="background: #fff!important; border: 2px solid #ccc !important; color:#333!important; font-size:13px!important;  border-radius: 4px !important;  height: 38px !important; width: 100% !important; float:none; padding:0 5px;">
+
                     <option value="" selected="selected" >Select Country</option>
+
                     <option ng-repeat="item in countrylist  track by item.id" value="{{item.id}}">{{item.name}}</option>
+
                 </select>
+
                 <div class="clear"></div>
+
             </div>
 
+
+
             <div style="float: none; width:100%; margin-top:30px;">
+
                 <label style="display: block; padding-bottom:4px; width: 100%; float:none; font-weight:normal; color:#333;"> Search By State :    </label>
-                <select id="select-search-state select-search"   ng-model="searchText.user_state"  style="  background: #fff!important; border: 2px solid #ccc !important; border-radius: 4px !important; height: 34px !important; width: 100% !important; float:none; padding:0 5px; color:#333!important; font-size:13px!important; ">
+
+                <select id="select-search-state select-search"   ng-model="searchText.user_state"  style="  background: #fff!important; border: 2px solid #ccc !important; border-radius: 4px !important; height: 38px !important; width: 100% !important; float:none; padding:0 5px; color:#333!important; font-size:13px!important; ">
+
                     <option value="" selected="selected" >Select State</option>
+
                     <option ng-repeat="item in statelist track by item.id" value="{{item.id}}">{{item.name}}</option>
+
                 </select>
+
                 <div class="clear"></div>
+
             </div>
+
         </div>
 
+
+
         <div style="float: right;  width:48%;">
+
             <label style="display: block; padding-bottom:4px; width: 100%; float:none; font-weight:normal; color:#333;">Search By Sports :    </label>
+
             <!--<tags-input add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Search By Sports" ng-model="search_user_sports" on-tag-added="sp_tag_add()" on-tag-removed="sp_tag_add()" style="color:#333!important; font-size:13px!important; ">
+
+
 
                 <auto-complete source="loadSports($query)" min-length="1"></auto-complete>
 
+
+
             </tags-input>-->
 
+
+
             <!--<select id="select-search"  ng-model="search_user_sports" ng-change="sp_tag_add()" multiple="multiple" style="  color: #888 !important;
+
     height: 117px !important;
+
     width: 355px !important;  font-size: 14px !important; color: #000 !important; padding:0px 0!important;">
+
             </select>-->
+
             <div class="sports-table" style="background: #fff none repeat scroll 0 0; border: 2px solid #97989a; border-radius: 4px !important; padding: 10px;">
+
                 <div style="height:178px; overflow-y: scroll;">
+
                     <div ng-repeat="n in sportsList">
+
                         <h3 style=" padding-bottom: 5px!important; color: #f8931f; "> {{n.name}}</h3>
+
                         <div style=" padding-bottom: 20px;">
+
                             <div ng-repeat="m in n.ch" style="float: left; width: 30%;">
+
                                 <input type="checkbox" id="sportscheck{{m.id}}" class="sportscheck" name="sportscheck[]" ng-click="sp_tag_add(m.id)">
+
                                 <strong style="font-size: 13px!important;"> {{m.name}}</strong>
+
                             </div>
+
                             <div class="clear"></div>
+
                         </div>
+
                         <div class="clear"></div>
+
                     </div>
+
                 </div>
+
             </div>
+
             <div class="clear"></div>
+
         </div>
 
+
+
         <div class="clear"></div>
+
+
 
         <div style="float: none; width:100%; margin-bottom:10px;">
+
             <input class="activities-submit" type="button" value="RESET" ng-click="resetsearch()">
+
         </div>
 
+
+
         <div class="clear"></div>
+
     </div>
+
+
 
     <div class="bottom-img">
 
+
+
         <div ng-show="tabBodyLoad" class="viewMore" style="width:100%; text-align:center; padding:10px 0;">
+
             <div style="width:118px; margin:0 auto;">
+
                 <img src="images/loading_list.gif"  style="display:block; margin:0 auto;"/>
-            </div>
-        </div>
-        <div ng-show="!tabBodyLoad" class="img-con myParent"  ng-repeat="item in frnddet | filter:searchText" ng-class="(item.status == 1 || item.frnd_type == 1 || item.frnd_type == 2)?'fr_request':''">
-            <div  style=" overflow:hidden;" class="imgdiv" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
-                <img  src="images/checkered.png" lazy-img="{{item.user_image}}">
-            </div>
-            <div class="hover_img4" ng-show="showunFrndDiv" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" style="background: url(../images/hover_div1.png) no-repeat; display: block;">
-                <button class="close">&times;</button>
-                <ul>
-                    <li style="width:98px; float: left;  display:block;" class="mobpimg">
-                        <a ui-sref="profile({userId:item.id})"><img src="{{item.user_image}}" style="max-height:108px!important; max-width:97px!important;"  alt="" /></a>
-                    </li>
-                    <li style="margin-left:0px; width:162px; float: right; display:block;" class="holist2">
-                        <a class="uname222" ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
-                        <div class="clear"></div>
-                        <img ng-repeat="item1 in item.sports | limitTo:6" src="{{item1.imag_name}}" width="25"  alt="" />
-                        <div class="plno" ng-if="item.sports.length > 6">+{{item.sports.length-6}}</div>
-                        <div class="clear"></div>
-                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 1" ng-click="cancel_request(item.frnd_rel_id,$index)"> Cancel Request</a>
-                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 2" ng-click="accept_request(item.frnd_rel_id,$index)"> Accept</a>
-                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 4" ui-sref="profile({userId:item.id})"> View Profile</a>
-                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 0" ng-click="add_friend(item.id,$index)"> Connect +</a>
-                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 1" ng-click="cancel_request1(item.frnd_rel_id,$index)"> Cancel Request</a>
-                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 2" ng-click="accept_request(item.frnd_rel_id,$index)"> Accept</a>
-                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 4"> Friend</a>
-                    </li>
-                </ul>
+
             </div>
 
-        </div> <div class="friend_detail">
-        <a uib-tooltip-html="tooltipVal(item)" tooltip-class="customTooltip" tooltip-placement="bottom">
+        </div>
+
+        <div ng-show="!tabBodyLoad" class="img-con myParent"  ng-repeat="item in frnddet | filter:searchText" ng-class="(item.status == 1 || item.frnd_type == 1 || item.frnd_type == 2)?'fr_request':''" style="height: auto !important;">
+
+            <div  style=" overflow:hidden;" class="imgdiv" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
+
+                <img  src="images/checkered.png" lazy-img="{{item.user_image}}">
+
+            </div>
+
+            <div class="hover_img4" ng-show="showunFrndDiv" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" style="background: url(../images/hover_div1.png) no-repeat; display: block;">
+
+                <button class="close">&times;</button>
+
+                <ul>
+
+                    <li style="width:98px; float: left;  display:block;" class="mobpimg">
+
+                        <a ui-sref="profile({userId:item.id})"><img src="{{item.user_image}}" style="max-height:108px!important; max-width:97px!important;"  alt="" /></a>
+
+                    </li>
+
+                    <li style="margin-left:0px; width:162px; float: right; display:block;" class="holist2">
+
+                        <a class="uname222" ui-sref="profile({userId:item.id})" style="width: 100px;">{{item.user_name}}</a>
+
+                        <div class="clear"></div>
+
+                        <img ng-repeat="item1 in item.sports | limitTo:6" src="{{item1.imag_name}}" width="25"  alt="" />
+
+                        <div class="plno" ng-if="item.sports.length > 6">+{{item.sports.length-6}}</div>
+
+                        <div class="clear"></div>
+
+                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 1" ng-click="cancel_request(item.frnd_rel_id,$index)"> Cancel Request</a>
+
+                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 2" ng-click="accept_request(item.frnd_rel_id,$index)"> Accept</a>
+
+                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 0 && item.frnd_type == 4" ui-sref="profile({userId:item.id})"> View Profile</a>
+
+                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 0" ng-click="add_friend(item.id,$index)"> Connect +</a>
+
+                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 1" ng-click="cancel_request1(item.frnd_rel_id,$index)"> Cancel Request</a>
+
+                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 2" ng-click="accept_request(item.frnd_rel_id,$index)"> Accept</a>
+
+                        <a  class="view-btn1" href="javascript:void(0);" ng-if="isConnection == 1 && item.frnd_type == 4"> Friend</a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="friend_detail">
+
+            <a uib-tooltip-html="tooltipVal(item)" tooltip-class="customTooltip" tooltip-placement="bottom">
+
             <span>{{ item.user_name | limitTo: 30 }}{{item.user_name.length > 30 ? '...' : ''}}</span><br />
+
             {{ item.user_address | limitTo: 30 }}{{item.user_address.length > 30 ? '...' : ''}}
+
         </a>
-    </div>
+
+        </div>
+
         <div class="clear"></div>
+
     </div>
+
 </div>

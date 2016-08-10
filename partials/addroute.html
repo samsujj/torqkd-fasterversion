@@ -73,8 +73,8 @@
         height: 42px !important;
         line-height: 40px;
         text-align: left !important;
-        width: 235px !important;
-        margin-bottom:10px!important;
+        width: 232px !important;
+        margin-bottom:10px!important; color: #888888 !important;
 
     }
 
@@ -83,10 +83,10 @@
     .form-group input[type="text"] {  background-color: #ffffff!important;
         border: 2px solid #97989a !important;
         border-radius: 5px !important;
-        height: 42px !important;
+        height: 39px !important;
         line-height: 40px;
         text-align: left !important;
-        width: 235px !important; margin-bottom:10px!important;}
+        width: 217px !important; margin-bottom:10px!important; padding: 0 6px!important;}
 
 
     #route_description{  border: 2px solid #97989a;
@@ -96,7 +96,7 @@
         height: 66px !important;
         margin-top: 10px;
         padding: 6px !important;
-        width: 235px !important;  background-color: #ffffff!important;margin-bottom:10px!important;}
+        width: 217px !important;  background-color: #ffffff!important;margin-bottom:10px!important;}
 
 
     .savebtn {
@@ -120,8 +120,8 @@
         border-radius: 5px !important;
         float: left !important;
         height: 42px !important;
-        margin-right: 10px !important;
-        width: 71px !important;margin-bottom:10px!important;}
+        margin-right: 8px !important;
+        width: 56px !important;margin-bottom:10px!important;}
 
     #duration-minutes {
         background: #ffffff none repeat scroll 0 0 !important;
@@ -129,8 +129,8 @@
         border-radius: 5px !important;
         float: left !important;
         height: 42px !important;
-        margin-right: 9px !important;
-        width: 71px !important; margin-bottom:10px!important;
+        margin-right: 8px !important;
+        width: 56px !important; margin-bottom:10px!important;
     }
 
     #duration-seconds {
@@ -139,7 +139,7 @@
         border-radius: 5px !important;
         float: left !important;
         height: 42px !important;
-        width: 71px !important; margin-bottom:10px!important;
+        width: 56px !important; margin-bottom:10px!important;
     }
 
     .angular-google-map{ width:100%; height:630px; }
@@ -191,9 +191,32 @@
         width: 80px;
     }
 
+    .ng-isolate-scope button { background: none!important; font-family: Arial!important; font-size: 13px!important;
+        line-height: 20px!important; padding: 6px!important; margin: 0!important;  border: none!important; }
+
+    .ng-isolate-scope th{padding: 6px!important;color: #000!important;}
+
+  .dropdown-menu .btn-group button{ margin: 0px!important;    font-size: 13px!important;
+      line-height: 20px!important;
+      padding: 7px 9px 4px 9px!important;}
+    .ng-isolate-scope .active{    background: #f8931f!important;     color: #000!important;}
+
+    .dropdown-menu .btn { margin: 0px!important;    font-size: 13px!important;
+        line-height: 20px!important;
+        padding: 7px 9px 4px 9px!important;}
+
+    .dropdown-menu:focus{ border: none;}
+
     .ngdialog-content{background-color: #f6f9fa !important;
         border: 5px solid #f7941e !important;
         border-radius: 0 !important;  font-family: veneerregular!important; font-size:18px!important; padding:20px 0!important;}
+
+
+
+    .has-error{
+        overflow: inherit !important;
+    }
+
 </style>
 
 
@@ -301,6 +324,7 @@
                         <input type="text" id="address" name="address" placeholder="CITY / STATE"
 
                                validate-on="blur"
+                               ng-blur="getloc(form.address)"
 
                                class = "form-control input1"
 
@@ -324,7 +348,7 @@
 
 
 
-                <input id="duration-hours" ng-model = "form.durationhours" name="duration-hours" autocomplete="off" placeholder="HH" class="duration" type="text" maxlength="3" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;"/>&nbsp;&nbsp;<input id="duration-minutes" ng-model = "form.durationminutes" name="duration-minutes" placeholder="MM" autocomplete="off" class="duration" type="text" maxlength="2" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />&nbsp;&nbsp;<input id="duration-seconds" name="duration-seconds" ng-model = "form.durationseconds" placeholder="SS" autocomplete="off" class="duration" type="text" maxlength="2" size="2" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />
+                <input id="duration-hours" ng-model = "form.durationhours" name="duration-hours" autocomplete="off" placeholder="HH" class="duration" type="text" maxlength="3" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding:0 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;"/>&nbsp;&nbsp;<input id="duration-minutes" ng-model = "form.durationminutes" name="duration-minutes" placeholder="MM" autocomplete="off" class="duration" type="text" maxlength="2" size="3" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding: 0 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />&nbsp;&nbsp;<input id="duration-seconds" name="duration-seconds" ng-model = "form.durationseconds" placeholder="SS" autocomplete="off" class="duration" type="text" maxlength="2" size="2" style="margin-top:5px;border-radius: 5px; border: 2px solid #97989A; padding:0 6px !important; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #000;" />
 
                 <br><br>
 
