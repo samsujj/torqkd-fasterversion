@@ -11,7 +11,7 @@
         top: 80px;
     }
     .shrink {
-        font-size: 8;
+        font-size: 8px;
     }
     .true:hover {
         background-color: lightgreen;
@@ -58,878 +58,457 @@
     }
 /**************for map [end]************************/
     .mymodalimg .modal-lg{
-
         width: 860px !important;
-
     }
-
     .modal-lg {
-
         background-clip: padding-box;
-
         background-color: #ffffff;
-
         box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-
         outline: medium none;
-
         border: 5px solid #f7941e;
-
         border-radius: 0;
-
     }
-
     .modal-footer .btn-primary{
-
         -webkit-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
-
         -moz-box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
-
         box-shadow: 1px 1px 7px -2px rgba(0,0,0,0.75);
-
         text-shadow:0 1px 1px #fff;
-
     }
-
     .modal-footer .btn-primary:hover{
-
         border-color:#fff;
-
     }
-
     .image-editor .cropit-image-preview {
-
         background: #f8f8f8;
-
         background-size: cover;
-
         border: none;
-
         border-radius: 0px;
-
         width: 300px;
-
         height: 300px;
-
         cursor: move;
-
         margin:0 0 0 25px;
-
     }
-
     .image-editor1 .cropit-image-preview {
-
         background: #f8f8f8;
-
         background-size: cover;
-
         border: none;
-
         border-radius: 0px;
-
         width: 750px;
-
         height: 342px;
-
         cursor: move;
-
         margin:0 0 0 25px;
-
     }
-
     .cropit-image-background {
-
         opacity: .2;
-
         cursor: auto;
-
     }
-
     .image-size-label {
-
         margin-top: 10px;
-
     }
-
     .export {
-
         margin-top: 10px;
-
     }
-	
 	#banner-group {
-    float: left;
-    margin: 0 0 0 -12px!important;
-    width: 90%!important;
-}
-	.top-banner-contain .banner-image{  float: left!important;
-    margin: 0 0 22px 0 !important;
-    padding: 0 !important;
-    width: 100% !important;}
-		.top-banner-contain .banner-imag img{width:100%!important; }
-		
-		
-	 @media screen and (max-width:1666px) {
- 
- #banner-group {
-    width: 89%!important;
-}
- }	
-		
- @media screen and (max-width:1600px) {
- 
- #banner-group {
-    width: 88%!important;
-}
- }
- 
- @media screen and (max-width:1366px) {
- 
- #banner-group {
-    width: 87%!important;
-}
- }	
- 
-  @media screen and (max-width:1280px) {
- 
- #banner-group {
-    width: 86%!important;
-}
- }	
+        float: left;
+        margin: 0 0 0 -12px!important;
+        width: 90%!important;
+    }
+    .top-banner-contain .banner-image{
+        float: left!important;
+        margin: 0 0 22px 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+    .top-banner-contain .banner-imag img{width:100%!important; }
 
-
-  @media screen and (max-width:1260px) {
- 
- #banner-group {
-    width: 86%!important;
-}
- }	
- 
-   @media screen and (max-width:1200px) {
- 
- #banner-group {
-    width: 85%!important;
-}
- }	
- 
+    @media screen and (max-width:1666px) {
+        #banner-group {
+            width: 89%!important;
+        }
+    }
+    @media screen and (max-width:1600px) {
+        #banner-group {
+            width: 88%!important;
+        }
+    }
+    @media screen and (max-width:1366px) {
+        #banner-group {
+            width: 87%!important;
+        }
+    }
+    @media screen and (max-width:1280px) {
+        #banner-group {
+            width: 86%!important;
+        }
+    }
+    @media screen and (max-width:1260px) {
+        #banner-group {
+            width: 86%!important;
+        }
+    }
+    @media screen and (max-width:1200px) {
+        #banner-group {
+            width: 85%!important;
+        }
+    }
     @media screen and (max-width:1100px) {
- 
- #banner-group {
-    width: 84%!important;
-}
- }	
-
+        #banner-group {
+            width: 84%!important;
+        }
+    }
     @media screen and (max-width:1025px) {
- 
- #banner-group {
-    width: 83%!important;
-}
- }	
-
-
-
+        #banner-group {
+            width: 83%!important;
+        }
+    }
 </style>
 
-
-
 <div class="experience-body" elem-ready="someMethod()">
-
     <div class="experience-wrapper">
-
         <!--Top Contain[start]-->
-
         <div ng-include="'partials/header.html'"></div>
-
         <!--Top Contain[end]-->
-
         <div class="experience-leftcontain">
-
             <div class="top-banner-contain" style="margin-top: 10px; padding-top: 0px; width: 100%; margin-bottom: 0;">
-
                 <div class="user-contain2" style=" position: inherit; float: left;">
-
                     <div class="img-contain cngcondiv  cngcondiv2">
-
-                        <img src="http://torqkd.com/uploads/user_image/default_latest_user.jpg" lazy-img="http://torqkd.com/user/ajs1/createimage?width=100&image={{groupDet.imgSrc}}" alt="" class="avatar group-49-avatar" />
-
+                        <img src="{{baseUrl}}/user/ajs1/createimage?width=100&image={{groupDet.imgSrc}}" alt="" class="avatar group-49-avatar" />
                         <div  class="changecover2" style="display: block;"><input ng-show="isAdmin" type="button" value="+" class="upload-btn btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
-
                         </div>
-
                         <!--<input ng-show="isAdmin" type="button" value="+" class="upload-btn btnuptext" ngf-drop ngf-select ng-model="files" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
-
-
-                        <div class="progress" ng-show="files[0].progress >= 0">	<div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div></div>-->
-
+                           <div class="progress" ng-show="files[0].progress >= 0">	<div style="width:{{files[0].progress}}%; background:#F69830;" ng-bind="files[0].progress + '%'"></div></div>-->
                     </div>
-
-
-
                     <a href="javascript:void(0);" uib-tooltip="{{groupDet.sp_name}}">
-
                         <img width="40" height="40" alt="" style=" margin:4px 4px 4px 0; overflow: hidden;" src="{{groupDet.spImgSrc}}">
-
                     </a>
-
                 </div>
-
-                <div class="banner-image cngcondiv" id="banner-group">
-
+                <div class="banner-image2 cngcondiv" id="banner-group">
                     <div id="item-header-content">
-
                         <div class="banner-image" style="margin: 0; width: 100%; height: auto;">
-
-                            <img style="height: auto;" src="http://torqkd.com/uploads/user_image/default_latest_back.jpg" lazy-img="{{groupDet.cover_imageSrc}}" />
-
+                            <img style="height: auto;" src="{{baseUrl}}/user/ajs1/getiamgeencode?image={{groupDet.cover_imageSrc}}" />
                             <div class="changecover3 cnghidpic"><input ng-show="isAdmin" type="button" value="+" class="upload-btn btnuptext" ngf-drop ngf-select ng-model="coverfiles" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera"></div>
-
                         </div>
-
                         <div style="clear:both;"></div>
-
                         <h2 style="color:#737373; padding-left: 0;"><a href="javascript:void(0)">{{groupDet.name}}</a></h2>
-
                         <div id="item-meta" style="padding-left:0px; margin-left:0px; margin-top:14px;">
-
                             <p>{{groupDet.description}}</p>
-
                             <div id="item-buttons"> </div>
-
                         </div>
-
                         <div style="clear:both;"></div>
-
                         <div style="margin: 20px 0 20px 10px; width: 200px; float: right; font-weight:bold; text-align: right;">
-
                             <span class="highlight"> {{groupDet.gType}} </span>
-
                         </div>
-
                         <a class="joingrp1" ng-show="userId && !isMember" style="width:auto;background: none; border: none; color: #4f5052!important; line-height: 16px!important; padding: 0px; margin: 20px 0 0; box-shadow: none; font-size: 17px!important" href="javascript:void(0);" ng-click="joingroup(groupDet.id)"> Join</a>
-
                         <a class="joingrp1" ng-show="userId && isMember" style="line-height: 16px!important; text-transform:none; width:auto;background: none; border: none; color: #777!important; padding: 0px; box-shadow: none; font-size:11px !important; margin-top: 20px; font-weight: bold; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;" href="javascript:void(0);" ng-click="isLeaveGrp = !isLeaveGrp"> Joined<img src="images/icon-arrow-down.png" height="11" width="11" style="width:11px;"> </a>
-
                         <div ng-show="userId && isMember && isLeaveGrp" class="newlinkdiv"><a href="javascript:void(0);" ng-click="leavegroup(groupDet.id)" > Leave Group</a></div>
-
                     </div>
-
                 </div>
-
             </div>
-
             <div class="clear"></div>
-
-            <div class="spot-search-contain" style="width:100%; float:none;  ">
-
+            <div class="spot-search-contain" style="width:100%; float:none; margin-top:30px;  ">
                 <div class="search-left2">
-
                     <h3>Members :</h3>
-
                     <div class="community-div">{{groupDet.member_det.length}}</div>
-
                     <div class="img-div2 myParent" ng-repeat="item in groupDet.member_det | limitTo:6" style="width:40px; height: auto; margin-top: 5px;" ng-mouseenter="showFrndDiv = true" ng-mouseleave="showFrndDiv = false">
-
                         <!--<img src="images/checkered.png" lazy-img="{{item.user_image}}"  alt="" class="img2" width="32" style="margin-right:1px;" />-->
-
                         <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle; background-image: url(http://torqkd.com/user/ajs1/createimage?width=40&image={{item.user_image}}); background-size: cover;"></div>
-
                         <div class="hover_img" style="height: auto; background: url(images/hover_div1.png) no-repeat; left:-5px;" ng-show="showFrndDiv">
-
                             <ul>
-
                                 <li style="margin: -3px 0 0 -5px; height:110px; width:98px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{item.user_image}}); background-size: cover;" ng-click="gotoProfile(item.id)">
-                                   <!-- <img src="{{item.user_image}}"  alt="" style="max-height:110px; max-width:98px; margin: -3px 4px 0 -3px;" />-->
+                                    <!-- <img src="{{item.user_image}}"  alt="" style="max-height:110px; max-width:98px; margin: -3px 4px 0 -3px;" />-->
                                 </li>
-
                                 <li style="margin-left:0px; width:162px; float: right; display:block;">
-
                                     <a style="width: 100px;" ui-sref="profile({userId:item.id})">{{item.user_name}}</a>
-
                                     <div class="clear"></div>
-
                                     <!--<img ng-repeat="item1 in item.sports track by item1.id" src="{{item1.imag_name}}" width="24"  alt=""  style="margin-right:1px;"/>-->
-
                                     <div ng-repeat="item1 in item.sports" style="float: left; margin-bottom:4px; margin-right: 4px; height: 25px; width: 25px; background-image: url(http://torqkd.com/user/ajs1/createimage?width=24&image={{item1.imag_name}}); background-size: cover;"></div>
-
                                     <a ui-sref="profile({userId:item.id})" style="left:125px;top:97px;display: inline-block; height: 15px;  float: left; color:#F7921D; text-transform:none; font-weight: normal; font-family:Arial, Helvetica, sans-serif; font-size: 10px; text-align: center; padding: 5px; line-height:15px;position: absolute; ">See More</a>
-
                                     <a style="color:#f7931e;  display:inline-block; position: absolute; right:30px; bottom:18px; " ng-show="isAdmin" href="javascript:void(0);" ng-click="removeGroup(item)"> Remove</a>
-
                                 </li>
-
                             </ul>
-
                         </div>
-
                     </div>
-
                     <!--<input type="button"  class="see-btn" value="See More" />-->
-
                     <input type="button"  class="see-btn" ng-click="gotogroupmember(groupDet.id)" value="See More" />
-
                     <!--<a ui-sref="groupmember({groupId:groupDet.id})" class="see-btn">See More</a>-->
-
                     <div class="clear"></div>
-
                     <h3 style="margin-top: 3px;">Invite :</h3>
-
                     <div class="community-div">{{groupDet.notmember_det.length}}</div>
-
                     <div class="img-div2 myParent" style="height: auto; margin-top: 5px; width: 40px;" ng-repeat="item in groupDet.notmember_det | limitTo:6" ng-mouseenter="showFrndDiv = true" ng-mouseleave="showFrndDiv = false">
-
                         <!--<img src="images/checkered.png" lazy-img="{{item.user_image}}"  alt="#" class="img2" width="32"  style="margin-right:1px;"/>-->
                         <div style="width: 40px; height: 45px; display: table-cell; text-align: center; vertical-align: middle; background-image: url(http://torqkd.com/user/ajs1/createimage?width=40&image={{item.user_image}}); background-size: cover;"></div>
-
                         <div class="hover_img" style="height: auto; background: url(images/hover_div1.png) no-repeat; left:-5px;" ng-show="showFrndDiv">
-
                             <ul>
-
                                 <li style="margin: -3px 0 0 -5px; height:110px; width:98px; background-image: url(http://torqkd.com/user/ajs1/createimage?image={{item.user_image}}); background-size: cover;" ng-click="gotoProfile(item.id)">
                                     <!--<img src="{{item.user_image}}"  alt="" style="max-height:110px; max-width:98px; margin: -3px 4px 0 -3px;" />-->
                                 </li>
-
                                 <li style="margin-left:0px; width:162px; float: right; display:block;">
-
                                     <a style="width: 100px;" ui-sref="profile({userId:item.id})">{{item.user_name}}</a>
-
                                     <div class="clear"></div>
-
                                     <!--<img ng-repeat="item1 in item.sports track by item1.id" src="{{item1.imag_name}}" width="24"  alt="#" style="margin-right:1px;" />-->
                                     <div ng-repeat="item1 in item.sports" style="float: left; margin-bottom:4px; margin-right: 4px; height: 25px; width: 25px; background-image: url(http://torqkd.com/user/ajs1/createimage?width=24&image={{item1.imag_name}}); background-size: cover;"></div>
-
                                     <a ui-sref="profile({userId:item.id})" style="left:125px;top:97px;display: inline-block; height: 15px;  float: left; color:#F7921D; text-transform:none; font-weight: normal; font-family:Arial, Helvetica, sans-serif; font-size: 10px; text-align: center; padding: 5px; line-height:15px;position: absolute; ">See More</a>
-
                                     <a style="color:#f7931e;  display:inline-block; position: absolute; right:30px; bottom:18px; " ng-show="isAdmin" href="javascript:void(0);" ng-click="joinGroup555(item)"> INVITE</a>
-
                                 </li>
-
                             </ul>
-
                         </div>
-
                     </div>
-
                     <!--<input type="button"  class="see-btn2" value="Connect" />-->
-
                     <!--<a ui-sref="groupnonmember({groupId:groupDet.id})" class="see-btn2" >Connect</a>-->
-
                     <input type="button" style="padding: 0 0 0 11px;" class="see-btn2" ng-click="gotogroupnonmember(groupDet.id)" value="Connect"/>
-
                 </div>
-
                 <div class="clear"></div>
-
             </div>
-
             <div class="status-menu" style="margin-top:20px!important;background-color: #fff;">
-
                 <div class="text-box" id="text-box">
-
                     <img id="loading_indicator" ng-show="getExactRunning ==1" src="images/ajax_loading.gif" width="16" height="11">
-
                     <textarea ng-keyup="tetshigh($event)" ng-focus="openStatusInput()" ng-keypress="resizeTextarea1($event); chnagestatusval($event)" ng-blur="chnagestatusval($event)" id="statusText" ng-model="statusText" placeholder="STATUS UPDATE" style="box-shadow:none;"></textarea>
-
                 </div>
-
                 <div class="menu1" id="staus_video" style="cursor: pointer;"> +<br />
-
                     <a href="javascript:void(0)" ng-click="addVideo()" style="color: #fff;">VIDEO</a>
-
                 </div>
-
                 <div class="menu2" id="staus_photo" style="cursor: pointer;"> +<br />
-
                     <a href="javascript:void(0)" ng-click="addPhoto()"  style="color: #fff;">Photo</a>
-
                 </div>
-
                 <div class="menu1 mobview" style=" opacity:0.6;">
-
                     <a ui-sref="addevent"  style="color: #fff; display: block;">+<br />
-
                         EVENTS
-
                     </a>
-
                 </div>
-
                 <div class="menu2 mobview" style=" opacity:0.9; background:#b29683;">
-
                     <a ui-sref="addgroup"  style="color: #fff; display: block;">+<br />
-
                         GROUP
-
                     </a>
-
                 </div>
-
                 <div class="clear"></div>
-
             </div>
-
             <div id="extracted_url"></div>
-
             <div class="status-input">
-
                 <div ng-show="isPhoto">
-
                     <div style="padding:10px 0 0px 2px!important;">
-
                         <input type="button" class="browsebtn browsebtntab" value="Drop files here to upload or click to browse" ngf-drop ngf-select ng-model="statusImage" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
-
                         <br>
-
                         <div class="progress" ng-show="statusImage[0].progress >= 0">
-
                             <div style="width:{{statusImage[0].progress}}%; background:#F69830;" ng-bind="statusImage[0].progresstext"></div>
-
                             <div style="clear:both;"></div>
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div ng-if="photoval">
-
                     <div style="padding:10px 10px 0 10px;"> <img ng-src="{{photoval == 'images/fileloader.gif' && photoval || baseUrl+'/uploads/status_img/'+photoval}}" /> </div>
-
                 </div>
-
                 <div ng-show="isVideo">
-
                     <div style="padding:15px 15px 6px 15px!important;">
-
                         <input type="text" placeholder="Type to search YouTube" ng-model="youtubeTxt" id="youtubeTxt" class="searchbox searchboxtab" style="text-align:center;" ng-enter="youtubeSearch()" >
-
                         <br>
-
                         <div  class="btnor mob-search-or2">OR</div>
-
                         <input class="browsebtn browsebtntab" type="button" value="Drop files here to upload or click to browse" ngf-drop ngf-select ng-model="statusVideo" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'video/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
-
                         <div class="progress" ng-show="statusVideo[0].progress >= 0">
-
                             <div style="width:{{statusVideo[0].progress}}%; background:#F69830;" ng-bind="statusVideo[0].progresstext"></div>
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div ng-if="videoval1">
-
                     <div style="margin-bottom:10px;" class="embed-responsive embed-responsive-16by9 video-wrapper">
-
                         <youtube-video class="embed-responsive-item" video-id="videoval1"></youtube-video>
-
                     </div>
-
                 </div>
-
                 <div ng-if="videoval2"> <img ng-if="videoval2 == 'images/fileloader.gif'" src="{{videoval2}}" />
-
                     <videogular ng-if="videoval2 != 'images/fileloader.gif'" ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+videoval2), type: 'video/mp4'}]" >
-
                         <vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
-
                     </videogular>
-
                 </div>
-
                 <div ng-if="videoval3 == 1 && !videoval2">
-
                     <div style="position: relative;">
-
                         <img src="{{baseUrl}}/uploads/video/temp/{{videoTempval}}" />
-
                         <a href="http://torqkd.com?redirectvideoplay={{localfilepath}}">
-
                             <img src="images/playVideo.png" style="position: absolute; width: 20%;  left:40%; top:40%;" />
-
                         </a>
-
                     </div>
-
                 </div>
-
                 <div ng-show="isStatusInput">
-
                     <div class="status_content"></div>
-
                     <div class="btngroup" style="padding:15px 0!important;">
-
                         <select id="share_with" ng-model="share_with">
-
                             <option value="1">Community</option>
-
                             <option value="2">Friends</option>
-
                             <option value="3">Friends Of Friends</option>
-
                             <option value="4">Private Me Only</option>
-
                         </select>
-
                         <input type="button" ng-show="isRotateBtn==1" class="rotatebutl" ng-click="imgRotate(1)"  style=" background: url(images/rtal.png) no-repeat !important;   box-shadow: 0 0 2px #888!important; float: left !important; height: 34px !important; width: 114px !important; padding:0!important; border:solid 1px #fff!important; margin:8px 0 0 10px!important;  font-weight:normal!important;" >
-
                         <input type="button" ng-show="isRotateBtn==1" class="rotatebutr" ng-click="imgRotate(2)"  style=" background: url(images/rtar.png) no-repeat !important;  box-shadow: 0 0 2px #888!important; float: right !important; height: 34px !important; width: 114px !important; padding:0!important; border:solid 1px #fff!important; margin:8px 10px 0 0!important;  font-weight:normal!important;" >
-
                         <input type="button" value="cancel" ng-click="cancelStatus()" class="newphotobtn" style="background: #f7931e!important; border: 3px solid #fff !important; box-shadow: 0 0 2px #888 !important; color: #414151 !important; display: block; float: left !important; font-size: 16px !important; font-style: normal; height: 34px !important; margin: 8px 0 0 10px!important; padding: 0 !important; width: 114px !important; font-weight:normal!important;">
-
                         <input group_id="0" type="button" value="POST" ng-click="postStatus()"  class="newphotobtn"  style="background: #f7931e!important; border: 3px solid #fff !important; box-shadow: 0 0 2px #888 !important; color: #414151 !important; display: block; float: right !important; font-size: 16px !important; font-style: normal; height: 34px !important; margin: 8px 10px 0 0!important; padding: 0 !important; width: 114px !important; font-weight:normal!important;">
-
                         <div class="clear"></div>
-
                     </div>
-
                 </div>
-
                 <div class="clear"></div>
-
             </div>
-
             <!--<div ng-include="'partials/mapcontent.html'" ></div>-->
             <div style="width:100%; height:20px; overflow:hidden;"></div>
             <div class="mapcontain" style="border: solid 8px #fff;  position: relative; min-height: 444px;">
-
-
-
                 <div class="iframe_h2">Events</div>
-
                 <div ng-show="mapfullnotload" class="viewMore" style="width:100%; position: absolute; z-index: 99!important; height: 90%; background: url('../images/img-transparent.png'); text-align:center; padding:0;"> <img src="images/videoloader.gif"  style="display: block; margin:0 auto; margin-top: 20%;"/></div>
-
                 <div id="map-canvas">
-
                     <ui-gmap-google-map id="rootmap"
-
                                         center="rootmap.center"
-
                                         pan="rootmap.pan"
-
                                         zoom="rootmap.zoom"
-
                                         bounds="rootmap.bounds"
-
                                         events="rootmap.events"
-
                                         draggable="true"
                                         options="rootmap.options"
-
                             >
-
-                        <ui-gmap-markers models="rootmap.markers" coords="'self'" icon="'icon'" idkey='id' events="rootmap.markerEvents" >
-                        </ui-gmap-markers>
-                        <!-- <ui-gmap-markers models="map.dynamicMarkers" coords="'self'" icon="'icon'" idkey='id' events="map.markerEvents" >
-                         </ui-gmap-markers>-->
-
-
-
-
-
+                        <ui-gmap-markers models="rootmap.markers" coords="'self'" icon="'icon'" idkey='id' events="rootmap.markerEvents" ></ui-gmap-markers>
+                        <!-- <ui-gmap-markers models="map.dynamicMarkers" coords="'self'" icon="'icon'" idkey='id' events="map.markerEvents" ></ui-gmap-markers>-->
                         <ui-gmap-window
-
                                 idKey="rootmap.openedCanadaWindows.id"
-
                                 coords ='rootmap.openedCanadaWindows'
-
                                 show="rootmap.openedCanadaWindows.doShow"
-
                                 closeclick="rootmap.openedCanadaWindows.closeClick">
-
                             <div id="infoWin">
-
                                 <div event_id="1450" red_link="http://torqkd.com/user/default/event-details/id/" class="infow" onclick="ssss(this)" style="cursor:pointer;">
-
                                     <h1 class="firstHeading" id="firstHeading">
-
                                         {{rootmap.openedCanadaWindows.name}}<br>
-
                                         <span>{{rootmap.openedCanadaWindows.address}}</span><br>
-
                                         <span>{{rootmap.openedCanadaWindows.date}}</span>
-
                                     </h1>
-
                                 </div>
-
                             </div>
-
                         </ui-gmap-window>
-
-
-
-
-
                     </ui-gmap-google-map>
-
-
-
-
-
                 </div>
-
-
-
             </div>
-
             <div ng-include="'partials/group_tab.html'"></div>
-
         </div>
-
-
-
         <div class="experience-rightcontain">
-
             <div class="link1"><a ui-sref="addroute">MAP YOUR ROUTE</a></div>
-
             <div class="link2"><a ui-sref="grouproutes({groupId:groupDet.id})">VIEW ROUTES</a></div>
-
             <div class="albums">
-
                 <a href="javascript:void(0);" ui-sref="groupalbum({groupId:groupDet.id})">
-
                     <!--<img src="images/hs1-0-02.jpg"  alt="" />-->
                     <div style="width: 100%; height: 207px; background-image: url('images/hs1-0-02.jpg'); background-size: cover;"></div>
-
                     <h2 style="bottom:40px;">ALBUMS</h2>
-
                 </a>
-
                 <div style="background: #000000; width: 100%; padding:13px 0 10px 0;">
-
                     <div class="daily_photo_text" style="position: relative; top: 0px; float: left; margin-left: 10px; background-image: none;">
-
                         <a style="font-size: 13px; color:#F7941D; font-family:veneerregular; letter-spacing:4px;" ui-sref="groupalbum({groupId:groupDet.id})">Photos & Videos </a>
-
                     </div>
-
                     <div class="clear" data-original-title=""></div>
-
                 </div>
-
             </div>
-
             <!--<div ng-include="'partials/maintv.html'"></div>-->
-
             <div class="link2" style="margin-bottom:0;"><a ui-sref="forumlist">FORUMS</a></div>
-
             <div class="foroms-contain">
-
                 <div ng-repeat="item in forumList">
-
                     <strong><a style="padding-left: 0 !important;" href="javascript:void(0);">{{item.title}}</a></strong><br />
-
                     <span style="padding-left: 30px !important;">{{item.time}} ({{item.reply_no}} Replies)</span><br>
-
                 </div>
-
             </div>
-
             <div class="albums albums-btn">
-
                 <a  href="javascript:void(0);" onClick="showdailypoll()">
                     <!--<img alt="" src="{{baseUrl}}/uploads/pollbanner/{{mainbanner}}">-->
                     <div style="width: 100%; height: 290px; background-image: url({{baseUrl}}/uploads/pollbanner/{{mainbanner}}); background-size: cover;"></div>
-
                     <h2 style="padding-top:10px; padding-bottom:10px;">DAILY POLL</h2>
-
                 </a>
-
             </div>
-
             <div ng-include="'partials/chatList.html'"></div>
-
             <div class="banner2" style="height: auto;">
-
                 <div class="adspace">
-
                     <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
-                        <a ng-repeat="item in bannerslides2 track by item.id"  href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides2 track by item.id"  href="javascript:void(0);" ng-click="openBanner(item.banner_url)" adv_id="{{item.id}}">
                             <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
                             <div class="bannerdiv225" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>
                     </simple-slider>
-
                 </div>
-
             </div>
-
             <div class="banner3" style="height: auto">
-
                 <div class="adspace">
-
                     <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
-                        <a ng-repeat="item in bannerslides3 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides3 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)" adv_id="{{item.id}}">
                             <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
                             <div class="bannerdiv225" style="background-image: url(http://torqkd.com/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>
                     </simple-slider>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
     <div class="clear"></div>
-
 </div>
 
-
-
 <script type="text/ng-template" id="youtubeVideo">
-
     <div class="ngdialog-message">
-
         <h4>Select Video</h4>
-
         <div class="youtubeVideo">
-
             <img src="images/youtube_close.png" style="cursor: pointer;"  alt="" class="videopopupclose ngdialog-close" />
-
             <div ng-repeat="c in vids">
-
                 <div style="margin-bottom:10px;" class="embed-responsive embed-responsive-16by9 video-wrapper" >
-
                     <youtube-video class="embed-responsive-item" video-id="c.id.videoId"></youtube-video>
-
                     <!--<img src="https://i.ytimg.com/vi/{{c.id.videoId}}/mqdefault.jpg" width="100%">
-
-                    <img src="images/youtube-playbtn.png" class="paly_video"  ng-click="playYvideo(c.id.videoId)" style="cursor:pointer;">-->
-
+                      <img src="images/youtube-playbtn.png" class="paly_video"  ng-click="playYvideo(c.id.videoId)" style="cursor:pointer;">-->
                 </div>
-
                 <h1>{{c.snippet.title}}</h1>
-
                 <a href="javascript:void(0)" ng-click="addYtVideo(c)" class="vidAddBtn">ADD</a>
-
             </div>
-
         </div>
-
     </div>
-
 </script>
-
-
 
 <script type="text/ng-template" id="mymodal">
-
     <div class="modal-header">
-
         <a class="close" ng-click="modalClose()">&times;</a>
-
         <h4>&nbsp;</h4>
-
     </div>
-
     <div class="modal-body">
-
         <div ng-show="pLoad">Loading Image...<img src="images/ajax_loading.gif" ></div>
-
         <div class="image-editor">
-
             <div style="overflow:hidden; width:400px; margin:0 auto;">
-
                 <div class="cropit-image-preview-container">
-
                     <div class="cropit-image-preview" ng-mousemove="changepreview()"></div>
-
                 </div>
-
             </div>
-
             <div style="margin-top:20px;">
-
                 <input type="range" class="cropit-image-zoom-input" name="range" ng-model="range" ng-change="changepreview()">
-
             </div>
-
         </div>
-
         <div style="overflow:hidden; margin:10px auto; margin-top:14px; display:block; width:300px;">
-
             <img src="{{imagedata1}}" ng-show="imagedata1">
-
         </div>
-
     </div>
-
     <div class="modal-footer">
-
         <div style="width:200px; margin:0 auto;">
-
             <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop123()" style="width:100px; margin:4px;">Crop & Save</a>
-
             <!--<a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="" style="width:62px; margin:4px;">Close</a>-->
-
         </div>
-
     </div>
-
 </script>
 
-
-
-
-
 <script type="text/ng-template" id="mymodal1">
-
     <div class="modal-header">
-
         <a class="close" ng-click="modalClose()">&times;</a>
-
         <h4>&nbsp;</h4>
-
     </div>
-
     <div class="modal-body">
-
         <div ng-show="pLoad">Loading Image...<img src="images/ajax_loading.gif" ></div>
-
         <div class="image-editor1">
-
             <div style="overflow:hidden; width:100%; margin:0 auto;">
-
                 <div class="cropit-image-preview-container">
-
                     <div class="cropit-image-preview" ng-mousemove="changepreview()"></div>
-
                 </div>
-
             </div>
-
             <div style="margin-top:20px;">
-
                 <input type="range" class="cropit-image-zoom-input" name="range" ng-model="range" ng-change="changepreview1()">
-
             </div>
-
         </div>
-
         <div style="overflow:hidden; margin:10px auto; margin-top:14px; display:block; width:750px;">
-
             <img src="{{imagedata11}}" ng-show="imagedata11">
-
         </div>
-
     </div>
-
     <div class="modal-footer">
-
         <div style="width:200px; margin:0 auto;">
-
             <a href="javascript:void(0);" class="btn btn btn-primary" ng-click="crop1231()" style="width:100px; margin:4px;">Crop & Save</a>
-
             <!--<a href="javascript:void(0);" class="btn btn btn-primary" ng-click="modalClose()" data-original-title="" style="width:62px; margin:4px;">Close</a>-->
-
         </div>
-
     </div>
-
 </script>

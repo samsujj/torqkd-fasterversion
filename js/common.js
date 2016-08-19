@@ -1,3 +1,39 @@
+$( window ).resize(function() {
+
+setuserwith1();
+});
+
+
+function setuserwith1(){
+		var windowWidth = $(window).width();
+		
+		var mainwidth = $('.community').width();
+		
+		var divwidth = $('.bottom-imgmain').width();
+		
+		console.log(divwidth);
+		if(divwidth){
+			var divmargin = parseInt(mainwidth-divwidth);
+			
+			var divmarginleft = parseInt(divmargin / 2);
+	
+	  $(".bottom-imgmain").css("margin-left", divmarginleft);
+	  		console.log('success');
+		}else{
+			setTimeout(function(){
+				setuserwith1();
+			},3000);
+		}
+
+        
+	}
+
+$(document).ready(function() {
+setuserwith1()
+});
+
+
+
 function setValue(obj){
 
     $('#lat').val(obj);

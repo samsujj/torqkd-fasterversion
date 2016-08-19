@@ -16,6 +16,9 @@
         padding:3px 12px;
         animation:0.5s ease 0s normal none 1 running ngdialog-flyin;
     }
+    .gm-style-cc{
+        display:none;
+    }
 </style>
 
 <div class="experience-body" style="margin-top: 0px;">
@@ -77,7 +80,7 @@
                         </div>
 
                         <div class="rowthree" id="map{{item.id}}">
-                            <ui-gmap-google-map center="item.map.center" zoom="item.map.zoom" pan="true" draggable="true">
+                            <ui-gmap-google-map center="item.map.center" zoom="item.map.zoom" options="item.map.mapOptions" pan="true" draggable="true">
                                 <ui-gmap-markers models="item.marker" coords="'self'" icon="'icon'" idkey='id' ></ui-gmap-markers>
                                 <ui-gmap-polyline ng-if="item.location.length" path="item.location" draggable="false" geodesic="true" stroke="item.map.lineStyle" fit="true"></ui-gmap-polyline>
                             </ui-gmap-google-map>

@@ -210,7 +210,7 @@
                     <carousel class="vertical" interval="7000">
                         <slide ng-repeat="slideCollection in groupedSlides" active="slide.active">
                             <div class="scrolldiv">
-                                <img src="{{baseUrl}}/uploads/sports_image/default_sp_1.jpg" lazy-img="{{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide1.image}}"   alt="#" />
+                                <img src="{{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide1.image}}"   alt="#" />
                                 <h2>{{slideCollection.slide1.sport_name}}</h2>
                                 <span style="z-index: 999 !important;">
                                     <div class="more" style="z-index: 999 !important;">
@@ -220,7 +220,7 @@
                                 </span>
                             </div>
                             <div class="scrolldiv">
-                                <img src="{{baseUrl}}/uploads/sports_image/default_sp_1.jpg" lazy-img="{{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide2.image}}"   alt="#" />
+                                <img src="{{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide2.image}}"   alt="#" />
                                 <h2>{{slideCollection.slide2.sport_name}}</h2>
                                 <span style="z-index: 999 !important;">
                                     <div class="more" style="z-index: 999 !important;">
@@ -230,7 +230,7 @@
                                 </span>
                             </div>
                             <div class="scrolldiv">
-                                <img src="{{baseUrl}}/uploads/sports_image/default_sp_1.jpg" lazy-img="{{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide3.image}}"   alt="#" />
+                                <img src="{{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}//uploads/sports_image/additional/thumb/{{slideCollection.slide3.image}}"   alt="#" />
                                 <h2>{{slideCollection.slide3.sport_name}}</h2>
                                 <span style="z-index: 999 !important;">
                                     <div class="more" style="z-index: 999 !important;">
@@ -267,7 +267,7 @@
 
             <div class="banner2" style="height: auto;">
                 <div class="adspace">
-                    <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                    <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides2 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)" adv_id="{{item.id}}">
                         <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
                         <div class="bannerdiv225" style=" background-image: url({{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                     </a>
@@ -277,7 +277,8 @@
 
             <div class="banner3" style="height: auto">
                 <div class="adspace">
-                    <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0"> <a ng-repeat="item in bannerslides3 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                    <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
+                        <a ng-repeat="item in bannerslides3 track by item.id" href="javascript:void(0);" ng-click="openBanner(item.banner_url)" adv_id="{{item.id}}">
                        <!-- <img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
                         <div class="bannerdiv225" style=" background-image: url({{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                     </a>

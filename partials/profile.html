@@ -204,6 +204,12 @@
 
     }
 
+    .default-cover-image{
+        outline: 7px solid #ffffff;
+        outline-offset: -7px;
+        cursor: pointer;
+    }
+
 </style>
 
 
@@ -255,10 +261,8 @@
 
             </div>
 
-            <div class="banner-image cngcondiv" elem-ready="someMethod()">
-
+            <div class="banner-image cngcondiv" elem-ready="someMethod()" ng-class="{'default-cover-image': userDet.user_cover_image== 'http://torqkd.com/uploads/user_image/background/thumb/default.jpg'}" ng-click="defaultcoverimage()">
                 <img style="height: auto; max-width: 100%" src="{{baseUrl}}/user/ajs1/getiamgeencode?image={{userDet.user_cover_image}}&version={{ctime222}}" imageonload />
-
                <!-- <loaded-img style="height: auto; max-width: 100%" lazy-img="{{userDetImage[1].path}}" src="images/tr_bg_1175_536.png" onloadimg="item.callback(item)" imageonload></loaded-img>-->
                 <!--<loaded-img style="height: auto; max-width: 100%" isrc="userDetImage[1].path" onloadimg="item.callback(item)" imageonload></loaded-img>-->
 
@@ -778,7 +782,7 @@
 
                     <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
 
-                        <a ng-repeat="item in bannerslides2" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides2" href="javascript:void(0);" ng-click="openBanner(item.banner_url)" adv_id="{{item.id}}">
 
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
 
@@ -800,7 +804,7 @@
 
                     <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
 
-                        <a ng-repeat="item in bannerslides3" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides3" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)" adv_id="{{item.id}}">
 
                             <!--<img src="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}"  />-->
 
@@ -877,3 +881,4 @@
 
 </script>
 <img src="images/emojis.png" style="display: none;">
+

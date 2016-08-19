@@ -234,7 +234,7 @@
             <div class="banner2" style="height: auto;">
                 <div class="adspace">
                     <simple-slider class="gallery2" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
-                        <a ng-repeat="item in bannerslides2 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides2 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)"  adv_id="{{item.id}}">
                             <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
                             <div class="bannerdiv225" style="background-image: url({{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>
@@ -245,7 +245,7 @@
             <div class="banner3" style="height: auto;">
                 <div class="adspace">
                     <simple-slider class="gallery3" transition-property="opacity" start-value="0" visible-value="1" end-value="0">
-                        <a ng-repeat="item in bannerslides3 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)">
+                        <a ng-repeat="item in bannerslides3 track by item.id" style="bottom: 0;" href="javascript:void(0);" ng-click="openBanner(item.banner_url)"  adv_id="{{item.id}}">
                             <!--<img src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}" />-->
                             <div class="bannerdiv225" style="background-image: url({{baseUrl}}/user/ajs1/createimage?image={{baseUrl}}/uploads/advertise_image/thumb/{{item.b_image}}); background-size: cover;"></div>
                         </a>

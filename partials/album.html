@@ -107,7 +107,12 @@
         <div ng-include="'partials/header.html'"></div>
         <!--Top Contain[end]-->
         <div class="photos-body" style="margin-top: 10px;">
-            <div class="top-text" style="font-size:24px; line-height: 19px; margin-right:5px; padding: 11px 10px 8px 10px; float:left">Photos & Videos</div>
+        
+          <div style="background:#58595b; height:38px;">
+            <div class="top-text" style="font-size:24px; line-height: 19px; margin-right:5px; padding: 11px 10px 8px 10px; background:none; width:300px!important;">Photos & Videos</div>
+          
+          
+           <div style="width:123px; float:right; border-left:solid 25px #ebebeb;"> 
             <span ng-show="currentphotoTab == 'photo.tpl.html' && userId == sessUser">
                 <input type="button" class="browsebtn browsebtntab" value="UPLOAD" ngf-drop ngf-select ng-model="image" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'image/*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
             </span>
@@ -127,6 +132,12 @@
 
     width: 123px !important;" >Add</a>
             <div style="clear:both;"></div>
+            
+             </div>
+             <div style="clear:both;"></div>
+            </div>
+            
+            
             <div class="progress" style="margin-bottom: 5px !important; margin-top: 5px !important;" ng-show="image[0].progress >= 0">	<div style="width:{{image[0].progress}}%; background:#F69830; font-size: 16px;padding-left:10px;" ng-bind="image[0].progresstext"></div></div>
             <div class="status-input" ng-show="isStatusInput" style="overflow:hidden;" >
                 <div style="padding: 5px;">

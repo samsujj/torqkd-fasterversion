@@ -52,16 +52,18 @@
 
     }
 	
-	.community .bottom-img{ width:auto;}
+	.community .bottom-img{ width:auto; margin:0 auto;}
+
+.community .bottom-imgmain{ width:1540px; margin:0 auto;}
 
 .community .right-text{ margin-right:70px;}
 
 
     .community .bottom-img .img-con {
     border: 4px solid #ebebeb;
-    margin: 0 0.34% 0 0!important;
-    min-height: 198px !important;
-    width: 9.9%;
+    margin: 5px!important;
+   min-height: 151px !important;
+    width: 134px;  position:relative;
 }
 
     .community .bottom-img .img-con img{
@@ -262,96 +264,44 @@
 	@media(max-width:1680px) {
 	
 	.community .right-text{ margin-right:60px;}
-
-
-    .community .bottom-img .img-con {
-    border: 4px solid #ebebeb;
-    margin: 0 0.34% 0 0!important;
-    min-height: 174px !important;
-    width: 9.83%;
-}
-
 	
+		.community .bottom-imgmain{ width:1230px; margin:0 auto;}
 	}
 	
 	
-	@media(max-width:1660px) {
+   
+	
+@media(max-width:1380px) {
 	
 	
-
-
-    .community .bottom-img .img-con {
-    border: 4px solid #ebebeb;
-    margin: 0 0.34% 0 0!important;
-    min-height: 174px !important;
-    width: 9.82%;
+	.community .bottom-imgmain{ width:1072px; margin:0 auto;}
 }
 
-	
-	}	
-	
-	
-		@media(max-width:1600px) {
-	
+
+ 
 
 
-
-    .community .bottom-img .img-con {
-    border: 4px solid #ebebeb;
-    margin: 0 0.34% 0 0!important;
-    min-height: 160px !important;
-    width: 9.8%;
+@media(max-width:1360px) {
+	.community .right-text{ margin-right:45px;}
+	
+	.community .bottom-imgmain{ width:920px; margin:0 auto;}
 }
 
-	
-	}	
-	
-	
-			@media(max-width:1500px) {
+
+
+@media(max-width:1280px) {
+.community .right-text{ margin-right:40px;}
+.community .bottom-imgmain{ width:768px; margin:0 auto;}
+}
+
+@media(max-width:1024px) {
+
+.community .bottom-imgmain{ width:618px; margin:0 auto;}
+}
 	
 		
-	.community .bottom-img {
-    width: auto;
-  padding-left: 9.9%;
-    padding-right: 5.4%;
-}
-
-
-    .community .bottom-img .img-con {
-    border: 4px solid #ebebeb;
-    margin: 0 0.34% 0 0!important;
-    min-height: 120px !important;
-    width: 9%;
-}
-
 	
-	}	
-
-
-
-			@media(max-width:1360px) {
-	.community .right-text{ margin-right:50px;}
-  .community .bottom-img .img-con {
-    border: 4px solid #ebebeb;
-    margin: 0 0.34% 0 0!important;
-    min-height: 112px !important;
-    width: 9.13%;
-}
-
 	
-	}	
-	
-			@media(max-width:1300px) {
-	
-  .community .bottom-img .img-con {
-    border: 4px solid #ebebeb;
-    margin: 0 0.34% 0 0!important;
-    min-height: 100px !important;
-    width: 8.88%;
-}
-
-	
-	}	
 	
 
 
@@ -541,7 +491,7 @@
 
 
 
-    <div class="bottom-img">
+    <div class="bottom-img" style="float:none; margin:0 auto;">
 
 
 
@@ -555,6 +505,8 @@
 
         </div>
 
+
+<div class="bottom-imgmain">
         <div ng-show="!tabBodyLoad" class="img-con myParent"  ng-repeat="item in frnddet | filter:searchText" ng-class="(item.status == 1 || item.frnd_type == 1 || item.frnd_type == 2)?'fr_request':''" style="height: auto !important;">
 
             <div  style=" overflow:hidden;" class="imgdiv" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false">
@@ -608,6 +560,10 @@
             </div>
 
         </div>
+        
+         <div class="clear"></div>
+         
+        </div>
 
         <div class="friend_detail">
 
@@ -620,8 +576,13 @@
         </a>
 
         </div>
+        
+
+
 
         <div class="clear"></div>
+        
+         
 
     </div>
 

@@ -1,270 +1,159 @@
 <style type="text/css">
-.ngdialog-content{ background-color: #f6f9fa !important;
-
-    border: 5px solid #f7941e !important;
-
-    border-radius: 0 !important; padding:0!important; width:99%; margin:0 auto!important;
-
-}
-.popupbox_social_box{ width:100%!important; position:relative!important; padding:0!important;}
-
-.cancelbtn1{   position: absolute!important;
-     right: -5px !important;
-    top: 0px !important;}
-
-.modal-content .left_body {
-    float: left;
-    width: 65%; padding-right:20px;
-}
-
-.modal-content .poprt {
-    float: left;
-    width: 32%;
-}
-.popupbox_social_box .comment-area .commendboxpro .popup-text-box1 {
-    float: left;
-    width: 80%;
-   
-}
-
-
-.popupbox_social_box .comment-area .commendboxpro .popup-text-box1 textarea { background: #fff!important;}
-
-.commend-box{ background:#dee1e2!important; margin:0!important; font-size: 12px!important;}
-
-.modal.fade .modal-dialog { width:900px;}
-
+	.ngdialog-content{
+		background-color: #f6f9fa !important;
+		border: 5px solid #f7941e !important;
+		border-radius: 0 !important;
+		padding:0!important;
+		width:99%;
+		margin:0 auto!important;
+	}
+	.popupbox_social_box{
+		width:100%!important;
+		position:relative!important;
+		padding:0!important;
+	}
+	.cancelbtn1{
+		position: absolute!important;
+		right: -5px !important;
+		top: 0px !important;
+	}
+	.modal-content .left_body {
+		float: left;
+		width: 65%;
+		padding-right:20px;
+	}
+	.modal-content .poprt {
+		float: left;
+		width: 32%;
+	}
+	.popupbox_social_box .comment-area .commendboxpro .popup-text-box1 {
+		float: left;
+		width: 80%;
+	}
+	.popupbox_social_box .comment-area .commendboxpro .popup-text-box1 textarea {
+		background: #fff!important;
+	}
+	.commend-box{
+		background:#dee1e2!important;
+		margin:0!important;
+		font-size: 12px!important;
+	}
+	.modal.fade .modal-dialog {
+		width:900px;
+	}
 	video{
 		width: 100% !important;
 	}
-
 </style>
+
 <ul  style="min-height: 300px">
-
 	<li class="imageParent imgLiquid555" ng-repeat="item in videoList | limitTo:videoLimit" ng-mouseenter="showunFrndDiv = true" ng-mouseleave="showunFrndDiv = false" style="height: 150px; width: 250px; float: left; overflow:hidden;" >
-
-		<img src="images/demobg.png" lazy-img="{{item.img_src}}" style="width: 100%;" check-image />
-
+		<img src="{{item.img_src}}" style="width: 100%;" check-image />
 		<img src="images/youplay.png" alt="" style="width: 20%; left: 40%; position: absolute; top: 40%; cursor:pointer;" ng-click="showVideo(item,$index)" />
-
-
-
 		<div class="photo-icon" style="display: block;" ng-show="showunFrndDiv" >
-
-
-
 			<a href="javascript:void(0)"><img ng-click="fbVideoShare(item)" src="images/newsicon1.png"  alt="" /></a>
-
-
-
 			<a href="javascript:void(0)"><img ng-click="twVidShare(item)" src="images/newsicon2.png"   alt="" /></a>
-
-
-
 			<a href="javascript:void(0)"><img ng-click="prShare(item)" src="images/newsicon3.png"   alt="" /></a>
-
-
-
 			<a href="javascript:void(0)" class="delbtn44" ng-if="item.user_id == rootsessUser" ng-click="delVideo($index)"><img src="images/close.png"  alt="" /></a>
-
-
-
-
-
-
-
 		</div>
-
-
-
 	</li>
-
-	</ul>
-
+</ul>
 
 <div class="clear"></div>
+
 <div ng-show="videoloading" class="viewMore" style="width:100%; text-align:center; padding:10px 0;">
 	<img src="images/loading_list.gif" width="118" height="9" />
 </div>
 
-
-
-
-
-
 <script type="text/ng-template" id="videoComment">
-
 	<div class="popupbox_social_box" style="width:100%!important; position:relative!important; padding:0!important;">
-
-		<a href="javascript:void(0)" class="cancelbtn1" ng-click="modalClose()" style=" position: absolute!important;
-     right: -5px !important;
-    top: 0px !important;"><img src="images/gtk-close.png"></a>
-
+		<a href="javascript:void(0)" class="cancelbtn1" ng-click="modalClose()" style=" position: absolute!important;  right: -5px !important; top: 0px !important;"><img src="images/gtk-close.png"></a>
 		<div class="clear"></div>
-
 		<div class="photo-popup" style="mmargin: 0 auto; width:auto; text-align:center;overflow: inherit;height: auto; padding:20px; ">
-
-			<div class="left_body" style=" float: left;
-    width: 65%; padding-right:20px;">
-
+			<div class="left_body" style=" float: left; width: 65%; padding-right:20px;">
 				<div  class="embed-responsive embed-responsive-16by9 video-wrapper" ng-if="videoDet.videoType=='youtube'">
-
 					<youtube-video class="embed-responsive-item" video-id="videoDet.value"></youtube-video>
-
 				</div>
-
-
-
 				<videogular ng-if="videoDet.videoType=='mp4'" ng-init="vidsources = [{src: (baseUrl+'/uploads/video/converted/'+videoDet.value), type: 'video/mp4'}]" >
-
 					<vg-media vg-src="vidsources" vg-native-controls="true" ></vg-media>
-
 				</videogular>
-
 			</div>
-
-
-
-
-
-
-
-			<div class="poprt" style="  float: left;
-    width: 32%;">
-
+			<div class="poprt" style="  float: left; width: 32%;">
 				<div style="background-color:#D1D3D4;" class="comment-area">
-
 					<div class="comment_top">
-
 						<div class="profile-img">
-
 							<img  src="{{videoDet.userImage}}" alt="" style=" max-width:50px; max-height:50px;" />
-
 						</div>
-
 						<div class="profile-text">
-
 							<div class="name-text">{{videoDet.userName}}</div>
-
 							<div class="text-contain">{{videoDet.timeSpan}}</div>
-
 							<div class="clear"></div>
-
 						</div>
-
 						<div class="clear"></div>
-
 						<!--<div style="font-size:14px; text-align:left; padding-top:8px; padding-left: 4px; color: #333;">{{videoDet.msg}}</div>-->
 						<div style="font-size:14px; text-align:left; padding-top:8px; padding-left: 4px; color: #333;"ng-bind-html="trustAsHtml(videoDet.msg)"></div>
-
 						<div class="cmnt_share">
-
 							<a href="javascript:void(0);">Comment{{(videoDet.commentList.length >1)?'s':''}} [{{videoDet.commentList.length}}]</a> - <a href="javascript:void(0);" ng-click="(videoDet.cUserId) ?  statusLike(videoDet) :'';">{{(videoDet.likeStatus)?'Unlike':'Like'}} [{{videoDet.likeNo}}] </a>
-
-		<b style="font-weight:bold;display:inline-block; font-size: 20px; "> .</b>
-
-							
+							<b style="font-weight:bold;display:inline-block; font-size: 20px; "> .</b>
 							<span class="sharetooltip">
 								<a href="javascript:void(0);" style="display: inline-block; position: relative;" ng-click="shareStaus(photoDet)" >Share</a>
 								<div class="hover_img3new">
-									
-										<ul>
-                    <li ng-click="fbVideoShare1(videoDet)"> <img src="images/sharefbicon.png" alt="" /> facebook</li>
-                    <li ng-click="twVidShare(videoDet) "> <img src="images/sharetwicon.png" alt="" /> Twitter</li>
-                    <li  ng-click="prShare(videoDet)"> <img src="images/sharepticon.png" alt="" /> pinterest</li>
-                    
-                    </ul>
+									<ul>
+										<li ng-click="fbVideoShare1(videoDet)"> <img src="images/sharefbicon.png" alt="" /> facebook</li>
+										<li ng-click="twVidShare(videoDet) "> <img src="images/sharetwicon.png" alt="" /> Twitter</li>
+										<li  ng-click="prShare(videoDet)"> <img src="images/sharepticon.png" alt="" /> pinterest</li>
+									</ul>
 								</div>
-								
-								
 							</span>
-
 						</div>
-
 					</div>
-
 					<div class="commen_body">
-
 						<a ng-show="videoDet.comment_no1 > 5" href="javascript:void(0)" ng-click="viewAllComments1(videoDet)">View Previous Comments</a>
 						<div ng-repeat="com in videoDet.commentSliceList" class="commend-box">
-
 							<div class="date-link">
-
 								<a href="javascript:void(0);">{{com.time}}</a>
-
-								<!-- <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment(photoDet.sIndex,$index)" />-->
-
+								 <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment(videoDet.sIndex,$index)" />
 							</div>
-
 							<div style="width:50px; float:left; height:auto;">
-
 								<img style=" margin-top:2px; max-width:35px; max-height:35px;" alt="" src="{{com.user_image}}" />
-
 							</div>
-
 							<div class="combodyu">
-
 								<strong>
-
 									<a href="javascript:void(0)" data-original-title="">{{com.user_name}}</a>
-
 								</strong>
-
 								<br />
 								<div ng-bind-html="com.body | newlines | emoticons:{'linkTarget':'_blank','newLine':true}" class="ng-emoticons"></div>
-
 							</div>
-
 							<div class="clear"></div>
-
 						</div>
-
 					</div>
-
 					<div ng-show="rootsessUser" class="commendboxpro">
-
 						<div class="profile-img2">
-
 							<img style=" max-width:35px; max-height:35px;" alt="" src="{{videoDet.cUserImage}}">
-
 						</div>
-
-						<div class="popup-text-box1" ng-show="videoDet.cUserId">
-
+						<div class="popup-text-box1" ng-show="videoDet.cUserId" style="position: relative;">
 							<div style=" border:solid 2px #97989a; border-radius:5px;  width:98%; height: auto;  position: relative;">
 								<!--<textarea placeholder="Write a comment..." ng-model="videoDet.pstval" ng-keypress="postComment($event,'video')" ng-keydown="resizeTextarea($event)" style="padding: 5px; !important; border: none !important; border-radius: 0 !important;  border-radius:5px!important;  width:100%!important;  padding-right:33px!important;   height:35px !important; " rows="1"></textarea>-->
 								<div id="pcommentdiv000" style="height: auto; min-height: 35px; max-height: 73px; overflow: hidden; padding: 5px; padding-right: 38px; text-align: left;" ng-keyup="setcommentval($event,videoDet)" ng-keypress="postComment($event,'video')" contentEditable="true"></div>
-								
 								<a href="javascript:void(0)" ng-click="showemojisdivsada()"><img src="images/emo.png"  style="position:absolute; right:6px; top:8px; width:20px"/></a>
 								<div class="clear"></div>
 							</div>
 
-							<div style="position: relative;">
-								
-								<div ng-show="showemojisdiv" style=" bottom: 50px; position: absolute; right: 0; width: 400px; background-color: #FFFFFF; padding: 5px;border: 2px solid #97989a !important; border-radius: 5px !important;">
+								<div ng-show="showemojisdiv" style=" top: -130px; position: absolute; right: 0; width: 400px; background-color: #FFFFFF; padding: 5px;border: 2px solid #97989a !important; border-radius: 5px !important;">
 									<div class="emojisdiv" style="height: 116px;" ng-scrollbar>
 										<a href="javascript:void(0)" ng-repeat="emoitem in emojisArr" ng-click="emoinsert(videoDet,emoitem)" class="emoticon emoticon-{{emoitem}}" title=":{{emoitem}}:"  ></a>
 									</div>
 								</div>
-							</div>
+
 							<!--     <a href="javascript:void(0);" ng-click="postComment1(videoDet)">POST</a>-->
-
 						</div>
-
 						<div class="clear"></div>
-
 					</div>
-
 				</div>
-
 			</div>
-
 			<div class="clear"></div>
-
 		</div>
-
 	</div>
-
 </script>
 
 <img src="images/emojis.png" style="display: none;">

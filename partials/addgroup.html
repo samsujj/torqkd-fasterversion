@@ -267,6 +267,7 @@
             </div>
             <div class="clear"></div>
             <div class="select-box-contain" style="padding:20px!important; width:90%;">
+                <div class="scrollbars" style="height: 660px;" ng-scrollbar>
                 <ul>
                     <li ng-repeat="item in userList track by item.id" style="height: 55px; width:95%!important; padding:10px 0; background:none; border:none; font-family:Arial, Helvetica, sans-serif!important; text-align:left!important; cursor:auto!important;" >
                         <input type="checkbox" name="users[]" ng-click="userclick(item.id)" ng-checked="allCheck">
@@ -274,6 +275,7 @@
                         <span>{{item.user_name}}</span>
                     </li>
                 </ul>
+                    </div>
                 <div class="clear"></div>
             </div>
             <div class="clear"></div>
@@ -295,7 +297,7 @@
                         <h3> {{n.name}}</h3>
                         <ul>
                             <li ng-repeat="m in n.ch">
-                                <a href="javascript:void(0);" style="margin-bottom: 0px;" ng-click="form.sports_id = m.id; selsp(); actClass = !actClass" ng-class="(actClass || form.sports_id == m.id) ? 'activeimg' : ''" ><img  alt="" src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
+                                <a href="javascript:void(0);" style="margin-bottom: 0px;" ng-click="form.sports_id = m.id; actClass = !actClass" ng-class="(actClass && form.sports_id == m.id) ? 'activeimg' : ''" ><img  alt="" src="images/checkered.png" lazy-img="{{baseUrl}}/uploads/sports_image/thumb/{{m.image}}" ></a>
                                 <strong> {{m.name}}</strong>
                             </li>
                         </ul>

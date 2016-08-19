@@ -1,6 +1,13 @@
+<style>
+    .highcharts-tracker{
+        display: block !important;
+    }
+</style>
+<div class="stats-body">
+
 <table width="100%" ng-repeat="(key, item) in highchartsNG" class="stats_table">
     <tr>
-        <td class="first-td" style="padding-bottom:10px;" width="10%">
+        <td class="first-td" style="padding-bottom:10px;" width="15%">
             <h4 style="color:#f79213">{{chartdata[key].sport_name}}</h4>
             <img src="{{baseUrl}}/uploads/sports_image/thumb/{{chartdata[key].imag_name}}" alt=""  style="margin-top:10px;  width:52px;"/>
         </td>
@@ -23,7 +30,7 @@
 
     <tr>
         <td  valign="top" align="left" width="100%"  colspan="5">
-           <highchart id="chart1" config="item"></highchart>
+           <highchart id="chart1" config="item" class="hchart"></highchart>
           <!--  <highchart id="chart2" config="chartConfig" class="span10"></highchart>-->
         </td>
     </tr>
@@ -62,3 +69,5 @@
         </div>
     </div>
 </script>
+
+</div>

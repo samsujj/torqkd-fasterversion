@@ -2571,6 +2571,13 @@ ul.slide li span strong{ font-size: 24px; }
   }
 
 
+   @media screen and (max-width:1780px) {
+   	.photos-body .top-text {
+
+	width:89%!important}
+
+   }
+
 
     @media screen and (max-width:1888px) {
 
@@ -2792,6 +2799,13 @@ ul.slide li span strong{ font-size: 24px; }
 
 
 
+   @media screen and (max-width:1610px) {
+   	.photos-body .top-text {
+
+	width:88.5%!important}
+
+   }
+
    @media screen and (max-width:1688px) {
 
  .image-gallery ul li {
@@ -2927,6 +2941,13 @@ ul.slide li span strong{ font-size: 24px; }
 
   }
 
+
+   @media screen and (max-width:1500px) {
+   	.photos-body .top-text {
+
+	width:87.5%!important}
+
+   }
 
 
    @media screen and (max-width:1580px) {
@@ -3077,7 +3098,12 @@ ul.slide li span strong{ font-size: 24px; }
 
   }
 
+   @media screen and (max-width:1460px) {
+   	.photos-body .top-text {
 
+	width:87%!important}
+
+   }
 
     @media screen and (max-width:1454px) {
 
@@ -3168,6 +3194,12 @@ ul.slide li span strong{ font-size: 24px; }
   }
 
 
+   @media screen and (max-width:1400px) {
+   	.photos-body .top-text {
+
+	width:86.5%!important}
+
+   }
 
 
 
@@ -3318,6 +3350,13 @@ ul.slide li span strong{ font-size: 24px; }
 
 
 
+   @media screen and (max-width:1280px) {
+   	.photos-body .top-text {
+
+	width:85.5%!important}
+
+   }
+
 
    @media screen and (max-width:1274px) {
 
@@ -3413,7 +3452,12 @@ ul.slide li span strong{ font-size: 24px; }
 
   }
 
+   @media screen and (max-width:1210px) {
+   	.photos-body .top-text {
 
+	width:84.5%!important}
+
+   }
 
     @media screen and (max-width:1200px) {
 
@@ -3559,7 +3603,12 @@ ul.slide li span strong{ font-size: 24px; }
 
   }
 
+   @media screen and (max-width:1210px) {
+   	.photos-body .top-text {
 
+	width:83.5%!important}
+
+   }
 
   @media screen and (max-width:1100px) {
 
@@ -3663,7 +3712,34 @@ ul.slide li span strong{ font-size: 24px; }
 
   }
 
+   @media screen and (max-width:1210px) {
+   	.photos-body .top-text {
 
+	width:85%!important}
+
+   }
+   
+   
+      @media screen and (max-width:1160px) {
+   	.photos-body .top-text {
+
+	width:84%!important}
+
+   }
+   
+         @media screen and (max-width:1100px) {
+   	.photos-body .top-text {
+
+	width:83%!important}
+
+   }
+   
+          @media screen and (max-width:1060px) {
+   	.photos-body .top-text {
+
+	width:82%!important}
+
+   }
 
    @media screen and (max-width:1040px) {
 
