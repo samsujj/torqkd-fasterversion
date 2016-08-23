@@ -112,7 +112,7 @@
 						<div ng-repeat="com in videoDet.commentSliceList" class="commend-box">
 							<div class="date-link">
 								<a href="javascript:void(0);">{{com.time}}</a>
-								 <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment(videoDet.sIndex,$index)" />
+								 <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment322(com)" style="width: 8px; cursor: pointer;" />
 							</div>
 							<div style="width:50px; float:left; height:auto;">
 								<img style=" margin-top:2px; max-width:35px; max-height:35px;" alt="" src="{{com.user_image}}" />

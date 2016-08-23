@@ -300,9 +300,9 @@
 
         <div class="mobcomment">
 
-            <a ng-show="item.comment_no1 > 5" href="javascript:void(0)" ng-click="viewAllComments(item)">View Previous Comments</a>
+            <a ng-show="item.comment_no1 > 5" href="javascript:void(0)" ng-click="viewAllComments123(item)">View Previous Comments</a>
 
-            <div class="commend-box" ng-repeat="comment in item.commentSliceList track by comment.id">
+            <div class="commend-box" ng-repeat="comment in item.comment track by comment.id" ng-hide="comment.isHide">
 
                 <div class="date-link">
 

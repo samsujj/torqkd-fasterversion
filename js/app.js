@@ -264,7 +264,7 @@ homeControllers1.directive( 'elemReady', function( $parse ) {
         }
     });
 
-homeControllers1.directive('simpleSlider', ['SimpleSliderService', '$timeout', function (SimpleSliderService, $timeout) {
+homeControllers1.directive('simpleSlider', ['SimpleSliderService', '$timeout','$rootScope', function (SimpleSliderService, $timeout,$rootScope) {
 
     'use strict';
 
@@ -284,6 +284,25 @@ homeControllers1.directive('simpleSlider', ['SimpleSliderService', '$timeout', f
                 options.onChange = scope.onChange;
             } else {
                 options.onChange = function (prev, next) {
+
+                    if(attrs.class == 'gallery2'){
+                        $rootScope.gal2id = scope.slider.imgs[next].attributes.adv_id.value;
+                    }
+
+                    if(attrs.class == 'gallery3'){
+                        if(typeof($rootScope.gal2id)!= 'undefined'){
+                            if($rootScope.gal2id == scope.slider.imgs[next].attributes.adv_id.value){
+                                $timeout(function () {
+                                    scope.$apply(function () {
+                                        scope.current = next+1;
+                                    });
+                                });
+                            }
+                        }
+                    }
+
+
+
                     if (parseInt(scope.current) !== next) {
                         $timeout(function () {
                             scope.$apply(function () {
@@ -1653,6 +1672,7 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
 
             if ($rootScope.rootsessUser123 > 0) {
+
                 $http({
                     method: 'POST',
                     async: false,
@@ -1661,6 +1681,8 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
                     headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
                 }).success(function (result) {
                     if (result.u_arr.length > 0) {
+
+                        console.log('cond 1');
 
                         var u_arr = result.u_arr;
 
@@ -1733,8 +1755,67 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
 
                         });
 
-                    } else {
+                    } else if(typeof($cookieStore.get('activeChat')) != 'undefined'){
+                        var arr3 = $cookieStore.get('activeChat');
+                        if(arr3.length){
+                            $http({
+                                method: 'POST',
+                                async: false,
+                                url: $scope.baseUrl + '/user/ajs1/open_chatbox',
+                                data: $.param({'cid': $rootScope.rootsessUser123, 'uids': $cookieStore.get('activeChat')}),
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                            }).success(function (result) {
+                                //$rootScope.activeChatUsers = result;
 
+                                //console.log($rootScope.currentChatUser);
+                                if (typeof($rootScope.activeChatUsers) != 'undefined' && $rootScope.activeChatUsers.length > 0) {
+                                    angular.forEach(result, function (value, key) {
+                                        if ($rootScope.currentChatUser.indexOf(value.id) == -1) {
+                                            $rootScope.activeChatUsers.push(value);
+                                            $rootScope.currentChatUser.push(value.id)
+                                        } else {
+                                            //console.log(value.msgarr);
+                                            angular.forEach($rootScope.activeChatUsers, function (value1, key1) {
+                                                if (value1.id == value.id) {
+                                                    //console.log(1);
+                                                    value1.msgarr = value.msgarr;
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    $rootScope.activeChatUsers = result;
+                                    angular.forEach(result, function (value, key) {
+                                        if ($rootScope.currentChatUser.indexOf(value.id) == -1) {
+                                            $rootScope.currentChatUser.push(value.id)
+                                        }
+                                    });
+                                }
+
+                                if ($rootScope.rootsessUser123 == 0) {
+                                    $rootScope.activeChatUsers = [];
+                                }
+
+                                $timeout(function () {
+                                    $scope.openchatbox1();
+                                }, 10000);
+
+                            }).error(function (result) {
+
+                                $timeout(function () {
+                                    $scope.openchatbox1();
+                                }, 5000);
+
+                            });
+
+                        }else {
+                            $timeout(function () {
+                                $scope.openchatbox1();
+                            }, 5000);
+
+                        }
+
+                    } else {
                         $timeout(function () {
                             $scope.openchatbox1();
                         }, 5000);
@@ -1747,6 +1828,10 @@ homeControllers1.controller('chatManager', function($scope,$state,$sce,$cookieSt
                     }, 5000);
 
                 });
+            }else{
+                $timeout(function () {
+                    $scope.openchatbox1();
+                }, 5000);
             }
         }else{
             $timeout(function () {
@@ -2239,8 +2324,6 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         $scope.getStatus();
     },10000);
 
-
-
     $rootScope.isActiveTab = function(tabUrl) {
         return tabUrl == $rootScope.currentTab;
     }
@@ -2259,6 +2342,16 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+                angular.forEach(item.comment, function(item1, key1) {
+                    item1.isHide = 1;
+
+                    if(key1 >= (item.comment.length-5)){
+                        item1.isHide = 0;
+                    }
+
+                });
+
 
 
                 if(typeof(item.routes.id) !='undefined'){
@@ -2364,7 +2457,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
                     }],
                     title: {
-                        text: '<div style="color:#555555;">Last 6 Months</div>'
+                        text: '<div style="color:#555555; font: 16px \'veneerregular\'">Last 6 Months</div>'
                     },
                     loading: false,
 
@@ -2441,30 +2534,31 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 var highchartsNG = {
                     options: {
                         chart: {
-                            type: 'line'
+                            type: 'line',
+                            spacingTop : 40
                         },
 
                     },
-                    plotOptions: {
-                        series: {
-                            marker: {
-                                radius: 10,
-                                symbol: 'circle',enabled:true
-                            }
-                        }
-                    },
                     series: [{
                         data: val.data,
+                        marker: {
+                            enabled:true,radius:3
+                        },
                         name : '<div style="color:#555555;">Month</div>',
                         color : '#F79213',
+                        showInLegend: false
                     }],
                     title: {
-                        text: '<div style="color:#555555; font-size: 12px; font-weight: bold;">Last 6 Months</div>'
+                        text: '<div style="color:#555555;  font: 16px \'veneerregular\';">Last 6 Months</div>',
+                        y:-10
                     },
                     loading: false,
 
                     xAxis: {
                         categories: val.mon,
+                        title: {
+                            text: null
+                        },
                         labels: {
                             style: {
                                 color: '#555555',
@@ -2485,7 +2579,12 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                             }
                         }
                     },
-
+                    exporting : {
+                        enabled: true
+                    },
+                    chart :{
+                        spacingRight : -75
+                    },
                     tooltip : {
                         valueSuffix : ''
                     },
@@ -2534,6 +2633,17 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+
+                angular.forEach(item.comment, function(item1, key1) {
+                    item1.isHide = 1;
+
+                    if(key1 >= (item.comment.length-5)){
+                        item1.isHide =0;
+                    }
+
+                });
+
 
 
                 if(typeof(item.routes.id) !='undefined'){
@@ -2642,6 +2752,18 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
             angular.element( document.querySelector( '#youtubeBody'+id ) ).html('<video width="100%" height="100%" autoplay loop controls>\
             <source src="'+$scope.maintvfile+'" type="video/mp4">\
             </video>');
+        },2000);
+    }
+
+    $rootScope.showmp4video1 = function(id,value){
+
+        $scope.maintvfile = $sce.trustAsResourceUrl($scope.baseUrl+'/uploads/video/converted/'+value);
+
+
+        setTimeout(function(){
+            angular.element( document.querySelector( '#youtubeBody'+id ) ).html('<video id="sampleMovie" width="640" height="360" preload controls>\
+                <source src="'+$scope.maintvfile+'" type=\'video/mp4; codecs="avc1.42E01E, mp4a.40.2"\' />\
+                </video>');
         },2000);
     }
 
@@ -3146,13 +3268,22 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
                         var sss = 'Say Something About This Video';
                     }
 
-                    $scope.dialog2 = ngDialog.open({
-                        template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
-                        plain:true,
-                        closeByDocument: false,
-                        closeByEscape: false,
-                        scope: $scope
-                    });
+            if(item.type == 'image'){
+                $scope.postfb(item.id,item.type,item.value);
+            }else{
+                $scope.dialog2 = ngDialog.open({
+                 template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
+                 plain:true,
+                 closeByDocument: false,
+                 closeByEscape: false,
+                 scope: $scope
+                 });
+            }
+
+
+
+
+
 
         }
     }
@@ -3208,7 +3339,30 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
 
         if(type == 'image'){
 
-            $http({
+
+          /*  FB.ui({
+                method: 'share',
+                href: 'http://torkq.com/singlepost.php?id='+id+'&image='+value,
+                display : 'popup',
+            }, function(response){
+
+            });*/
+
+
+            $facebook.ui({
+                    method: 'share',
+                    href: 'http://torkq.com/singlepost.php?id='+id+'&image='+value,
+                    display : 'popup',
+                    //caption: fbtext,
+                },
+                function(response) {
+
+                }).then(function(response) {
+                    $scope.dialog2.close();
+                    $scope.showFbSucMsg();
+            });
+
+/*            $http({
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/postfbimage',
@@ -3217,7 +3371,7 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
             }).success(function (result) {
                     $scope.dialog2.close();
                     $scope.showFbSucMsg();
-            });
+            });*/
         }else if(type == 'mp4'){
 
             $http({
@@ -3392,6 +3546,13 @@ homeControllers1.controller('tabcommon', function($scope,$state,$sce,$cookieStor
         item.commentSliceList = item.comment;
     }
 
+    $rootScope.viewAllComments123 = function(item){
+        item.comment_no1 = 0;
+        angular.forEach(item.comment, function(item1, key1) {
+            item1.isHide = 0;
+        });
+    }
+
     $rootScope.viewAllComments1 = function(item){
         item.comment_no1 = 0;
         item.commentSliceList = item.commentList;
@@ -3554,6 +3715,17 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
 
+
+                angular.forEach(item.comment, function(item1, key1) {
+                    item1.isHide = 1;
+
+                    if(key1 >= (item.comment.length-5)){
+                        item1.isHide =0;
+                    }
+
+                });
+
+
                 if(typeof(item.routes.id) !='undefined'){
                     item.routes.map.refresh =  function () {
                         item.routes.map.control.refresh(item.routes.map.center);
@@ -3689,6 +3861,17 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+
+                angular.forEach(item.comment, function(item1, key1) {
+                    item1.isHide = 1;
+
+                    if(key1 >= (item.comment.length-5)){
+                        item1.isHide = 0;
+                    }
+
+                });
+
 
                 if(typeof(item.routes.id) !='undefined'){
                     item.routes.map.refresh =  function () {
@@ -4236,14 +4419,18 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
                 var sss = 'Say Something About This Video';
             }
 
-            $scope.dialog2 = ngDialog.open({
-                template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
-                plain:true,
-                closeByDocument: false,
-                closeByEscape: false,
-                scope: $scope
-            });
 
+            if(item.type == 'image'){
+                $scope.postfb(item.id,item.type,item.value);
+            }else{
+                $scope.dialog2 = ngDialog.open({
+                    template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
+                    plain:true,
+                    closeByDocument: false,
+                    closeByEscape: false,
+                    scope: $scope
+                });
+            }
         }
     }
 
@@ -4298,7 +4485,20 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
 
         if(type == 'image'){
 
-            $http({
+            $facebook.ui({
+                    method: 'share',
+                    href: 'http://torkq.com/singlepost.php?id='+id+'&image='+value,
+                    display : 'popup',
+                    //caption: fbtext,
+                },
+                function(response) {
+
+                }).then(function(response) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+
+            /*$http({
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/postfbimage',
@@ -4307,7 +4507,7 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
             }).success(function (result) {
                 $scope.dialog2.close();
                 $scope.showFbSucMsg();
-            });
+            });*/
         }else if(type == 'mp4'){
 
             $http({
@@ -4434,6 +4634,13 @@ homeControllers1.controller('tabcommon2', function($scope,$state,$sce,$cookieSto
         item.commentSliceList = item.comment;
     }
 
+    $rootScope.viewAllComments123 = function(item){
+        item.comment_no1 = 0;
+        angular.forEach(item.comment, function(item1, key1) {
+            item1.isHide = 0;
+        });
+    }
+
     $rootScope.viewAllComments1 = function(item){
         item.comment_no1 = 0;
         item.commentSliceList = item.commentList;
@@ -4549,6 +4756,17 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+
+                angular.forEach(item.comment, function(item1, key1) {
+                    item1.isHide = 1;
+
+                    if(key1 >= (item.comment.length-5)){
+                        item1.isHide =0;
+                    }
+
+                });
+
 
 
                 if(typeof(item.routes.id) !='undefined'){
@@ -4671,6 +4889,17 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                 var itemcomlist = item.comment;
                 itemcomlist = itemcomlist.slice(-5);
                 item.commentSliceList = itemcomlist;
+
+
+                angular.forEach(item.comment, function(item1, key1) {
+                    item1.isHide = 1;
+
+                    if(key1 >= (item.comment.length-5)){
+                        item1.isHide = 0;
+                    }
+
+                });
+
 
                 if(typeof(item.routes.id) !='undefined'){
                     item.routes.map.refresh =  function () {
@@ -5164,14 +5393,17 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
                 var sss = 'Say Something About This Video';
             }
 
-            $scope.dialog2 = ngDialog.open({
-                template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
-                plain:true,
-                closeByDocument: false,
-                closeByEscape: false,
-                scope: $scope
-            });
-
+            if(item.type == 'image'){
+                $scope.postfb(item.id,item.type,item.value);
+            }else{
+                $scope.dialog2 = ngDialog.open({
+                    template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
+                    plain:true,
+                    closeByDocument: false,
+                    closeByEscape: false,
+                    scope: $scope
+                });
+            }
         }
     }
 
@@ -5226,7 +5458,20 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
 
         if(type == 'image'){
 
-            $http({
+            $facebook.ui({
+                    method: 'share',
+                    href: 'http://torkq.com/singlepost.php?id='+id+'&image='+value,
+                    display : 'popup',
+                    //caption: fbtext,
+                },
+                function(response) {
+
+                }).then(function(response) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+
+            /*$http({
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/postfbimage',
@@ -5235,7 +5480,7 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
             }).success(function (result) {
                 $scope.dialog2.close();
                 $scope.showFbSucMsg();
-            });
+            });*/
         }else if(type == 'mp4'){
 
             $http({
@@ -5359,6 +5604,12 @@ homeControllers1.controller('tabcommon1', function($scope,$sce,$state,$cookieSto
     $rootScope.viewAllComments = function(item){
         item.comment_no1 = 0;
         item.commentSliceList = item.comment;
+    }
+    $rootScope.viewAllComments123 = function(item){
+        item.comment_no1 = 0;
+        angular.forEach(item.comment, function(item1, key1) {
+            item1.isHide = 0;
+        });
     }
 
     $rootScope.viewAllComments1 = function(item){
@@ -5693,14 +5944,17 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
             var type = 'image';
         }
 
-        $scope.dialog2 = ngDialog.open({
+
+        $scope.postfb(item.id,type,item.value);
+
+/*        $scope.dialog2 = ngDialog.open({
             template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
             plain:true,
             closeByDocument: false,
             closeByEscape: false,
             scope: $scope
         });
-    }
+  */  }
 
     $rootScope.fbVideoShare = function(item){
         var sss = 'Say Something About This Video'
@@ -5757,7 +6011,24 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
 
         if(type == 'image'){
 
-            $http({
+            $facebook.ui({
+                    method: 'share',
+                    href: 'http://torkq.com/singlepost.php?id='+id+'&image='+value,
+                    display : 'popup',
+                    //caption: fbtext,
+                },
+                function(response) {
+
+                }).then(function(response) {
+
+                    if(typeof($scope.dialog2) != 'undefined'){
+                        $scope.dialog2.close();
+                    }
+
+                $scope.showFbSucMsg();
+            });
+
+            /*$http({
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/postfbimage',
@@ -5766,9 +6037,22 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
             }).success(function (result) {
                 $scope.dialog2.close();
                 $scope.showFbSucMsg();
-            });
+            });*/
         }else if(type == 'image1'){
-            $http({
+            $facebook.ui({
+                    method: 'share',
+                    href: 'http://torkq.com/singlepost.php?id='+id+'&image1='+value,
+                    display : 'popup',
+                    //caption: fbtext,
+                },
+                function(response) {
+
+                }).then(function(response) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+
+            /*$http({
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/postfbimage1',
@@ -5777,7 +6061,7 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
             }).success(function (result) {
                 $scope.dialog2.close();
                 $scope.showFbSucMsg();
-            });
+            });*/
         }else if(type == 'mp4'){
 
             $http({
@@ -5933,7 +6217,15 @@ homeControllers1.controller('photocommon', function($scope,$state,$sce,$cookieSt
 
     $rootScope.viewAllComments1 = function(item){
         item.comment_no1 = 0;
-        item.commentSliceList = item.commentList;
+       // item.commentSliceList = item.commentList;
+
+        item.commentSliceList = [];
+
+        angular.forEach(item.commentList,function(value,key){
+            item.commentSliceList.push(value);
+        })
+
+
     }
 
     $rootScope.statusLike = function (item,type) {
@@ -8648,6 +8940,9 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
 
     $scope.setbannerheight55 = function(){
 //            var ffheight = $('.top-banner-contain').height();
+
+        $('.default-cover-image').removeAttr('style');
+
             var ffheight1 = $('.banner-image').height();
             var ffheight = $('.banner-image img').height();
 
@@ -8655,9 +8950,9 @@ homeControllers1.controller('profile', function($scope,$state,$cookieStore,$http
             ffheight = ffheight1;
         }
 
+        $('.default-cover-image').height(ffheight);
 
 
-        console.log('banner height: '+ffheight);
 
             if(ffheight > 0){
                 $('.bannerdiv22511').height(ffheight);
@@ -9039,6 +9334,13 @@ $scope.matches = [];
 
     $scope.extracted_close = function(){
        // console.log(1);
+    }
+
+
+    $scope.defaultcoverimage = function(){
+        if($scope.sessUser==$scope.userId){
+            $state.go('editprofile');
+        }
     }
 
 
@@ -10708,6 +11010,73 @@ homeControllers1.controller('album', function($scope,$state,$cookieStore,$http,$
         $scope.ytdialog.close();
     }
 
+
+
+    $rootScope.delComment321 = function(item){
+        var idx = $scope.photoDet.commentSliceList.indexOf(item);
+        var idx1 = $scope.photoDet.commentList.indexOf(item);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;">Are you sure you want to delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm321('+idx+','+idx1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel32()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $rootScope.delComment322 = function(item){
+        var idx = $scope.videoDet.commentSliceList.indexOf(item);
+        var idx1 = $scope.videoDet.commentList.indexOf(item);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;">Are you sure you want to delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm322('+idx+','+idx1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel32()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $scope.delCancel32 = function(){
+        $scope.confirmDialog.close();
+    }
+
+    $scope.delConfirm321 = function(idx,idx1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delcomment',
+            data    : $.param({'comment_id':$rootScope.photoDet.commentSliceList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.photoDet.commentSliceList.splice(idx,1);
+            $rootScope.photoDet.commentList.splice(idx1,1);
+        });
+    }
+
+    $scope.delConfirm322 = function(idx,idx1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delvidcomment',
+            data    : $.param({'comment_id':$rootScope.videoDet.commentSliceList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.videoDet.commentSliceList.splice(idx,1);
+            $rootScope.videoDet.commentList.splice(idx1,1);
+        });
+    }
+
+
 });
 
 homeControllers1.controller('photo', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout) {
@@ -10766,6 +11135,41 @@ homeControllers1.controller('photo', function($scope,$state,$cookieStore,$http,$
         }else{
             $scope.photoloading = false;
         }
+    }
+
+
+    $rootScope.delComment421 = function(item){
+        var idx = $scope.photoDet.commentSliceList.indexOf(item);
+        var idx1 = $scope.photoDet.commentList.indexOf(item);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;">Are you sure you want to delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm421('+idx+','+idx1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel42()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $scope.delCancel42 = function(){
+        $scope.confirmDialog.close();
+    }
+
+    $scope.delConfirm421 = function(idx,idx1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delcomment',
+            data    : $.param({'comment_id':$rootScope.photoDet.commentSliceList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.photoDet.commentSliceList.splice(idx,1);
+            $rootScope.photoDet.commentList.splice(idx1,1);
+        });
     }
 
 
@@ -10885,6 +11289,12 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
             $rootScope.stateIsLoading = false;
             $rootScope.videoDet.commentList = result;
 
+
+            var itemcomlist = $rootScope.videoDet.commentList;
+            itemcomlist = itemcomlist.slice(-5);
+            $rootScope.videoDet.commentSliceList = itemcomlist;
+            $rootScope.videoDet.comment_no1 = $rootScope.videoDet.commentList.length;
+
             $rootScope.videoDet.value = item.value;
 
 
@@ -10905,6 +11315,8 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
         if(event.which === 13 && !event.shiftKey) {
             event.preventDefault();
             var commentval = event.currentTarget.value;
+            var commentval = $rootScope.videoDet.pstval;
+            console.log(commentval);
             if(commentval !='' && typeof(commentval)!= 'undefined'){
                 $http({
                     method: 'POST',
@@ -10921,6 +11333,7 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
                             $rootScope.videoDet.commentSliceList = [result];
                         }
                     $rootScope.videoDet.pstval = '';
+                    $('#pcommentdiv111').html('');
                 });
             /*}else{
 
@@ -10939,6 +11352,70 @@ homeControllers1.controller('video', function($scope,$state,$cookieStore,$http,$
         }
     }
 
+
+    $rootScope.delComment521 = function(item){
+        var idx = $scope.videoDet.commentSliceList.indexOf(item);
+        var idx1 = $scope.videoDet.commentList.indexOf(item);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;">Are you sure you want to delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm521('+idx+','+idx1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel52()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $rootScope.delComment522 = function(item){
+        var idx = $scope.videoDet.commentSliceList.indexOf(item);
+        var idx1 = $scope.videoDet.commentList.indexOf(item);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;">Are you sure you want to delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm522('+idx+','+idx1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel52()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $scope.delCancel52 = function(){
+        $scope.confirmDialog.close();
+    }
+
+    $scope.delConfirm521 = function(idx,idx1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delcomment',
+            data    : $.param({'comment_id':$rootScope.videoDet.commentSliceList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.videoDet.commentSliceList.splice(idx,1);
+            $rootScope.videoDet.commentList.splice(idx1,1);
+        });
+    }
+
+    $scope.delConfirm522 = function(idx,idx1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delvidcomment',
+            data    : $.param({'comment_id':$rootScope.videoDet.commentSliceList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.videoDet.commentSliceList.splice(idx,1);
+            $rootScope.videoDet.commentList.splice(idx1,1);
+        });
+    }
 
 });
 
@@ -11018,7 +11495,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
             $scope.userSports = result.user_sports;
             $scope.userSports1 = result.user_sports1;
             $scope.origprofileImg = result.profileOrigImgName;
-            $scope.origcoverImg = result.OrigbackImgName+'?version='+ctime;
+            $scope.origcoverImg = result.OrigbackImgName;
             $scope.profileImg = result.profileImg+'?version='+ctime;
             $scope.coverImg = result.backImg+'?version='+ctime;
             $scope.profileImgName = result.profileImgName;
@@ -11198,6 +11675,11 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
 
                 var ctime = (new Date).getTime();
 
+                $scope.origprofileImg = response.data.msg;
+
+                $scope.cropProfileImg();
+                $('.progress').addClass('ng-hide');
+
                 $http({
                     method  : 'POST',
                     async:   false,
@@ -11205,11 +11687,9 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                     data    : $.param({'filename':response.data.msg,'height':156,'width':142,'foldername':'thumb','userid':$scope.userId}),  // pass in data as strings
                     headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(data) {
-                    $('.progress').addClass('ng-hide');
-                    $scope.profileImg = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data.msg+'?version='+ctime;
-                    $scope.origprofileImg = response.data.msg+'?version='+ctime;
 
-                    $scope.cropProfileImg();
+                    $scope.profileImg = $scope.baseUrl+'/uploads/user_image/thumb/'+response.data.msg+'?version='+ctime;
+                    $scope.origprofileImg = response.data.msg;
                 });
             }else{
                 $('.progress').addClass('ng-hide');
@@ -11283,7 +11763,10 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                 $scope.coverImgName = response.data.msg;
 
                 var ctime = (new Date).getTime();
+                $scope.origcoverImg = response.data.msg;
 
+                $scope.cropProfileBackImg();
+                $('.progress').addClass('ng-hide');
                 $http({
                     method  : 'POST',
                     async:   false,
@@ -11291,11 +11774,10 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                     data    : $.param({'filename':response.data.msg,'height':536,'width':1175,'foldername':'thumb','userid':$scope.userId}),  // pass in data as strings
                     headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(data) {
-                    $('.progress').addClass('ng-hide');
-                    $scope.coverImg = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data.msg+'?version='+ctime;
-                    $scope.origcoverImg = response.data.msg+'?version='+ctime;
 
-                    $scope.cropProfileBackImg();
+                    $scope.coverImg = $scope.baseUrl+'/uploads/user_image/background/thumb/'+response.data.msg+'?version='+ctime;
+                    $scope.origcoverImg = response.data.msg;
+
                 });
             }else{
                 $('.progress').addClass('ng-hide');
@@ -11340,6 +11822,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
 
     $scope.cropProfileImg = function(){
         $scope.pLoad = true;
+        var ctime = (new Date).getTime();
 
         $scope.animationsEnabled = true;
         modalInstance = $modal.open({
@@ -11357,7 +11840,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                 imageBackground: true,
                 imageBackgroundBorderWidth: 50,
                 imageState: {
-                    src: $scope.subUrl+'/uploads/user_image/'+$scope.origprofileImg,
+                    src: $scope.subUrl+'/uploads/user_image/'+$scope.origprofileImg+'?version='+ctime,
                 },
             });
             $scope.pLoad = false;
@@ -11388,6 +11871,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
 
     $scope.cropProfileBackImg = function(){
         $scope.pLoad = true;
+        var ctime = (new Date).getTime();
 
         $http({
             method  : 'POST',
@@ -11428,7 +11912,7 @@ homeControllers1.controller('editprofile', function($scope,$state,$cookieStore,$
                         imageBackground: true,
                         imageBackgroundBorderWidth: 30,
                         imageState: {
-                            src: $scope.subUrl+'/uploads/user_image/background/'+$scope.origcoverImg,
+                            src: $scope.subUrl+'/uploads/user_image/background/'+$scope.origcoverImg+'?version='+ctime,
                         },
                     });
                     $scope.pLoad = false;
@@ -14105,9 +14589,13 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         $scope.bannerload()
     }
 
+    $timeout(function(){
+        $scope.getGroupDet();
+    },10);
+
     $scope.groupDet = {
-        imgSrc : $scope.baseUrl+'/uploads/user_image/default_latest_user.jpg',
-        cover_imageSrc : $scope.baseUrl+'/uploads/user_image/default_latest_back.jpg'
+      //  imgSrc : $scope.baseUrl+'/uploads/user_image/default_latest_user.jpg',
+      //  cover_imageSrc : $scope.baseUrl+'/uploads/user_image/default_latest_back.jpg'
     }
 
     $scope.gotogroupmember = function(groupId){
@@ -14371,7 +14859,6 @@ homeControllers1.controller('groupdetail', function($scope,$state,$cookieStore,$
         $scope.getMainTv();
         $scope.getlast3post();
         $scope.getMainBanner();
-        $scope.getGroupDet();
     },500);
 
     $scope.getMainTv = function(){
@@ -15767,6 +16254,72 @@ homeControllers1.controller('groupalbum', function($scope,$state,$cookieStore,$h
         }
     }
 
+
+    $rootScope.delComment321 = function(item){
+        var idx = $scope.photoDet.commentSliceList.indexOf(item);
+        var idx1 = $scope.photoDet.commentList.indexOf(item);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;">Are you sure you want to delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm321('+idx+','+idx1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel32()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $rootScope.delComment322 = function(item){
+        var idx = $scope.videoDet.commentSliceList.indexOf(item);
+        var idx1 = $scope.videoDet.commentList.indexOf(item);
+        $scope.confirmDialog = ngDialog.open({
+            template: '<div style="text-align:center; font-family: \'veneerregular\'; font-size: 19px;">Are you sure you want to delete this comment?</div><div class="confirmBtn"><input type="button" value="OK" ng-click="delConfirm322('+idx+','+idx1+')" class="confbtn" /><input type="button" value="Cancel" ng-click="delCancel32()" class="confbtn" /></div> ',
+            plain:true,
+            showClose:false,
+            closeByDocument: false,
+            closeByEscape: false,
+            className : 'confirmPopup',
+            scope:$scope
+        });
+
+
+    }
+
+    $scope.delCancel32 = function(){
+        $scope.confirmDialog.close();
+    }
+
+    $scope.delConfirm321 = function(idx,idx1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delcomment',
+            data    : $.param({'comment_id':$rootScope.photoDet.commentSliceList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.photoDet.commentSliceList.splice(idx,1);
+            $rootScope.photoDet.commentList.splice(idx1,1);
+        });
+    }
+
+    $scope.delConfirm322 = function(idx,idx1){
+        $scope.confirmDialog.close();
+        $http({
+            method: 'POST',
+            async:   false,
+            url: $scope.baseUrl+'/user/ajs1/delvidcomment',
+            data    : $.param({'comment_id':$rootScope.videoDet.commentSliceList[idx].id}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        }).success(function (result) {
+            $rootScope.videoDet.commentSliceList.splice(idx,1);
+            $rootScope.videoDet.commentList.splice(idx1,1);
+        });
+    }
+
+
 });
 
 homeControllers1.controller('addgroup', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal) {
@@ -16180,7 +16733,7 @@ homeControllers1.controller('groupuser', function($scope,$state,$cookieStore,$ht
 
 });
 
-homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook) {
+homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook,$compile) {
     $scope.hastag = $stateParams.hastag;
     $scope.trustAsHtml = $sce.trustAsHtml;
 
@@ -16743,13 +17296,18 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
                 var sss = 'Say Something About This Video';
             }
 
-            $scope.dialog2 = ngDialog.open({
-                template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
-                plain:true,
-                closeByDocument: false,
-                closeByEscape: false,
-                scope: $scope
-            });
+            if(item.type == 'image'){
+                $scope.postfb(item.id,item.type,item.value);
+            }else{
+                $scope.dialog2 = ngDialog.open({
+                    template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
+                    plain:true,
+                    closeByDocument: false,
+                    closeByEscape: false,
+                    scope: $scope
+                });
+            }
+
 
         }
     }
@@ -16805,7 +17363,20 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
 
         if(type == 'image'){
 
-            $http({
+            $facebook.ui({
+                    method: 'share',
+                    href: 'http://torkq.com/singlepost.php?id='+id+'&image='+value,
+                    display : 'popup',
+                    //caption: fbtext,
+                },
+                function(response) {
+
+                }).then(function(response) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+
+            /*$http({
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/postfbimage',
@@ -16814,7 +17385,7 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
             }).success(function (result) {
                 $scope.dialog2.close();
                 $scope.showFbSucMsg();
-            });
+            });*/
         }else if(type == 'mp4'){
 
             $http({
@@ -16939,6 +17510,92 @@ homeControllers1.controller('hastag', function($scope,$state,$cookieStore,$http,
         }
     };
 
+
+    $scope.emoinsert5 = function(emoidx,emoitem){
+        var item = $scope.statusList[emoidx];
+
+        var emoval2 = ' :'+emoitem+': ';
+        var emoval = '<input title="'+emoitem+'" style="border:none; margin-left: 3px; margin-right: 3px;" class="emoticon emoticon-'+emoitem+'" />';
+
+        var prevval = $('#commentdiv000'+item.id).html();
+
+        if(prevval.substr(prevval.length - 4) == '<br>')
+            prevval = prevval.substring(0, prevval.length - 4);
+
+        $('#commentdiv000'+item.id).html(prevval+emoval);
+        item.commpostval = prevval+emoval;
+    }
+
+    $scope.showemojisdiv123 = function(id,item){
+
+        var emoidx = $scope.statusList.indexOf(item);
+
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($scope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert5('+emoidx+',\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv'+id ) ).html(emohtml);
+
+        $compile($el)($scope);
+
+        if ($('#emojisdiv'+id).is(':hidden')) {
+            $('#emojisdiv'+id).show();
+        }else{
+            $('#emojisdiv'+id).hide();
+        }
+
+
+    }
+
+    $scope.postComment = function(event,item){
+        if(event.which === 13 && !event.shiftKey) {
+
+            event.preventDefault();
+            var commentval = item.commpostval;
+
+            if(commentval !='' && typeof(commentval)!= 'undefined'){
+                $http({
+                    method: 'POST',
+                    async:   false,
+                    url: $scope.baseUrl+'/user/ajs1/addcomment',
+                    data    : $.param({'status_id':item.id,'cmnt_body':commentval,'user_id':$rootScope.rootsessUser}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function (result) {
+                    if(item.comment_no){
+                        item.comment.push(result);
+                        item.commentSliceList.push(result);
+                    }else{
+                        item.comment = [result];
+                        item.commentSliceList = [result];
+                    }
+                    item.comment_no = item.comment_no +1;
+                    item.commpostval = '';
+
+
+
+                    $('#commentdiv000'+item.id).html('');
+                    $('#emojisdiv'+item.id).hide();
+
+                }).error(function (result) {
+                    $scope.postComment(event,item);
+                });
+            }
+        }
+    }
+
+    $scope.setcommentval = function(event,item) {
+        var target = event.target || event.srcElement || event.originalTarget;
+
+        item.commpostval = target.innerHTML;
+    }
+
+    $scope.emojisArr = ["bowtie","smile","laughing","blush","smiley","relaxed","smirk","heart_eyes","kissing_heart","kissing_closed_eyes","flushed","relieved","satisfied","grin","wink","stuck_out_tongue_winking_eye","stuck_out_tongue_closed_eyes","grinning","kissing","winky_face","kissing_smiling_eyes","stuck_out_tongue","sleeping","worried","frowning","anguished","open_mouth","grimacing","confused","hushed","expressionless","unamused","sweat_smile","sweat","wow","disappointed_relieved","weary","pensive","disappointed","confounded","fearful","cold_sweat","persevere","cry","sob","joy","astonished","scream","neckbeard","tired_face","angry","rage","triumph","sleepy","yum","mask","sunglasses","dizzy_face","imp","neutral_face","no_mouth","innocent","alien","yellow_heart","blue_heart","purple_heart","heart","green_heart","broken_heart","heartbeat","heartpulse","two_hearts","revolving_hearts","cupid","sparkling_heart","sparkles","star","star2","dizzy","boom","anger","exclamation","question","grey_exclamation","grey_question","zzz","dash","sweat_drops","notes","musical_note","fire","hankey","thumbsup","thumbsdown","ok_hand","punch","fist","v","wave","hand","open_hands","point_up","point_down","point_left","point_right","raised_hands","pray","point_up_2","clap","muscle","metal","fu","walking","runner","couple","family","two_men_holding_hands","two_women_holding_hands","dancer","dancers","ok_woman","no_good","information_desk_person","raising_hand","bride_with_veil","person_with_pouting_face","person_frowning","bow","couplekiss","couple_with_heart","massage","haircut","nail_care","boy","girl","woman","man","baby","older_woman","older_man","person_with_blond_hair","man_with_gua_pi_mao","man_with_turban","construction_worker","cop","angel","princess","smiley_cat","smile_cat","heart_eyes_cat","kissing_cat","smirk_cat","scream_cat","crying_cat_face","joy_cat","pouting_cat","japanese_ogre","japanese_goblin","see_no_evil","hear_no_evil","speak_no_evil","guardsman","skull","feet","lips","kiss","droplet","ear","eyes","nose","tongue","love_letter","bust_in_silhouette","busts_in_silhouette","speech_balloon","thought_balloon","feelsgood","finnadie","goberserk","godmode","hurtrealbad","rage1","rage2","rage3","rage4","suspect","trollface","sunny","umbrella","cloud","snowflake","snowman","zap","cyclone","foggy","ocean","cat","dog","mouse","hamster","rabbit","wolf","frog","tiger","koala","bear","pig","pig_nose","cow","boar","monkey_face","monkey","horse","racehorse","camel","sheep","elephant","panda_face","snake","bird","baby_chick","hatched_chick","hatching_chick","chicken","penguin","turtle","bug","honeybee","ant","beetle","snail","octopus","tropical_fish","fish","whale","whale2","dolphin","cow2","ram","rat","water_buffalo","tiger2","rabbit2","dragon","goat","rooster","dog2","pig2","mouse2","ox","dragon_face","blowfish","crocodile","dromedary_camel","leopard","cat2","poodle","paw_prints","bouquet","cherry_blossom","tulip","four_leaf_clover","rose","sunflower","hibiscus","maple_leaf","leaves","fallen_leaf","herb","mushroom","cactus","palm_tree","evergreen_tree","deciduous_tree","chestnut","seedling","blossom","ear_of_rice","shell","globe_with_meridians","sun_with_face","full_moon_with_face","new_moon_with_face","new_moon","waxing_crescent_moon","first_quarter_moon","waxing_gibbous_moon","full_moon","waning_gibbous_moon","last_quarter_moon","waning_crescent_moon","last_quarter_moon_with_face","first_quarter_moon_with_face","moon","earth_africa","earth_americas","earth_asia","volcano","milky_way","partly_sunny","octocat","squirrel","bamboo","gift_heart","dolls","school_satchel","mortar_board","flags","fireworks","sparkler","wind_chime","rice_scene","jack_o_lantern","ghost","santa","christmas_tree","gift","bell","no_bell","tanabata_tree","tada","confetti_ball","balloon","crystal_ball","cd","dvd","floppy_disk","camera","video_camera","movie_camera","computer","tv","iphone","phone","telephone_receiver","pager","fax","minidisc","vhs","sound","mute","loudspeaker","mega","hourglass","hourglass_flowing_sand","alarm_clock","watch","radio","satellite","loop","mag","mag_right","unlock","lock","lock_with_ink_pen","closed_lock_with_key","key","bulb","flashlight","high_brightness","low_brightness","electric_plug","battery","calling","email","mailbox","postbox","bath","bathtub","shower","toilet","wrench","nut_and_bolt","hammer","seat","moneybag","yen","dollar","pound","euro","credit_card","money_with_wings","e-mail","inbox_tray","outbox_tray","envelope","incoming_envelope","postal_horn","mailbox_closed","mailbox_with_mail","mailbox_with_no_mail","door","smoking","bomb","gun","hocho","pill","syringe","page_facing_up","page_with_curl","bookmark_tabs","bar_chart","chart_with_upwards_trend","chart_with_downwards_trend","scroll","clipboard","calendar","date","card_index","file_folder","open_file_folder","scissors","pushpin","paperclip","black_nib","pencil2","straight_ruler","triangular_ruler","closed_book","green_book","blue_book","orange_book","notebook","notebook_with_decorative_cover","ledger","books","bookmark","name_badge","microscope","telescope","newspaper","football","basketball","soccer","baseball","tennis","8ball","rugby_football","bowling","golf","mountain_bicyclist","bicyclist","horse_racing","snowboarder","swimmer","surfer","ski","spades","hearts","clubs","diamonds","gem","ring","trophy","musical_score","musical_keyboard","violin","space_invader","video_game","black_joker","flower_playing_cards","game_die","dart","mahjong","clapper","memo","pencil","book","art","microphone","headphones","trumpet","saxophone","guitar","shoe","sandal","high_heel","lipstick","boot","shirt","necktie","womans_clothes","dress","running_shirt_with_sash","jeans","kimono","bikini","ribbon","tophat","crown","womans_hat","mans_shoe","closed_umbrella","briefcase","handbag","pouch","purse","eyeglasses","fishing_pole_and_fish","coffee","tea","sake","baby_bottle","beer","beers","cocktail","tropical_drink","wine_glass","fork_and_knife","pizza","hamburger","fries","poultry_leg","meat_on_bone","spaghetti","curry","fried_shrimp","bento","sushi","fish_cake","rice_ball","rice_cracker","rice","ramen","stew","oden","dango","egg","bread","doughnut","custard","icecream","ice_cream","shaved_ice","birthday","cake","cookie","chocolate_bar","candy","lollipop","honey_pot","apple","green_apple","tangerine","lemon","cherries","grapes","watermelon","strawberry","peach","melon","banana","pear","pineapple","sweet_potato","eggplant","tomato","corn","house","house_with_garden","school","office","post_office","hospital","bank","convenience_store","love_hotel","hotel","wedding","church","department_store","european_post_office","city_sunrise","city_sunset","japanese_castle","european_castle","tent","factory","tokyo_tower","japan","mount_fuji","sunrise_over_mountains","sunrise","stars","statue_of_liberty","bridge_at_night","carousel_horse","rainbow","ferris_wheel","fountain","roller_coaster","ship","speedboat","boat","rowboat","anchor","rocket","airplane","helicopter","steam_locomotive","tram","mountain_railway","bike","aerial_tramway","suspension_railway","mountain_cableway","tractor","blue_car","oncoming_automobile","car","red_car","taxi","oncoming_taxi","articulated_lorry","bus","oncoming_bus","rotating_light","police_car","oncoming_police_car","fire_engine","ambulance","minibus","truck","train","station","train2","bullettrain_side","light_rail","monorail","railway_car","trolleybus","ticket","fuelpump","vertical_traffic_light","traffic_light","warning","construction","beginner","atm","slot_machine","busstop","barber","hotsprings","checkered_flag","crossed_flags","izakaya_lantern","moyai","circus_tent","performing_arts","round_pushpin","triangular_flag_on_post","jp","kr","cn","us","fr","es","it","ru","uk","de","one","two","three","four","five","six","seven","eight","nine","keycap_ten","1234","zero","hash","symbols","arrow_backward","arrow_down","arrow_forward","arrow_left","capital_abcd","abcd","abc","arrow_lower_left","arrow_lower_right","arrow_right","arrow_up","arrow_upper_left","arrow_upper_right","arrow_double_down","arrow_double_up","arrow_down_small","arrow_heading_down","arrow_heading_up","leftwards_arrow_with_hook","arrow_right_hook","left_right_arrow","arrow_up_down","arrow_up_small","arrows_clockwise","arrows_counterclockwise","rewind","fast_forward","information_source","ok","twisted_rightwards_arrows","repeat","repeat_one","new","top","up","cool","free","ng","cinema","koko","signal_strength","u5272","u5408","u55b6","u6307","u6708","u6709","u6e80","u7121","u7533","u7a7a","u7981","sa","restroom","mens","womens","baby_symbol","no_smoking","parking","wheelchair","metro","baggage_claim","accept","wc","potable_water","put_litter_in_its_place","secret","congratulations","m","passport_control","left_luggage","customs","ideograph_advantage","cl","sos","id","no_entry_sign","underage","no_mobile_phones","do_not_litter","non-potable_water","no_bicycles","no_pedestrians","children_crossing","no_entry","eight_spoked_asterisk","eight_pointed_black_star","heart_decoration","vs","vibration_mode","mobile_phone_off","chart","currency_exchange","aries","taurus","gemini","cancer","leo","virgo","libra","scorpius","sagittarius","capricorn","aquarius","pisces","ophiuchus","six_pointed_star","negative_squared_cross_mark","a","b","ab","o2","diamond_shape_with_a_dot_inside","recycle","end","on","soon","clock1","clock130","clock10","clock1030","clock11","clock1130","clock12","clock1230","clock2","clock230","clock3","clock330","clock4","clock430","clock5","clock530","clock6","clock630","clock7","clock730","clock8","clock830","clock9","clock930","heavy_dollar_sign","copyright","registered","tm","x","heavy_exclamation_mark","bangbang","interrobang","o","heavy_multiplication_x","heavy_plus_sign","heavy_minus_sign","heavy_division_sign","white_flower","100","heavy_check_mark","ballot_box_with_check","radio_button","link","curly_loop","wavy_dash","part_alternation_mark","trident","black_square","white_square","white_check_mark","black_square_button","white_square_button","black_circle","white_circle","red_circle","large_blue_circle","large_blue_diamond","large_orange_diamond","small_blue_diamond","small_orange_diamond","small_red_triangle","small_red_triangle_down","shipit"];
+
+
 });
 
 homeControllers1.controller('allmessages', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook,$filter) {
@@ -16958,6 +17615,10 @@ homeControllers1.controller('allmessages', function($scope,$state,$cookieStore,$
         return
     }
 
+    $timeout(function(){
+        $scope.getMessageList();
+    },10);
+
 
     $scope.min = function(arr) {
         return $filter('min')
@@ -16968,8 +17629,8 @@ homeControllers1.controller('allmessages', function($scope,$state,$cookieStore,$
         $scope.getMainTv();
         $scope.getlast3post();
         $scope.getMainBanner();
-        $scope.getMessageList
     },200);
+
 
     $scope.getMainTv = function(){
         $http({
@@ -17187,7 +17848,7 @@ homeControllers1.controller('allnotification', function($scope,$state,$cookieSto
 
 });
 
-homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook) {
+homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$http,$rootScope,ngDialog,$stateParams,$sce,Upload,$timeout,$modal,$facebook,$compile) {
     $scope.postid = $stateParams.id;
     $scope.trustAsHtml = $sce.trustAsHtml;
 
@@ -17711,13 +18372,20 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
                 var sss = 'Say Something About This Video';
             }
 
-            $scope.dialog2 = ngDialog.open({
-                template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
-                plain:true,
-                closeByDocument: false,
-                closeByEscape: false,
-                scope: $scope
-            });
+
+            if(item.type == 'image'){
+                $scope.postfb(item.id,item.type,item.value);
+            }else{
+                $scope.dialog2 = ngDialog.open({
+                    template: '<div class="fbcommentpopup"><h2>'+sss+'</h2><input type="text" placeholder="Write a comment..."   ng-model="fbText" id="fbtext"> <a href="javascript:void(0);" ng-click="postfb('+item.id+',\''+item.type+'\',\''+item.value+'\')" id="comment_btn">POST</a></div>',
+                    plain:true,
+                    closeByDocument: false,
+                    closeByEscape: false,
+                    scope: $scope
+                });
+            }
+
+
 
         }
     }
@@ -17773,7 +18441,19 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
 
         if(type == 'image'){
 
-            $http({
+            $facebook.ui({
+                    method: 'share',
+                    href: 'http://torkq.com/singlepost.php?id='+id+'&image='+value,
+                    display : 'popup',
+                    //caption: fbtext,
+                },
+                function(response) {
+
+                }).then(function(response) {
+                $scope.dialog2.close();
+                $scope.showFbSucMsg();
+            });
+            /*$http({
                 method: 'POST',
                 async:   false,
                 url: $scope.baseUrl+'/user/ajs1/postfbimage',
@@ -17782,7 +18462,7 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
             }).success(function (result) {
                 $scope.dialog2.close();
                 $scope.showFbSucMsg();
-            });
+            });*/
         }else if(type == 'mp4'){
 
             $http({
@@ -17907,7 +18587,44 @@ homeControllers1.controller('singlepost', function($scope,$state,$cookieStore,$h
         }
     };
 
+    $rootScope.showemojisdiv12355 = function(id,item){
 
+        var emoidx = $scope.statusList.indexOf(item);
+
+        var emohtml = '<div class="emojisdiv">';
+
+        angular.forEach($rootScope.emojisArr,function(value){
+            emohtml += '<a href="javascript:void(0)" ng-click="emoinsert555('+emoidx+',\''+value+'\')" class="emoticon emoticon-'+value+'" title="::'+value+'::" ></a>';
+        })
+
+        emohtml += '</div>';
+
+        var $el = angular.element( document.querySelector( '#emojisdiv'+id ) ).html(emohtml);
+
+        $compile($el)($scope);
+
+        if ($('#emojisdiv'+id).is(':hidden')) {
+            $('#emojisdiv'+id).show();
+        }else{
+            $('#emojisdiv'+id).hide();
+        }
+
+
+    }
+
+    $scope.emoinsert555 = function(emoidx,emoitem){
+        var item = $scope.statusList[emoidx];
+        var emoval2 = ' :'+emoitem+': ';
+        var emoval = '<input title="'+emoitem+'" style="border:none; margin-left: 3px; margin-right: 3px;" class="emoticon emoticon-'+emoitem+'" />';
+
+        var prevval = $('#commentdiv000'+item.id).html();
+
+        if(prevval.substr(prevval.length - 4) == '<br>')
+            prevval = prevval.substring(0, prevval.length - 4);
+
+        $('#commentdiv000'+item.id).html(prevval+emoval);
+        item.commpostval = prevval+emoval;
+    }
 
 });
 

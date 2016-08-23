@@ -205,7 +205,7 @@
                     </div>
                     <div class="commen_body">
                         <a ng-show="videoDet.comment_no1 > 5" href="javascript:void(0)" ng-click="viewAllComments1(videoDet)">View Previous Comments</a>
-                        <div ng-repeat="com in videoDet.commentSliceList" class="commend-box">
+                        <div ng-repeat="com in videoDet.commentSliceList track by com.id" class="commend-box">
                             <div class="date-link">
                                 <a href="javascript:void(0);">{{com.time}}</a>
                                  <img class="closeCBtn" src="images/deletebutton1.png" class="closeBtn" ng-show="com.user_id==rootsessUser" ng-click="delComment521(com)" style="width: 8px; cursor: pointer;"  />
